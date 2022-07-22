@@ -5,7 +5,7 @@ import Content from "./Content";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div data-theme="cyber">
+    <div data-theme="light">
       <Header />
       <Content>{children}</Content>
       <Footer />
