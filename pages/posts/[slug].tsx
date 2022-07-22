@@ -1,10 +1,11 @@
+import ReactMarkdown from "react-markdown";
 import {
   fetchPostSlugs,
   fetchPostBySlug,
   Post,
   Metadata,
 } from "../../utils/postHelpers";
-import styles from "../../styles/unreset.module.scss";
+import styles from "../../styles/markdown.module.scss";
 
 interface Props {
   post: Post;
@@ -15,7 +16,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
   console.log({ post, relatedPostMetadata });
   return (
     <div
-      className={styles.unreset}
+      className={styles.markdown}
       dangerouslySetInnerHTML={{ __html: post.content }}
     />
   );

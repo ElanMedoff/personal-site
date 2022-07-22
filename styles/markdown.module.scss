@@ -1,0 +1,58 @@
+.markdown {
+  h1 {
+    @apply text-2xl md:text-4xl font-bold my-2 text-center;
+  }
+
+  h2 {
+    @apply text-xl md:text-2xl font-bold my-3;
+  }
+
+  h3 {
+    @apply text-lg font-bold my-4;
+  }
+
+  h4 {
+    @apply text-base font-bold my-5;
+  }
+
+  h5 {
+    @apply text-sm font-bold my-6;
+  }
+
+  h6 {
+    @apply text-xs font-bold my-10;
+  }
+
+  pre {
+    @apply overflow-x-auto bg-base-200 px-6 py-4 my-6;
+  }
+
+  a {
+    @apply text-primary underline;
+  }
+  p {
+    @apply my-6 indent-6;
+  }
+
+  blockquote {
+    @apply bg-base-300 px-6 py-1;
+  }
+
+  ol {
+    @apply list-decimal my-6 pl-10;
+  }
+
+  ul,
+  ol {
+    ul {
+      list-style-type: circle;
+    }
+
+    ul,
+    ol {
+      ul {
+        list-style-type: square;
+      }
+    }
+  }
+}
