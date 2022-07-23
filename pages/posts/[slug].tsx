@@ -1,4 +1,6 @@
 import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { a11yDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import {
   fetchPostSlugs,
   fetchPostBySlug,
@@ -13,12 +15,31 @@ interface Props {
 }
 
 export default function PostPage({ post, relatedPostMetadata }: Props) {
-  console.log({ post, relatedPostMetadata });
   return (
-    <div
+    <ReactMarkdown
       className={styles.markdown}
-      dangerouslySetInnerHTML={{ __html: post.content }}
-    />
+      components={{
+        code({ node, inline, className, children, ...props }) {
+          const match = /language-(\w+)/.exec(className || "");
+          return !inline && match ? (
+            <SyntaxHighlighter
+              style={a11yDark as any}
+              language={match[1]}
+              PreTag="div"
+              {...props}
+            >
+              {String(children).replace(/\n$/, "")}
+            </SyntaxHighlighter>
+          ) : (
+            <code className={className} {...props}>
+              {children}
+            </code>
+          );
+        },
+      }}
+    >
+      {post.content}
+    </ReactMarkdown>
   );
 }
 
