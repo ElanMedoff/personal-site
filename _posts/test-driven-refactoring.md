@@ -1,13 +1,13 @@
 ---
 title: Test-Driven Refactoring
-abstract: TODO
+abstract: "Everyone says we should, but nobody seems to want to. In this article, we discuss test-driven development, its drawbacks, and why I think we should approach tests from the angle of refactoring rather than development."
 publishedOn: TODO
-imagePath: TODO
+imagePath: null
 ---
 
 # Test-Driven Refactoring
 
-Test-driven development holds a strange place in software engineering culture: everyone seems to agree we should do it, but nobody actually wants to. I tend to be a part of this group.
+Test-driven development holds a strange place in software engineering culture: everyone seems to agree we should do it, but nobody actually wants to.
 
 For reference, Wikipedia defines test-driven development as:
 
@@ -17,14 +17,20 @@ Or in other words, writing your tests before writing your code.
 
 The purported benefits are less-buggy code and a smoother dx – but in my experience, this rarely pans out.
 
-As much as we would like to only test software requirements, ignoring any implementation details, this is rarely possible. When testing frontend code, for example, sometimes you need to hook into DOM elements directly in your tests. Other times you may even _want_ to test implementation details – was this api call made in the correct circumstances? That's an important detail that's difficult to test before you've written your code.
+Part of the philosophy of test-driven development is that by solely testing software requirements, you can avoid testing implementation details. In fact, test-driven development relies on this pattern – you can't test implementation details you haven't written yet!
 
-It may also seem a little petty, but when I'm in the mindset of implementing a feature, writing tests really brings me out of the flow. It's a form of context-switching, one which hurts my motivation and lowers my productivity.
+In principle, I would agree with this. If you _truly_ only test software requirements, you could refactor the implementation behind your code without rewriting a single test. What a dream.
 
-That being said, I still very much value the utility of tests – but not for development. Here me out:
+Unfortunately, this is rarely possible. When testing frontend code, you sometimes need to hook into DOM elements directly in your tests. Other times, you may even _want_ to test implementation details – was this api call made in the correct circumstances? That's an important detail that's difficult to test before you've written your code.
 
-I'm a big believer in being unafraid of my code. If I want to update a feature, refactor my types into some fancy conditional generics, I don't want to be afraid of silently breaking my app. I need the freedom to update my code, and tests give me the confidence necessary to make these changes.
+It may also seem a bit petty, but when I'm in the mindset of implementing a feature, writing tests really brings me out of the flow. It's a form of context-switching, one which hurts my motivation and productivity.
 
-I'm not afraid of breaking my app, I'm afraid of _silently_ breaking my app – and if I have good test coverage, that'll never happen.
+---
 
-So for those who are skeptical of test-driven refactoring: don't give up on tests altogether. Write tests to catch regressions, not to write original code. Test-driven refactoring, not test-driven development.
+That being said, I still very much value the utility of tests – but for refactoring, not development. Here me out:
+
+I'm a big believer in being unafraid of my code. If I want to update a feature, refactor my types into some fancy conditional generics, I don't want to be afraid of silently breaking my app. I need the freedom to update my code when I think best, and tests give me the confidence necessary to make these changes.
+
+In other words, I'm not afraid of breaking my app; I'm afraid of _silently_ breaking my app. If I have good test coverage, that'll never happen.
+
+So for those who are skeptical of test-driven development: don't give up on tests altogether. Write tests to catch regressions, not to speed-up writing original code. Adopt test-driven refactoring, not test-driven development.
