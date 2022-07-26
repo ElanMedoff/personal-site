@@ -1,0 +1,171 @@
+// forked from https://nostalgic-css.github.io/NES.css/
+$default-size: 1px;
+$icon-size: $default-size * 16;
+
+$icon-github-colors: (#fff, #333);
+$icon-github: (
+  (0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0),
+  (2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2),
+  (2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2),
+  (2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2),
+  (2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2),
+  (2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2),
+  (2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2),
+  (2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2),
+  (2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2),
+  (2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2),
+  (2, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 2),
+  (2, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2),
+  (2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2),
+  (2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2),
+  (2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2),
+  (0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0)
+);
+
+$icon-gmail-colors: (#eeecec, #fd2b2b);
+$icon-gmail: (
+  (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  (0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0),
+  (2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2),
+  (2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2),
+  (2, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2),
+  (2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2),
+  (0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0),
+  (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+  (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+);
+
+$icon-linkedin-colors: (#fff, #2577b9);
+$icon-linkedin: (
+  (0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0),
+  (2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
+  (2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
+  (2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
+  (2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
+  (2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
+  (2, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 2, 2),
+  (2, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1, 1, 1, 2, 2),
+  (2, 2, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1, 1, 1, 2, 2),
+  (2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
+  (0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0)
+);
+
+@mixin pixelize($size, $matrix, $colors, $default-color: null) {
+  $ret: "";
+  $moz: "";
+  @if ($default-color == null) {
+    $matrix-colors: ();
+    $counts: ();
+    @each $row in $matrix {
+      @each $item in $row {
+        @if $item != 0 {
+          $index: index($matrix-colors, $item);
+          @if not $index {
+            $matrix-colors: append($matrix-colors, $item);
+            $counts: append($counts, 1);
+          } @else {
+            $count: nth($counts, $index) + 1;
+            $counts: set-nth($counts, $index, $count);
+          }
+        }
+      }
+    }
+    $default-color: nth(
+      $colors,
+      nth($matrix-colors, index($counts, max($counts...)))
+    );
+  }
+
+  @for $i from 1 through length($matrix) {
+    $row: nth($matrix, $i);
+
+    @for $j from 1 through length($row) {
+      $dot: nth($row, $j);
+
+      @if $dot != 0 {
+        @if $ret != "" {
+          $ret: $ret + ",";
+          $moz: $moz + ",";
+        }
+
+        $color: nth($colors, $dot);
+        @if $color == $default-color {
+          $ret: $ret + ($j * $size) + " " + ($i * $size);
+          $moz: $moz + ($j * $size) + " " + ($i * $size) + " 0 0.020em";
+        } @else {
+          $ret: $ret + ($j * $size) + " " + ($i * $size) + " " + $color;
+          $moz: $moz +
+            ($j * $size) +
+            " " +
+            ($i * $size) +
+            " 0 0.020em " +
+            $color;
+        }
+      }
+    }
+  }
+
+  width: $size;
+  height: $size;
+  color: $default-color;
+  box-shadow: unquote($ret);
+
+  // firefox only style
+  @supports (-moz-appearance: meterbar) {
+    box-shadow: unquote($moz);
+  }
+}
+
+@mixin icon {
+  position: relative;
+  display: inline-block;
+  width: $icon-size;
+  height: $icon-size;
+  margin-right: $icon-size;
+  margin-bottom: $icon-size;
+
+  // NOTE: Use `transform: scale()` because cannot use font-size less than 10px on Chrome
+  // default 2px
+  transform: scale(2);
+  transform-origin: top left;
+
+  &::before {
+    position: absolute;
+    top: $default-size * -1;
+    left: $default-size * -1;
+    display: block;
+    content: "";
+    background: transparent;
+  }
+}
+
+.github {
+  @include icon;
+  &::before {
+    @include pixelize($default-size, $icon-github, $icon-github-colors);
+  }
+}
+.gmail {
+  @include icon;
+  &::before {
+    @include pixelize($default-size, $icon-gmail, $icon-gmail-colors);
+  }
+}
+.linkedin {
+  @include icon;
+  &::before {
+    @include pixelize($default-size, $icon-linkedin, $icon-linkedin-colors);
+  }
+}

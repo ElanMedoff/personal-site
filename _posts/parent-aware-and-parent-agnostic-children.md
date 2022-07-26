@@ -54,7 +54,11 @@ function Parent() {
 
 Because a `useEffect` runs _after_ the render, there's at least one render (i.e. the first) where `data` is still its initial value, `null`. This means, one way or another, we have to account for a `null` instance of `data` – otherwise, React will crash when we try to access `(null).number`.
 
-> I'd highly recommend checking out Dan Abramov's [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) if the mechanics of `useEffect` aren't so clear to you.
+<div data-daisy="alert">
+
+I'd highly recommend checking out Dan Abramov's [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) if the mechanics of `useEffect` aren't so clear to you.
+
+</div>
 
 One popular option is to perform inline null checking.
 
@@ -183,7 +187,11 @@ function FormatNumber({ num: number }) {
 }
 ```
 
-> note that when null checking a number or string, a simple `if (!prop)` check is mostly likely _not_ what you want – it will return `false` with `0` or `""`!
+<div data-daisy="alert">
+
+**Note**: when null checking a number or string, a simple `if (!prop)` check is mostly likely _not_ what you want – it will return `false` with `0` or `""`!
+
+</div>
 
 ## So which is best?
 

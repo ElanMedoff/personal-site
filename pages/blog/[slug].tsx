@@ -7,6 +7,7 @@ import {
   Post,
   Metadata,
 } from "../../utils/postHelpers";
+import rehypeRaw from "rehype-raw";
 import styles from "../../styles/markdown.module.scss";
 
 interface Props {
@@ -18,6 +19,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
   return (
     <ReactMarkdown
       className={styles.markdown}
+      rehypePlugins={[rehypeRaw]}
       components={{
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "");

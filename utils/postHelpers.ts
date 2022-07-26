@@ -31,10 +31,11 @@ export async function fetchPostBySlug(
   const path = `${slugToFetch}.md`;
   const rawPost = readFileSync(join(postsDirectory, path));
   const { content, data } = matter(rawPost);
-  console.log(content);
 
   const paths = readdirSync(postsDirectory);
-  const relatedPaths = paths.filter((path) => path !== `${slugToFetch}.md`);
+  const relatedPaths = paths.filter(
+    (path) => path !== `${slugToFetch}.md` && path !== ".DS_Store"
+  );
   const relatedPath =
     relatedPaths[Math.floor(Math.random() * relatedPaths.length)];
   const rawRelatedPost = readFileSync(join(postsDirectory, relatedPath));

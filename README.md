@@ -1,5 +1,5 @@
 # elanmed.dev
 
-mostly a blog, partially a personal website
+mostly a blog, partly a personal website
 
 ### :warning: work in progress! :warning:

@@ -25,17 +25,19 @@
 
   pre {
     @apply overflow-x-auto my-6;
+
+    & > * {
+      @apply p-6 rounded-2xl #{!important};
+    }
   }
 
   a {
-    @apply text-primary underline;
-  }
-  p {
-    @apply my-6 indent-6;
+    @apply text-primary underline hover:font-semibold;
   }
 
-  blockquote {
-    @apply bg-base-300 px-6 py-1;
+  p {
+    // @apply my-6 indent-6;
+    @apply my-6;
   }
 
   ol {
@@ -53,6 +55,22 @@
       ul {
         list-style-type: square;
       }
+    }
+  }
+
+  [data-daisy="alert"] {
+    @apply alert italic my-6;
+
+    & > * {
+      @apply inline m-2;
+    }
+  }
+
+  [data-daisy="alert-info"] {
+    @apply alert alert-info shadow-lg my-6;
+
+    & > * {
+      @apply inline m-2;
     }
   }
 }

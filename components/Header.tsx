@@ -1,3 +1,4 @@
+import Link from "next/link";
 import cx from "classnames";
 
 export default function Header() {
@@ -8,8 +9,13 @@ export default function Header() {
           elanmed.dev
         </h3>
         <div className={cx("flex text-md items-center", "gap-2 lg:gap-8")}>
-          <p className="underline">blog</p>
-          <p className="underline">about</p>
+          <p className="underline cursor-pointer hover:text-secondary transition">
+            <Link href="/">blog</Link>
+          </p>
+
+          <p className="underline cursor-pointer hover:text-secondary transition">
+            <Link href="/about">about</Link>
+          </p>
         </div>
       </main>
     </nav>
