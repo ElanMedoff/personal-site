@@ -33,7 +33,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
               {String(children).replace(/\n$/, "")}
             </SyntaxHighlighter>
           ) : (
-            <code className={className} {...props}>
+            <code className="inline-block px-3 py-1 bg-base-300 text-secondary rounded">
               {children}
             </code>
           );
