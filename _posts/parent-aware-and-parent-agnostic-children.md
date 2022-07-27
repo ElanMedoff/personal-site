@@ -1,8 +1,12 @@
 ---
 title: "Data Fetching in React: Parent-Agnostic vs Parent-Aware Children"
-abstract: "Null checking is central to writing code with React, but who should have to do it: the child, or the parent? In this article, we discuss two different approaches by examining the Parent-agnostic child, who trusts nothing and no one, and the Parent-aware child, who perhaps relies on others a bit too much."
+abstract: "Null checking: who should have to do it? the child, or the parent?"
 publishedOn: TODO
 imagePath: null
+slug: parent-aware-and-parent-agnostic-children
+tags:
+  - react
+  - software eng
 ---
 
 # Data Fetching in React: Parent-Agnostic vs Parent-Aware Children

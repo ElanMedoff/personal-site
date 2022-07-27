@@ -1,3 +1,13 @@
+---
+title: "Lessons From Reading a Thousand Comics: An Intro"
+abstract: "An introduction to a new series on the lessons learned from 1,000+ comics."
+publishedOn: TODO
+imagePath: null
+slug: lessons-from-reading-a-thousand-comics
+tags:
+  - comics
+---
+
 # Lessons From Reading a Thousand Comics: An Intro
 
 All in all, I'm proud to say I've read 1,000+ comic books. In case you're curious, the (rough) lineup looks something like this:
@@ -12,9 +22,9 @@ All in all, I'm proud to say I've read 1,000+ comic books. In case you're curiou
 1. Daredevil #413-649 (237 issues)
 1. Captain America (2004) #1-71 (71 issues)
 1. X-Men (68 issues)
-   1. New X-Men (2001) #114-133 (20 issues)
-   1. Astonishing X-Men (2004) #1-24 (24 issues)
-   1. Ultimate X-Men (2001) #1-13 (24 issues)
+   - New X-Men (2001) #114-133 (20 issues)
+   - Astonishing X-Men (2004) #1-24 (24 issues)
+   - Ultimate X-Men (2001) #1-13 (24 issues)
 1. New Avengers (2004) #1-28 (29 issues)
 1. Ghost Rider (2006) #1-35 (25 issues)
 
@@ -22,5 +32,7 @@ I honestly think that doing that much of _anything_ is interesting. Of course yo
 
 I have a lot to say on the topic of comics, so I think it makes the most sense to split this up into a few shorter blog posts. This is what I have for now, and as I publish new posts, I'll do my best to update the list:
 
-1. [ Third-party narration never works ](https://elanmed.dev/posts/third-party-narration-never-works)
-1. [Embrace the absurdities](https://elanmed.dev/posts/embrace-the-absurdities)
+<!-- TODO: find a better way to keep this up to date -->
+
+1. [Third-party narration never works](https://elanmed.dev/blog/third-party-narration-never-works)
+1. [Embrace the absurdities](https://elanmed.dev/blog/embrace-the-absurdities)

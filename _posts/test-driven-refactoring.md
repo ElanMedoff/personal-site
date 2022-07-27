@@ -1,8 +1,11 @@
 ---
 title: Test-Driven Refactoring
-abstract: "Everyone says we should, but nobody seems to want to. In this article, we discuss test-driven development, its drawbacks, and why I think we should approach tests from the angle of refactoring rather than development."
+abstract: "Why we should approach tests from the angle of refactoring rather than development."
 publishedOn: TODO
 imagePath: null
+slug: test-driven-refactoring
+tags:
+  - software eng
 ---
 
 # Test-Driven Refactoring

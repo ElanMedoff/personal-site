@@ -7,6 +7,8 @@ export interface Metadata {
   abstract: string;
   publishedOn: string;
   imagePath: string;
+  slug: string;
+  tags: string[];
 }
 
 export interface Post {
@@ -16,8 +18,13 @@ export interface Post {
 
 const postsDirectory = join(process.cwd(), "_posts");
 
-export function fetchPostSlugs() {
+function fetchAllPaths() {
   const paths = readdirSync(postsDirectory);
+  return paths.filter((path) => path !== ".DS_Store");
+}
+
+export function fetchPostSlugs() {
+  const paths = fetchAllPaths();
   return paths.map((path) => ({
     params: {
       slug: path.replace(".md", ""),
@@ -32,10 +39,13 @@ export async function fetchPostBySlug(
   const rawPost = readFileSync(join(postsDirectory, path));
   const { content, data } = matter(rawPost);
 
-  const paths = readdirSync(postsDirectory);
-  const relatedPaths = paths.filter(
-    (path) => path !== `${slugToFetch}.md` && path !== ".DS_Store"
-  );
+  const allMetadata = fetchAllMetadata();
+  const relatedPaths = allMetadata
+    .filter((metadata) => {
+      if (metadata.slug === slugToFetch) return false;
+      return metadata.tags.filter((tag) => data.tags.includes(tag)).length > 0;
+    })
+    .map((metadata) => `${metadata.slug}.md`);
   const relatedPath =
     relatedPaths[Math.floor(Math.random() * relatedPaths.length)];
   const rawRelatedPost = readFileSync(join(postsDirectory, relatedPath));
@@ -50,4 +60,13 @@ export async function fetchPostBySlug(
     },
     relatedPostMetadata: { ...(relatedData as Metadata) },
   };
+}
+
+export function fetchAllMetadata(): Metadata[] {
+  const paths = fetchAllPaths();
+  return paths.map((path) => {
+    const rawPost = readFileSync(join(postsDirectory, path));
+    const { data: metadata } = matter(rawPost);
+    return metadata as Metadata;
+  });
 }

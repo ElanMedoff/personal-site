@@ -1,3 +1,13 @@
+---
+title: "Lesson One: Third-Party Narration Never Works"
+abstract: "There's nothing worse than pseudo-philosophical narration in a comic."
+publishedOn: TODO
+imagePath: null
+slug: third-party-narration-never-works
+tags:
+  - comics
+---
+
 # Lesson One: Third-Party Narration Never Works
 
 <div data-daisy="alert-info">
