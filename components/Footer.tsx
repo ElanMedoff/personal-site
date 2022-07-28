@@ -1,10 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="mt-20">
-      <div className="divider" />
-      <div className="flex justify-center pb-4 text-xs">
-        <span className="text-secondary">© elan medoff</span>
-      </div>
+    <footer className="flex justify-center py-4 text-xs border-t-base-300 border-t bg-base-100">
+      <span className="text-secondary">© elan medoff</span>
     </footer>
   );
 }

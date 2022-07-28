@@ -30,13 +30,13 @@ export default function Blog({ allMetadata }: { allMetadata: Metadata[] }) {
             ))}
         </section>
         <section className="flex-grow-[2] flex-shrink-[2] basis-[200px]">
-          <h2 className="m-3 w-max border-b-base-300 border-b-2">filters</h2>
+          <h2 className="m-3 w-max border-b-base-300 border-b-2">tags</h2>
           <div className="pl-3 flex flex-wrap gap-2">
             {allTags.map((filter, index) => (
               <span
                 key={index}
                 className={cx(
-                  "bg-base-300 text-accent-content rounded-full px-4 py-1 text-xs",
+                  "cursor-pointer select-none bg-base-300 text-accent-content rounded-full px-4 py-1 text-xs",
                   {
                     "bg-primary text-primary-content":
                       selectedTags.includes(filter),

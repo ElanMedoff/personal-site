@@ -8,8 +8,7 @@ export default function BlogCard({ metadata }: { metadata: Metadata }) {
       <div
         className={cx(
           "max-w-[500px] cursor-pointer rounded-2xl flex items-center p-3 gap-3",
-          "border-base-100 border-2 hover:border-secondary",
-          "hover:bg-base-200"
+          "border-base-100 border-2 hover:border-secondary"
         )}
       >
         <div className="">
