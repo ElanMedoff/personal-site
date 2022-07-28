@@ -7,17 +7,27 @@ export default function BlogCard({ metadata }: { metadata: Metadata }) {
     <Link href={`/blog/${metadata.slug}`}>
       <div
         className={cx(
-          "max-w-[700px] cursor-pointer transition rounded-2xl flex items-center p-3 gap-3",
-          "border-base-100 border-2 hover:border-accent",
+          "max-w-[500px] cursor-pointer rounded-2xl flex items-center p-3 gap-3",
+          "border-base-100 border-2 hover:border-secondary",
           "hover:bg-base-200"
         )}
       >
-        <figure className="w-[200px]">
-          <img src="https://placeimg.com/400/225/arch" alt="Shoes" />
-        </figure>
         <div className="">
-          <h2 className="card-title mb-2">{metadata.title}</h2>
-          <p className="">{metadata.abstract}</p>
+          <h2 className="font-semibold mb-1">{metadata.title}</h2>
+          <p className="text-xs text-secondary italic mb-2">
+            {metadata.publishedOn}
+          </p>
+          <p className="text-xs mb-2">{metadata.abstract}</p>
+          <div>
+            {metadata.tags.map((tag, index) => (
+              <span
+                key={index}
+                className="bg-accent text-accent-content rounded-full px-4 py-1 text-xs mr-1"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </Link>

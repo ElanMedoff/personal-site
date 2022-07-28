@@ -1,18 +1,18 @@
 ---
-title: "Lesson One: Third-Party Narration Never Works"
-abstract: "There's nothing worse than pseudo-philosophical narration in a comic."
-publishedOn: TODO
-imagePath: null
+title: "A Thousand Comics Lesson One: Third-Party Narration Never Works"
+abstract: "There's nothing worse than pseudo-philosophical narration."
+publishedOn: "July 27, 2022"
 slug: third-party-narration-never-works
 tags:
   - comics
+  - reading
 ---
 
 # Lesson One: Third-Party Narration Never Works
 
 <div data-daisy="alert-info">
 
-**Note**: this blog part of a running series of the lessons I've learned from reading a thousand comics. If you're interested in the other posts, check it out [here](https://elanmed.dev/posts/lessons-from-reading-a-thousand-comics)!
+**Note**: this blog is part of a running series of the lessons I've learned from reading a thousand comics. If you're interested in the other posts, check it out [here](https://elanmed.dev/blog/lessons-from-reading-a-thousand-comics)!
 
 </div>
 
@@ -24,8 +24,7 @@ The choice of which largely depends on the style of the writer – although the 
 
 Maybe this is why I've read more Spider-Man than other character: I'm of the strong opinion that third-party narration is the worst of the bunch. I don't dislike serious comics – I've read 237+ issues of Daredevil, and as the saying goes "Spider-Man hopes, Captain American inspires, and Daredevil suffers." Rather, I'd say the issue is with the pseudo-philosophical tone third-party narration often takes on. Take the first page _Kang the Conquerer_ (2022):
 
-<!-- TODO: handle image sourcing  -->
-<!-- <img src="./kang.jpeg" style="width: 75%"> -->
+<img src="https://elanmed.dev/kang.jpeg">
 
 Dramatic, over-the-top narration is certainly core to comic history, but for me, these kinds of blocks don't _quite_ land. Sure, they contribute a dramatic tone to the comic, but it feels like the writer is trying to get a "woah" moment out of us, and I just never really get there. For one reason or another, they always fall flat, and any immersion the comic would otherwise have peters away.
 

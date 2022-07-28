@@ -1,4 +1,5 @@
 import ReactMarkdown from "react-markdown";
+import Image from "next/image";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { a11yDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import {
@@ -19,6 +20,9 @@ interface Props {
 export default function PostPage({ post, relatedPostMetadata }: Props) {
   return (
     <div>
+      <div className="italic text-sm text-secondary border-b-base-300 border-b-2 w-max pb-2 mb-8">
+        published: {post.metadata.publishedOn}
+      </div>
       <ReactMarkdown
         className={styles.markdown}
         rehypePlugins={[rehypeRaw]}
@@ -35,16 +39,24 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
                 {String(children).replace(/\n$/, "")}
               </SyntaxHighlighter>
             ) : (
-              <code className="inline-block px-3 py-1 bg-base-300 text-secondary rounded">
+              <code className="inline-block text-sm px-3 py-0 bg-base-300 text-secondary rounded">
                 {children}
               </code>
             );
           },
+          // img({ src, ...props }) {
+          //   if (src) {
+          //     return <Image src={src} alt="dynamic markdown image" />;
+          //   }
+          //
+          //   // eslint-disable-next-line @next/next/no-img-element
+          //   return <img {...props} alt="static markdown image" />;
+          // },
         }}
       >
         {post.content}
       </ReactMarkdown>
-      <div className="divider w-1/3" />
+      <div className="divider w-1/2" />
       <div>
         <p className="mb-3 italic text-sm text-secondary">you may also like:</p>
         <BlogCard metadata={relatedPostMetadata} />

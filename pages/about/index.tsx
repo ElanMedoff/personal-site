@@ -37,7 +37,8 @@ export default function About() {
                 className="underline text-primary"
               >
                 Wealthfront
-              </a>{" "}
+              </a>
+              <span className="text-secondary text-xs"> [external link] </span>
               as a web engineer!
             </p>
             <section className="flex gap-4">
@@ -51,7 +52,7 @@ export default function About() {
               />
               <a className={styles.gmail} />
               <span className="text-secondary text-xs flex items-end ml-[-15px]">
-                [mailto!]
+                [mailto]
               </span>
             </section>
           </article>

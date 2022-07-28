@@ -36,8 +36,7 @@
   }
 
   p {
-    // @apply my-6 indent-6;
-    @apply my-6;
+    @apply my-6 text-sm sm:text-base;
   }
 
   ol {
@@ -46,6 +45,8 @@
 
   ul,
   ol {
+    @apply leading-7;
+
     ul {
       list-style-type: circle;
     }
@@ -72,5 +73,9 @@
     & > * {
       @apply inline m-2;
     }
+  }
+
+  [data-daisy="aside"] {
+    @apply text-xs text-secondary;
   }
 }

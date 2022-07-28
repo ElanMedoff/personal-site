@@ -1,8 +1,7 @@
 ---
 title: "Data Fetching in React: Parent-Agnostic vs Parent-Aware Children"
-abstract: "Null checking: who should have to do it? the child, or the parent?"
-publishedOn: TODO
-imagePath: null
+abstract: "Null checking: who should have to do it? The child, or the parent?"
+publishedOn: "July 27, 2022"
 slug: parent-aware-and-parent-agnostic-children
 tags:
   - react
@@ -52,7 +51,7 @@ function Parent() {
     // ...
   }, []);
 
-  return <>{data.number}</>;
+  return <>{data.price}</>;
 }
 ```
 
@@ -60,7 +59,7 @@ Because a `useEffect` runs _after_ the render, there's at least one render (i.e.
 
 <div data-daisy="alert">
 
-I'd highly recommend checking out Dan Abramov's [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) if the mechanics of `useEffect` aren't so clear to you.
+I'd highly recommend checking out Dan Abramov's [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) <span data-daisy="aside">[external link]</span> if the mechanics of `useEffect` aren't so clear to you.
 
 </div>
 
@@ -203,13 +202,17 @@ I would argue that, in an ideal world, we would all write Parent-aware children.
 
 Unfortunately, this approach isn't always feasible. In the same way we're taught to never trust, and always validate, user input, the author of a child component should never expect that the parent will call it correctly. Anything else would be much too optimistic.
 
-But what if there was a way for the child to guarantee that the parent would pass it the correct props, without needing any extra code to verify the fact? It seems to good to be true, but that's exactly what [`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) do.
+But what if there was a way for the child to guarantee that the parent would pass it the correct props, without needing any extra code to verify the fact? It seems to0 good to be true, but that's exactly what we can do with [`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) enabled.
 
 ## strict null checks
 
 In the words of the TypeScript docs:
 
-> When `strictNullChecks` is `true`, `null` and `undefined` have their own distinct types and you’ll get a type error if you try to use them where a concrete value is expected.
+<div data-daisy="alert">
+
+When `strictNullChecks` is `true`, `null` and `undefined` have their own distinct types and you’ll get a type error if you try to use them where a concrete value is expected.
+
+</div>
 
 With `strictNullChecks` enabled, let's go back to our example and try to perform inline null checking in the parent:
 

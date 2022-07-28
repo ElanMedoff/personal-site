@@ -13,7 +13,7 @@ export default function Header() {
         >
           <Link href="/blog">elanmed.dev</Link>
         </h3>
-        <div className={cx("flex text-md items-center", "gap-2 lg:gap-8")}>
+        <div className={cx("flex text-md items-center", "gap-4 lg:gap-8")}>
           <p className="hover:underline cursor-pointer hover:text-secondary transition">
             <Link href="/blog">blog</Link>
           </p>
