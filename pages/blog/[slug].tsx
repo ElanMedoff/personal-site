@@ -20,7 +20,7 @@ interface Props {
 export default function PostPage({ post, relatedPostMetadata }: Props) {
   return (
     <div>
-      <div className="italic text-sm text-secondary border-b-base-300 border-b-2 w-max pb-2 mb-8">
+      <div className="italic text-sm text-primary border-b-base-300 border-b-2 w-max pb-2 mb-8">
         published: {post.metadata.publishedOn}
       </div>
       <ReactMarkdown
@@ -39,7 +39,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
                 {String(children).replace(/\n$/, "")}
               </SyntaxHighlighter>
             ) : (
-              <code className="inline-block text-sm px-3 py-0 bg-base-300 text-secondary rounded">
+              <code className="inline-block text-sm px-3 py-0 bg-base-300 rounded">
                 {children}
               </code>
             );
@@ -58,7 +58,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
       </ReactMarkdown>
       <div className="divider w-1/2" />
       <div>
-        <p className="mb-3 italic text-sm text-secondary">you may also like:</p>
+        <p className="mb-3 italic text-sm text-primary">you may also like:</p>
         <BlogCard metadata={relatedPostMetadata} />
       </div>
     </div>

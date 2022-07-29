@@ -11,7 +11,7 @@ export default function Blog({ allMetadata }: { allMetadata: Metadata[] }) {
 
   return (
     <>
-      <h1 className="text-2xl p-3 text-primary">blog posts</h1>
+      <h1 className="text-2xl p-3">blog posts</h1>
       <div className="flex flex-wrap-reverse gap-5">
         <section className="flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]">
           {selectedTags.length > 0
@@ -36,9 +36,10 @@ export default function Blog({ allMetadata }: { allMetadata: Metadata[] }) {
               <span
                 key={index}
                 className={cx(
-                  "cursor-pointer select-none bg-base-300 text-accent-content rounded-full px-4 py-1 text-xs",
+                  "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
+                  "hover:bg-base-300",
                   {
-                    "bg-primary text-primary-content":
+                    "bg-secondary hover:bg-secondary":
                       selectedTags.includes(filter),
                   }
                 )}

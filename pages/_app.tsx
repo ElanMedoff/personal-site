@@ -4,9 +4,11 @@ import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <div data-theme="cyberpunk">
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </div>
   );
 }
 
