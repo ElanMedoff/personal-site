@@ -1,13 +1,13 @@
 export default function AtroposImage({
   file,
   alt,
-  width,
-  height,
+  offset,
+  className,
 }: {
   file: string;
   alt: string;
-  width: number;
-  height: number;
+  offset: number;
+  className?: string;
 }) {
   // Atropos has issues with next's Image
   return (
@@ -18,7 +18,8 @@ export default function AtroposImage({
           : "https://elanmed.dev"
         }/${file}`}
       alt={alt}
-      className={`min-w-[${width}px] min-h-[${height}px]`}
+      className={className}
+      data-atropos-offset={offset}
     />
   );
 }
