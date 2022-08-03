@@ -9,9 +9,9 @@ export default function Profile() {
       <main className="pt-2 lg:pt-10 flex flex-row flex-wrap-reverse gap-12 lg:gap-16">
         <section
           className={cx(
-            "p-8 [@media(min-width:651px)]:p-0",
-            "flex-1",
-            "min-w-[300px] max-w-[400px] md:min-w-0"
+            "p-4 flex-1",
+            "min-w-[300px] max-w-[450px]",
+            "m-auto md:m-0"
           )}
         >
           <Atropos className="relative" innerClassName="overflow-hidden">
@@ -35,9 +35,13 @@ export default function Profile() {
               offset={1}
             />
           </Atropos>
+          <p className="text-sm italic mt-8 text-center">
+            (Hover over the profile pic!)
+          </p>
         </section>
-        <section className="flex-1">
-          <h1 className="text-6xl lg:text-8xl font-bold">HEY THERE,</h1>
+        <section className="flex-1 min-w-auto sm:min-w-[400px]">
+          <h1 className="text-6xl md:text-8xl font-bold">HEY</h1>
+          <h1 className="text-6xl md:text-8xl font-bold">THERE,</h1>
           <p className="mt-6 text-lg">
             I'm{" "}
             <span className="font-semibold border-b-4 border-b-primary ">
@@ -45,18 +49,33 @@ export default function Profile() {
             </span>
             , a software engineer specializing in web and fullstack development.
           </p>
+          <p className="mt-6">
+            These days, I'm especially interested in authentication on the web,
+            the (re)emergence of server-side rendering and all the new
+            approaches to it, and tinkering with my Neovim config.
+          </p>
+          <p className="mt-6">
+            I currently work at{" "}
+            <a
+              href="https://www.wealthfront.com/"
+              className="underline text-primary"
+            >
+              Wealthfront
+            </a>
+            <span className="text-secondary text-xs"> [external link] </span>
+            as a web engineer!
+          </p>
           <article className="flex gap-4 mt-4">
             <a className={styles.github} href="https://github.com/ElanMedoff" />
             <a
               className={styles.linkedin}
               href="https://www.linkedin.com/in/elan-medoff/"
             />
-            <a className={styles.gmail} />
-            <span className="text-accent text-xs flex items-end ml-[-15px]">
-              [mailto]
-            </span>
+            {/* <a className={styles.gmail} /> */}
+            {/* <span className="text-accent text-xs flex items-end ml-[-15px]"> */}
+            {/*   [mailto] */}
+            {/* </span> */}
           </article>
-          <p className="text-sm italic mt-8">(Hover over the profile pic!)</p>
         </section>
       </main>
     </div>

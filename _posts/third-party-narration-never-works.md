@@ -24,7 +24,7 @@ The choice of which largely depends on the style of the writer – although the 
 
 Maybe this is why I've read more Spider-Man than other character: I'm of the strong opinion that third-party narration is the worst of the bunch. I don't dislike serious comics – I've read 237+ issues of Daredevil, and as the saying goes "Spider-Man hopes, Captain American inspires, and Daredevil suffers." Rather, I'd say the issue is with the pseudo-philosophical tone third-party narration often takes on. Take the first page _Kang the Conquerer_ (2022):
 
-<img src="https://elanmed.dev/kang.jpeg">
+<img src="kang.jpeg" alt="kang the conquerer" style="width: 65%; margin: auto;">
 
 Dramatic, over-the-top narration is certainly core to comic history, but for me, these kinds of blocks don't _quite_ land. Sure, they contribute a dramatic tone to the comic, but it feels like the writer is trying to get a "woah" moment out of us, and I just never really get there. For one reason or another, they always fall flat, and any immersion the comic would otherwise have peters away.
 

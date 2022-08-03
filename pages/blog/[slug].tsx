@@ -1,7 +1,6 @@
 import ReactMarkdown from "react-markdown";
-import Image from "next/image";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { a11yDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { darcula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import {
   fetchPostSlugs,
   fetchPostBySlug,
@@ -31,7 +30,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
             const match = /language-(\w+)/.exec(className || "");
             return !inline && match ? (
               <SyntaxHighlighter
-                style={a11yDark as any}
+                style={darcula as any}
                 language={match[1]}
                 PreTag="div"
                 {...props}
@@ -44,14 +43,19 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
               </code>
             );
           },
-          // img({ src, ...props }) {
-          //   if (src) {
-          //     return <Image src={src} alt="dynamic markdown image" />;
-          //   }
-          //
-          //   // eslint-disable-next-line @next/next/no-img-element
-          //   return <img {...props} alt="static markdown image" />;
-          // },
+          img({ src, ...props }) {
+            return (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                {...props}
+                src={`${process.env.NODE_ENV === "development"
+                    ? "http://localhost:3000"
+                    : "https://elanmed.dev"
+                  }/${src}`}
+                alt="static markdown image"
+              />
+            );
+          },
         }}
       >
         {post.content}

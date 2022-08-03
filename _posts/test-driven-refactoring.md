@@ -27,7 +27,7 @@ In principle, I would agree with this. If you _truly_ only test software require
 
 Unfortunately, this is rarely possible. When testing frontend code, you sometimes need to hook into DOM elements directly in your tests. Other times, you may even _want_ to test implementation details – was this api call made in the correct circumstances? That's an important detail that's difficult to test before you've written your code.
 
-It may also seem a bit petty, but when I'm in the mindset of implementing a feature, writing tests really brings me out of the flow. It's a form of context-switching, one which hurts my motivation and productivity.
+It may also seem a bit petty, but when I'm in the mindset of implementing a feature, writing tests really brings me out of the flow. It's a form of context-switching, one which hurts my productivity.
 
 ---
 

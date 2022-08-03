@@ -13,9 +13,14 @@ export default function Header() {
         >
           <Link href="/">elanmed.dev</Link>
         </h3>
-        <p className="hover:underline cursor-pointer hover:text-primary transition select-none">
-          <Link href="/blog">blog</Link>
-        </p>
+        <div>
+          <span className="text-xs mr-4 hidden sm:inline">
+            check out my blog! <span className="text-lg text-primary">→</span>
+          </span>
+          <span className="hover:underline cursor-pointer hover:text-primary transition select-none">
+            <Link href="/blog">blog</Link>
+          </span>
+        </div>
       </main>
     </nav>
   );
