@@ -5,7 +5,7 @@ exports.id = 888;
 exports.ids = [888];
 exports.modules = {
 
-/***/ 8729:
+/***/ 5181:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -18,6 +18,9 @@ __webpack_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: external "react/jsx-runtime"
 var jsx_runtime_ = __webpack_require__(997);
+;// CONCATENATED MODULE: external "next/head"
+const head_namespaceObject = require("next/head");
+var head_default = /*#__PURE__*/__webpack_require__.n(head_namespaceObject);
 // EXTERNAL MODULE: ./node_modules/next/link.js
 var next_link = __webpack_require__(1664);
 var link_default = /*#__PURE__*/__webpack_require__.n(next_link);
@@ -93,10 +96,17 @@ function Content({ children  }) {
 
 
 
+
 function Layout({ children  }) {
     return /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
         className: "bg-base-200",
         children: [
+            /*#__PURE__*/ jsx_runtime_.jsx((head_default()), {
+                children: /*#__PURE__*/ jsx_runtime_.jsx("link", {
+                    rel: "shortcut icon",
+                    href: "/favicon/favicon.ico"
+                })
+            }),
             /*#__PURE__*/ jsx_runtime_.jsx(Header, {}),
             /*#__PURE__*/ jsx_runtime_.jsx(Content, {
                 children: children
@@ -307,7 +317,7 @@ module.exports = require("react/jsx-runtime");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [952,664], () => (__webpack_exec__(8729)));
+var __webpack_exports__ = __webpack_require__.X(0, [952,664], () => (__webpack_exec__(5181)));
 module.exports = __webpack_exports__;
 
 })();
