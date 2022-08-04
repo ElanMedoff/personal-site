@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "push": "git push origin master",
+    "deploy": "git push server"
   },
   "dependencies": {
     "atropos": "^1.0.2",
