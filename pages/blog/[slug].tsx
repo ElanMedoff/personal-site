@@ -48,10 +48,11 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 {...props}
-                src={`${process.env.NODE_ENV === "development"
+                src={`${
+                  process.env.NODE_ENV === "development"
                     ? "http://localhost:3000"
                     : "https://elanmed.dev"
-                  }/${src}`}
+                }/${src}`}
                 alt="static markdown image"
               />
             );
@@ -82,6 +83,6 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
 export async function getStaticPaths() {
   return {
     paths: fetchPostSlugs(),
-    fallback: true,
+    fallback: false,
   };
 }

@@ -43,15 +43,15 @@ export default function Profile() {
           <h1 className="text-6xl md:text-8xl font-bold">HEY</h1>
           <h1 className="text-6xl md:text-8xl font-bold">THERE,</h1>
           <p className="mt-6 text-lg">
-            I'm{" "}
+            I&apos;m{" "}
             <span className="font-semibold border-b-4 border-b-primary ">
               Elan
             </span>
             , a software engineer specializing in web and fullstack development.
           </p>
           <p className="mt-6">
-            These days, I'm especially interested in authentication on the web,
-            the (re)emergence of server-side rendering and all the new
+            These days, I&apos;m especially interested in authentication on the
+            web, the (re)emergence of server-side rendering and all the new
             approaches to it, and tinkering with my Neovim config.
           </p>
           <p className="mt-6">
