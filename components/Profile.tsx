@@ -45,7 +45,7 @@ export default function Profile() {
           <p className="mt-6 text-lg">
             I&apos;m{" "}
             <span className="font-semibold border-b-4 border-b-primary ">
-              Elan
+              Elan Medoff
             </span>
             , a software engineer specializing in web and fullstack development.
           </p>
