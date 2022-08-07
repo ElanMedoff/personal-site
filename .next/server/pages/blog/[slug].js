@@ -52,10 +52,10 @@ function PostPage({ post , relatedPostMetadata  }) {
     return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         children: [
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                className: "italic text-sm text-primary border-b-base-300 border-b-2 w-max pb-2 mb-8",
+                className: "pb-2 mb-8 text-sm italic border-b-2 text-primary border-b-base-300 w-max",
                 children: [
-                    "published: ",
-                    post.metadata.publishedOn
+                    "last updated: ",
+                    post.metadata.lastUpdated
                 ]
             }),
             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(react_markdown__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -73,7 +73,7 @@ function PostPage({ post , relatedPostMetadata  }) {
                             ...props,
                             children: String(children).replace(/\n$/, "")
                         }) : /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("code", {
-                            className: "inline-block text-sm px-3 py-0 bg-base-300 rounded",
+                            className: "inline-block px-3 py-0 text-sm rounded bg-base-300",
                             children: children
                         });
                     },
@@ -89,12 +89,12 @@ function PostPage({ post , relatedPostMetadata  }) {
                 children: post.content
             }),
             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-                className: "divider w-1/2"
+                className: "w-1/2 divider"
             }),
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 children: [
                     /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("p", {
-                        className: "mb-3 italic text-sm text-primary",
+                        className: "mb-3 text-sm italic text-primary",
                         children: "you may also like:"
                     }),
                     /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_BlogCard__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .Z, {

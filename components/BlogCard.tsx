@@ -13,7 +13,7 @@ export default function BlogCard({ metadata }: { metadata: Metadata }) {
       >
         <div className="">
           <h2 className="font-semibold mb-1">{metadata.title}</h2>
-          <p className="text-xs italic mb-2">{metadata.publishedOn}</p>
+          <p className="text-xs italic mb-2">{metadata.lastUpdated}</p>
           <p className="text-xs mb-2">{metadata.abstract}</p>
           <div>
             {metadata.tags.map((tag, index) => (

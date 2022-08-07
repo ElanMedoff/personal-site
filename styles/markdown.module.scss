@@ -32,7 +32,7 @@
   }
 
   a {
-    @apply text-primary underline;
+    @apply text-primary underline hover:text-primary-focus;
   }
 
   p {
@@ -60,7 +60,7 @@
   }
 
   [data-daisy="alert"] {
-    @apply alert italic my-6;
+    @apply alert my-6 text-sm;
 
     & > * {
       @apply inline m-2;
@@ -72,6 +72,10 @@
 
     & > * {
       @apply inline m-2;
+    }
+
+    & a {
+      @apply text-secondary-content hover:text-accent-focus;
     }
   }
 

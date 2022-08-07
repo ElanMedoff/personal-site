@@ -1,7 +1,7 @@
 ---
 title: "A Thousand Comics Lesson One: Third-Party Narration Never Works"
 abstract: "There's nothing worse than pseudo-philosophical narration."
-publishedOn: "July 27, 2022"
+lastUpdated: "August 6, 2022"
 slug: third-party-narration-never-works
 tags:
   - comics
@@ -22,9 +22,13 @@ The distinction between the three is probably what you're thinking: dialog-drive
 
 The choice of which largely depends on the style of the writer – although the story itself can play a role as well. In _New Avengers_ (2004), there are just so many characters that there's little room for narration if each hero is to have their share of speaking bubbles. In a similar way, light-hearted characters like Spider-Man have little third-party narration, which tends to skew more "serious".
 
-Maybe this is why I've read more Spider-Man than other character: I'm of the strong opinion that third-party narration is the worst of the bunch. I don't dislike serious comics – I've read 237+ issues of Daredevil, and as the saying goes "Spider-Man hopes, Captain American inspires, and Daredevil suffers." Rather, I'd say the issue is with the pseudo-philosophical tone third-party narration often takes on. Take the first page _Kang the Conquerer_ (2022):
+Maybe this is why I've read more Spider-Man than other character: I'm of the strong opinion that third-party narration is the worst of the bunch. I don't dislike serious comics – I've read 237+ issues of Daredevil, and as the saying goes "Spider-Man hopes, Captain American inspires, and Daredevil suffers." Rather, I'd say the issue is with the pseudo-philosophical tone third-party narration often takes on. Take this bit of narration from _Superman: Space Age_, reflecting on the death of Kennedy:
 
-<img src="kang.jpeg" alt="kang the conquerer" style="width: 65%; margin: auto;">
+<div data-daisy="alert">
+
+President Kennedy let us into the Space Age. He navigated us through nuclear peril. We've never lived in more uncertain times, and yet we couldn't help but share his optimism. I happened to be in Dallas at the time of the shooting. I've spoken to many people here. Trying to piece together what happened ... As a reporter, I mostly listen. In times like these, we look in vain for the elusive reassurance we call hope. Where is this thing called hope? **What** is it? We like to imagine that our strength will protect us. But history is a **wildfire**. It consumes the weak and strong alike until there's nothing left to burn. The living are but the burn ward of history. And none of us ever fully recover. We simply pick what we can from the ashes and move on. And yet, somehow, we know that there must be **more**. That we are destined for something **greater**. Those in who we invest this belief we call **heroes**. So why does the life of **one man** mean so much? In short ... it doesn't. But when you take the enormity of what this man meant to a nation, the overwhelming grief we felt at his passing, the belief in the future he inspired in us ... and then subtract from that **one ordinary life**, whatever remains ... that is what we mean when we say **hope**.
+
+</div>
 
 Dramatic, over-the-top narration is certainly core to comic history, but for me, these kinds of blocks don't _quite_ land. Sure, they contribute a dramatic tone to the comic, but it feels like the writer is trying to get a "woah" moment out of us, and I just never really get there. For one reason or another, they always fall flat, and any immersion the comic would otherwise have peters away.
 

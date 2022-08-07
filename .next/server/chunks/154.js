@@ -32,7 +32,7 @@ function BlogCard({ metadata  }) {
                     }),
                     /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("p", {
                         className: "text-xs italic mb-2",
-                        children: metadata.publishedOn
+                        children: metadata.lastUpdated
                     }),
                     /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("p", {
                         className: "text-xs mb-2",

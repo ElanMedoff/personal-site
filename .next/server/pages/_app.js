@@ -33,9 +33,9 @@ var external_classnames_default = /*#__PURE__*/__webpack_require__.n(external_cl
 
 function Header() {
     return /*#__PURE__*/ jsx_runtime_.jsx("nav", {
-        className: "border-b-2 border-neutral py-3 sticky top-0 bg-base-100 z-10",
+        className: "sticky top-0 z-10 py-3 border-b-2 border-neutral bg-base-100",
         children: /*#__PURE__*/ (0,jsx_runtime_.jsxs)("main", {
-            className: "flex justify-between items-center w-full px-5",
+            className: "flex items-center justify-between w-full px-5",
             children: [
                 /*#__PURE__*/ jsx_runtime_.jsx("h3", {
                     className: external_classnames_default()("text-lg md:text-2xl", "font-bold text-primary cursor-pointer"),
@@ -47,7 +47,7 @@ function Header() {
                 /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
                     children: [
                         /*#__PURE__*/ (0,jsx_runtime_.jsxs)("span", {
-                            className: "text-xs mr-4 hidden sm:inline",
+                            className: "hidden mr-4 text-xs sm:inline",
                             children: [
                                 "check out my blog! ",
                                 /*#__PURE__*/ jsx_runtime_.jsx("span", {
@@ -57,7 +57,7 @@ function Header() {
                             ]
                         }),
                         /*#__PURE__*/ jsx_runtime_.jsx("span", {
-                            className: "hover:underline cursor-pointer hover:text-primary transition select-none",
+                            className: "cursor-pointer select-none hover:underline hover:text-primary transition",
                             children: /*#__PURE__*/ jsx_runtime_.jsx((link_default()), {
                                 href: "/blog",
                                 children: "blog"

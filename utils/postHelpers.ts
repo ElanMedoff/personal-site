@@ -5,7 +5,7 @@ import matter from "gray-matter";
 export interface Metadata {
   title: string;
   abstract: string;
-  publishedOn: string;
+  lastUpdated: string;
   imagePath: string;
   slug: string;
   tags: string[];

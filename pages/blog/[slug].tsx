@@ -19,8 +19,8 @@ interface Props {
 export default function PostPage({ post, relatedPostMetadata }: Props) {
   return (
     <div>
-      <div className="italic text-sm text-primary border-b-base-300 border-b-2 w-max pb-2 mb-8">
-        published: {post.metadata.publishedOn}
+      <div className="pb-2 mb-8 text-sm italic border-b-2 text-primary border-b-base-300 w-max">
+        last updated: {post.metadata.lastUpdated}
       </div>
       <ReactMarkdown
         className={styles.markdown}
@@ -38,7 +38,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
                 {String(children).replace(/\n$/, "")}
               </SyntaxHighlighter>
             ) : (
-              <code className="inline-block text-sm px-3 py-0 bg-base-300 rounded">
+              <code className="inline-block px-3 py-0 text-sm rounded bg-base-300">
                 {children}
               </code>
             );
@@ -61,9 +61,9 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
       >
         {post.content}
       </ReactMarkdown>
-      <div className="divider w-1/2" />
+      <div className="w-1/2 divider" />
       <div>
-        <p className="mb-3 italic text-sm text-primary">you may also like:</p>
+        <p className="mb-3 text-sm italic text-primary">you may also like:</p>
         <BlogCard metadata={relatedPostMetadata} />
       </div>
     </div>

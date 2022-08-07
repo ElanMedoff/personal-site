@@ -6,7 +6,7 @@ import Atropos from "atropos/react";
 export default function Profile() {
   return (
     <div className="">
-      <main className="pt-2 lg:pt-10 flex flex-row flex-wrap-reverse gap-12 lg:gap-16">
+      <main className="flex flex-row flex-wrap-reverse pt-2 lg:pt-10 gap-12 lg:gap-16">
         <section
           className={cx(
             "p-4 flex-1",
@@ -35,13 +35,13 @@ export default function Profile() {
               offset={1}
             />
           </Atropos>
-          <p className="text-sm italic mt-8 text-center">
+          <p className="mt-8 text-sm italic text-center">
             (Hover over the profile pic!)
           </p>
         </section>
         <section className="flex-1 min-w-auto sm:min-w-[400px]">
-          <h1 className="text-6xl md:text-8xl font-bold">HEY</h1>
-          <h1 className="text-6xl md:text-8xl font-bold">THERE,</h1>
+          <h1 className="text-6xl font-bold md:text-8xl">HEY</h1>
+          <h1 className="text-6xl font-bold md:text-8xl">THERE,</h1>
           <p className="mt-6 text-lg">
             I&apos;m{" "}
             <span className="font-semibold border-b-4 border-b-primary ">
@@ -58,14 +58,14 @@ export default function Profile() {
             I currently work at{" "}
             <a
               href="https://www.wealthfront.com/"
-              className="underline text-primary"
+              className="link link-primary"
             >
               Wealthfront
             </a>
-            <span className="text-secondary text-xs"> [external link] </span>
+            <span className="text-xs text-accent"> [external link] </span>
             as a web engineer!
           </p>
-          <article className="flex gap-4 mt-4">
+          <article className="flex mt-4 gap-4">
             <a className={styles.github} href="https://github.com/ElanMedoff" />
             <a
               className={styles.linkedin}
