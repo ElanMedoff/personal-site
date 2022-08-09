@@ -1,10 +1,12 @@
 ---
 title: Test-Driven Refactoring
 abstract: "Why we should approach tests from the angle of refactoring rather than development."
-lastUpdated: "July 27, 2022"
+lastUpdated: "August 9, 2022"
 slug: test-driven-refactoring
 tags:
   - software eng
+priority: 0
+collection: null
 ---
 
 # Test-Driven Refactoring
@@ -26,8 +28,6 @@ Part of the philosophy of test-driven development is that by solely testing soft
 In principle, I would agree with this. If you _truly_ only test software requirements, you could refactor the implementation behind your code without rewriting a single test. What a dream.
 
 Unfortunately, this is rarely possible. When testing frontend code, you sometimes need to hook into DOM elements directly in your tests. Other times, you may even _want_ to test implementation details – was this api call made in the correct circumstances? That's an important detail that's difficult to test before you've written your code.
-
-It may also seem a bit petty, but when I'm in the mindset of implementing a feature, writing tests really brings me out of the flow. It's a form of context-switching, one which hurts my productivity.
 
 ---
 

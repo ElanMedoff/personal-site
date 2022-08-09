@@ -6,6 +6,10 @@ slug: lessons-from-reading-a-thousand-comics
 tags:
   - comics
   - reading
+priority: 1
+collection:
+  name: "thousand-comics"
+  order: 0
 ---
 
 # Lessons From Reading a Thousand Comics: An Intro

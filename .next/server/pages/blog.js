@@ -28,11 +28,23 @@ __webpack_require__.r(__webpack_exports__);
 
 function Blog({ allMetadata  }) {
     const { 0: selectedTags , 1: setSelectedTags  } = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
+    const { 0: filterMethod , 1: setFilterMethod  } = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("union");
     const allTags = Array.from(new Set(allMetadata.map(({ tags  })=>tags).flat()));
+    let filteredPosts;
+    if (filterMethod === "union") {
+        filteredPosts = allMetadata.filter((metadata)=>{
+            return metadata.tags.filter((tag)=>selectedTags.includes(tag)).length > 0;
+        });
+    } else {
+        filteredPosts = allMetadata.filter((metadata)=>{
+            return metadata.tags.filter((tag)=>selectedTags.includes(tag)).length === selectedTags.length;
+        });
+    }
+    const orderedPosts = filteredPosts.sort((a, b)=>a.priority - b.priority);
     return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         children: [
             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("h1", {
-                className: "text-2xl p-3",
+                className: "p-3 text-2xl",
                 children: "blog posts"
             }),
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -40,11 +52,9 @@ function Blog({ allMetadata  }) {
                 children: [
                     /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("section", {
                         className: "flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]",
-                        children: selectedTags.length > 0 ? allMetadata.filter((metadata)=>{
-                            return metadata.tags.filter((tag)=>selectedTags.includes(tag)).length > 0;
-                        }).map((metadata, index)=>/*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_BlogCard__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .Z, {
+                        children: selectedTags.length > 0 ? orderedPosts.map((metadata, index)=>/*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_BlogCard__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .Z, {
                                 metadata: metadata
-                            }, index)) : allMetadata.map((metadata, index)=>/*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_BlogCard__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .Z, {
+                            }, index)) : allMetadata.sort((a, b)=>a.priority - b.priority).map((metadata, index)=>/*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_BlogCard__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .Z, {
                                 metadata: metadata
                             }, index))
                     }),
@@ -52,11 +62,11 @@ function Blog({ allMetadata  }) {
                         className: "flex-grow-[2] flex-shrink-[2] basis-[200px]",
                         children: [
                             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("h2", {
-                                className: "m-3 w-max border-b-base-300 border-b-2",
+                                className: "m-3 text-lg border-b-2 w-max border-b-base-300",
                                 children: "tags"
                             }),
                             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-                                className: "pl-3 flex flex-wrap gap-2",
+                                className: "flex flex-wrap pl-3 gap-2",
                                 children: allTags.map((filter, index)=>/*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("span", {
                                         className: classnames__WEBPACK_IMPORTED_MODULE_1___default()("cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition", "hover:bg-base-300", {
                                             "bg-secondary hover:bg-secondary": selectedTags.includes(filter)
@@ -72,6 +82,29 @@ function Blog({ allMetadata  }) {
                                         },
                                         children: filter
                                     }, index))
+                            }),
+                            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("h2", {
+                                className: "m-3 mt-6 text-xs border-b-2 w-max border-b-base-300",
+                                children: "sort method"
+                            }),
+                            /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                                className: "flex flex-wrap pl-3 gap-2",
+                                children: [
+                                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("span", {
+                                        className: classnames__WEBPACK_IMPORTED_MODULE_1___default()("cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition", "hover:bg-base-300", {
+                                            "bg-primary hover:bg-primary": filterMethod === "union"
+                                        }),
+                                        onClick: ()=>setFilterMethod("union"),
+                                        children: "union"
+                                    }),
+                                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("span", {
+                                        className: classnames__WEBPACK_IMPORTED_MODULE_1___default()("cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition", "hover:bg-base-300", {
+                                            "bg-primary hover:bg-primary": filterMethod === "intersection"
+                                        }),
+                                        onClick: ()=>setFilterMethod("intersection"),
+                                        children: "intersection"
+                                    })
+                                ]
                             })
                         ]
                     })

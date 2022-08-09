@@ -9,6 +9,11 @@ export interface Metadata {
   imagePath: string;
   slug: string;
   tags: string[];
+  priority: number;
+  collection: {
+    name: string;
+    order: number;
+  } | null;
 }
 
 export interface Post {

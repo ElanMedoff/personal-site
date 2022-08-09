@@ -6,6 +6,8 @@ slug: Parent-dependent-and-parent-agnostic-children
 tags:
   - react
   - software eng
+priority: 0
+collection: null
 ---
 
 # Data Fetching in React: Parent-Agnostic vs Parent-Dependent Children

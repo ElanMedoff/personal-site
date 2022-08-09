@@ -6,6 +6,10 @@ slug: third-party-narration-never-works
 tags:
   - comics
   - reading
+priority: 1
+collection:
+  name: "thousand-comics"
+  order: 1
 ---
 
 # Lesson One: Third-Party Narration Never Works

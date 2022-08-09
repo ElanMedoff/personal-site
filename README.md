@@ -7,9 +7,9 @@ mostly a blog, partly a personal website
 <!--
 todo:
 
-- when sorting posts by tag, option for union vs intersection
 - small animations here and there
 - prioritize in which order posts appear
+- group related posts together
 - placeholder for profile pic, or compatibility with atropos
 - make home full page, more cards
 
