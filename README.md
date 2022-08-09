@@ -1,4 +1,4 @@
-# [elanmed.dev](elanmed.dev)
+# [elanmed.dev](https://elanmed.dev)
 
 mostly a blog, partly a personal website
 
@@ -8,9 +8,9 @@ mostly a blog, partly a personal website
 todo:
 
 - small animations here and there
-- prioritize in which order posts appear
 - group related posts together
 - placeholder for profile pic, or compatibility with atropos
 - make home full page, more cards
+- test coverage
 
 -->
