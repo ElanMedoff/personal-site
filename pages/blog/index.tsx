@@ -78,7 +78,7 @@ export default function Blog({ allMetadata }: { allMetadata: Metadata[] }) {
             ))}
           </div>
           <h2 className="m-3 mt-6 text-xs border-b-2 w-max border-b-base-300">
-            sort method
+            filter method
           </h2>
           <div className="flex flex-wrap pl-3 gap-2">
             <span

@@ -85,7 +85,7 @@ function Blog({ allMetadata  }) {
                             }),
                             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("h2", {
                                 className: "m-3 mt-6 text-xs border-b-2 w-max border-b-base-300",
-                                children: "sort method"
+                                children: "filter method"
                             }),
                             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                                 className: "flex flex-wrap pl-3 gap-2",
