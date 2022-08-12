@@ -15,22 +15,22 @@ export default function Profile() {
           )}
         >
           <Atropos className="relative" innerClassName="overflow-hidden">
-            <AtroposImage file="sky.png" alt="profile pic" offset={0} />
+            <AtroposImage src="/sky.png" alt="profile pic" offset={0} />
             <AtroposImage
               className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
-              file="horizon.png"
+              src="/horizon.png"
               alt="profile pic"
               offset={2}
             />
             <AtroposImage
               className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
-              file="leaves.png"
+              src="/leaves.png"
               alt="profile pic"
               offset={4}
             />
             <AtroposImage
               className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
-              file="profile.png"
+              src="/profile.png"
               alt="profile pic"
               offset={1}
             />

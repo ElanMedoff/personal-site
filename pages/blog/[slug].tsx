@@ -46,15 +46,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
           img({ src, ...props }) {
             return (
               // eslint-disable-next-line @next/next/no-img-element
-              <img
-                {...props}
-                src={`${
-                  process.env.NODE_ENV === "development"
-                    ? "http://localhost:3000"
-                    : "https://elanmed.dev"
-                }/${src}`}
-                alt="static markdown image"
-              />
+              <img {...props} src={`/${src}`} alt="static markdown image" />
             );
           },
         }}

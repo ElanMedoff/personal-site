@@ -1,10 +1,10 @@
 export default function AtroposImage({
-  file,
+  src,
   alt,
   offset,
   className,
 }: {
-  file: string;
+  src: `/${string}`;
   alt: string;
   offset: number;
   className?: string;
@@ -13,10 +13,7 @@ export default function AtroposImage({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={`${process.env.NODE_ENV === "development"
-          ? "http://localhost:3000"
-          : "https://elanmed.dev"
-        }/${file}`}
+      src={src}
       alt={alt}
       className={className}
       data-atropos-offset={offset}

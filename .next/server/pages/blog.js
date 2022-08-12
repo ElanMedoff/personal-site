@@ -30,16 +30,10 @@ function Blog({ allMetadata  }) {
     const { 0: selectedTags , 1: setSelectedTags  } = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
     const { 0: filterMethod , 1: setFilterMethod  } = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("union");
     const allTags = Array.from(new Set(allMetadata.map(({ tags  })=>tags).flat()));
-    let filteredPosts;
-    if (filterMethod === "union") {
-        filteredPosts = allMetadata.filter((metadata)=>{
-            return metadata.tags.filter((tag)=>selectedTags.includes(tag)).length > 0;
-        });
-    } else {
-        filteredPosts = allMetadata.filter((metadata)=>{
-            return metadata.tags.filter((tag)=>selectedTags.includes(tag)).length === selectedTags.length;
-        });
-    }
+    const filteredPosts = allMetadata.filter((metadata)=>{
+        const numOverlappingTags = metadata.tags.filter((tag)=>selectedTags.includes(tag)).length;
+        return filterMethod === "union" ? numOverlappingTags > 0 : numOverlappingTags === selectedTags.length;
+    });
     const orderedPosts = filteredPosts.sort((a, b)=>a.priority - b.priority);
     return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         children: [

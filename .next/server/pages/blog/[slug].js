@@ -81,7 +81,7 @@ function PostPage({ post , relatedPostMetadata  }) {
                         return(// eslint-disable-next-line @next/next/no-img-element
                         /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("img", {
                             ...props,
-                            src: `${ false ? 0 : "https://elanmed.dev"}/${src}`,
+                            src: `/${src}`,
                             alt: "static markdown image"
                         }));
                     }

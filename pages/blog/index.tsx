@@ -12,22 +12,15 @@ export default function Blog({ allMetadata }: { allMetadata: Metadata[] }) {
     new Set(allMetadata.map(({ tags }) => tags).flat())
   );
 
-  let filteredPosts: Metadata[];
-  if (filterMethod === "union") {
-    filteredPosts = allMetadata.filter((metadata) => {
-      return (
-        metadata.tags.filter((tag) => selectedTags.includes(tag)).length > 0
-      );
-    });
-  } else {
-    filteredPosts = allMetadata.filter((metadata) => {
-      return (
-        metadata.tags.filter((tag) => selectedTags.includes(tag)).length ===
-        selectedTags.length
-      );
-    });
-  }
+  const filteredPosts = allMetadata.filter((metadata) => {
+    const numOverlappingTags = metadata.tags.filter((tag) =>
+      selectedTags.includes(tag)
+    ).length;
 
+    return filterMethod === "union"
+      ? numOverlappingTags > 0
+      : numOverlappingTags === selectedTags.length;
+  });
   const orderedPosts = filteredPosts.sort((a, b) => a.priority - b.priority);
 
   return (
