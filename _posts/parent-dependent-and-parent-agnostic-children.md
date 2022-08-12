@@ -2,7 +2,7 @@
 title: "Data Fetching in React: Parent-Agnostic vs Parent-Dependent Children"
 abstract: "Null checking: who should have to do it? The child, or the parent?"
 lastUpdated: "July 27, 2022"
-slug: Parent-dependent-and-parent-agnostic-children
+slug: parent-dependent-and-parent-agnostic-children
 tags:
   - react
   - software eng
