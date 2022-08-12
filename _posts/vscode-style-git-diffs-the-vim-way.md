@@ -10,7 +10,7 @@ priority: 0
 collection: null
 ---
 
-# Git Diffs in Vim Like VSCode
+# VSCode-Style Git Diffs the Vim Way
 
 The deeper you dive into the Vim black hole, the less you take opinionated editors like VSCode for granted. Nowhere is this more true than when viewing git diffs. In VSCode, you have an elegant interface in the sidebar that shows every change since your last commit as a side-by-side diff. It also has other nice features, like the option to the discard all the changes in a particular file.
 
