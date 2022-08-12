@@ -43,6 +43,10 @@
     @apply list-decimal pl-10;
   }
 
+  ul {
+    @apply list-disc pl-10;
+  }
+
   ul,
   ol {
     @apply leading-7;

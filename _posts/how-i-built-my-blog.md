@@ -26,11 +26,13 @@ I looked into some other frameworks that specialize in SSG, but Next.js had the 
 
 I decided to use [tailwindcss](https://tailwindcss.com/) as my CSS "framework". I've experimented in the past with css-modules, plain scss, and [vanilla extract](https://vanilla-extract.style/), but I've found tailwind to be my favorite so far. Nothing can beat its dx.
 
-Design isn't my strong suit, so I decided to go with [daisyui](https://daisyui.com/) as my component library. I mostly write my own components, but daisyui has some great color themes too.
+Design isn't my strong suit, so I decided to go with [daisyui](https://daisyui.com/) as my component library. I mostly write my own components, but daisyui has some great color themes that I use too (the theme for this site is `cyberpunk`!). Daisyui also has great integration with tailwind, so I can use classes like `text-primary` to use the theme's primary color instead of something like `text-gray-200`. If I ever decide to add a dark mode in the future, this should make that _way_ easier.
 
 I write my blog posts in Markdown, which has an awesome syntax for writing, and some really nice default styles. I looked into using [mdx](https://mdxjs.com/), which has support for JSX components, but it seemed a bit overkill for my usecases. It's a relatively new technology with a few kinks to work out (i.e. what to bundle when importing a component), so I think I'll wait a bit.
 
-When I want to apply tailwind or daisyui styles to my markdown, I've found it easiest to wrap the section in a div with a custom attribute. I just select for that attribute in my s/css, and it applies the styles as expected. For instance, I'll import the following scss into the component where I parse my markdown:
+For syntax highlighting in my code blocks, I use [react-markdown](https://github.com/remarkjs/react-markdown) and the approach outlined [here](https://github.com/remarkjs/react-markdown#use-custom-components-syntax-highlight). It was a bit of a pain to set up, but it's the best solution I've found so far.
+
+When I want to apply tailwind or daisyui styles to my markdown, I've found it easiest to wrap the section in a `div` with a custom attribute. I just select for that attribute in my s/css, and it applies the styles as expected. For instance, I'll import the following scss into the component where I parse my markdown:
 
 ```scss
 [data-daisy="alert-info"] {
@@ -46,17 +48,17 @@ It's a little hacky, but it works well for me.
 
 ### Atropos
 
-For the fancy 3D paralax image on the homepage, I use [Atropos](https://atroposjs.com/). The library is surprisingly minimal, and the documentation barebones, so I've had to reverse engineer a few of features I wanted from the examples on their site. This blog is [open source](https://github.com/ElanMedoff/personal-site), so maybe I can save you from doing the same!
+For the fancy 3D parallax image on the homepage, I use [Atropos](https://atroposjs.com/). The library is surprisingly minimal, and the documentation bare-bones, so I've had to reverse engineer a few of features I wanted from the examples on their site. This blog is [open source](https://github.com/ElanMedoff/personal-site), so maybe I can save you from doing the same!
 
 ## Server
 
-On the server side of things, I host my blog on a [digial ocean](https://www.digitalocean.com/) droplet – the cheapest one available. I use [nginx](https://www.nginx.com/) as a proxy for my Next.js server, and [certbot](https://certbot.eff.org/) to set up my ssl certificate.
+On the server side of things, I host my blog on a [digital ocean](https://www.digitalocean.com/) droplet – the cheapest one available. I use [nginx](https://www.nginx.com/) as a proxy for my Next.js server, and [certbot](https://certbot.eff.org/) to set up my ssl certificate.
 
-To manage my production code, I use [this setup](https://toroid.org/git-website-howto) to push changes to the server with the command `git push server`. It's barebones, low-level, and awesome.
+To manage my production code, I use [this setup](https://toroid.org/git-website-howto) to push changes to the server with the command `git push server`. It's bare-bones, low-level, and awesome.
 
 For my _very_ basic continuous integration, I wrote the following deploy script:
 
-```
+```bash
 #!/bin/bash
 npm run build
 git add -A
@@ -67,7 +69,7 @@ git push server
 
 Notice that I run the build step locally instead of on the server – my $4 droplet didn't have the power to build the site itself :( This clutters the github repo and slows down pushes, but it works fine for now.
 
-I use a systemd service to run my Next.js server, and I restart the service automatically when new code is pushed – it just took one line added to the post-receive hook:
+I use a systemd service to run my Next.js server, and I restart the service automatically when new code is pushed – it took just one line added to the post-receive hook:
 
 ```text
 sudo systemctl restart next
@@ -75,14 +77,14 @@ sudo systemctl restart next
 
 I'll write a full post on my minimal approach to continuous integration, but this should do for now.
 
-### Bonus: Some of my Favorite Blog Posts
+## Bonus: Some of my Favorite Blog Posts
 
 - [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/)
 - [Remix vs Next.js](https://remix.run/blog/remix-vs-next)
 - [Fix the slow render before you fix the re-render](https://kentcdodds.com/blog/fix-the-slow-render-before-you-fix-the-re-render)
-- [Why Efficient Hydration in JavaScript Frameworks is so Challening](https://dev.to/this-is-learning/why-efficient-hydration-in-javascript-frameworks-is-so-challenging-1ca3)
+- [Why Efficient Hydration in JavaScript Frameworks is so Challegning](https://dev.to/this-is-learning/why-efficient-hydration-in-javascript-frameworks-is-so-challenging-1ca3)
 - [How to write Performant React code: rules, patterns, do's and don'ts](https://www.developerway.com/posts/how-to-write-performant-react-code)
 - [The Ultimate Guide to handling JWTs on frontend clients](https://hasura.io/blog/best-practices-of-using-jwt-with-graphql)
 - [OAuth 2 Simplified](https://aaronparecki.com/oauth-2-simplified/)
 
-With some luck, maybe one of mine will make it onto the list.
+You can get a pretty good idea of my interests from this list!
