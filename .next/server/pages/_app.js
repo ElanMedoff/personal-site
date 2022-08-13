@@ -101,11 +101,24 @@ function Layout({ children  }) {
     return /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
         className: "bg-base-200",
         children: [
-            /*#__PURE__*/ jsx_runtime_.jsx((head_default()), {
-                children: /*#__PURE__*/ jsx_runtime_.jsx("link", {
-                    rel: "shortcut icon",
-                    href: "/favicon/favicon.ico"
-                })
+            /*#__PURE__*/ (0,jsx_runtime_.jsxs)((head_default()), {
+                children: [
+                    /*#__PURE__*/ jsx_runtime_.jsx("link", {
+                        rel: "shortcut icon",
+                        href: "/favicon/favicon.ico"
+                    }),
+                    /*#__PURE__*/ jsx_runtime_.jsx("title", {
+                        children: "elanmed.dev"
+                    }),
+                    /*#__PURE__*/ jsx_runtime_.jsx("meta", {
+                        name: "description",
+                        content: "Mostly a blog, partly a personal website"
+                    }),
+                    /*#__PURE__*/ jsx_runtime_.jsx("meta", {
+                        name: "google-site-verification",
+                        content: "CE4T4wzf1pNuiL7JwIC9CqNdJyCfsfaNyLjkeFRr9Dc"
+                    })
+                ]
             }),
             /*#__PURE__*/ jsx_runtime_.jsx(Header, {}),
             /*#__PURE__*/ jsx_runtime_.jsx(Content, {

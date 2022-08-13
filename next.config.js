@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     domains: ["localhost", "elanmed.dev"],
   },
+  productionBrowserSourceMaps: true,
 };
 
 module.exports = nextConfig;

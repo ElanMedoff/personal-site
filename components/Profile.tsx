@@ -66,11 +66,20 @@ export default function Profile() {
             as a web engineer!
           </p>
           <article className="flex mt-4 gap-4">
-            <a className={styles.github} href="https://github.com/ElanMedoff" />
+            <a
+              className={styles.github}
+              style={{ color: "transparent" }}
+              href="https://github.com/ElanMedoff"
+            >
+              github
+            </a>
             <a
               className={styles.linkedin}
               href="https://www.linkedin.com/in/elan-medoff/"
-            />
+              style={{ color: "transparent" }}
+            >
+              linkedin
+            </a>
             {/* <a className={styles.gmail} /> */}
             {/* <span className="text-accent text-xs flex items-end ml-[-15px]"> */}
             {/*   [mailto] */}
