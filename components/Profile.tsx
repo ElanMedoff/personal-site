@@ -5,7 +5,7 @@ import Atropos from "atropos/react";
 
 export default function Profile() {
   return (
-    <div className="">
+    <div>
       <main className="flex flex-row flex-wrap-reverse pt-2 lg:pt-10 gap-12 lg:gap-16">
         <section
           className={cx(
