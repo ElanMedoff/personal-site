@@ -6,6 +6,9 @@ const nextConfig = {
     domains: ["localhost", "elanmed.dev"],
   },
   productionBrowserSourceMaps: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;
