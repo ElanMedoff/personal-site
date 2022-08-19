@@ -12,5 +12,4 @@ todo:
 - placeholder for profile pic, or compatibility with atropos
 - make home full page, more cards
 - test coverage
-
 -->
