@@ -5,6 +5,7 @@ const nextConfig = {
     domains: ["localhost", "elanmed.dev"],
   },
   productionBrowserSourceMaps: true,
+  swcMinify: false,
   /* eslint: { */
   /*   ignoreDuringBuilds: true, */
   /* }, */
