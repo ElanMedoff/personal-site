@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "next",
       script: "/home/elan/.nvm/versions/node/v16.16.0/bin/npm",
-      args: "prod",
+      args: "run prod",
     },
   ],
 };
