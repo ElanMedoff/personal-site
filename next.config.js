@@ -6,12 +6,6 @@ const nextConfig = {
   },
   productionBrowserSourceMaps: true,
   swcMinify: false,
-  /* eslint: { */
-  /*   ignoreDuringBuilds: true, */
-  /* }, */
-  /* typescript: { */
-  /*   ignoreBuildErrors: true, */
-  /* }, */
 };
 
 module.exports = nextConfig;
