@@ -1,6 +1,6 @@
 ---
 title: "How I Built My Blog"
-abstract: "The stack I chose, client and server."
+abstract: "The stack I chose, client and server"
 lastUpdated: "August 28, 2022"
 slug: how-i-built-my-blog
 tags:

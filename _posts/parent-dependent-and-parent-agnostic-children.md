@@ -204,7 +204,7 @@ I would argue that, in an ideal world, we would all write Parent-dependent child
 
 Unfortunately, this approach isn't always feasible. In the same way we're taught to never trust, and always validate, user input, the author of a child component should never expect that the parent will call it correctly. Anything else would be much too optimistic.
 
-But what if there was a way for the child to guarantee that the parent would pass it the correct props, without needing any extra code to verify the fact? It seems to0 good to be true, but that's exactly what we can do with [`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) enabled.
+But what if there was a way for the child to guarantee that the parent would pass it the correct props, without needing any extra code to verify the fact? It seems too good to be true, but that's exactly what we can do with [`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) enabled.
 
 ## strict null checks
 

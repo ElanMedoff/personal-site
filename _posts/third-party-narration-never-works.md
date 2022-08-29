@@ -1,6 +1,6 @@
 ---
 title: "A Thousand Comics Lesson One: Third-Party Narration Never Works"
-abstract: "There's nothing worse than pseudo-philosophical narration."
+abstract: "There's nothing worse than pseudo-philosophical narration"
 lastUpdated: "August 6, 2022"
 slug: third-party-narration-never-works
 tags:

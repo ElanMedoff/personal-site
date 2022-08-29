@@ -1,6 +1,6 @@
 ---
 title: "Lessons From Reading a Thousand Comics: An Intro"
-abstract: "An introduction to a new series on the lessons learned from 1,000+ comics."
+abstract: "An introduction to a new series on the lessons learned from 1,000+ comics"
 lastUpdated: "August 28, 2022"
 slug: lessons-from-reading-a-thousand-comics
 tags:

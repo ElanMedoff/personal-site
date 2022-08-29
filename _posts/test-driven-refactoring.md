@@ -1,6 +1,6 @@
 ---
 title: Test-Driven Refactoring
-abstract: "Why we should approach tests from the angle of refactoring rather than development."
+abstract: "Why we should approach tests from the angle of refactoring rather than development"
 lastUpdated: "August 9, 2022"
 slug: test-driven-refactoring
 tags:
