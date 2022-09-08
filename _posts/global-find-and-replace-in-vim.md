@@ -72,7 +72,7 @@ nnoremap ge :copen<cr>
 nnoremap gq :cclose<cr>
 ```
 
-Between creating lists, fuzzy searching with a list, and repeating, you should have enough tools to narrow down your search to a final, single list. This brings us to the final section: replacing.
+Between creating lists, fuzzy searching within a list, and repeating, you should have enough tools to narrow down your search to a final, single list. This brings us to the final section: replacing.
 
 ## Replace With cdo
 

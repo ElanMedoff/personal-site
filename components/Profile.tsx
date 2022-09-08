@@ -61,7 +61,7 @@ export default function Profile() {
               className="link link-primary"
             >
               Wealthfront
-            </a>
+            </a>{" "}
             as a web engineer!
           </p>
           <article className="flex mt-4 gap-4">
