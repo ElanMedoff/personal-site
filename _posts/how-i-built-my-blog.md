@@ -6,7 +6,6 @@ slug: how-i-built-my-blog
 tags:
   - software eng
   - devops
-priority: 1
 collection: null
 ---
 

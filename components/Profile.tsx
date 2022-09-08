@@ -62,7 +62,6 @@ export default function Profile() {
             >
               Wealthfront
             </a>
-            <span className="text-xs text-accent"> [external link] </span>
             as a web engineer!
           </p>
           <article className="flex mt-4 gap-4">

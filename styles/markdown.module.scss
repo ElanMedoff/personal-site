@@ -86,4 +86,8 @@
   [data-daisy="aside"] {
     @apply text-xs text-accent;
   }
+
+  [data-daisy="divider"] {
+    @apply divider;
+  }
 }

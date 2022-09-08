@@ -5,7 +5,6 @@ lastUpdated: "August 9, 2022"
 slug: test-driven-refactoring
 tags:
   - software eng
-priority: 0
 collection: null
 ---
 
@@ -29,12 +28,12 @@ In principle, I would agree with this. If you _truly_ only test software require
 
 Unfortunately, this is rarely possible. When testing frontend code, you sometimes need to hook into DOM elements directly in your tests. Other times, you may even _want_ to test implementation details – was this api call made in the correct circumstances? That's an important detail that's difficult to test before you've written your code.
 
----
+<div data-daisy="divider"></div>
 
 That being said, I still very much value the utility of tests – but for refactoring, not development. Here me out:
 
 I'm a big believer in being unafraid of my code. If I want to update a feature, refactor my types into some fancy conditional generics, I don't want to be afraid of silently breaking my app. I need the freedom to update my code when I think best, and tests give me the confidence necessary to make these changes.
 
-In other words, I'm not afraid of breaking my app; I'm afraid of _silently_ breaking my app. If I have good test coverage, that'll never happen.
+To hammer in the point, I'm not afraid of breaking my app; I'm afraid of _silently_ breaking my app. If I have good test coverage, that'll never happen.
 
 So for those who are skeptical of test-driven development: don't give up on tests altogether. Write tests to catch regressions, not to speed-up writing original code. Adopt test-driven refactoring, not test-driven development.

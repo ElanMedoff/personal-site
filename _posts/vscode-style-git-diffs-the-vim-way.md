@@ -6,7 +6,6 @@ slug: vscode-style-git-diffs-the-vim-way
 tags:
   - software eng
   - vim
-priority: 0
 collection: null
 ---
 

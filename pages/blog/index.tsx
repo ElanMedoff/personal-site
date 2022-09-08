@@ -21,7 +21,11 @@ export default function Blog({ allMetadata }: { allMetadata: Metadata[] }) {
       ? numOverlappingTags > 0
       : numOverlappingTags === selectedTags.length;
   });
-  const orderedPosts = filteredPosts.sort((a, b) => a.priority - b.priority);
+  const orderedPosts = filteredPosts.sort((a, b) => {
+    return (
+      new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
+    );
+  });
 
   return (
     <>
@@ -33,7 +37,11 @@ export default function Blog({ allMetadata }: { allMetadata: Metadata[] }) {
                 <BlogCard metadata={metadata} key={index} />
               ))
             : allMetadata
-                .sort((a, b) => a.priority - b.priority)
+                .sort(
+                  (a, b) =>
+                    new Date(b.lastUpdated).getTime() -
+                    new Date(a.lastUpdated).getTime()
+                )
                 .map((metadata, index) => (
                   <BlogCard metadata={metadata} key={index} />
                 ))}

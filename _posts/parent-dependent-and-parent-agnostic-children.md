@@ -6,7 +6,6 @@ slug: parent-dependent-and-parent-agnostic-children
 tags:
   - react
   - software eng
-priority: 0
 collection: null
 ---
 
@@ -61,7 +60,7 @@ Because a `useEffect` runs _after_ the render, there's at least one render (i.e.
 
 <div data-daisy="alert">
 
-I'd highly recommend checking out Dan Abramov's [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) <span data-daisy="aside">[external link]</span> if the mechanics of `useEffect` aren't so clear to you.
+I'd highly recommend checking out Dan Abramov's [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) if the mechanics of `useEffect` aren't so clear to you.
 
 </div>
 
