@@ -1,12 +1,12 @@
 import Link from "next/link";
-import cx from "classnames";
+import { twMerge as tm } from "tailwind-merge";
 
 export default function Header() {
   return (
     <nav className="sticky top-0 z-10 py-3 border-b-2 border-neutral bg-base-100">
       <main className="flex items-center justify-between w-full px-5">
         <h3
-          className={cx(
+          className={tm(
             "text-lg md:text-2xl",
             "font-bold text-primary cursor-pointer"
           )}

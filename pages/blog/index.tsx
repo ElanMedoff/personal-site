@@ -1,4 +1,4 @@
-import cx from "classnames";
+import { twMerge as tm } from "tailwind-merge";
 import { useState } from "react";
 import BlogCard from "../../components/BlogCard";
 import Cards from "../../components/Cards";
@@ -62,7 +62,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
     ).map((metadata, index) => <BlogCard metadata={metadata} key={index} />);
   };
 
-  const renderPostsByCollection = () => {
+  const renderCollections = () => {
     return getPostsByCollection(
       selectedTags.length > 0 ? filteredPosts : allPosts,
       allCollections
@@ -73,9 +73,10 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
           <BlogCard
             metadata={metadata}
             key={index}
-            className="border-2 border-primary"
+            className="border-primary"
           />
         ))}
+        maxWidth={500}
       />
     ));
   };
@@ -89,28 +90,26 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
   };
 
   return (
-    <div className="flex flex-wrap-reverse gap-5">
+    <div className="flex flex-wrap-reverse gap-10">
       <section className="flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]">
         {shouldRenderCollectionsTitle() ? (
-          <h2 className="p-3 text-2xl">collections</h2>
+          <h2 className="pl-3 text-3xl underline">collections</h2>
         ) : null}
-        <div className="ml-[-10px]">{renderPostsByCollection()}</div>
-        <h1 className="p-3 text-2xl">blog posts</h1>
+        <div className="ml-[-10px] mb-5">{renderCollections()}</div>
+        <h1 className="pl-3 text-3xl underline">blog posts</h1>
         {renderPostsWoCollection()}
       </section>
       <section className="flex-grow-[2] flex-shrink-[2] basis-[200px]">
-        <h2 className="m-3 text-lg border-b-2 w-max border-b-base-300">tags</h2>
+        <h2 className="m-3 text-lg underline w-max">tags</h2>
         <div className="flex flex-wrap pl-3 gap-2">
           {allTags.map((filter, index) => (
             <span
               key={index}
-              className={cx(
+              className={tm(
                 "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
                 "hover:bg-base-300",
-                {
-                  "bg-secondary hover:bg-secondary":
-                    selectedTags.includes(filter),
-                }
+                selectedTags.includes(filter) &&
+                  "bg-secondary hover:bg-secondary"
               )}
               onClick={() => {
                 setSelectedTags((prevSelectedTags) => {
@@ -128,29 +127,23 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
             </span>
           ))}
         </div>
-        <h2 className="m-3 mt-6 text-xs border-b-2 w-max border-b-base-300">
-          filter method
-        </h2>
+        <h2 className="m-3 mt-6 text-sm underline w-max">filter method</h2>
         <div className="flex flex-wrap pl-3 gap-2">
           <span
-            className={cx(
+            className={tm(
               "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
               "hover:bg-base-300",
-              {
-                "bg-primary hover:bg-primary": filterMethod === "union",
-              }
+              filterMethod === "union" && "bg-primary hover:bg-primary"
             )}
             onClick={() => setFilterMethod("union")}
           >
             union
           </span>
           <span
-            className={cx(
+            className={tm(
               "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
               "hover:bg-base-300",
-              {
-                "bg-primary hover:bg-primary": filterMethod === "intersection",
-              }
+              filterMethod === "intersection" && "bg-primary hover:bg-primary"
             )}
             onClick={() => setFilterMethod("intersection")}
           >

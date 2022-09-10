@@ -1,4 +1,4 @@
-import cx from "classnames";
+import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import { Metadata } from "../utils/postHelpers";
 
@@ -12,7 +12,7 @@ export default function BlogCard({
   return (
     <Link href={`/blog/${metadata.slug}`}>
       <div
-        className={cx(
+        className={twMerge(
           "max-w-[500px] cursor-pointer rounded-2xl flex items-center p-3 gap-3 bg-base-100",
           "border-base-100 border-2 hover:border-primary",
           className

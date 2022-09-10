@@ -1,4 +1,4 @@
-import cx from "classnames";
+import { twMerge as tm } from "tailwind-merge";
 import AtroposImage from "./AtroposImage";
 import styles from "../styles/icons.module.scss";
 import Atropos from "atropos/react";
@@ -8,7 +8,7 @@ export default function Profile() {
     <div>
       <main className="flex flex-row flex-wrap-reverse pt-2 lg:pt-10 gap-12 lg:gap-16">
         <section
-          className={cx(
+          className={tm(
             "p-4 flex-1",
             "min-w-[300px] max-w-[450px]",
             "m-auto md:m-0"
