@@ -13,12 +13,14 @@ const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
 };
 
 const getPostsByCollection = (posts: Metadata[], allCollections: string[]) => {
-  return allCollections.map((collectionName) => {
-    return orderPosts(
-      posts.filter((post) => post.collection?.name === collectionName),
-      "collection"
-    );
-  });
+  return allCollections
+    .map((collectionName) => {
+      return orderPosts(
+        posts.filter((post) => post.collection?.name === collectionName),
+        "collection"
+      );
+    })
+    .filter((collection) => collection.length > 0);
 };
 
 const getPostsWoCollection = (posts: Metadata[]) => {
@@ -78,81 +80,85 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
     ));
   };
 
+  const shouldRenderCollectionsTitle = () => {
+    const postsByCollection = getPostsByCollection(
+      selectedTags.length > 0 ? filteredPosts : allPosts,
+      allCollections
+    );
+    return postsByCollection.length > 0;
+  };
+
   return (
-    <>
-      <h1 className="p-3 text-2xl">blog posts</h1>
-      <div className="flex flex-wrap-reverse gap-5">
-        <section className="flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]">
-          {renderPostsWoCollection()}
-          {/* // TODO: figure out how to conditionally render this */}
+    <div className="flex flex-wrap-reverse gap-5">
+      <section className="flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]">
+        {shouldRenderCollectionsTitle() ? (
           <h2 className="p-3 text-2xl">collections</h2>
-          <div className="ml-[-10px]">{renderPostsByCollection()}</div>
-        </section>
-        <section className="flex-grow-[2] flex-shrink-[2] basis-[200px]">
-          <h2 className="m-3 text-lg border-b-2 w-max border-b-base-300">
-            tags
-          </h2>
-          <div className="flex flex-wrap pl-3 gap-2">
-            {allTags.map((filter, index) => (
-              <span
-                key={index}
-                className={cx(
-                  "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
-                  "hover:bg-base-300",
-                  {
-                    "bg-secondary hover:bg-secondary":
-                      selectedTags.includes(filter),
+        ) : null}
+        <div className="ml-[-10px]">{renderPostsByCollection()}</div>
+        <h1 className="p-3 text-2xl">blog posts</h1>
+        {renderPostsWoCollection()}
+      </section>
+      <section className="flex-grow-[2] flex-shrink-[2] basis-[200px]">
+        <h2 className="m-3 text-lg border-b-2 w-max border-b-base-300">tags</h2>
+        <div className="flex flex-wrap pl-3 gap-2">
+          {allTags.map((filter, index) => (
+            <span
+              key={index}
+              className={cx(
+                "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
+                "hover:bg-base-300",
+                {
+                  "bg-secondary hover:bg-secondary":
+                    selectedTags.includes(filter),
+                }
+              )}
+              onClick={() => {
+                setSelectedTags((prevSelectedTags) => {
+                  if (prevSelectedTags.includes(filter)) {
+                    return prevSelectedTags.filter(
+                      (prevFilter) => prevFilter !== filter
+                    );
+                  } else {
+                    return prevSelectedTags.concat(filter);
                   }
-                )}
-                onClick={() => {
-                  setSelectedTags((prevSelectedTags) => {
-                    if (prevSelectedTags.includes(filter)) {
-                      return prevSelectedTags.filter(
-                        (prevFilter) => prevFilter !== filter
-                      );
-                    } else {
-                      return prevSelectedTags.concat(filter);
-                    }
-                  });
-                }}
-              >
-                {filter}
-              </span>
-            ))}
-          </div>
-          <h2 className="m-3 mt-6 text-xs border-b-2 w-max border-b-base-300">
-            filter method
-          </h2>
-          <div className="flex flex-wrap pl-3 gap-2">
-            <span
-              className={cx(
-                "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
-                "hover:bg-base-300",
-                {
-                  "bg-primary hover:bg-primary": filterMethod === "union",
-                }
-              )}
-              onClick={() => setFilterMethod("union")}
+                });
+              }}
             >
-              union
+              {filter}
             </span>
-            <span
-              className={cx(
-                "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
-                "hover:bg-base-300",
-                {
-                  "bg-primary hover:bg-primary":
-                    filterMethod === "intersection",
-                }
-              )}
-              onClick={() => setFilterMethod("intersection")}
-            >
-              intersection
-            </span>
-          </div>
-        </section>
-      </div>
-    </>
+          ))}
+        </div>
+        <h2 className="m-3 mt-6 text-xs border-b-2 w-max border-b-base-300">
+          filter method
+        </h2>
+        <div className="flex flex-wrap pl-3 gap-2">
+          <span
+            className={cx(
+              "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
+              "hover:bg-base-300",
+              {
+                "bg-primary hover:bg-primary": filterMethod === "union",
+              }
+            )}
+            onClick={() => setFilterMethod("union")}
+          >
+            union
+          </span>
+          <span
+            className={cx(
+              "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
+              "hover:bg-base-300",
+              {
+                "bg-primary hover:bg-primary": filterMethod === "intersection",
+              }
+            )}
+            onClick={() => setFilterMethod("intersection")}
+          >
+            intersection
+          </span>
+        </div>
+      </section>
+    </div>
   );
 }
 
