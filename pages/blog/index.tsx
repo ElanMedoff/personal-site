@@ -1,18 +1,49 @@
 import cx from "classnames";
 import { useState } from "react";
 import BlogCard from "../../components/BlogCard";
+import Cards from "../../components/Cards";
 import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 
-export default function Blog({ allMetadata }: { allMetadata: Metadata[] }) {
+const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
+  return posts.sort((a, b) =>
+    method === "collection"
+      ? new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
+      : (a.collection?.order ?? 0) - (b.collection?.order ?? 0)
+  );
+};
+
+const getPostsByCollection = (posts: Metadata[], allCollections: string[]) => {
+  return allCollections.map((collectionName) => {
+    return orderPosts(
+      posts.filter((post) => post.collection?.name === collectionName),
+      "collection"
+    );
+  });
+};
+
+const getPostsWoCollection = (posts: Metadata[]) => {
+  return posts.filter(({ collection }) => collection === null);
+};
+
+export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [filterMethod, setFilterMethod] = useState<"union" | "intersection">(
     "union"
   );
-  const allTags = Array.from(
-    new Set(allMetadata.map(({ tags }) => tags).flat())
+
+  const allTags = Array.from(new Set(allPosts.map(({ tags }) => tags).flat()));
+
+  const allCollections = Array.from(
+    new Set(
+      allPosts
+        .map(({ collection }) => collection?.name)
+        .filter(
+          (value: string | undefined): value is string => value != undefined
+        )
+    )
   );
 
-  const filteredPosts = allMetadata.filter((metadata) => {
+  const filteredPosts = allPosts.filter((metadata) => {
     const numOverlappingTags = metadata.tags.filter((tag) =>
       selectedTags.includes(tag)
     ).length;
@@ -21,30 +52,64 @@ export default function Blog({ allMetadata }: { allMetadata: Metadata[] }) {
       ? numOverlappingTags > 0
       : numOverlappingTags === selectedTags.length;
   });
-  const orderedPosts = filteredPosts.sort((a, b) => {
-    return (
-      new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
+
+  const renderPostsWoCollection = () => {
+    if (selectedTags.length > 0) {
+      const postsWoCollection = getPostsWoCollection(filteredPosts);
+      return orderPosts(postsWoCollection, "date").map((metadata, index) => (
+        <BlogCard metadata={metadata} key={index} />
+      ));
+    }
+
+    const postsWoCollection = getPostsWoCollection(allPosts);
+    return orderPosts(postsWoCollection, "date").map((metadata, index) => (
+      <BlogCard metadata={metadata} key={index} />
+    ));
+  };
+
+  const renderPostsByCollection = () => {
+    if (selectedTags.length > 0) {
+      return getPostsByCollection(filteredPosts, allCollections).map(
+        (postsByCollection, index) => (
+          <Cards
+            key={index}
+            slides={postsByCollection.map((metadata, index) => (
+              <BlogCard
+                metadata={metadata}
+                key={index}
+                className="absolute border-2 border-primary"
+              />
+            ))}
+          />
+        )
+      );
+    }
+
+    return getPostsByCollection(allPosts, allCollections).map(
+      (postsByCollection, index) => (
+        <Cards
+          key={index}
+          slides={postsByCollection.map((metadata, index) => (
+            <BlogCard
+              metadata={metadata}
+              key={index}
+              className="border-2 border-primary"
+            />
+          ))}
+        />
+      )
     );
-  });
+  };
 
   return (
     <>
       <h1 className="p-3 text-2xl">blog posts</h1>
       <div className="flex flex-wrap-reverse gap-5">
         <section className="flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]">
-          {selectedTags.length > 0
-            ? orderedPosts.map((metadata, index) => (
-                <BlogCard metadata={metadata} key={index} />
-              ))
-            : allMetadata
-                .sort(
-                  (a, b) =>
-                    new Date(b.lastUpdated).getTime() -
-                    new Date(a.lastUpdated).getTime()
-                )
-                .map((metadata, index) => (
-                  <BlogCard metadata={metadata} key={index} />
-                ))}
+          {renderPostsWoCollection()}
+          {/* // TODO: figure out how to conditionally render this */}
+          <h2 className="p-3 text-2xl">collections</h2>
+          <div className="ml-[-10px]">{renderPostsByCollection()}</div>
         </section>
         <section className="flex-grow-[2] flex-shrink-[2] basis-[200px]">
           <h2 className="m-3 text-lg border-b-2 w-max border-b-base-300">
@@ -117,7 +182,7 @@ export default function Blog({ allMetadata }: { allMetadata: Metadata[] }) {
 export async function getStaticProps() {
   return {
     props: {
-      allMetadata: fetchAllMetadata(),
+      allPosts: fetchAllMetadata(),
     },
   };
 }
