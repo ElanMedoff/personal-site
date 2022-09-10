@@ -7,17 +7,17 @@ import "swiper/css/effect-cards";
 
 export default function Cards({
   slides,
-  maxWidth,
+  className,
 }: {
   slides: ReactNode[];
-  maxWidth: number;
+  className?: string;
 }) {
   return (
     <Swiper
       effect={"cards"}
       grabCursor={true}
       modules={[EffectCards]}
-      className={tm("ml-2 w-full", `max-w-[${maxWidth}px]`)}
+      className={tm("ml-2 w-full", className)}
     >
       {slides.map((slide, index) => (
         <SwiperSlide key={index} className="rounded-2xl">
