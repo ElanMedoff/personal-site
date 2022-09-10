@@ -54,51 +54,28 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
   });
 
   const renderPostsWoCollection = () => {
-    if (selectedTags.length > 0) {
-      const postsWoCollection = getPostsWoCollection(filteredPosts);
-      return orderPosts(postsWoCollection, "date").map((metadata, index) => (
-        <BlogCard metadata={metadata} key={index} />
-      ));
-    }
-
-    const postsWoCollection = getPostsWoCollection(allPosts);
-    return orderPosts(postsWoCollection, "date").map((metadata, index) => (
-      <BlogCard metadata={metadata} key={index} />
-    ));
+    return orderPosts(
+      getPostsWoCollection(selectedTags.length > 0 ? filteredPosts : allPosts),
+      "date"
+    ).map((metadata, index) => <BlogCard metadata={metadata} key={index} />);
   };
 
   const renderPostsByCollection = () => {
-    if (selectedTags.length > 0) {
-      return getPostsByCollection(filteredPosts, allCollections).map(
-        (postsByCollection, index) => (
-          <Cards
+    return getPostsByCollection(
+      selectedTags.length > 0 ? filteredPosts : allPosts,
+      allCollections
+    ).map((postsByCollection, index) => (
+      <Cards
+        key={index}
+        slides={postsByCollection.map((metadata, index) => (
+          <BlogCard
+            metadata={metadata}
             key={index}
-            slides={postsByCollection.map((metadata, index) => (
-              <BlogCard
-                metadata={metadata}
-                key={index}
-                className="absolute border-2 border-primary"
-              />
-            ))}
+            className="border-2 border-primary"
           />
-        )
-      );
-    }
-
-    return getPostsByCollection(allPosts, allCollections).map(
-      (postsByCollection, index) => (
-        <Cards
-          key={index}
-          slides={postsByCollection.map((metadata, index) => (
-            <BlogCard
-              metadata={metadata}
-              key={index}
-              className="border-2 border-primary"
-            />
-          ))}
-        />
-      )
-    );
+        ))}
+      />
+    ));
   };
 
   return (
