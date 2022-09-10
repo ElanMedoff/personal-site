@@ -93,10 +93,10 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
     <div className="flex flex-wrap-reverse gap-10">
       <section className="flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]">
         {shouldRenderCollectionsTitle() ? (
-          <h2 className="pl-3 text-3xl underline">collections</h2>
+          <h2 className="pl-3 text-2xl underline">collections</h2>
         ) : null}
         <div className="ml-[-10px] mb-5">{renderCollections()}</div>
-        <h1 className="pl-3 text-3xl underline">blog posts</h1>
+        <h1 className="pl-3 text-2xl underline">blog posts</h1>
         {renderPostsWoCollection()}
       </section>
       <section className="flex-grow-[2] flex-shrink-[2] basis-[200px]">
