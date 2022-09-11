@@ -26,7 +26,7 @@ export default function Favorites({
               <img src={`/movies/${path}`} alt="movie poster" className="" />
             </div>
           ))}
-          className={tm("max-w-[200px]")}
+          className="xs:max-w-[175px] sm:max-w-[200px] xl:max-w-[250px]"
         />
         <SwiperCards
           slides={bookPaths.map((path, index) => (
@@ -35,7 +35,7 @@ export default function Favorites({
               <img src={`/books/${path}`} alt="book cover" />
             </div>
           ))}
-          className={tm("max-w-[200px]")}
+          className="xs:max-w-[175px] sm:max-w-[200px] xl:max-w-[250px]"
         />
         <SwiperCards
           slides={comicPaths.map((path, index) => (
@@ -44,7 +44,7 @@ export default function Favorites({
               <img src={`/comics/${path}`} alt="comic cover" />
             </div>
           ))}
-          className={tm("max-w-[200px]")}
+          className="xs:max-w-[175px] sm:max-w-[200px] xl:max-w-[250px]"
         />
       </section>
     </>
