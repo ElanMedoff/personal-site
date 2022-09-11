@@ -1,7 +1,7 @@
 import { twMerge as tm } from "tailwind-merge";
 import { useState } from "react";
 import BlogCard from "../../components/BlogCard";
-import Cards from "../../components/Cards";
+import SwiperCards from "../../components/SwiperCards";
 import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
@@ -67,7 +67,8 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
       selectedTags.length > 0 ? filteredPosts : allPosts,
       allCollections
     ).map((postsByCollection, index) => (
-      <Cards
+      <SwiperCards
+        rounded
         key={index}
         slides={postsByCollection.map((metadata, index) => (
           <BlogCard

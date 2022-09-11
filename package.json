@@ -10,6 +10,7 @@
     "deploy": "git push server"
   },
   "dependencies": {
+    "@octokit/core": "^4.0.5",
     "atropos": "^1.0.2",
     "daisyui": "^2.19.0",
     "gray-matter": "^4.0.3",

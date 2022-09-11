@@ -1,4 +1,5 @@
 import { twMerge as tm } from "tailwind-merge";
+import "atropos/css";
 import AtroposImage from "./AtroposImage";
 import styles from "../styles/icons.module.scss";
 import Atropos from "atropos/react";
@@ -15,22 +16,22 @@ export default function Profile() {
           )}
         >
           <Atropos className="relative" innerClassName="overflow-hidden">
-            <AtroposImage src="/sky.png" alt="profile pic" offset={0} />
+            <AtroposImage src="/profile/sky.png" alt="profile pic" offset={0} />
             <AtroposImage
               className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
-              src="/horizon.png"
+              src="/profile/horizon.png"
               alt="profile pic"
               offset={2}
             />
             <AtroposImage
               className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
-              src="/leaves.png"
+              src="/profile/leaves.png"
               alt="profile pic"
               offset={4}
             />
             <AtroposImage
               className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
-              src="/profile.png"
+              src="/profile/profile.png"
               alt="profile pic"
               offset={1}
             />

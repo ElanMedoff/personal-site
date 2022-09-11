@@ -33,25 +33,25 @@ nnoremap <leader>zf <cmd>lua require('fzf-lua').grep()<cr>
 
 Once you trigger the command, you'll be greeted with a prompt to input your initial search term:
 
-<img src="grep-for.png" style="width: 50%; margin: auto"/>
+<img src="blog/grep-for.png" style="width: 50%; margin: auto"/>
 
 Enter the search term (in our case, let's look for the string `fzf`) and a window will appear with the filenames of every file containing your string.
 
-<img src="fzf-initial.png"/>
+<img src="blog/fzf-initial.png"/>
 
 You can then narrow down your results by inputting a part of the filename, or negating a filename if you begin with a shebang i.e. `!.md`:
 
-<img src="fzf-narrow.png" />
+<img src="blog/fzf-narrow.png" />
 
 In our case, we negated any files with `packer` in the filepath. We can then export a subset of the files to the quickfix list by marking a result with tab ...
 
-<img src="fzf-mark.png" />
+<img src="blog/fzf-mark.png" />
 
 ... and pressing enter. In our case, let's mark all the instances where we remap an fzf command.
 
 This will populate the quickfix list, which should look something like the following:
 
-<img src="bfq-initial.png" />
+<img src="blog/bfq-initial.png" />
 
 ## Narrow Down With [bfq](https://github.com/kevinhwang91/nvim-bqf)
 

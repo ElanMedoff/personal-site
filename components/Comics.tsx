@@ -6,9 +6,9 @@ export default function Comics() {
   const comics = ["asm17", "asm311", "asm43", "dd35"];
 
   return (
-    <main className="flex flex-wrap items-center justify-evenly gap-2">
+    <main className="">
       {comics.map((comic, index) => (
-        <div key={index} className="p-1 border-2 border-base-300">
+        <div key={index} className="">
           <Atropos
             className="relative w-max"
             rotateChildren={
