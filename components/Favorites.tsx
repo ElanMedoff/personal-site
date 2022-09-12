@@ -27,7 +27,7 @@ function SwiperWrapper({
             <img src={`/${dir}/${path}`} alt={dir} className="" />
           </div>
         ))}
-        className="max-w-[150px] sm:max-w-[200px] mx-7"
+        className="max-w-[150px] [@media(min-width:375px)]:max-w-[200px] mx-7"
       />
     </article>
   );
@@ -41,7 +41,7 @@ export default function Favorites({
   const { comicPaths, bookPaths, moviePaths } = paths;
 
   return (
-    <div>
+    <div className="mb-20">
       <Banner className="mb-8 bg-neutral text-neutral-content">
         outside of work
       </Banner>

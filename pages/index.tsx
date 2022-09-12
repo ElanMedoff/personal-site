@@ -9,7 +9,7 @@ export default function About({
   paths: { comicPaths: string[]; bookPaths: string[]; moviePaths: string[] };
 }) {
   return (
-    <div className="flex flex-col gap-36">
+    <div className="flex flex-col gap-20">
       <Profile />
       <Favorites paths={paths} />
       {/* <Github /> */}

@@ -79,7 +79,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
         ))}
         className={tm(
           "xs:max-w-[300px]",
-          "sm:max-w-[400px]",
+          "[@media(min-width:450px)]:max-w-[400px]",
           "xl:max-w-[500px]"
         )}
       />

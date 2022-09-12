@@ -30,7 +30,7 @@ export default function SwiperCards({
             }
           : undefined
       }
-      className={tm("ml-2 w-full mr-0", className)}
+      className={tm("ml-2 w-full mr-2", className)}
     >
       {slides.map((slide, index) => (
         <SwiperSlide key={index} className={rounded ? "rounded-2xl" : ""}>

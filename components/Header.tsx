@@ -15,9 +15,13 @@ export default function Header() {
             "font-bold text-primary cursor-pointer"
           )}
         >
-          <Link href="/">elanmed.dev</Link>
+          <Link href="/">
+            <span>
+              elanmed<span className="hidden sm:inline">.dev</span>
+            </span>
+          </Link>
         </h3>
-        <div className="flex">
+        <div className="flex items-center">
           <span className="hidden mr-4 text-xs sm:inline">
             check out my blog! <span className="text-lg text-primary">→</span>
           </span>
