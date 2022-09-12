@@ -1,6 +1,9 @@
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { darcula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import {
+  darcula,
+  atomDark,
+} from "react-syntax-highlighter/dist/cjs/styles/prism";
 import {
   fetchPostSlugs,
   fetchPostBySlug,
@@ -10,6 +13,8 @@ import {
 import rehypeRaw from "rehype-raw";
 import styles from "../../styles/markdown.module.scss";
 import BlogCard from "../../components/BlogCard";
+import { useContext } from "react";
+import { ThemeContext } from "../../components/Layout";
 
 interface Props {
   post: Post;
@@ -17,6 +22,8 @@ interface Props {
 }
 
 export default function PostPage({ post, relatedPostMetadata }: Props) {
+  const { theme } = useContext(ThemeContext);
+
   return (
     <div>
       <div className="pb-2 mb-8 text-sm italic border-b-2 text-primary border-b-base-300 w-max">
@@ -30,7 +37,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
             const match = /language-(\w+)/.exec(className || "");
             return !inline && match ? (
               <SyntaxHighlighter
-                style={darcula as any}
+                style={(theme === "cyberpunk" ? darcula : atomDark) as any}
                 language={match[1]}
                 PreTag="div"
                 {...props}

@@ -12,7 +12,7 @@ export default function Profile() {
           className={tm(
             "p-4 flex-1",
             "min-w-[300px] max-w-[450px]",
-            "m-auto md:m-0"
+            "m-auto lg:m-0"
           )}
         >
           <Atropos className="relative" innerClassName="overflow-hidden">

@@ -1,6 +1,7 @@
 import { fetchPublicImages } from "../utils/publicHelpers";
 import Profile from "../components/Profile";
 import Favorites from "../components/Favorites";
+/* import Github from "../components/Github"; */
 
 export default function About({
   paths,
@@ -8,10 +9,10 @@ export default function About({
   paths: { comicPaths: string[]; bookPaths: string[]; moviePaths: string[] };
 }) {
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-36">
       <Profile />
-      <div className="divider" />
       <Favorites paths={paths} />
+      {/* <Github /> */}
     </div>
   );
 }
