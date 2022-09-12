@@ -1,51 +1,65 @@
 import { twMerge as tm } from "tailwind-merge";
 import SwiperCards from "./SwiperCards";
 
+function SwiperWrapper({
+  paths,
+  dir,
+  title,
+}: {
+  paths: string[];
+  dir: string;
+  title: string;
+}) {
+  return (
+    <article>
+      <p
+        className={tm(
+          "uppercase font-bold text-xl m-3 border-b-4 border-primary w-max"
+        )}
+      >
+        {title}
+      </p>
+      <SwiperCards
+        slides={paths.map((path, index) => (
+          <div key={index} className="p-1 rounded bg-neutral">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`/${dir}/${path}`} alt={dir} className="" />
+          </div>
+        ))}
+        className="max-w-[175px] [@media(min-width:400px)]:max-w-[250px]"
+      />
+    </article>
+  );
+}
+
 export default function Favorites({
   paths,
 }: {
   paths: { comicPaths: string[]; bookPaths: string[]; moviePaths: string[] };
 }) {
   const { comicPaths, bookPaths, moviePaths } = paths;
+  const imageWrapperStyles = "p-1 rounded bg-neutral";
+  const swiperStyles = "max-w-[175px] [@media(min-width:400px)]:max-w-[250px]";
 
   return (
     <>
-      <h1 className="text-6xl font-bold md:text-7xl">OUTSIDE OF WORK ...</h1>
       <section
         className={tm(
-          "bg-neutral px-10 py-5 ",
-          "flex justify-center flex-wrap gap-20 items-center",
+          "bg-neutral text-neutral-content px-10 py-5 ",
           "lg:ml-[-5rem] lg:mr-[-5rem]",
           "w-[95%] m-auto md:w-auto"
         )}
       >
-        <SwiperCards
-          slides={moviePaths.map((path, index) => (
-            <div key={index} className="p-1 rounded bg-secondary">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/movies/${path}`} alt="movie poster" className="" />
-            </div>
-          ))}
-          className="xs:max-w-[175px] sm:max-w-[200px] xl:max-w-[250px]"
-        />
-        <SwiperCards
-          slides={bookPaths.map((path, index) => (
-            <div key={index} className="p-1 rounded bg-secondary">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/books/${path}`} alt="book cover" />
-            </div>
-          ))}
-          className="xs:max-w-[175px] sm:max-w-[200px] xl:max-w-[250px]"
-        />
-        <SwiperCards
-          slides={comicPaths.map((path, index) => (
-            <div key={index} className="p-1 rounded bg-secondary">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/comics/${path}`} alt="comic cover" />
-            </div>
-          ))}
-          className="xs:max-w-[175px] sm:max-w-[200px] xl:max-w-[250px]"
-        />
+        <h1 className="text-5xl font-bold text-center md:text-7xl">
+          OUTSIDE OF WORK
+        </h1>
+      </section>
+      <section
+        className={tm("flex justify-center flex-wrap gap-20 items-center")}
+      >
+        <SwiperWrapper paths={moviePaths} dir="movies" title="movies" />
+        <SwiperWrapper paths={bookPaths} dir="books" title="books" />
+        <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
       </section>
     </>
   );
