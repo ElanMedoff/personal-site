@@ -6,7 +6,7 @@ import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
-    method === "collection"
+    method === "date"
       ? new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
       : (a.collection?.order ?? 0) - (b.collection?.order ?? 0)
   );

@@ -13,6 +13,7 @@
     "@octokit/core": "^4.0.5",
     "atropos": "^1.0.2",
     "daisyui": "^2.19.0",
+    "framer-motion": "^7.3.4",
     "gray-matter": "^4.0.3",
     "next": "^12.2.0",
     "react": "18.2.0",

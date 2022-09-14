@@ -1,5 +1,5 @@
 ---
-title: "A Thousand Comics Lesson One: Third-Party Narration Never Works"
+title: "Lesson One: Third-Party Narration Never Works"
 abstract: "There's nothing worse than pseudo-philosophical narration"
 lastUpdated: "August 6, 2022"
 slug: third-party-narration-never-works
@@ -15,7 +15,7 @@ collection:
 
 <div data-daisy="alert-info">
 
-**Note**: this blog is part of a running series of the lessons I've learned from reading a thousand comics. If you're interested in the other posts, check it out [here](https://elanmed.dev/blog/lessons-from-reading-a-thousand-comics)!
+Note: this blog is part of a running series of the lessons I've learned from reading a thousand comics. If you're interested in the other posts, check them out [here](https://elanmed.dev/blog/lessons-from-reading-a-thousand-comics)!
 
 </div>
 
@@ -29,7 +29,7 @@ Maybe this is why I've read more Spider-Man than other character: I'm of the str
 
 <div data-daisy="alert">
 
-President Kennedy let us into the Space Age. He navigated us through nuclear peril. We've never lived in more uncertain times, and yet we couldn't help but share his optimism. I happened to be in Dallas at the time of the shooting. I've spoken to many people here. Trying to piece together what happened ... As a reporter, I mostly listen. In times like these, we look in vain for the elusive reassurance we call hope. Where is this thing called hope? **What** is it? We like to imagine that our strength will protect us. But history is a **wildfire**. It consumes the weak and strong alike until there's nothing left to burn. The living are but the burn ward of history. And none of us ever fully recover. We simply pick what we can from the ashes and move on. And yet, somehow, we know that there must be **more**. That we are destined for something **greater**. Those in who we invest this belief we call **heroes**. So why does the life of **one man** mean so much? In short ... it doesn't. But when you take the enormity of what this man meant to a nation, the overwhelming grief we felt at his passing, the belief in the future he inspired in us ... and then subtract from that **one ordinary life**, whatever remains ... that is what we mean when we say **hope**.
+As a reporter, I mostly listen. In times like these, we look in vain for the elusive reassurance we call hope. Where is this thing called hope? What is it? We like to imagine that our strength will protect us. But history is a wildfire. It consumes the weak and strong alike until there's nothing left to burn. The living are but the burn ward of history. And none of us ever fully recover. We simply pick what we can from the ashes and move on. And yet, somehow, we know that there must be more. That we are destined for something greater. Those in who we invest this belief we call heroes. So why does the life of one man mean so much? In short ... it doesn't. But when you take the enormity of what this man meant to a nation, the overwhelming grief we felt at his passing, the belief in the future he inspired in us ... and then subtract from that one ordinary life, whatever remains ... that is what we mean when we say hope.
 
 </div>
 

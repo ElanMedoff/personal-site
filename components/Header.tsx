@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import { twMerge as tm } from "tailwind-merge";
 import { ThemeContext } from "./Layout";
+import Switch from "./Switch";
 
 export default function Header() {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -30,18 +31,14 @@ export default function Header() {
           </span>
           <div className="divider divider-horizontal" />
           {theme === "cyberpunk" ? (
-            <input
-              type="checkbox"
-              className="toggle"
-              onClick={() => {
+            <Switch
+              onToggle={() => {
                 setTheme?.("dracula");
               }}
             />
           ) : (
-            <input
-              type="checkbox"
-              className="toggle"
-              onClick={() => {
+            <Switch
+              onToggle={() => {
                 setTheme?.("cyberpunk");
               }}
             />

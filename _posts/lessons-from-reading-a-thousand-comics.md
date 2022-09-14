@@ -36,3 +36,4 @@ I honestly think that doing that much of _anything_ is interesting. Of course yo
 I have a lot to say on the topic of comics, so I think I'll split this up into a few shorter blog posts. This is what I have for now, and as I publish new posts, I'll do my best to update the list:
 
 1. [Third-party narration never works](https://elanmed.dev/blog/third-party-narration-never-works)
+1. [Address Contemporary Issues With Intention](https://elanmed.dev/blog/address-contemporary-issues-with-intention)
