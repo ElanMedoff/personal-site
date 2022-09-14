@@ -1,5 +1,4 @@
 import React from "react";
-import cx from "classnames";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import styles from "./Switch.module.scss";
