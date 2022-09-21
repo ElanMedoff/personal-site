@@ -1,5 +1,5 @@
 ---
-title: "Lesson One: Third-Party Narration Never Works"
+title: "Lesson One: Third-Party Narration Rarely Works"
 abstract: "There's nothing worse than pseudo-philosophical narration"
 lastUpdated: "August 6, 2022"
 slug: third-party-narration-never-works
@@ -11,7 +11,7 @@ collection:
   order: 1
 ---
 
-# Lesson One: Third-Party Narration Never Works
+# Lesson One: Third-Party Narration Rarely Works
 
 <div data-daisy="alert-info">
 
