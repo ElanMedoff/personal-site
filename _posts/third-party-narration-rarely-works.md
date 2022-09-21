@@ -2,7 +2,7 @@
 title: "Lesson One: Third-Party Narration Rarely Works"
 abstract: "There's nothing worse than pseudo-philosophical narration"
 lastUpdated: "August 6, 2022"
-slug: third-party-narration-never-works
+slug: third-party-narration-rarely-works
 tags:
   - comics
   - reading
