@@ -32,7 +32,7 @@ export default function Header() {
           <input
             type="checkbox"
             className="toggle"
-            onClick={() => {
+            onChange={() => {
               setEnabledState?.((prev) => !prev);
             }}
             checked={enabled}

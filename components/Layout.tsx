@@ -13,7 +13,6 @@ export const ThemeContext = createContext<{
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [enabled, setEnabledState] = useDarkMode();
-  console.log({ enabled });
 
   return (
     <ThemeContext.Provider value={{ enabled, setEnabledState }}>
