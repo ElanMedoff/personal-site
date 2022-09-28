@@ -25,10 +25,11 @@ let mapleader = " "
 """""" OPTIONS """"""
 """""""""""""""""""""
 colorscheme slate "builtin theme that doesn't look too bad
+set termguicolors "makes builtin themes look better
 
 set clipboard=unnamedplus "use os clipboard
 set number "line numbers
-set relativenumber "hard to explain, test it out!
+set relativenumber "useful for relative j, k
 set noerrorbells "disable error beep
 set mouse=a "allow mouse to click, scroll
 set confirm "prompt to save before quitting
@@ -60,14 +61,16 @@ set foldlevelstart=99 "open folds by default
 nnoremap <leader>u za| "toggle fold
 nnoremap <leader>o o<esc>| "create newline below
 nnoremap <leader>O O<esc>| "create newline above
-nnoremap <leader>rr viwp"_dP| "https://youtu.be/qZO9A5F6BZs?t=373
 nnoremap <leader>vs :vsplit<cr>| "split vertically
 nnoremap <leader>sv :source $MYVIMRC<cr>| "source vim config
 nnoremap <leader>af <C-6>| "easier keymap for alternate file
 nnoremap <leader>r; @:| "repeat last command
-nnoremap <leader>' "| "for setting register
 nnoremap <leader>p :pu<cr>| "paste on line below
 nnoremap <leader>P :pu!<cr>| "paste on line above
+"https://youtu.be/qZO9A5F6BZs?t=373
+nnoremap <leader>rr viwp"_dP
+"for setting register
+nnoremap <leader>' "
 
 "search
 nnoremap <leader>/t :noh<cr>| "turn off highlighting
@@ -94,9 +97,13 @@ nnoremap <leader>l <C-w>l| "right
 nnoremap <leader>j <C-w>j| "down
 nnoremap <leader>k <C-w>k| "up
 
+"https://vi.stackexchange.com/a/8535
+command! Cnext try | cnext | catch | cfirst | catch | endtry
+command! Cprev try | cprev | catch | clast | catch | endtry
+
 "quickfix list
-nnoremap gn :cnext<cr>
-nnoremap gp :cprevious<cr>
+nnoremap gn :Cnext<cr>zz
+nnoremap gp :Cprevious<cr>zz
 nnoremap ge :copen<cr>
 nnoremap gq :cclose<cr>
 
@@ -122,11 +129,25 @@ nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 
 "netrw
-nnoremap <leader>b :Vexplore<cr>| "open netrw
+nnoremap <leader>b :Lexplore<cr>| "open netrw
 let g:netrw_winsize = 30| "set size
 let g:netrw_banner = 0| "remove default banner at the top
+
+"https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
+"remap keys while netrw is open
+function! NetrwMapping()
+  nmap <buffer> h -^| "go up a directory
+  nmap <buffer> l <cr>| "open a file/directory
+  nmap <buffer> P <C-w>z| "close preview, p to open
+  nmap <buffer> <leader>b :Lexplore<cr>| "close netrw
+endfunction
+
+augroup netrw_mapping
+  autocmd!
+  autocmd filetype netrw call NetrwMapping()
+augroup END
 ```
 
 ## Bonus: Bootstrap Script
 
-For those interested in writing bash scripts, it definitely _is_ possible to write a `bootstrap.sh` to handle all the installations for your config. I have my [own script](https://github.com/ElanMedoff/neovim-config/blob/master/bootstrap.sh) tailored to my specific config, but maybe it can be of some inspiration to yours as well. Right now it only supports MacOs (i.e. homebrew installations), but I hope to update that sometime in the near future.
+For those interested in writing bash scripts, it definitely _is_ possible to write a `bootstrap.sh` to handle all the installations for your config. I have my [own script](https://github.com/ElanMedoff/neovim-config/blob/master/bootstrap.sh) tailored to my specific config, but maybe it can be of some inspiration to yours as well!
