@@ -64,7 +64,7 @@
   }
 
   [data-daisy="alert"] {
-    @apply alert my-6 text-sm;
+    @apply alert my-6 text-sm bg-base-300;
 
     & > * {
       @apply inline m-2;

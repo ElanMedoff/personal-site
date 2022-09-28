@@ -22,7 +22,7 @@ interface Props {
 }
 
 export default function PostPage({ post, relatedPostMetadata }: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { enabled } = useContext(ThemeContext);
 
   return (
     <div>
@@ -37,7 +37,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
             const match = /language-(\w+)/.exec(className || "");
             return !inline && match ? (
               <SyntaxHighlighter
-                style={(theme === "cyberpunk" ? darcula : atomDark) as any}
+                style={(enabled ? atomDark : darcula) as any}
                 language={match[1]}
                 PreTag="div"
                 {...props}

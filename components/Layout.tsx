@@ -3,20 +3,21 @@ import { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Content from "./Content";
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
+import useDarkMode from "../hooks/useDarkMode";
 
-type Theme = "cyberpunk" | "dracula";
 export const ThemeContext = createContext<{
-  theme: Theme | null;
-  setTheme: null | Dispatch<SetStateAction<Theme>>;
-}>({ theme: null, setTheme: null });
+  enabled: boolean;
+  setEnabledState: null | Dispatch<SetStateAction<boolean>>;
+}>({ enabled: false, setEnabledState: null });
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("cyberpunk");
+  const [enabled, setEnabledState] = useDarkMode();
+  console.log({ enabled });
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-      <div className="bg-base-300" data-theme={theme}>
+    <ThemeContext.Provider value={{ enabled, setEnabledState }}>
+      <div className="bg-base-300">
         <Head>
           <link rel="shortcut icon" href="/favicon/favicon.ico" />
           <title>elanmed.dev</title>
