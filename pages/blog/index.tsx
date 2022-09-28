@@ -3,12 +3,13 @@ import { useState } from "react";
 import BlogCard from "../../components/BlogCard";
 import SwiperCards from "../../components/SwiperCards";
 import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
+import { Collection } from "../../utils/postHelpers";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
     method === "date"
       ? new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
-      : (a.collection?.order ?? 0) - (b.collection?.order ?? 0)
+      : (a.collection as Collection).order - (b.collection as Collection).order
   );
 };
 
@@ -55,43 +56,45 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
       : numOverlappingTags === selectedTags.length;
   });
 
+  const currPosts = selectedTags.length > 0 ? filteredPosts : allPosts;
+
   const renderPostsWoCollection = () => {
-    return orderPosts(
-      getPostsWoCollection(selectedTags.length > 0 ? filteredPosts : allPosts),
-      "date"
-    ).map((metadata, index) => <BlogCard metadata={metadata} key={index} />);
+    return orderPosts(getPostsWoCollection(currPosts), "date").map(
+      (metadata, index) => <BlogCard metadata={metadata} key={index} />
+    );
   };
 
   const renderCollections = () => {
-    return getPostsByCollection(
-      selectedTags.length > 0 ? filteredPosts : allPosts,
-      allCollections
-    ).map((postsByCollection, index) => (
-      <SwiperCards
-        rounded
-        key={index}
-        slides={postsByCollection.map((metadata, index) => (
-          <BlogCard
-            metadata={metadata}
-            key={index}
-            className="border-primary"
-          />
-        ))}
-        className={tm(
-          "xs:max-w-[300px]",
-          "[@media(min-width:450px)]:max-w-[400px]",
-          "xl:max-w-[500px]"
-        )}
-      />
-    ));
+    return getPostsByCollection(currPosts, allCollections).map(
+      (postsByCollection, index) => (
+        <SwiperCards
+          rounded
+          key={index}
+          slides={postsByCollection.map((metadata, index) => (
+            <BlogCard
+              metadata={metadata}
+              key={index}
+              className="border-primary"
+            />
+          ))}
+          className={tm(
+            "xs:max-w-[300px]",
+            "[@media(min-width:450px)]:max-w-[400px]",
+            "xl:max-w-[500px]"
+          )}
+        />
+      )
+    );
   };
 
   const shouldRenderCollectionsTitle = () => {
-    const postsByCollection = getPostsByCollection(
-      selectedTags.length > 0 ? filteredPosts : allPosts,
-      allCollections
-    );
+    const postsByCollection = getPostsByCollection(currPosts, allCollections);
     return postsByCollection.length > 0;
+  };
+
+  const shouldRenderBlogTitle = () => {
+    const postsWoCollection = getPostsWoCollection(currPosts);
+    return postsWoCollection.length > 0;
   };
 
   return (
@@ -101,7 +104,9 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
           <h2 className="pl-3 text-2xl underline">collections</h2>
         ) : null}
         <div className="ml-[-10px] mb-5">{renderCollections()}</div>
-        <h1 className="pl-3 text-2xl underline">blog posts</h1>
+        {shouldRenderBlogTitle() ? (
+          <h1 className="pl-3 text-2xl underline">blog posts</h1>
+        ) : null}
         {renderPostsWoCollection()}
       </section>
       <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">

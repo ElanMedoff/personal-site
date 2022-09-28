@@ -2,6 +2,11 @@ import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import matter from "gray-matter";
 
+export interface Collection {
+  name: string;
+  order: number;
+}
+
 export interface Metadata {
   title: string;
   abstract: string;
@@ -9,10 +14,7 @@ export interface Metadata {
   imagePath: string;
   slug: string;
   tags: string[];
-  collection: {
-    name: string;
-    order: number;
-  } | null;
+  collection: Collection | null;
 }
 
 export interface Post {
