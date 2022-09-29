@@ -3,13 +3,12 @@ import { twMerge as tm } from "tailwind-merge";
 
 export default function Content({ children }: { children: ReactNode }) {
   return (
-    <main
+    <div
       className={tm(
-        "min-h-screen w-full max-w-5xl m-auto py-6 bg-base-100",
-        "px-2 sm:px-20"
+        "min-h-screen w-full max-w-5xl m-auto py-6 bg-base-100 overflow-hidden"
       )}
     >
-      {children}
-    </main>
+      <main className="max-w-4xl m-auto w-full px-2">{children}</main>
+    </div>
   );
 }

@@ -12,10 +12,10 @@ function SwiperWrapper({
   title: string;
 }) {
   return (
-    <article>
+    <article className="border-base-300 border-2 pr-2 py-4 rounded-lg">
       <p
         className={tm(
-          "uppercase font-bold text-xl m-3 border-b-4 border-primary w-max ml-7"
+          "uppercase font-bold text-xl mb-3 border-b-4 border-primary w-max ml-7"
         )}
       >
         {title}
@@ -41,12 +41,12 @@ export default function Favorites({
   const { comicPaths, bookPaths, moviePaths } = paths;
 
   return (
-    <div className="mb-20">
-      <Banner className="mb-8 bg-neutral text-neutral-content">
+    <div className="mb-20 flex flex-col gap-10">
+      <Banner className="bg-neutral text-neutral-content">
         outside of work
       </Banner>
       <section
-        className={tm("flex justify-center flex-wrap gap-20 items-center")}
+        className={tm("flex justify-center flex-wrap items-center gap-8")}
       >
         <SwiperWrapper paths={moviePaths} dir="movies" title="movies" />
         <SwiperWrapper paths={bookPaths} dir="books" title="books" />

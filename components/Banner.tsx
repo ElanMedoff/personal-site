@@ -1,6 +1,26 @@
 import { twMerge as tm } from "tailwind-merge";
 import React, { ReactNode } from "react";
 
+const Child = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
+  return (
+    <p
+      className={tm(
+        "text-5xl font-bold text-center uppercase md:text-7xl px-10 py-5",
+        "absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[100vw]",
+        className
+      )}
+    >
+      {children}
+    </p>
+  );
+};
+
 export default function Banner({
   children,
   className,
@@ -11,15 +31,14 @@ export default function Banner({
   return (
     <section
       className={tm(
-        "px-10 py-5 ",
-        "sm:ml-[-5rem] sm:mr-[-5rem]",
+        "relative border-black"
+        /* "ml-[-5rem] sm:mr-[-5rem]", */
         /* "m-auto md:w-auto", */
-        className
       )}
     >
-      <p className="text-3xl font-bold text-center uppercase sm:text-5xl md:text-7xl">
-        {children}
-      </p>
+      <Child className={className}>{children}</Child>
+      {/* hack to make the parent have the width of the child */}
+      <Child className="relative invisible">{children}</Child>
     </section>
   );
 }

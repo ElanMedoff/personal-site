@@ -13,7 +13,7 @@ export default function useDarkMode() {
     if (enabled) {
       element.setAttribute("data-theme", "dracula");
     } else {
-      element.setAttribute("data-theme", "cyber");
+      element.setAttribute("data-theme", "retro");
     }
   }, [enabled]);
 

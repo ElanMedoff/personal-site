@@ -7,13 +7,9 @@ import Atropos from "atropos/react";
 export default function Profile() {
   return (
     <div>
-      <main className="flex flex-row flex-wrap-reverse pt-2 lg:pt-10 gap-12 lg:gap-16">
+      <main className="flex flex-row flex-wrap-reverse pt-2 gap-12">
         <section
-          className={tm(
-            "p-4 flex-1",
-            "min-w-[300px] max-w-[450px]",
-            "m-auto lg:m-0"
-          )}
+          className={tm("p-4 flex-1", "min-w-[350px] max-w-[450px]", "m-auto")}
         >
           <Atropos className="relative" innerClassName="overflow-hidden">
             <AtroposImage src="/profile/sky.png" alt="profile pic" offset={0} />
@@ -41,8 +37,8 @@ export default function Profile() {
           </p>
         </section>
         <section className="flex-1 min-w-auto sm:min-w-[400px]">
-          <h1 className="text-6xl font-bold md:text-8xl">HEY</h1>
-          <h1 className="text-6xl font-bold md:text-8xl">THERE,</h1>
+          <h1 className="text-6xl font-bold sm:text-8xl">HEY</h1>
+          <h1 className="text-6xl font-bold sm:text-8xl">THERE,</h1>
           <p className="mt-6 text-lg">
             I&apos;m{" "}
             <span className="font-semibold border-b-4 border-b-primary ">
