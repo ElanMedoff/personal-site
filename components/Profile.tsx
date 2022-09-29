@@ -9,7 +9,7 @@ export default function Profile() {
     <div>
       <main className="flex flex-row flex-wrap-reverse pt-2 gap-12">
         <section
-          className={tm("p-4 flex-1", "min-w-[350px] max-w-[450px]", "m-auto")}
+          className={tm("p-4 flex-1", "min-w-[300px] max-w-[450px]", "m-auto")}
         >
           <Atropos className="relative" innerClassName="overflow-hidden">
             <AtroposImage src="/profile/sky.png" alt="profile pic" offset={0} />
