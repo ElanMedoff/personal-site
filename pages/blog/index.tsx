@@ -100,6 +100,12 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
   return (
     <div className="flex flex-wrap-reverse gap-12">
       <section className="flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]">
+        {!shouldRenderCollectionsTitle() && !shouldRenderBlogTitle() ? (
+          <div className="pl-3">
+            <h2 className="mb-3 text-2xl">no results!</h2>
+            <p className="italic">try selecting other combinations</p>
+          </div>
+        ) : null}
         {shouldRenderCollectionsTitle() ? (
           <h2 className="pl-3 text-2xl underline">collections</h2>
         ) : null}

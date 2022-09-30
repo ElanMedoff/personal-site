@@ -6,6 +6,7 @@ slug: third-party-narration-rarely-works
 tags:
   - comics
   - reading
+  - rant
 collection:
   name: "thousand-comics"
   order: 1

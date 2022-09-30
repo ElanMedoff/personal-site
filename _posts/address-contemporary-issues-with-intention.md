@@ -6,6 +6,7 @@ slug: address-contemporary-issues-with-intention
 tags:
   - comics
   - reading
+  - rant
 collection:
   name: "thousand-comics"
   order: 2

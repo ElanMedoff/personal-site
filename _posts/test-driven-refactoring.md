@@ -5,6 +5,7 @@ lastUpdated: "August 9, 2022"
 slug: test-driven-refactoring
 tags:
   - software eng
+  - rant
 collection: null
 ---
 
