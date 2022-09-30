@@ -26,7 +26,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
 
   return (
     <div>
-      <div className="pb-2 mb-8 text-sm italic border-b-2 text-primary-focus border-b-base-300 w-max">
+      <div className="pb-2 mb-8 text-sm italic underline underline-offset-4 text-primary-focus w-max">
         last updated: {post.metadata.lastUpdated}
       </div>
       <ReactMarkdown
