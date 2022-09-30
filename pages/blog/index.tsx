@@ -119,7 +119,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
                 "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
                 "hover:bg-base-300",
                 selectedTags.includes(filter) &&
-                  "bg-secondary hover:bg-secondary"
+                  "bg-secondary hover:bg-secondary text-secondary-content"
               )}
               onClick={() => {
                 setSelectedTags((prevSelectedTags) => {
@@ -143,7 +143,8 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
             className={tm(
               "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
               "hover:bg-base-300",
-              filterMethod === "union" && "bg-primary hover:bg-primary"
+              filterMethod === "union" &&
+                "bg-primary hover:bg-primary text-primary-content"
             )}
             onClick={() => setFilterMethod("union")}
           >
@@ -153,7 +154,8 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
             className={tm(
               "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
               "hover:bg-base-300",
-              filterMethod === "intersection" && "bg-primary hover:bg-primary"
+              filterMethod === "intersection" &&
+                "bg-primary hover:bg-primary text-primary-content"
             )}
             onClick={() => setFilterMethod("intersection")}
           >

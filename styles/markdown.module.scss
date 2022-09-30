@@ -32,7 +32,7 @@
   }
 
   a {
-    @apply text-primary underline hover:text-primary-focus;
+    @apply text-primary-focus underline underline-offset-2 hover:underline-offset-4 transition-all;
   }
 
   p {

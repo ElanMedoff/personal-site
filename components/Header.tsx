@@ -12,11 +12,11 @@ export default function Header() {
         <h3
           className={tm(
             "text-lg md:text-2xl",
-            "font-bold text-primary cursor-pointer"
+            "font-bold text-primary-focus cursor-pointer"
           )}
         >
           <Link href="/">
-            <span className="hover:text-primary-focus">
+            <span>
               elanmed<span className="hidden sm:inline">.dev</span>
             </span>
           </Link>
@@ -32,10 +32,12 @@ export default function Header() {
           <input
             type="checkbox"
             className="toggle"
-            onChange={() => {
+            onClick={() => {
               setEnabledState?.((prev) => !prev);
             }}
             checked={enabled}
+            // onClick is more consistent for first load, but need onChange to suppress warning
+            onChange={() => {}}
           />
         </div>
       </main>

@@ -4,7 +4,7 @@ export default function AtroposImage({
   offset,
   className,
 }: {
-  src: `/${string}`;
+  src: string;
   alt: string;
   offset: number;
   className?: string;

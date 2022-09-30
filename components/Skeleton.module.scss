@@ -1,0 +1,16 @@
+@keyframes pulseLoading {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.5;
+  }
+}
+
+.container {
+  @apply bg-base-300 rounded;
+  width: 100%;
+  animation: pulseLoading 750ms cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
+  cursor: progress;
+}
