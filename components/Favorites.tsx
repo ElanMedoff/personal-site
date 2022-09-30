@@ -83,7 +83,9 @@ export default function Favorites({
           It's can be pretty difficult to narrow down your favorite comic runs
           when you've read{" "}
           <span className="underline underline-offset-2 hover:underline-offset-4 transition-all text-primary-focus">
-            <Link href="blog/lessons-from-a-thousand-comics">1000+</Link>{" "}
+            <Link href="blog/lessons-from-reading-a-thousand-comics">
+              1000+
+            </Link>{" "}
           </span>
           issues
         </SwiperWrapper>
