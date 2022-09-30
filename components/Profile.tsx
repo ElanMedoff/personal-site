@@ -45,7 +45,7 @@ export default function Profile() {
   }, []);
 
   const renderLoading = () => {
-    return <Skeleton width={400} height={400} />;
+    return <Skeleton width={400} square />;
   };
 
   const renderAtropos = () => {

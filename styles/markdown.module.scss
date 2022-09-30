@@ -79,7 +79,7 @@
     }
 
     & a {
-      @apply text-secondary-content hover:text-accent-focus;
+      @apply text-primary underline underline-offset-2 hover:underline-offset-4 transition-all;
     }
   }
 
