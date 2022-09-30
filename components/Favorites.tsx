@@ -33,7 +33,8 @@ function SwiperWrapper({
               <img src={`/${dir}/${path}`} alt={dir} className="" />
             </div>
           ))}
-          className="max-w-[150px] [@media(min-width:375px)]:max-w-[200px] mx-7"
+          /* className="max-w-[175px] [@media(min-width:375px)]:max-w-[200px] mx-7" */
+          className="max-w-[200px] mx-7"
         />
       </section>
       <section>
