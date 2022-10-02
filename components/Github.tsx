@@ -48,9 +48,17 @@ const RepoCard = ({ repo }: { repo: Repo }) => {
             <p className="italic text-xs">{description}</p>
           </section>
           <section className="flex flex-wrap gap-3">
-            {Object.keys(language_info).map((language) => (
-              <div className="flex gap-1 text-sm rounded-full px-3 py-1 bg-secondary text-secondary-content">
-                <img src={languageToIconUrl[language]} className="w-5" />
+            {Object.keys(language_info).map((language, index) => (
+              <div
+                className="flex gap-1 text-sm rounded-full px-3 py-1 bg-secondary text-secondary-content"
+                key={index}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={languageToIconUrl[language]}
+                  className="w-5"
+                  alt="language icon"
+                />
                 {language}
               </div>
             ))}
@@ -68,8 +76,8 @@ export default function Github({ repos }: { repos: Repo[] }) {
         github projects
       </Banner>
       <ul className="flex flex-wrap gap-10 justify-center">
-        {repos.map((repo) => (
-          <RepoCard repo={repo} />
+        {repos.map((repo, index) => (
+          <RepoCard repo={repo} key={index} />
         ))}
       </ul>
     </>
