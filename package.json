@@ -10,7 +10,6 @@
     "deploy": "git push server"
   },
   "dependencies": {
-    "@octokit/core": "^4.0.5",
     "atropos": "^1.0.2",
     "daisyui": "^2.19.0",
     "framer-motion": "^7.3.4",
