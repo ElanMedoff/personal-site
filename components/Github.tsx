@@ -1,6 +1,6 @@
 import React from "react";
 import { twMerge as tm } from "tailwind-merge";
-import { isMobileUser, languageToIconUrl, Repo } from "../utils/githubHelpers";
+import { languageToIconUrl, Repo } from "../utils/githubHelpers";
 import AtroposBorder from "./AtroposBorder";
 import Atropos from "atropos/react";
 import Banner from "./Banner";
@@ -20,9 +20,7 @@ const RepoCard = ({ repo }: { repo: Repo }) => {
   return (
     <div
       // open in background tab
-      onClick={
-        isMobileUser() ? undefined : () => window.open(html_url, "_blank")
-      }
+      onClick={() => window.open(html_url, "_blank")}
       className="cursor-pointer"
     >
       <Atropos
