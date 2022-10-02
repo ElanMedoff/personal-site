@@ -70,6 +70,6 @@ export function isMobileUser() {
   ];
 
   return toMatch.some((toMatchItem) => {
-    return navigator.userAgent.match(toMatchItem);
+    return navigator?.userAgent.match(toMatchItem);
   });
 }
