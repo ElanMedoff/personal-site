@@ -25,7 +25,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
   const { enabled } = useContext(ThemeContext);
 
   return (
-    <div>
+    <div className="text-justify">
       <div className="pb-2 mb-8 text-sm italic underline underline-offset-4 text-primary-focus w-max">
         last updated: {post.metadata.lastUpdated}
       </div>

@@ -68,7 +68,7 @@ export default function Profile() {
           className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
           src={profile}
           alt="profile pic"
-          offset={1}
+          offset={2}
         />
       </Atropos>
     );

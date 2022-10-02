@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ReactNode } from "react";
 import { twMerge as tm } from "tailwind-merge";
 import Banner from "./Banner";
 import SwiperCards from "./SwiperCards";
@@ -15,7 +13,7 @@ function SwiperWrapper({
 }) {
   return (
     <article>
-      <section>
+      <section className="border-2 border-primary p-3 py-6 pr-7 rounded">
         <h3
           className={tm(
             "uppercase font-bold text-2xl mb-3 border-b-4 border-primary w-max ml-6"
@@ -27,10 +25,10 @@ function SwiperWrapper({
           slides={paths.map((path, index) => (
             <div key={index} className="p-1 rounded bg-neutral">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/${dir}/${path}`} alt={dir} className="" />
+              <img src={`/${dir}/${path}`} alt={dir} />
             </div>
           ))}
-          className="max-w-[200px] mx-6"
+          className="max-w-[200px] md:max-w-[250px] mx-6"
         />
       </section>
     </article>
@@ -50,11 +48,11 @@ export default function Favorites({
         Some of my favorites
       </Banner>
       <section
-        className={tm("flex justify-center flex-wrap items-center gap-8")}
+        className={tm("flex justify-center flex-wrap items-center gap-20")}
       >
         <SwiperWrapper paths={moviePaths} dir="movies" title="movies" />
-        <SwiperWrapper paths={bookPaths} dir="books" title="books" />
         <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
+        <SwiperWrapper paths={bookPaths} dir="books" title="books" />
       </section>
     </div>
   );

@@ -48,18 +48,21 @@ const RepoCard = ({ repo }: { repo: Repo }) => {
       >
         <article
           className={tm(
-            "min-h-[325px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-primary",
-            "w-[300px] sm:w-96"
+            "min-h-[375px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-primary",
+            "w-[300px] sm:w-[325px]"
           )}
         >
-          <p className="bg-primary rounded-full text-primary-content px-3 py-1 w-max text-xs italic shadow-xl">
+          <p
+            className="bg-primary rounded-full text-primary-content px-3 py-1 w-max text-xs italic shadow-xl"
+            data-atropos-offset={0}
+          >
             last updated: {new Date(pushed_at).toLocaleDateString()}
           </p>
-          <section>
+          <section data-atropos-offset={1}>
             <div className="text-2xl font-semibold mb-2">{name}</div>
             <p className="italic text-xs">{description}</p>
           </section>
-          <section className="flex flex-wrap gap-3">
+          <section className="flex flex-wrap gap-3" data-atropos-offset={4}>
             {Object.keys(language_info).map((language, index) => (
               <div
                 className="flex gap-1 text-sm rounded-full px-3 py-1 bg-secondary text-secondary-content"
