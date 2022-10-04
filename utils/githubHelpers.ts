@@ -23,7 +23,6 @@ export async function fetchGithubRepos() {
       "https://api.github.com/users/ElanMedoff/repos"
     );
     repos = await response.json();
-    console.log(repos);
   } catch {}
   const exceptions = ["comics-relational-full-stack-public", "josh-css"];
   const filteredRepos = (Array.isArray(repos) ? repos : []).filter(

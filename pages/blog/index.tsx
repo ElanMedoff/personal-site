@@ -150,7 +150,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
               "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition border border-neutral",
               "hover:bg-base-300",
               filterMethod === "union" &&
-                "bg-primary hover:bg-primary text-primary-content"
+                "bg-accent hover:bg-accent text-accent-content"
             )}
             onClick={() => setFilterMethod("union")}
           >
@@ -161,7 +161,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
               "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition border border-neutral",
               "hover:bg-base-300",
               filterMethod === "intersection" &&
-                "bg-primary hover:bg-primary text-primary-content"
+                "bg-accent hover:bg-accent text-accent-content"
             )}
             onClick={() => setFilterMethod("intersection")}
           >

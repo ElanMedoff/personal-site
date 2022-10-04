@@ -6,6 +6,7 @@ import Atropos from "atropos/react";
 import { useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import Skeleton from "./Skeleton";
+import Anchor from "./reusable/Anchor";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);
@@ -124,13 +125,8 @@ export default function Profile() {
           </p>
           <p className="mt-6">
             I currently work at{" "}
-            <a
-              href="https://www.wealthfront.com/"
-              className="text-primary-focus underline underline-offset-2 hover:underline-offset-4 transition-all"
-            >
-              Wealthfront
-            </a>{" "}
-            as a web engineer!
+            <Anchor href="https://www.wealthfront.com/">Wealthfront</Anchor> as
+            a web engineer!
           </p>
           <article className="flex mt-4 gap-4">
             <a className={styles.github} href="https://github.com/ElanMedoff" />
@@ -139,7 +135,7 @@ export default function Profile() {
               href="https://www.linkedin.com/in/elan-medoff/"
             />
             <a className={styles.gmail} href="mailto:info@elanmed.dev" />
-            <span className="text-primary-focus text-xs flex items-end ml-[-10px]">
+            <span className="text-primary text-xs flex items-end ml-[-10px]">
               [mailto]
             </span>
           </article>

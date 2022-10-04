@@ -14,7 +14,7 @@ export default function BlogCard({
       <div
         className={twMerge(
           "max-w-[500px] cursor-pointer rounded-2xl flex items-center p-3 gap-3 bg-base-100",
-          "border-base-100 border-2 hover:border-primary transition-all duration-75",
+          "border-base-100 border-2 hover:border-neutral",
           className
         )}
       >

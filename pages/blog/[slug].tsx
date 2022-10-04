@@ -26,7 +26,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
 
   return (
     <div className="text-justify">
-      <div className="pb-2 mb-8 text-sm italic underline underline-offset-4 text-primary-focus w-max">
+      <div className="pb-2 mb-8 text-sm italic underline underline-offset-4 text-primary w-max">
         last updated: {post.metadata.lastUpdated}
       </div>
       <ReactMarkdown
@@ -62,9 +62,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
       </ReactMarkdown>
       <div className="w-1/2 divider" />
       <div>
-        <p className="mb-3 text-sm italic text-primary-focus">
-          you may also like:
-        </p>
+        <p className="mb-3 text-sm italic text-primary">you may also like:</p>
         <BlogCard metadata={relatedPostMetadata} />
       </div>
     </div>

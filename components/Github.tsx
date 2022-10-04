@@ -70,7 +70,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
           )}
         >
           <p
-            className="bg-primary rounded-full text-primary-content px-3 py-1 w-max text-xs italic shadow-xl"
+            className="rounded-full px-3 py-1 w-max text-xs italic border-2 border-neutral"
             data-atropos-offset={0}
           >
             last updated: {new Date(pushed_at).toLocaleDateString()}
@@ -82,7 +82,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
           <section className="flex flex-wrap gap-3" data-atropos-offset={4}>
             {Object.keys(language_info).map((language, index) => (
               <div
-                className="flex gap-1 text-sm rounded-full px-3 py-1 bg-secondary text-secondary-content"
+                className="flex gap-1 text-sm rounded-full px-3 py-1 border border-neutral"
                 key={index}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}

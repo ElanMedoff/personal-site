@@ -15,7 +15,7 @@ function SwiperWrapper({
 }) {
   return (
     <article>
-      <section className="border-2 border-primary p-3 py-6 pr-7 rounded">
+      <section className="border-2 border-neutral p-3 py-6 pr-7 rounded">
         <h3
           className={tm(
             "uppercase font-bold text-2xl mb-3 border-b-4 border-primary w-max ml-6"
@@ -25,7 +25,7 @@ function SwiperWrapper({
         </h3>
         <SwiperCards
           slides={paths.map((path, index) => (
-            <div key={index} className="p-1 rounded bg-neutral">
+            <div key={index} className="p-1  bg-neutral">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`/${dir}/${path}`} alt={dir} />
             </div>
