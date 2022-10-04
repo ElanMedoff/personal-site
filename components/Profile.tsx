@@ -4,6 +4,7 @@ import AtroposImage from "./AtroposImage";
 import styles from "../styles/icons.module.scss";
 import Atropos from "atropos/react";
 import { useEffect, useState } from "react";
+import { motion, useAnimationControls } from "framer-motion";
 import Skeleton from "./Skeleton";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
@@ -15,26 +16,31 @@ const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
 
 export default function Profile() {
   const [loading, setLoading] = useState(true);
-  const [sky, setSky] = useState("");
-  const [horizon, setHorizon] = useState("");
-  const [leaves, setLeaves] = useState("");
-  const [profile, setProfile] = useState("");
+  const [srcs, setSrcs] = useState({
+    sky: "",
+    horizon: "",
+    leaves: "",
+    profile: "",
+  });
+  const controls = useAnimationControls();
 
   useEffect(() => {
     const load = async () => {
       setLoading(true);
       try {
-        const [skySrc, horizonSrc, leavesSrc, profileSrc] = await Promise.all([
+        const [sky, horizon, leaves, profile] = await Promise.all([
           fetchSrc("sky"),
           fetchSrc("horizon"),
           fetchSrc("leaves"),
           fetchSrc("profile"),
         ]);
 
-        setSky(skySrc);
-        setHorizon(horizonSrc);
-        setLeaves(leavesSrc);
-        setProfile(profileSrc);
+        setSrcs({
+          sky,
+          horizon,
+          leaves,
+          profile,
+        });
       } catch (e) {
         console.error(e);
       }
@@ -44,46 +50,62 @@ export default function Profile() {
     load();
   }, []);
 
+  useEffect(() => {
+    if (loading) return;
+
+    controls.start({
+      x: [null, 5, -5, 5, -5],
+      transition: {
+        type: "spring",
+        duration: 0.4,
+        repeat: Infinity,
+        repeatDelay: 5,
+        delay: 1,
+      },
+    });
+  }, [controls, loading]);
+
   const renderLoading = () => {
-    return <Skeleton width={400} square />;
+    return <Skeleton width={416} square />;
   };
 
   const renderAtropos = () => {
+    const { sky, horizon, leaves, profile } = srcs;
     return (
-      <Atropos className="relative" innerClassName="overflow-hidden">
-        <AtroposImage src={sky} alt="profile pic" offset={0} />
-        <AtroposImage
-          className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
-          src={horizon}
-          alt="profile pic"
-          offset={2}
-        />
-        <AtroposImage
-          className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
-          src={leaves}
-          alt="profile pic"
-          offset={4}
-        />
-        <AtroposImage
-          className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
-          src={profile}
-          alt="profile pic"
-          offset={2}
-        />
-      </Atropos>
+      <motion.div animate={controls} onMouseOver={() => controls.stop()}>
+        <Atropos
+          className="relative"
+          innerClassName="overflow-hidden border-2 border-neutral"
+        >
+          <AtroposImage src={sky} alt="profile pic" offset={0} />
+          <AtroposImage
+            className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
+            src={horizon}
+            alt="profile pic"
+            offset={2}
+          />
+          <AtroposImage
+            className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
+            src={leaves}
+            alt="profile pic"
+            offset={4}
+          />
+          <AtroposImage
+            className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
+            src={profile}
+            alt="profile pic"
+            offset={2}
+          />
+        </Atropos>
+      </motion.div>
     );
   };
 
   return (
     <div>
       <main className="flex flex-row flex-wrap-reverse pt-2 gap-12">
-        <section
-          className={tm("p-4 flex-1", "min-w-[300px] max-w-[450px]", "m-auto")}
-        >
+        <section className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}>
           {loading ? renderLoading() : renderAtropos()}
-          <p className="mt-8 text-sm italic text-center">
-            (Hover over the profile pic!)
-          </p>
         </section>
         <section className="flex-1 min-w-auto sm:min-w-[400px]">
           <h1 className="text-6xl font-bold sm:text-8xl">HEY</h1>

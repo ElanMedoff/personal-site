@@ -17,10 +17,16 @@ export interface Repo extends UnpatchedRepo {
 }
 
 export async function fetchGithubRepos() {
-  const response = await fetch("https://api.github.com/users/ElanMedoff/repos");
-  const repos: UnpatchedRepo[] = await response.json();
+  let repos: UnpatchedRepo[] = [];
+  try {
+    const response = await fetch(
+      "https://api.github.com/users/ElanMedoff/repos"
+    );
+    repos = await response.json();
+    console.log(repos);
+  } catch {}
   const exceptions = ["comics-relational-full-stack-public", "josh-css"];
-  const filteredRepos = repos.filter(
+  const filteredRepos = (Array.isArray(repos) ? repos : []).filter(
     (repo) => !repo.fork && !exceptions.includes(repo.name)
   );
 

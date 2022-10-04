@@ -4,14 +4,29 @@ import { isMobileUser, languageToIconUrl, Repo } from "../utils/githubHelpers";
 import AtroposBorder from "./AtroposBorder";
 import Atropos from "atropos/react";
 import Banner from "./Banner";
+import { motion, useAnimationControls } from "framer-motion";
 import "atropos/css";
 
-const RepoCard = ({ repo }: { repo: Repo }) => {
+const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const controls = useAnimationControls();
 
   useEffect(() => {
     setIsMobile(isMobileUser());
   }, []);
+
+  useEffect(() => {
+    controls.start({
+      x: [null, 5, -5, 5, -5],
+      transition: {
+        type: "spring",
+        duration: 0.4,
+        repeat: Infinity,
+        repeatDelay: 5,
+        delay: 1,
+      },
+    });
+  }, [controls]);
 
   const {
     // TODO: find a way to use this
@@ -24,7 +39,7 @@ const RepoCard = ({ repo }: { repo: Repo }) => {
   } = repo;
 
   return (
-    <a
+    <motion.a
       // open in background tab
       onClick={(e) => {
         e.preventDefault();
@@ -34,6 +49,8 @@ const RepoCard = ({ repo }: { repo: Repo }) => {
       }}
       className="cursor-pointer"
       href={isMobile ? undefined : html_url}
+      animate={index === 0 ? controls : undefined}
+      onMouseOver={index === 0 ? () => controls.stop() : undefined}
     >
       <Atropos
         className="relative w-max"
@@ -80,19 +97,19 @@ const RepoCard = ({ repo }: { repo: Repo }) => {
           </section>
         </article>
       </Atropos>
-    </a>
+    </motion.a>
   );
 };
 
 export default function Github({ repos }: { repos: Repo[] }) {
   return (
     <>
-      <Banner className="bg-neutral text-neutral-content">
+      <Banner className="bg-secondary text-secondary-content">
         github projects
       </Banner>
       <ul className="flex flex-wrap gap-10 justify-center">
         {repos.map((repo, index) => (
-          <RepoCard repo={repo} key={index} />
+          <RepoCard repo={repo} key={index} index={index} />
         ))}
       </ul>
     </>

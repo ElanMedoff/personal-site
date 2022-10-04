@@ -122,7 +122,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
             <span
               key={index}
               className={tm(
-                "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
+                "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition border border-neutral",
                 "hover:bg-base-300",
                 selectedTags.includes(filter) &&
                   "bg-secondary hover:bg-secondary text-secondary-content"
@@ -147,7 +147,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
         <div className="flex flex-wrap pl-3 gap-2">
           <span
             className={tm(
-              "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
+              "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition border border-neutral",
               "hover:bg-base-300",
               filterMethod === "union" &&
                 "bg-primary hover:bg-primary text-primary-content"
@@ -158,7 +158,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
           </span>
           <span
             className={tm(
-              "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition",
+              "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition border border-neutral",
               "hover:bg-base-300",
               filterMethod === "intersection" &&
                 "bg-primary hover:bg-primary text-primary-content"

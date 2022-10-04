@@ -6,10 +6,12 @@ function SwiperWrapper({
   paths,
   dir,
   title,
+  autoplay,
 }: {
   paths: string[];
   dir: string;
   title: string;
+  autoplay?: boolean;
 }) {
   return (
     <article>
@@ -29,6 +31,7 @@ function SwiperWrapper({
             </div>
           ))}
           className="max-w-[200px] md:max-w-[250px] mx-6"
+          autoplay={autoplay}
         />
       </section>
     </article>
@@ -44,13 +47,18 @@ export default function Favorites({
 
   return (
     <div className="mb-20 flex flex-col gap-10">
-      <Banner className="bg-neutral text-neutral-content">
+      <Banner className="bg-secondary text-secondary-content">
         Some of my favorites
       </Banner>
       <section
         className={tm("flex justify-center flex-wrap items-center gap-20")}
       >
-        <SwiperWrapper paths={moviePaths} dir="movies" title="movies" />
+        <SwiperWrapper
+          paths={moviePaths}
+          dir="movies"
+          title="movies"
+          autoplay
+        />
         <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
         <SwiperWrapper paths={bookPaths} dir="books" title="books" />
       </section>
