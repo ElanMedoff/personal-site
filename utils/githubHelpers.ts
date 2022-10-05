@@ -24,7 +24,12 @@ export async function fetchGithubRepos() {
     );
     repos = await response.json();
   } catch {}
-  const exceptions = ["comics-relational-full-stack-public", "josh-css"];
+  const exceptions = [
+    "comics-relational-full-stack-public",
+    "josh-css",
+    "deno-boiler",
+    "starter-dot-files",
+  ];
   const filteredRepos = (Array.isArray(repos) ? repos : []).filter(
     (repo) => !repo.fork && !exceptions.includes(repo.name)
   );

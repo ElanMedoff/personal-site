@@ -17,12 +17,12 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
 
   useEffect(() => {
     controls.start({
-      x: [null, 5, -5, 5, -5],
+      x: [null, 5, -5, 5, 0],
       transition: {
         type: "spring",
         duration: 0.4,
         repeat: Infinity,
-        repeatDelay: 5,
+        repeatDelay: 4,
         delay: 1,
       },
     });
@@ -53,6 +53,8 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
       onMouseOver={index === 0 ? () => controls.stop() : undefined}
     >
       <Atropos
+        rotateXMax={25}
+        rotateYMax={25}
         className="relative w-max"
         rotateChildren={
           <>

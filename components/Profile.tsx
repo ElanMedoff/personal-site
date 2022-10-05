@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import Skeleton from "./Skeleton";
 import Anchor from "./reusable/Anchor";
+import AtroposBorder from "./AtroposBorder";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);
@@ -55,12 +56,12 @@ export default function Profile() {
     if (loading) return;
 
     controls.start({
-      x: [null, 5, -5, 5, -5],
+      x: [null, 5, -5, 5, 0],
       transition: {
         type: "spring",
         duration: 0.4,
         repeat: Infinity,
-        repeatDelay: 5,
+        repeatDelay: 4,
         delay: 1,
       },
     });
@@ -77,6 +78,8 @@ export default function Profile() {
         <Atropos
           className="relative"
           innerClassName="overflow-hidden border-2 border-neutral"
+          rotateXMax={18}
+          rotateYMax={18}
         >
           <AtroposImage src={sky} alt="profile pic" offset={0} />
           <AtroposImage

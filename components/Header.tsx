@@ -13,9 +13,7 @@ export default function Header() {
           <Link href="/">
             <span>
               elanmed
-              <span className="hidden sm:inline">
-                <span className="text-primary">.</span>dev
-              </span>
+              <span className="hidden sm:inline text-primary">.dev</span>
             </span>
           </Link>
         </h3>

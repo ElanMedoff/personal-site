@@ -1,5 +1,5 @@
 import { twMerge as tm } from "tailwind-merge";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import BlogCard from "../../components/BlogCard";
 import SwiperCards from "../../components/SwiperCards";
 import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
@@ -26,6 +26,29 @@ const getPostsByCollection = (posts: Metadata[], allCollections: string[]) => {
 
 const getPostsWoCollection = (posts: Metadata[]) => {
   return posts.filter(({ collection }) => collection === null);
+};
+
+const Pill = ({
+  className,
+  children,
+  onClick,
+}: {
+  className: string;
+  children: ReactNode;
+  onClick: (args: any) => void;
+}) => {
+  return (
+    <span
+      className={tm(
+        "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition border border-neutral",
+        "hover:bg-base-300",
+        className
+      )}
+      onClick={onClick}
+    >
+      {children}
+    </span>
+  );
 };
 
 export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
@@ -60,7 +83,9 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
 
   const renderPostsWoCollection = () => {
     return orderPosts(getPostsWoCollection(currPosts), "date").map(
-      (metadata, index) => <BlogCard metadata={metadata} key={index} />
+      (metadata, index) => (
+        <BlogCard metadata={metadata} key={index} selectedTags={selectedTags} />
+      )
     );
   };
 
@@ -75,6 +100,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
               metadata={metadata}
               key={index}
               className="border-primary"
+              selectedTags={selectedTags}
             />
           ))}
           className={tm(
@@ -103,7 +129,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
         {!shouldRenderCollectionsTitle() && !shouldRenderBlogTitle() ? (
           <div className="pl-3">
             <h2 className="mb-3 text-2xl">no results!</h2>
-            <p className="italic">try selecting other combinations</p>
+            <p className="italic">try selecting a different combination</p>
           </div>
         ) : null}
         {shouldRenderCollectionsTitle() ? (
@@ -119,11 +145,9 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
         <h2 className="m-3 text-lg underline w-max">tags</h2>
         <div className="flex flex-wrap pl-3 gap-2">
           {allTags.map((filter, index) => (
-            <span
+            <Pill
               key={index}
               className={tm(
-                "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition border border-neutral",
-                "hover:bg-base-300",
                 selectedTags.includes(filter) &&
                   "bg-secondary hover:bg-secondary text-secondary-content"
               )}
@@ -140,33 +164,29 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
               }}
             >
               {filter}
-            </span>
+            </Pill>
           ))}
         </div>
         <h2 className="m-3 mt-6 text-sm underline w-max">filter method</h2>
         <div className="flex flex-wrap pl-3 gap-2">
-          <span
+          <Pill
             className={tm(
-              "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition border border-neutral",
-              "hover:bg-base-300",
               filterMethod === "union" &&
-                "bg-accent hover:bg-accent text-accent-content"
+                "bg-secondary hover:bg-secondary text-secondary-content"
             )}
             onClick={() => setFilterMethod("union")}
           >
             union
-          </span>
-          <span
+          </Pill>
+          <Pill
             className={tm(
-              "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition border border-neutral",
-              "hover:bg-base-300",
               filterMethod === "intersection" &&
-                "bg-accent hover:bg-accent text-accent-content"
+                "bg-secondary hover:bg-secondary text-secondary-content"
             )}
             onClick={() => setFilterMethod("intersection")}
           >
             intersection
-          </span>
+          </Pill>
         </div>
       </section>
     </div>
