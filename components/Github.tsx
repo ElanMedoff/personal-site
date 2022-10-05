@@ -56,18 +56,19 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
         rotateXMax={25}
         rotateYMax={25}
         className="relative w-max"
+        highlight={false}
         rotateChildren={
           <>
-            <AtroposBorder.Left base={40} color="primary" />
-            <AtroposBorder.Right base={40} color="primary" />
-            <AtroposBorder.Top base={40} color="primary" />
-            <AtroposBorder.Bottom base={40} color="primary" />
+            <AtroposBorder.Left base={40} color="neutral" />
+            <AtroposBorder.Right base={40} color="neutral" />
+            <AtroposBorder.Top base={40} color="neutral" />
+            <AtroposBorder.Bottom base={40} color="neutral" />
           </>
         }
       >
         <article
           className={tm(
-            "min-h-[375px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-primary",
+            "min-h-[375px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-neutral",
             "w-[300px] sm:w-[325px]"
           )}
         >
