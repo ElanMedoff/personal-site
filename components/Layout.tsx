@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider value={{ enabled, setEnabledState }}>
-      <div>
+      <div className="transition duration-200">
         <Head>
           <link rel="shortcut icon" href="/favicon/favicon.ico" />
           <title>elanmed.dev</title>
