@@ -9,7 +9,7 @@ export default function BlogCard({
 }: {
   metadata: Metadata;
   className?: string;
-  selectedTags: string[];
+  selectedTags?: string[];
 }) {
   return (
     <Link href={`/blog/${metadata.slug}`}>
@@ -30,7 +30,7 @@ export default function BlogCard({
                 key={index}
                 className={tm(
                   "px-4 py-1 mr-1 text-xs rounded-full border border-neutral",
-                  selectedTags.includes(tag) &&
+                  (selectedTags ?? []).includes(tag) &&
                     "bg-secondary text-secondary-content"
                 )}
               >
