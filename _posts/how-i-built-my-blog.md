@@ -1,7 +1,7 @@
 ---
 title: "How I Built My Blog"
 abstract: "The stack I chose, client and server"
-lastUpdated: "August 28, 2022"
+lastUpdated: "October 09, 2022"
 slug: how-i-built-my-blog
 tags:
   - software eng
@@ -26,9 +26,15 @@ I looked into some other frameworks that specialize in SSG, but Next.js had the 
 
 I decided to use [tailwindcss](https://tailwindcss.com/) as my CSS "framework". I've experimented in the past with css-modules, plain scss, and [vanilla extract](https://vanilla-extract.style/), but I've found tailwind to be my favorite so far. Nothing can beat its dx.
 
-Design isn't my strong suit, so I decided to go with [daisyui](https://daisyui.com/) as my component library. I mostly write my own components, but daisyui has some great color themes that I use too (the theme for this site is `cyberpunk`!). Daisyui also has great integration with tailwind, so I can use classes like `text-primary` instead of something like `text-gray-200`. If I ever decide to add a dark mode in the future, this should make that _much_ easier.
+Design isn't my strong suit, so I decided to go with [daisyui](https://daisyui.com/) as my component library. I mostly write my own components, but daisyui has some great color themes that I use (the theme for this site is `emerald`!) Daisyui also has great integration with tailwind, so I can use classes like `text-primary` instead of `text-gray-200`. If I ever decide to add a dark mode in the future, this should make that _much_ easier.
 
-I write my blog posts in Markdown, which has an awesome syntax for writing, and some really nice default styles. I looked into using [mdx](https://mdxjs.com/), which has support for JSX components, but it seemed a bit overkill for my usecases. Maybe in a bit.
+<div data-daisy="alert">
+
+Update: I recently added a dark mode, and it really was as easy as I hoped!
+
+</div>
+
+I write my blog posts in Markdown, which has an awesome syntax for writing, and some really nice default styles. I looked into using [mdx](https://mdxjs.com/), which has support for JSX components, but it seemed a bit overkill for my usecases.
 
 For syntax highlighting in my code blocks, I use [react-markdown](https://github.com/remarkjs/react-markdown) and the approach outlined [here](https://github.com/remarkjs/react-markdown#use-custom-components-syntax-highlight). It was a bit of a pain to set up, but it's the best solution I've found so far.
 
@@ -52,7 +58,7 @@ For the fancy 3D parallax image on the homepage, I use [Atropos](https://atropos
 
 <div data-daisy="alert">
 
-Check out the `AtroposBorder` [component](https://github.com/ElanMedoff/personal-site/blob/master/components/AtroposBorder.tsx) to recreate the fancy 3D borders on the video game samples on the Atropos site.
+Check out the `AtroposBorder` [component](https://github.com/ElanMedoff/personal-site/blob/master/components/AtroposBorder.tsx) to recreate the 3D borders on the github cards on the [homepage](https://elanmed.dev/).
 
 </div>
 
@@ -81,7 +87,7 @@ I'll write a full post on my minimal approach to continuous integration, but thi
 - [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/)
 - [Remix vs Next.js](https://remix.run/blog/remix-vs-next)
 - [Fix the slow render before you fix the re-render](https://kentcdodds.com/blog/fix-the-slow-render-before-you-fix-the-re-render)
-- [Why Efficient Hydration in JavaScript Frameworks is so Challegning](https://dev.to/this-is-learning/why-efficient-hydration-in-javascript-frameworks-is-so-challenging-1ca3)
+- [Why Efficient Hydration in JavaScript Frameworks is so Challenging](https://dev.to/this-is-learning/why-efficient-hydration-in-javascript-frameworks-is-so-challenging-1ca3)
 - [How to write Performant React code: rules, patterns, do's and don'ts](https://www.developerway.com/posts/how-to-write-performant-react-code)
 - [The Ultimate Guide to handling JWTs on frontend clients](https://hasura.io/blog/best-practices-of-using-jwt-with-graphql)
 - [OAuth 2 Simplified](https://aaronparecki.com/oauth-2-simplified/)

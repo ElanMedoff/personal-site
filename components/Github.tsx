@@ -50,7 +50,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
       className="cursor-pointer"
       href={isMobile ? undefined : html_url}
       animate={index === 0 ? controls : undefined}
-      onMouseOver={index === 0 ? () => controls.stop() : undefined}
+      onMouseMove={index === 0 ? () => controls.stop() : undefined}
     >
       <Atropos
         rotateXMax={25}

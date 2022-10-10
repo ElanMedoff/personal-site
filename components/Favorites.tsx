@@ -51,7 +51,7 @@ export default function Favorites({
         Some of my favorites
       </Banner>
       <section
-        className={tm("flex justify-center flex-wrap items-center gap-20")}
+        className={tm("flex justify-center flex-wrap items-center gap-10")}
       >
         <SwiperWrapper
           paths={moviePaths}

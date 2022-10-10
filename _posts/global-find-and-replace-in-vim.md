@@ -1,7 +1,7 @@
 ---
 title: "Global Find and Replace in Vim"
 abstract: "Stitching together the fzf, quickfix list, cdo, and a custom lua function for an awesome find and replace in Vim"
-lastUpdated: "September 7, 2022"
+lastUpdated: "October 09, 2022"
 slug: global-find-and-replace-in-vim
 tags:
   - software eng
@@ -11,17 +11,17 @@ collection: null
 
 # Global Find and Replace in Vim
 
-Of all the VSCode features I've reimplemented in Vim, none have given me as much trouble as the global find and replace. In VSCode, the global-search ui is built into the sidebar with options to include/exclude files, and search by whole word, case sensitive, case insensitive, and any combination of the three. Once you've narrowed down your search, you can easily replace all instances in the same ui. For renaming across multiple files, it's a lifesaver. Luckily, with a bit of a work, and a little flexibility, we can get an analagous solution working in Vim.
+Of all the VSCode features I've re-implemented in Vim, none have given me as much trouble as the global find and replace. In VSCode, the global-search ui is built into the sidebar with options to include/exclude files, and search by whole word, case sensitive, case insensitive, and any combination of the three. Once you've narrowed down your search, you can easily replace all instances in the same ui. For renaming across multiple files, it's a lifesaver. Luckily, with a bit of a work, and a little flexibility, we can get an analogous solution working in Vim.
 
 ## tl;dr
 
 <div data-daisy="alert">
 
-Find your first-pass results with [fzf](https://github.com/ibhagwan/fzf-lua), populate them into the quickfix list, narrow it down with [bfq](https://github.com/kevinhwang91/nvim-bqf), and replace all instances by executing `cdo s/find/replace` with a custom user command to accept arguments for `find` and `replace`.
+Find your first-pass results with [fzf-lua](https://github.com/ibhagwan/fzf-lua)/[telescope](https://github.com/nvim-telescope/telescope.nvim), populate them into the quickfix list, narrow it down with [bfq](https://github.com/kevinhwang91/nvim-bqf), and replace all instances by executing `cdo s/find/replace` with a custom user command to accept arguments for `find` and `replace`.
 
 </div>
 
-## Search With [fzf](https://github.com/ibhagwan/fzf-lua)
+## Search With [fzf-lua](https://github.com/ibhagwan/fzf-lua)/[telescope](https://github.com/nvim-telescope/telescope.nvim)
 
 fzf is an awesome command line utility for fuzzy finding just about anything (seriously, anything). In our case, we'll be using the `fzf-lua` package for Neovim, and focusing on just one specific command: `grep`
 
@@ -29,6 +29,12 @@ fzf is an awesome command line utility for fuzzy finding just about anything (se
 
 ```vim
 nnoremap <leader>zf <cmd>lua require('fzf-lua').grep()<cr>
+```
+
+If you prefer to use [telescope](https://github.com/nvim-telescope/telescope.nvim), you can use the following remap:
+
+```vim
+nnoremap <leader>zf <cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<cr>
 ```
 
 Once you trigger the command, you'll be greeted with a prompt to input your initial search term:
@@ -39,7 +45,7 @@ Enter the search term (in our case, let's look for the string `fzf`) and a windo
 
 <img src="blog/fzf-initial.png"/>
 
-You can then narrow down your results by inputting a part of the filename, or negating a filename if you begin with a shebang i.e. `!.md`:
+You can then narrow down your results by inputting a part of the filename, or negating a filename if you begin with a shebang i.e. `!.md`. See the [fzf docs](https://github.com/junegunn/fzf#search-syntax) for more options.
 
 <img src="blog/fzf-narrow.png" />
 
@@ -47,9 +53,51 @@ In our case, we negated any files with `packer` in the filepath. We can then exp
 
 <img src="blog/fzf-mark.png" />
 
-... and pressing enter. In our case, let's mark all the instances where we remap an fzf command.
+... and pressing enter.
 
-This will populate the quickfix list, which should look something like the following:
+For `telescope`, you need to do tweak the settings a bit:
+
+```lua
+local telescope = require("telescope")
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+
+local custom_actions = {}
+
+function custom_actions.fzf_multi_select(prompt_bufnr)
+  local function get_table_size(t)
+    local count = 0
+    for _ in pairs(t) do
+      count = count + 1
+    end
+    return count
+  end
+
+  local picker = action_state.get_current_picker(prompt_bufnr)
+  local num_selections = get_table_size(picker:get_multi_selection())
+
+  if num_selections > 1 then
+    actions.send_selected_to_qflist(prompt_bufnr)
+    actions.open_qflist()
+  else
+    actions.file_edit(prompt_bufnr)
+  end
+end
+
+telescope.setup({
+  defaults = {
+    mappings = {
+      n = {
+        ["<cr>"] = custom_actions.fzf_multi_select,
+      },
+    },
+  },
+})
+```
+
+This will allow you to mark a selection with `tab`/`shift-tab` and export the selections to the quickfix list with `enter`.
+
+Back to our example, let's mark all the instances where we remap an fzf command. This will populate the quickfix list, which should look something like the following:
 
 <img src="blog/bfq-initial.png" />
 
@@ -97,19 +145,10 @@ Technically, you could stop here and you'd be good to go – just use the `:cdo 
 Our custom user command will accept two arguments, a `foo` and a `bar`, and execute a Vim command that interpolates the values into a string of the form `:cdo s/foo/bar/`. Let's look at the following code:
 
 ```lua
--- https://stackoverflow.com/questions/1426954/split-string-in-lua
-local function split(s)
-	local result = {}
-	for match in (s .. " "):gmatch("(.-)" .. " ") do
-		table.insert(result, match)
-	end
-	return result
-end
-
 vim.api.nvim_create_user_command("FindAndReplace", function(opts)
-	local args = split(opts.args)
-	vim.api.nvim_command(string.format("cdo s/%s/%s", args[1], args[2]))
+  vim.api.nvim_command(string.format("cdo s/%s/%s", opts.fargs[1], opts.fargs[2]))
 end, { nargs = "*" })
+
 
 vim.api.nvim_set_keymap(
   "n",
@@ -119,7 +158,15 @@ vim.api.nvim_set_keymap(
 )
 ```
 
-First, the `nargs = "*"` indicates that our user command can take any number of arguments. The arguments are passed through `opts.args` as a space-separated string. Unfortunatley, Lua lacks a built in split function, but we can use our own from stackoverflow. We can interpolate the values with `string.format` (remember that Lua is 1-indexed!), and execute the command with `nvim_command`. Finally, we can set a keymaping.
+First, the `nargs = "*"` indicates that our user command can take any number of arguments. The arguments are passed through `opts.fargs` as entries in a dictionary. We can interpolate the values with `string.format` (remember that Lua is 1-indexed!), and execute the command with `nvim_command`. Finally, we can set a key-mapping.
+
+If you'd like to pass an argument with a space, just escape the white space like so:
+
+```vim
+:FindAndReplace foo hello\ there
+```
+
+and the second argument will be passed as `hello there`.
 
 One last note: if you regret your find and replace, don't panic! You can easily undo your changes with `:cdo undo`.
 

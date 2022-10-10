@@ -74,7 +74,7 @@ export default function Profile() {
   const renderAtropos = () => {
     const { sky, horizon, leaves, profile } = srcs;
     return (
-      <motion.div animate={controls} onMouseOver={() => controls.stop()}>
+      <motion.div animate={controls} onMouseMove={() => controls.stop()}>
         <Atropos
           className="relative"
           innerClassName="overflow-hidden border-2 border-neutral"
