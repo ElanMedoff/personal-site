@@ -55,7 +55,7 @@ export default function Header() {
           </Link>
         </h3>
         <div className="flex items-center">
-          <span className="cursor-pointer select-none hover:underline hover:text-primary transition">
+          <span className="cursor-pointer select-none hover:text-primary transition">
             <Link href="/blog">blog</Link>
           </span>
           <div className="divider divider-horizontal" />

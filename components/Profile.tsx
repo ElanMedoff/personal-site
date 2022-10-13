@@ -138,8 +138,10 @@ export default function Profile() {
               href="https://www.linkedin.com/in/elan-medoff/"
             />
             <a className={styles.gmail} href="mailto:info@elanmed.dev" />
-            <span className="text-primary text-xs flex items-end ml-[-10px]">
-              [mailto]
+            <span className="text-xs flex items-end ml-[-10px]">
+              <span className="text-primary">[</span>
+              mailto
+              <span className="text-primary">]</span>
             </span>
           </article>
         </section>

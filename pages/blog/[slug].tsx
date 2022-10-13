@@ -1,65 +1,76 @@
-import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import {
-  darcula,
-  atomDark,
-} from "react-syntax-highlighter/dist/cjs/styles/prism";
 import {
   fetchPostSlugs,
   fetchPostBySlug,
   Post,
   Metadata,
 } from "../../utils/postHelpers";
-import rehypeRaw from "rehype-raw";
-import styles from "../../styles/markdown.module.scss";
 import BlogCard from "../../components/BlogCard";
-import { useContext } from "react";
-import { ThemeContext } from "../../components/Layout";
+import Code from "../../components/reusable/Code";
+import { MDXRemote } from "next-mdx-remote";
+import Info from "../../components/reusable/Info";
+import Link from "../../components/reusable/Link";
+import Aside from "../../components/reusable/Aside";
+import { anchorStyles } from "../../components/reusable/Anchor";
 
 interface Props {
   post: Post;
   relatedPostMetadata: Metadata;
+  mdxSource: any;
 }
 
 export default function PostPage({ post, relatedPostMetadata }: Props) {
-  const { enabled } = useContext(ThemeContext);
-
   return (
-    <div className="text-justify">
+    <div className="md:text-justify">
       <div className="pb-2 mb-8 text-sm italic underline underline-offset-4 w-max">
         last updated: {post.metadata.lastUpdated}
       </div>
-      <ReactMarkdown
-        className={styles.markdown}
-        rehypePlugins={[rehypeRaw]}
+      <MDXRemote
+        compiledSource={post.content}
         components={{
-          code({ node, inline, className, children, ...props }) {
-            const match = /language-(\w+)/.exec(className || "");
-            return !inline && match ? (
-              <SyntaxHighlighter
-                style={(enabled ? atomDark : darcula) as any}
-                language={match[1]}
-                PreTag="div"
-                {...props}
-              >
-                {String(children).replace(/\n$/, "")}
-              </SyntaxHighlighter>
-            ) : (
-              <code className="inline-block px-3 py-0 text-sm rounded bg-base-300">
-                {children}
-              </code>
-            );
-          },
-          img({ src, ...props }) {
-            return (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img {...props} src={`/${src}`} alt="static markdown image" />
-            );
-          },
+          Code,
+          Info,
+          Link,
+          Aside,
+          a: (props: any) => <a {...props} className={anchorStyles} />,
+          code: (props: any) => (
+            <code
+              className="bg-warning text-warning-content rounded-md px-4 inline-block mb-1"
+              {...props}
+            />
+          ),
+          p: (props: any) => <p className="my-6" {...props} />,
+          h1: (props: any) => (
+            <h1
+              className="text-2xl md:text-4xl font-bold my-2 text-center"
+              {...props}
+            />
+          ),
+          h2: (props: any) => (
+            <h1
+              className="text-xl md:text-2xl font-bold my-3 text-left"
+              {...props}
+            />
+          ),
+          h3: (props: any) => (
+            <h1 className="text-lg font-bold my-4 text-left" {...props} />
+          ),
+          h4: (props: any) => (
+            <h1 className="text-base font-bold my-5 text-left" {...props} />
+          ),
+          h5: (props: any) => (
+            <h1 className="text-sm font-bold my-6 text-left" {...props} />
+          ),
+          h6: (props: any) => (
+            <h1 className="text-xs font-bold my-10 text-left" {...props} />
+          ),
+          ol: (props: any) => (
+            <ol className="leading-7 list-decimal pl-10" {...props} />
+          ),
+          ul: (props: any) => (
+            <ul className="leading-7 list-disc pl-10" {...props} />
+          ),
         }}
-      >
-        {post.content}
-      </ReactMarkdown>
+      />
       <div className="w-1/2 divider" />
       <div>
         <p className="mb-3 text-sm italic">you may also like:</p>

@@ -15,7 +15,7 @@ When setting up a remote server, it can be a pain to get your Vim config up and 
 
 Instead of a traditional article, I've decided to post the config itself with extra comments I added for clarity. Use it as a starting place for your own main config, or a minimal setup for a remote server – whatever works best.
 
-```vim
+<Code language="vim" code={`
 "~/.config/nvim/init.vim
 
 noremap <space> <nop>
@@ -80,7 +80,7 @@ nnoremap <leader>cw /\<\>\C<left><left><left><left>| "search by both
 
 "duplicate lines
 nnoremap <leader>dl yyp
-vnoremap <leader>dl y`>p| "move to end of selection, then yank
+vnoremap <leader>dl y\`>p| "move to end of selection, then yank
 
 "copy path of file
 nnoremap <leader>yy :let @+ = expand("%")<cr>
@@ -146,7 +146,7 @@ augroup netrw_mapping
   autocmd!
   autocmd filetype netrw call NetrwMapping()
 augroup END
-```
+`} />
 
 ## Bonus: Bootstrap Script
 

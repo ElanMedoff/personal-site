@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import matter from "gray-matter";
+import { serialize } from "next-mdx-remote/serialize";
 
 export interface Collection {
   name: string;
@@ -33,7 +34,7 @@ export function fetchPostSlugs() {
   const paths = fetchAllPaths();
   return paths.map((path) => ({
     params: {
-      slug: path.replace(".md", ""),
+      slug: path.replace(".mdx", ""),
     },
   }));
 }
@@ -41,17 +42,20 @@ export function fetchPostSlugs() {
 export async function fetchPostBySlug(
   slugToFetch: string
 ): Promise<{ post: Post; relatedPostMetadata: Metadata }> {
-  const path = `${slugToFetch}.md`;
-  const rawPost = readFileSync(join(postsDirectory, path));
-  const { content, data } = matter(rawPost);
+  const path = `${slugToFetch}.mdx`;
+  const rawPost = readFileSync(join(postsDirectory, path)).toString();
+  const { compiledSource: content, frontmatter: data } = await serialize(
+    rawPost,
+    { parseFrontmatter: true }
+  );
 
   const allMetadata = fetchAllMetadata();
   const relatedPaths = allMetadata
     .filter((metadata) => {
       if (metadata.slug === slugToFetch) return false;
-      return metadata.tags.filter((tag) => data.tags.includes(tag)).length > 0;
+      return metadata.tags.filter((tag) => data?.tags.includes(tag)).length > 0;
     })
-    .map((metadata) => `${metadata.slug}.md`);
+    .map((metadata) => `${metadata.slug}.mdx`);
   const relatedPath =
     relatedPaths[Math.floor(Math.random() * relatedPaths.length)];
   const rawRelatedPost = readFileSync(join(postsDirectory, relatedPath));
@@ -61,7 +65,8 @@ export async function fetchPostBySlug(
     post: {
       content,
       metadata: {
-        ...(data as Metadata),
+        // bleh
+        ...(data as any as Metadata),
       },
     },
     relatedPostMetadata: { ...(relatedData as Metadata) },

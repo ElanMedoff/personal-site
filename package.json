@@ -10,16 +10,17 @@
     "deploy": "git push server"
   },
   "dependencies": {
+    "@types/prismjs": "^1.26.0",
     "atropos": "^1.0.2",
     "daisyui": "^2.19.0",
     "framer-motion": "^7.5.1",
     "gray-matter": "^4.0.3",
     "next": "^12.2.0",
+    "next-mdx-remote": "^4.1.0",
+    "prism-react-renderer": "^1.3.5",
+    "prismjs": "^1.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-markdown": "^8.0.3",
-    "react-syntax-highlighter": "^15.5.0",
-    "rehype-raw": "^6.1.1",
     "sass": "^1.53.0",
     "swiper": "^8.3.2",
     "tailwind-merge": "^1.6.0"
@@ -28,7 +29,6 @@
     "@types/node": "18.0.6",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
-    "@types/react-syntax-highlighter": "^15.5.3",
     "autoprefixer": "^10.4.7",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.2",

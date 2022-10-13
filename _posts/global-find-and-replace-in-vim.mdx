@@ -15,49 +15,45 @@ Of all the VSCode features I've re-implemented in Vim, none have given me as muc
 
 ## tl;dr
 
-<div data-daisy="alert">
-
 Find your first-pass results with [fzf-lua](https://github.com/ibhagwan/fzf-lua)/[telescope](https://github.com/nvim-telescope/telescope.nvim), populate them into the quickfix list, narrow it down with [bfq](https://github.com/kevinhwang91/nvim-bqf), and replace all instances by executing `cdo s/find/replace` with a custom user command to accept arguments for `find` and `replace`.
 
-</div>
-
-## Search With [fzf-lua](https://github.com/ibhagwan/fzf-lua)/[telescope](https://github.com/nvim-telescope/telescope.nvim)
+## Search With fzf
 
 fzf is an awesome command line utility for fuzzy finding just about anything (seriously, anything). In our case, we'll be using the `fzf-lua` package for Neovim, and focusing on just one specific command: `grep`
 
 `grep` allows you to input a search term and narrow down the results "fuzzily" by filename. I use the following key remaps, but feel free to use your own:
 
-```vim
+<Code language="vim" code={`
 nnoremap <leader>zf <cmd>lua require('fzf-lua').grep()<cr>
-```
+`} />
 
 If you prefer to use [telescope](https://github.com/nvim-telescope/telescope.nvim), you can use the following remap:
 
-```vim
+<Code language="vim" code={`
 nnoremap <leader>zf <cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<cr>
-```
+`} />
 
 Once you trigger the command, you'll be greeted with a prompt to input your initial search term:
 
-<img src="blog/grep-for.png" style="width: 50%; margin: auto"/>
+<img src="/blog/grep-for.png" className="m-auto w-1/2" />
 
 Enter the search term (in our case, let's look for the string `fzf`) and a window will appear with the filenames of every file containing your string.
 
-<img src="blog/fzf-initial.png"/>
+<img src="/blog/fzf-initial.png"/>
 
 You can then narrow down your results by inputting a part of the filename, or negating a filename if you begin with a shebang i.e. `!.md`. See the [fzf docs](https://github.com/junegunn/fzf#search-syntax) for more options.
 
-<img src="blog/fzf-narrow.png" />
+<img src="/blog/fzf-narrow.png" />
 
 In our case, we negated any files with `packer` in the filepath. We can then export a subset of the files to the quickfix list by marking a result with tab ...
 
-<img src="blog/fzf-mark.png" />
+<img src="/blog/fzf-mark.png" />
 
 ... and pressing enter.
 
 For `telescope`, you need to do tweak the settings a bit:
 
-```lua
+<Code language="lua" code={`
 local telescope = require("telescope")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
@@ -93,13 +89,13 @@ telescope.setup({
     },
   },
 })
-```
+`} />
 
 This will allow you to mark a selection with `tab`/`shift-tab` and export the selections to the quickfix list with `enter`.
 
 Back to our example, let's mark all the instances where we remap an fzf command. This will populate the quickfix list, which should look something like the following:
 
-<img src="blog/bfq-initial.png" />
+<img src="/blog/bfq-initial.png" />
 
 ## Narrow Down With [bfq](https://github.com/kevinhwang91/nvim-bqf)
 
@@ -113,12 +109,12 @@ The second plugin we'll use is bfq, an awesome utility for the quickfix list. I 
 
 I also use some bfq-agnostic quickfix list remaps that may be helpful:
 
-```vim
+<Code language="vim" code={`
 nnoremap gn :cnext<cr>
 nnoremap gp :cprevious<cr>
 nnoremap ge :copen<cr>
 nnoremap gq :cclose<cr>
-```
+`} />
 
 Between creating lists, fuzzy searching within a list, and repeating, you should have enough tools to narrow down your search to a final, single list. This brings us to the final section: replacing.
 
@@ -126,9 +122,6 @@ Between creating lists, fuzzy searching within a list, and repeating, you should
 
 The key to this last step is the native Vim `cdo` command. If we enter the command `:help cdo` in Vim, we learn the following info:
 
-```
-:cdo[!] {cmd}		Execute {cmd} in each valid entry in the quickfix list.
-```
 
 In practice, this means we need to narrow our search to a single quickfix list (i.e. with `zn` and `zf`) so we can replace its every instance.
 
@@ -144,7 +137,7 @@ Technically, you could stop here and you'd be good to go – just use the `:cdo 
 
 Our custom user command will accept two arguments, a `foo` and a `bar`, and execute a Vim command that interpolates the values into a string of the form `:cdo s/foo/bar/`. Let's look at the following code:
 
-```lua
+<Code language="lua" code={`
 vim.api.nvim_create_user_command("FindAndReplace", function(opts)
   vim.api.nvim_command(string.format("cdo s/%s/%s", opts.fargs[1], opts.fargs[2]))
 end, { nargs = "*" })
@@ -156,15 +149,15 @@ vim.api.nvim_set_keymap(
   ":FindAndReplace ",
   { noremap = true })
 )
-```
+`} />
 
 First, the `nargs = "*"` indicates that our user command can take any number of arguments. The arguments are passed through `opts.fargs` as entries in a dictionary. We can interpolate the values with `string.format` (remember that Lua is 1-indexed!), and execute the command with `nvim_command`. Finally, we can set a key-mapping.
 
 If you'd like to pass an argument with a space, just escape the white space like so:
 
-```vim
+<Code language="vim" code={`
 :FindAndReplace foo hello\ there
-```
+`} />
 
 and the second argument will be passed as `hello there`.
 
@@ -174,11 +167,11 @@ One last note: if you regret your find and replace, don't panic! You can easily 
 
 While a global find and replace is a bit of work in Vim, a local find a replace is actually quite simple – with the right keymappings.
 
-```vim
-  noremap <leader>/c /\C<left><left>
-  noremap <leader>/w /\<\><left><left>
-  noremap <leader>cw /\<\>\C<left><left><left><left>
-```
+<Code language="vim" code={`
+noremap <leader>/c /\C<left><left>
+noremap <leader>/w /\<\><left><left>
+noremap <leader>cw /\<\>\C<left><left><left><left>
+`} />
 
 Just like in VSCode, these mappings give us the option to search case-sensitive (`<leader>/c`), search by whole word (`<leader>/w`), or both (`<leader>cw`)!
 

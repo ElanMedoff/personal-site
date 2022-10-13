@@ -21,52 +21,52 @@ Unfortunately, it takes a little more work to get something analogous working fo
 
 The solution I stitched together prioritizes moving quickly from file to file, sacrificing the fancier features of VSCode for a low-level approach. In fact, it can be boiled down to just the following bash function:
 
-```bash
+<Code language="bash" code={`
 gd () {
 	nvim -p $(git diff --name-only) -c ":tabdo :Gvdiffsplit"
 }
-```
+`} />
 
 Let's walk through it chunk by chunk.
 
 First, the `-p` flag. If we enter `nvim --help` in the terminal, we can see the following:
 
-```text
+<Code code={`
 -p[N]                 Open N tab pages (default: one per file)
-```
+`} />
 
 In our case, we're using the result of `$(git diff --name-only)` as our `[N]` to determine how many tabs to open in Vim. Looking at the [git documentation](https://git-scm.com/docs/git-diff), we can see that the `--name-only` flag returns the names of the changed files. In other words, open one tab for each changed file.
 
 With the same `nvim --help` command, we can see that the `-c` flag executes its argument as a Vim command:
 
-```text
+<Code code={`
 -c <cmd>      Execute <cmd> after config and first file
-```
+`} />
 
 In our case, the command we're passing to the `-c` flag is `:tabdo :Gvdiffsplit`.
 
 While in Vim, we can enter the command `:help :tabdo` to get the following info on `:tabdo`:
 
-```text
+<Code code={`
 :[range]tabd[o] {cmd}
   Execute {cmd} in each tab page ...
-```
+`} />
 
 The command we're passing to `:tabdo` is `:Gvdiffsplit`, which is from the plugin [vim-fugitive](https://github.com/tpope/vim-fugitive). You can install vim-fugitive with the package-manager of your choice.
 
 In the github documentation for vim-fugitive, we can see the following info on `:Gvdiffsplit`:
 
-```text
+<Code code={`
 :Gdiffsplit (or :Gvdiffsplit) brings up the staged version of the file side by side with the working tree version.
-```
+`} />
 
 Putting everything together, our `gd` bash function opens a tab for every changed file, and for each tab, opens up a side-by-side git diff.
 
 This homegrown function lacks some of the fancier capabilities of VSCode, but navigating forward is _fast_. To go from one file to the next, simply exit twice, once for each split! You can even setup a keybinding to make it that much faster.
 
-```vim
+<Code code={`
 nnoremap gn :q<cr>:q<cr>
-```
+`} />
 
 This function is perfect for taking a last look at your changes before committing.
 
