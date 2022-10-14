@@ -2,9 +2,10 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
 import { ThemeContext } from "./Layout";
+import Switch from "./reusable/Switch";
 
 export default function Header() {
-  const { enabled, setEnabledState } = useContext(ThemeContext);
+  const { setEnabledState } = useContext(ThemeContext);
   const [scrollDir, setScrollDir] = useState<"down" | "up">("up");
 
   // https://stackoverflow.com/a/62497293
@@ -59,10 +60,8 @@ export default function Header() {
             <Link href="/blog">blog</Link>
           </span>
           <div className="divider divider-horizontal" />
-          <input
-            type="checkbox"
-            className="toggle"
-            onChange={() => {
+          <Switch
+            onToggle={() => {
               setEnabledState?.((prev) => !prev);
             }}
           />

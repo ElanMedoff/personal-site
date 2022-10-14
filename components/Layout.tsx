@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { createContext, Dispatch, SetStateAction } from "react";
-import useDarkMode from "../hooks/useDarkMode";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export const ThemeContext = createContext<{
   enabled: boolean;
@@ -11,11 +11,17 @@ export const ThemeContext = createContext<{
 }>({ enabled: false, setEnabledState: null });
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const [enabled, setEnabledState] = useDarkMode();
+  const [enabled, setEnabledState] = useLocalStorage<boolean>(
+    "dark-mode-enabled",
+    false
+  );
 
   return (
     <ThemeContext.Provider value={{ enabled, setEnabledState }}>
-      <div className="transition duration-200">
+      <div
+        className="transition duration-100"
+        data-theme={enabled ? "dracula" : "emerald"}
+      >
         <Head>
           <link rel="shortcut icon" href="/favicon/favicon.ico" />
           <title>elanmed.dev</title>
