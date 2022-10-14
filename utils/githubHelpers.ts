@@ -67,19 +67,3 @@ export const languageToIconUrl: Record<string, string> = {
   "Vim Script":
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vim/vim-plain.svg",
 };
-
-export function isMobileUser() {
-  const toMatch = [
-    /Android/i,
-    /webOS/i,
-    /iPhone/i,
-    /iPad/i,
-    /iPod/i,
-    /BlackBerry/i,
-    /Windows Phone/i,
-  ];
-
-  return toMatch.some((toMatchItem) => {
-    return navigator?.userAgent.match(toMatchItem);
-  });
-}

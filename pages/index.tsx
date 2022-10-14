@@ -12,10 +12,12 @@ export default function About({
   repos: Repo[];
 }) {
   return (
-    <div className="flex flex-col gap-20">
+    <div className="flex flex-col gap-20 pt-20 items-center xl:border-x-2 xl:border-neutral max-w-[1700px] m-auto">
       <Profile />
       <Github repos={repos} />
       <Favorites paths={paths} />
+      {/* spacing */}
+      <div />
     </div>
   );
 }

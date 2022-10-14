@@ -13,7 +13,7 @@ collection: null
 
 Data fetching in React is a popular topic of blog posts, dev talks, and tutorials – and for good reason. Asynchronous data fetching introduces a whole collection of complexities to handle. I hope to contribute with a less-often discussed topic: the role of the children whose parent fetches data asynchronously, and to what extent the children should account for this behavior.
 
-## Preamble: basic inline null checking
+## Preamble: Basic Inline Null Checking
 
 Take the following snippet:
 
@@ -80,7 +80,7 @@ function Parent() {
 
 With optional chaining in place, when `data` is `null`, accessing `data?.price` will return `undefined` instead of throwing an error. This pattern takes advantage of the fact that, if an expression passed to a `{}` in React "resolves" to `null` or `undefined`, React will gracefully (i.e. without throwing an error) render nothing.
 
-## A more complicated case
+## A More Complicated Case
 
 Optional chaining works fine for simple cases like above, but what about when we want to perform actions on the data that depend on its type? Consider if we'd like to format the `price` field to two decimal places:
 
@@ -167,9 +167,9 @@ function FormatNumber({ num }: { num: number }) {
 
 Now that we're dealing with two components, we have the option to null check in the parent _or_ in the child – option 1 and option 2 null check in parent, and option 3 null checks in the child. This leads us to a deeper, more interesting question on best-practices:
 
-**Who should be responsible for null checking?** The parent, or the child? This question is at the crux of this article; let's explore both approaches.
+**Who should be responsible for null checking?** The parent, or the child? This question is at the crux of this article. Let's explore both approaches through a differentiation I think helpful:
 
-## Parent-dependent children
+## Parent-Dependent Children
 
 A Parent-dependent child relies on it's parent to do it's null checking for them. It has no null checking of it's own, and it expects it's props to always be populated and of the correct type. Otherwise, it may throw.
 
@@ -178,7 +178,7 @@ Alternatively, the `Parent` could perform inline null checking with a fallback v
 
 It's worth nothing that if the child's prop is a more complicated data structure, such as a series of nested objects, passing a fallback value like `?? 0` isn't always an option.
 
-## Parent-agnostic children
+## Parent-Agnostic Children
 
 In contrast to a Parent-dependent child, a Parent-agnostic child expects no null checking from it's parent. Maybe the parent will null check before rendering the child, maybe it won't - the Parent-agnostic child won't rely on either behavior. Instead, the Parent-agnostic child will perform it's own null checking, gracefully handling every case on its own.
 
@@ -197,7 +197,7 @@ function FormatNumber({ num: number }) {
 
 </Info>
 
-## So which is best?
+## So Which is Best?
 
 I would argue that, in an ideal world, we would all write Parent-dependent children. The child shouldn't have to worry about being passed nullish (`null` or `undefined`) values: it clearly defines that it expects non-nullish props in its type! If you're consuming an api (i.e. a child component) in your parent, it should be _your_ responsibility to call that child with the props it expects.
 
@@ -205,7 +205,7 @@ Unfortunately, this approach isn't always feasible. In the same way we're taught
 
 But what if there was a way for the child to guarantee that the parent would pass it the correct props, without needing any extra code to verify the fact? It seems too good to be true, but that's exactly what we can do with [`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) enabled.
 
-## strict null checks
+## Strict Null Checks
 
 In the words of the TypeScript docs:
 
@@ -247,7 +247,7 @@ It's important to note that, from the perspective of the parent, little has chan
 
 But from the perspective of the child, this makes a _huge_ difference. With `strictNullChecks` enabled, the child can have the clean code of a Parent-dependent child (i.e. without any null checks of its own) with the safety guarantees of a Parent-agnostic child – if a parent tries to pass the child a prop not explicitly described in the child's type (like a nullish prop), TypeScript will throw an error!
 
-## When strict null checks aren't available
+## When Strict Null Checks Aren't Available
 
 `strictNullChecks` are a great solution when your codebase in written in TypeScript, but for when you're working in JavaScript, or for one reason or another you have to keep `strictNullChecks` disabled, there are a few considerations I try to keep in mind when deciding between writing Parent-dependent and Parent-agnostic children.
 

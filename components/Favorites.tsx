@@ -30,7 +30,7 @@ function SwiperWrapper({
               <img src={`/${dir}/${path}`} alt={dir} />
             </div>
           ))}
-          className="max-w-[200px] md:max-w-[250px] mx-6"
+          className="max-w-[200px] md:max-w-[300px] mx-6"
           autoplay={autoplay}
         />
       </section>
@@ -46,22 +46,27 @@ export default function Favorites({
   const { comicPaths, bookPaths, moviePaths } = paths;
 
   return (
-    <div className="mb-20 flex flex-col gap-10">
+    <>
       <Banner className="bg-secondary text-secondary-content">
         Some of my favorites
       </Banner>
-      <section
-        className={tm("flex justify-center flex-wrap items-center gap-10")}
-      >
-        <SwiperWrapper
-          paths={moviePaths}
-          dir="movies"
-          title="movies"
-          autoplay
-        />
-        <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
-        <SwiperWrapper paths={bookPaths} dir="books" title="books" />
-      </section>
-    </div>
+      <div className="mb-20 flex flex-col gap-10">
+        <section
+          className={tm(
+            "flex justify-center flex-wrap items-center",
+            "gap-10 md:gap-20"
+          )}
+        >
+          <SwiperWrapper
+            paths={moviePaths}
+            dir="movies"
+            title="movies"
+            autoplay
+          />
+          <SwiperWrapper paths={bookPaths} dir="books" title="books" />
+          <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
+        </section>
+      </div>
+    </>
   );
 }

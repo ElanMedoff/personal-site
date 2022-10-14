@@ -1,32 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { twMerge as tm } from "tailwind-merge";
-import { isMobileUser, languageToIconUrl, Repo } from "../utils/githubHelpers";
+import { languageToIconUrl, Repo } from "../utils/githubHelpers";
 import AtroposBorder from "./AtroposBorder";
 import Atropos from "atropos/react";
 import Banner from "./Banner";
 import { motion, useAnimationControls } from "framer-motion";
+import useIsMobile from "../hooks/useIsMobile";
 import "atropos/css";
 
 const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
   const controls = useAnimationControls();
 
   useEffect(() => {
-    setIsMobile(isMobileUser());
-  }, []);
-
-  useEffect(() => {
-    controls.start({
-      x: [null, 5, -5, 5, 0],
-      transition: {
-        type: "spring",
-        duration: 0.4,
-        repeat: Infinity,
-        repeatDelay: 4,
-        delay: 1,
-      },
-    });
-  }, [controls]);
+    if (!isMobile) {
+      controls.start({
+        x: [null, 5, -5, 5, 0],
+        transition: {
+          type: "spring",
+          duration: 0.4,
+          repeat: Infinity,
+          repeatDelay: 4,
+          delay: 1,
+        },
+      });
+    }
+  }, [controls, isMobile]);
 
   const {
     // TODO: find a way to use this
@@ -68,12 +67,12 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
       >
         <article
           className={tm(
-            "min-h-[375px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-neutral",
-            "w-[300px] sm:w-[325px]"
+            "min-h-[300px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-neutral",
+            "w-[300px] sm:w-[400px]"
           )}
         >
           <p
-            className="rounded-full px-3 py-1 w-max text-xs italic border-2 border-neutral"
+            className="rounded-full text-xs italic underline"
             data-atropos-offset={0}
           >
             last updated: {new Date(pushed_at).toLocaleDateString()}
@@ -110,7 +109,7 @@ export default function Github({ repos }: { repos: Repo[] }) {
       <Banner className="bg-secondary text-secondary-content">
         github projects
       </Banner>
-      <ul className="flex flex-wrap gap-10 justify-center">
+      <ul className="flex flex-wrap gap-10 justify-center max-w-[1500px] px-5">
         {repos.map((repo, index) => (
           <RepoCard repo={repo} key={index} index={index} />
         ))}

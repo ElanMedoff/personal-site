@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import Skeleton from "./Skeleton";
 import Anchor from "./reusable/Anchor";
-import AtroposBorder from "./AtroposBorder";
+import useIsMobile from "../hooks/useIsMobile";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);
@@ -17,6 +17,7 @@ const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
 };
 
 export default function Profile() {
+  const isMobile = useIsMobile();
   const [loading, setLoading] = useState(true);
   const [srcs, setSrcs] = useState({
     sky: "",
@@ -53,7 +54,7 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    if (loading) return;
+    if (loading || isMobile) return;
 
     controls.start({
       x: [null, 5, -5, 5, 0],
@@ -65,7 +66,7 @@ export default function Profile() {
         delay: 1,
       },
     });
-  }, [controls, loading]);
+  }, [controls, isMobile, loading]);
 
   const renderLoading = () => {
     return <Skeleton width={416} square />;
@@ -78,8 +79,8 @@ export default function Profile() {
         <Atropos
           className="relative"
           innerClassName="overflow-hidden border-2 border-neutral"
-          rotateXMax={18}
-          rotateYMax={18}
+          rotateXMax={20}
+          rotateYMax={20}
         >
           <AtroposImage src={sky} alt="profile pic" offset={0} />
           <AtroposImage
@@ -106,46 +107,46 @@ export default function Profile() {
   };
 
   return (
-    <div>
-      <main className="flex flex-row flex-wrap-reverse pt-2 gap-12">
-        <section className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}>
-          {loading ? renderLoading() : renderAtropos()}
-        </section>
-        <section className="flex-1 min-w-auto sm:min-w-[400px]">
-          <h1 className="text-6xl font-bold sm:text-8xl">HEY</h1>
-          <h1 className="text-6xl font-bold sm:text-8xl">THERE,</h1>
-          <p className="mt-6 text-lg">
-            I&apos;m{" "}
-            <span className="font-semibold border-b-4 border-b-primary ">
-              Elan Medoff
-            </span>
-            , a software engineer specializing in web and fullstack development.
-          </p>
-          <p className="mt-6">
-            These days, I&apos;m especially interested in authentication on the
-            web, the (re)emergence of server-side rendering and all the new
-            approaches to it, and tinkering with my Neovim config.
-          </p>
-          <p className="mt-6">
-            I currently work at{" "}
-            <Anchor href="https://www.wealthfront.com/">Wealthfront</Anchor> as
-            a web engineer!
-          </p>
-          <article className="flex mt-4 gap-4">
-            <a className={styles.github} href="https://github.com/ElanMedoff" />
-            <a
-              className={styles.linkedin}
-              href="https://www.linkedin.com/in/elan-medoff/"
-            />
-            <a className={styles.gmail} href="mailto:info@elanmed.dev" />
-            <span className="text-xs flex items-end ml-[-10px]">
-              <span className="text-primary">[</span>
-              mailto
-              <span className="text-primary">]</span>
-            </span>
-          </article>
-        </section>
-      </main>
-    </div>
+    <main
+      className={tm("flex flex-row flex-wrap-reverse gap-12 max-w-7xl p-10")}
+    >
+      <section className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}>
+        {loading ? renderLoading() : renderAtropos()}
+      </section>
+      <section className="flex-1 min-w-auto sm:min-w-[400px]">
+        <h1 className="text-6xl font-bold sm:text-8xl uppercase">hey</h1>
+        <h1 className="text-6xl font-bold sm:text-8xl uppercase">there,</h1>
+        <p className="mt-6 text-lg">
+          I&apos;m{" "}
+          <span className="font-semibold border-b-4 border-b-primary ">
+            Elan Medoff
+          </span>
+          , a software engineer specializing in web and fullstack development.
+        </p>
+        <p className="mt-6">
+          These days, I&apos;m especially interested in authentication on the
+          web, the (re)emergence of server-side rendering and all the new
+          approaches to it, and tinkering with my Neovim config.
+        </p>
+        <p className="mt-6">
+          I currently work at{" "}
+          <Anchor href="https://www.wealthfront.com/">Wealthfront</Anchor> as a
+          web engineer!
+        </p>
+        <article className="flex mt-4 gap-4">
+          <a className={styles.github} href="https://github.com/ElanMedoff" />
+          <a
+            className={styles.linkedin}
+            href="https://www.linkedin.com/in/elan-medoff/"
+          />
+          <a className={styles.gmail} href="mailto:info@elanmed.dev" />
+          <span className="text-xs flex items-end ml-[-10px]">
+            <span className="text-primary">[</span>
+            mailto
+            <span className="text-primary">]</span>
+          </span>
+        </article>
+      </section>
+    </main>
   );
 }

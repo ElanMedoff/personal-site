@@ -1,0 +1,11 @@
+.overflowPadding {
+  border: 1px solid black;
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: -2rem;
+    width: 2rem;
+    height: 1px;
+  }
+}

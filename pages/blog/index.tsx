@@ -4,6 +4,8 @@ import BlogCard from "../../components/BlogCard";
 import SwiperCards from "../../components/SwiperCards";
 import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 import { Collection } from "../../utils/postHelpers";
+import Content from "../../components/Content";
+import Head from "next/head";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
@@ -124,72 +126,79 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
   };
 
   return (
-    <div className="flex flex-wrap-reverse gap-12">
-      <section className="flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]">
-        {!shouldRenderCollectionsTitle() && !shouldRenderBlogTitle() ? (
-          <div className="pl-3">
-            <h2 className="mb-3 text-2xl">no results!</h2>
-            <p className="italic">try selecting a different combination</p>
-          </div>
-        ) : null}
-        {shouldRenderCollectionsTitle() ? (
-          <h2 className="pl-3 text-2xl underline">collections</h2>
-        ) : null}
-        <div className="ml-[-10px] mb-5">{renderCollections()}</div>
-        {shouldRenderBlogTitle() ? (
-          <h1 className="pl-3 text-2xl underline">blog posts</h1>
-        ) : null}
-        {renderPostsWoCollection()}
-      </section>
-      <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
-        <h2 className="m-3 text-lg underline w-max">tags</h2>
-        <div className="flex flex-wrap pl-3 gap-2">
-          {allTags.map((filter, index) => (
-            <Pill
-              key={index}
-              className={tm(
-                selectedTags.includes(filter) &&
-                  "bg-secondary hover:bg-secondary text-secondary-content"
-              )}
-              onClick={() => {
-                setSelectedTags((prevSelectedTags) => {
-                  if (prevSelectedTags.includes(filter)) {
-                    return prevSelectedTags.filter(
-                      (prevFilter) => prevFilter !== filter
-                    );
-                  } else {
-                    return prevSelectedTags.concat(filter);
-                  }
-                });
-              }}
-            >
-              {filter}
-            </Pill>
-          ))}
+    <>
+      <Head>
+        <title>elanmed.dev - blog</title>
+      </Head>
+      <Content>
+        <div className="flex flex-wrap-reverse gap-12">
+          <section className="flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]">
+            {!shouldRenderCollectionsTitle() && !shouldRenderBlogTitle() ? (
+              <div className="pl-3">
+                <h2 className="mb-3 text-2xl">no results!</h2>
+                <p className="italic">try selecting a different combination</p>
+              </div>
+            ) : null}
+            {shouldRenderCollectionsTitle() ? (
+              <h2 className="pl-3 text-2xl underline">collections</h2>
+            ) : null}
+            <div className="ml-[-10px] mb-5">{renderCollections()}</div>
+            {shouldRenderBlogTitle() ? (
+              <h1 className="pl-3 text-2xl underline">blog posts</h1>
+            ) : null}
+            {renderPostsWoCollection()}
+          </section>
+          <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
+            <h2 className="m-3 text-lg underline w-max">tags</h2>
+            <div className="flex flex-wrap pl-3 gap-2">
+              {allTags.map((filter, index) => (
+                <Pill
+                  key={index}
+                  className={tm(
+                    selectedTags.includes(filter) &&
+                      "bg-secondary hover:bg-secondary text-secondary-content"
+                  )}
+                  onClick={() => {
+                    setSelectedTags((prevSelectedTags) => {
+                      if (prevSelectedTags.includes(filter)) {
+                        return prevSelectedTags.filter(
+                          (prevFilter) => prevFilter !== filter
+                        );
+                      } else {
+                        return prevSelectedTags.concat(filter);
+                      }
+                    });
+                  }}
+                >
+                  {filter}
+                </Pill>
+              ))}
+            </div>
+            <h2 className="m-3 mt-6 text-sm underline w-max">filter method</h2>
+            <div className="flex flex-wrap pl-3 gap-2">
+              <Pill
+                className={tm(
+                  filterMethod === "union" &&
+                    "bg-secondary hover:bg-secondary text-secondary-content"
+                )}
+                onClick={() => setFilterMethod("union")}
+              >
+                union
+              </Pill>
+              <Pill
+                className={tm(
+                  filterMethod === "intersection" &&
+                    "bg-secondary hover:bg-secondary text-secondary-content"
+                )}
+                onClick={() => setFilterMethod("intersection")}
+              >
+                intersection
+              </Pill>
+            </div>
+          </section>
         </div>
-        <h2 className="m-3 mt-6 text-sm underline w-max">filter method</h2>
-        <div className="flex flex-wrap pl-3 gap-2">
-          <Pill
-            className={tm(
-              filterMethod === "union" &&
-                "bg-secondary hover:bg-secondary text-secondary-content"
-            )}
-            onClick={() => setFilterMethod("union")}
-          >
-            union
-          </Pill>
-          <Pill
-            className={tm(
-              filterMethod === "intersection" &&
-                "bg-secondary hover:bg-secondary text-secondary-content"
-            )}
-            onClick={() => setFilterMethod("intersection")}
-          >
-            intersection
-          </Pill>
-        </div>
-      </section>
-    </div>
+      </Content>
+    </>
   );
 }
 
