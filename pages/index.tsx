@@ -1,4 +1,5 @@
 import { fetchPublicImages } from "../utils/publicHelpers";
+import { twMerge as tm } from "tailwind-merge";
 import Profile from "../components/Profile";
 import Favorites from "../components/Favorites";
 import Github from "../components/Github";
@@ -12,7 +13,12 @@ export default function About({
   repos: Repo[];
 }) {
   return (
-    <div className="flex flex-col gap-20 pt-20 items-center xl:border-x-2 xl:border-neutral max-w-[1700px] m-auto overflow-hidden">
+    <div
+      className={tm(
+        "flex flex-col  items-center xl:border-x-2 xl:border-neutral max-w-[1700px] m-auto overflow-hidden",
+        "gap-10 lg:gap-20 pt-10 lg:pt-20"
+      )}
+    >
       <Profile />
       <Github repos={repos} />
       <Favorites paths={paths} />
