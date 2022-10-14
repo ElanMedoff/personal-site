@@ -11,7 +11,8 @@ export default function Banner({
   return (
     <p
       className={tm(
-        "w-full text-6xl font-bold text-center uppercase md:text-8xl px-10 py-10",
+        "w-full font-bold text-center uppercase px-10 py-10",
+        "text-4xl sm:text-6xl md:text-8xl",
         className
       )}
     >

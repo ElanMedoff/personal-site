@@ -41,7 +41,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
               a: (props: any) => <a {...props} className={anchorStyles} />,
               code: (props: any) => (
                 <code
-                  className="bg-warning text-warning-content rounded-md px-4 inline-block"
+                  className="bg-warning text-warning-content rounded-md px-3 inline-block text-sm"
                   {...props}
                 />
               ),
