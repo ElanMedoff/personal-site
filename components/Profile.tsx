@@ -69,7 +69,7 @@ export default function Profile() {
   }, [controls, isMobile, loading]);
 
   const renderLoading = () => {
-    return <Skeleton width={416} square />;
+    return <Skeleton width={451} square />;
   };
 
   const renderAtropos = () => {
