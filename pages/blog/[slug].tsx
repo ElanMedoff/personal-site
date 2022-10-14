@@ -27,57 +27,65 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
         <title>{post.metadata.title}</title>
       </Head>
       <Content>
-        <div className="md:text-justify">
-          <div className="pb-2 mb-8 text-sm italic underline underline-offset-4 w-max">
-            last updated: {post.metadata.lastUpdated}
+        <div>
+          <div className="md:text-justify">
+            <div className="pb-2 mb-8 text-sm italic underline underline-offset-4 w-max">
+              last updated: {post.metadata.lastUpdated}
+            </div>
+            <MDXRemote
+              compiledSource={post.content}
+              components={{
+                Code,
+                Info,
+                Link,
+                Aside,
+                a: (props: any) => <a {...props} className={anchorStyles} />,
+                code: (props: any) => (
+                  <code
+                    className="bg-warning text-warning-content rounded-md px-3 inline-block text-sm"
+                    {...props}
+                  />
+                ),
+                p: (props: any) => <p className="my-6" {...props} />,
+                h1: (props: any) => (
+                  <h1
+                    className="text-2xl md:text-4xl font-bold my-2 text-center"
+                    {...props}
+                  />
+                ),
+                h2: (props: any) => (
+                  <h1
+                    className="text-xl md:text-2xl font-bold my-3 text-left"
+                    {...props}
+                  />
+                ),
+                h3: (props: any) => (
+                  <h1 className="text-lg font-bold my-4 text-left" {...props} />
+                ),
+                h4: (props: any) => (
+                  <h1
+                    className="text-base font-bold my-5 text-left"
+                    {...props}
+                  />
+                ),
+                h5: (props: any) => (
+                  <h1 className="text-sm font-bold my-6 text-left" {...props} />
+                ),
+                h6: (props: any) => (
+                  <h1
+                    className="text-xs font-bold my-10 text-left"
+                    {...props}
+                  />
+                ),
+                ol: (props: any) => (
+                  <ol className="leading-7 list-decimal pl-10" {...props} />
+                ),
+                ul: (props: any) => (
+                  <ul className="leading-7 list-disc pl-10" {...props} />
+                ),
+              }}
+            />
           </div>
-          <MDXRemote
-            compiledSource={post.content}
-            components={{
-              Code,
-              Info,
-              Link,
-              Aside,
-              a: (props: any) => <a {...props} className={anchorStyles} />,
-              code: (props: any) => (
-                <code
-                  className="bg-warning text-warning-content rounded-md px-3 inline-block text-sm"
-                  {...props}
-                />
-              ),
-              p: (props: any) => <p className="my-6" {...props} />,
-              h1: (props: any) => (
-                <h1
-                  className="text-2xl md:text-4xl font-bold my-2 text-center"
-                  {...props}
-                />
-              ),
-              h2: (props: any) => (
-                <h1
-                  className="text-xl md:text-2xl font-bold my-3 text-left"
-                  {...props}
-                />
-              ),
-              h3: (props: any) => (
-                <h1 className="text-lg font-bold my-4 text-left" {...props} />
-              ),
-              h4: (props: any) => (
-                <h1 className="text-base font-bold my-5 text-left" {...props} />
-              ),
-              h5: (props: any) => (
-                <h1 className="text-sm font-bold my-6 text-left" {...props} />
-              ),
-              h6: (props: any) => (
-                <h1 className="text-xs font-bold my-10 text-left" {...props} />
-              ),
-              ol: (props: any) => (
-                <ol className="leading-7 list-decimal pl-10" {...props} />
-              ),
-              ul: (props: any) => (
-                <ul className="leading-7 list-disc pl-10" {...props} />
-              ),
-            }}
-          />
           <div className="w-1/2 divider" />
           <div>
             <p className="mb-3 text-sm italic">you may also like:</p>
