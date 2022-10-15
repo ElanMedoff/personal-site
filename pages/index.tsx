@@ -27,7 +27,7 @@ export default function About({
       <Profile />
       <div className="w-full">
         <Banner
-          primary="recent github projects"
+          primary="github projects"
           /* secondary="a few of my (public) projects, powered by the github api!" */
         />
         <Github repos={repos} />
