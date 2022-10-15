@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 export default function Switch({ onToggle }: { onToggle: () => void }) {
   const [isOn, setIsOn] = useState(false);
+
   return (
     <div
       className={tm(
@@ -18,7 +19,7 @@ export default function Switch({ onToggle }: { onToggle: () => void }) {
     >
       <motion.div
         className="w-5 h-5 bg-base-content rounded-full"
-        layout
+        /* layout */
         transition={{
           type: "spring",
           stiffness: 700,

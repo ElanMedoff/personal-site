@@ -4,13 +4,18 @@ import Profile from "../components/Profile";
 import Favorites from "../components/Favorites";
 import Github from "../components/Github";
 import { fetchGithubRepos, Repo } from "../utils/githubHelpers";
+import RecentPosts from "../components/RecentPosts";
+import { fetchAllMetadata, Metadata } from "../utils/postHelpers";
+import Banner from "../components/Banner";
 
 export default function About({
   paths,
   repos,
+  allPosts,
 }: {
   paths: { comicPaths: string[]; bookPaths: string[]; moviePaths: string[] };
   repos: Repo[];
+  allPosts: Metadata[];
 }) {
   return (
     <div
@@ -20,7 +25,26 @@ export default function About({
       )}
     >
       <Profile />
+      <Banner
+        primary="recent github projects"
+        /* secondary="a few of my (public) projects, powered by the github api!" */
+        secondary=""
+        className="bg-secondary text-secondary-content"
+      />
       <Github repos={repos} />
+      <Banner
+        primary="recent blog posts"
+        /* secondary="check out my three latest posts! brought to you by the blog that inspired this site" */
+        secondary=""
+        className="bg-secondary text-secondary-content"
+      />
+      <RecentPosts allPosts={allPosts} />
+      <Banner
+        primary="some of my favorites"
+        /* secondary="outside of work, I like anything fiction – preferably fantasy!" */
+        secondary=""
+        className="bg-secondary text-secondary-content"
+      />
       <Favorites paths={paths} />
       {/* spacing */}
       <div />
@@ -37,6 +61,7 @@ export async function getStaticProps() {
         comicPaths: fetchPublicImages("comics"),
       },
       repos: await fetchGithubRepos(),
+      allPosts: fetchAllMetadata(),
     },
   };
 }

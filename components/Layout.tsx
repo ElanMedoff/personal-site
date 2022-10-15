@@ -1,9 +1,9 @@
 import Head from "next/head";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { createContext, Dispatch, SetStateAction } from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
+/* import useLocalStorage from "../hooks/useLocalStorage"; */
 
 export const ThemeContext = createContext<{
   enabled: boolean;
@@ -11,17 +11,15 @@ export const ThemeContext = createContext<{
 }>({ enabled: false, setEnabledState: null });
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const [enabled, setEnabledState] = useLocalStorage<boolean>(
-    "dark-mode-enabled",
-    false
-  );
+  /* const [enabled, setEnabledState] = useLocalStorage<boolean>( */
+  /*   "dark-mode-enabled", */
+  /*   false */
+  /* ); */
+  const [enabled, setEnabledState] = useState(false);
 
   return (
     <ThemeContext.Provider value={{ enabled, setEnabledState }}>
-      <div
-        className="transition duration-100"
-        data-theme={enabled ? "dracula" : "emerald"}
-      >
+      <div data-theme={enabled ? "dracula" : "emerald"}>
         <Head>
           <link rel="shortcut icon" href="/favicon/favicon.ico" />
           <title>elanmed.dev</title>
@@ -35,7 +33,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           />
         </Head>
         <Header />
-        {children}
+        <div>{children}</div>
         <Footer />
       </div>
     </ThemeContext.Provider>

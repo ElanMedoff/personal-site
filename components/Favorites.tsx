@@ -46,27 +46,22 @@ export default function Favorites({
   const { comicPaths, bookPaths, moviePaths } = paths;
 
   return (
-    <>
-      <Banner className="bg-secondary text-secondary-content">
-        Some of my favorites
-      </Banner>
-      <div className="mb-20 flex flex-col gap-10">
-        <section
-          className={tm(
-            "flex justify-center flex-wrap items-center",
-            "gap-10 md:gap-20"
-          )}
-        >
-          <SwiperWrapper
-            paths={moviePaths}
-            dir="movies"
-            title="movies"
-            autoplay
-          />
-          <SwiperWrapper paths={bookPaths} dir="books" title="books" />
-          <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
-        </section>
-      </div>
-    </>
+    <div className="mb-20 flex flex-col gap-10">
+      <section
+        className={tm(
+          "flex justify-center flex-wrap items-center",
+          "gap-10 md:gap-20"
+        )}
+      >
+        <SwiperWrapper
+          paths={moviePaths}
+          dir="movies"
+          title="movies"
+          autoplay
+        />
+        <SwiperWrapper paths={bookPaths} dir="books" title="books" />
+        <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
+      </section>
+    </div>
   );
 }
