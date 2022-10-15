@@ -21,32 +21,31 @@ export default function About({
     <div
       className={tm(
         "flex flex-col  items-center xl:border-x-2 xl:border-neutral max-w-[1700px] m-auto overflow-hidden",
-        "gap-10 lg:gap-20 pt-10 lg:pt-20"
+        "gap-10 lg:gap-32 pt-10 lg:pt-20"
       )}
     >
       <Profile />
-      <Banner
-        primary="recent github projects"
-        /* secondary="a few of my (public) projects, powered by the github api!" */
-        secondary=""
-        className="bg-secondary text-secondary-content"
-      />
-      <Github repos={repos} />
-      <Banner
-        primary="recent blog posts"
-        /* secondary="check out my three latest posts! brought to you by the blog that inspired this site" */
-        secondary=""
-        className="bg-secondary text-secondary-content"
-      />
-      <RecentPosts allPosts={allPosts} />
-      <Banner
-        primary="some of my favorites"
-        /* secondary="outside of work, I like anything fiction – preferably fantasy!" */
-        secondary=""
-        className="bg-secondary text-secondary-content"
-      />
-      <Favorites paths={paths} />
-      {/* spacing */}
+      <div className="w-full">
+        <Banner
+          primary="recent github projects"
+          /* secondary="a few of my (public) projects, powered by the github api!" */
+        />
+        <Github repos={repos} />
+      </div>
+      <div className="w-full">
+        <Banner
+          primary="recent blog posts"
+          /* secondary="check out my three latest posts! brought to you by the blog that inspired this site" */
+        />
+        <RecentPosts allPosts={allPosts} />
+      </div>
+      <div className="w-full">
+        <Banner
+          primary="some of my favorites"
+          /* secondary="outside of work, I like anything fiction – preferably fantasy!" */
+        />
+        <Favorites paths={paths} />
+      </div>
       <div />
     </div>
   );

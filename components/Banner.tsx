@@ -1,34 +1,20 @@
 import { twMerge as tm } from "tailwind-merge";
 import React, { ReactNode } from "react";
+import Divider from "./reusable/Divider";
 
-export default function Banner({
-  primary,
-  secondary,
-  className,
-}: {
-  primary: ReactNode;
-  secondary: ReactNode;
-  className?: string;
-}) {
+export default function Banner({ primary }: { primary: ReactNode }) {
   return (
-    <div className="w-full">
+    <div className="w-full mb-5">
+      <Divider />
       <p
         className={tm(
-          "w-full font-bold text-center uppercase px-10 py-10 mb-5",
+          "font-bold text-center uppercase px-5 pt-10 m-auto underline decoration-[15px] decoration-primary",
           "text-4xl sm:text-6xl md:text-8xl",
-          className
+          "mb-10 md:mb-20"
         )}
       >
         {primary}
       </p>
-      <h2
-        className={tm(
-          "text-3xl font-semibold uppercase italic px-5 max-w-[1000px] text-center m-auto",
-          "text-xl sm:text-3xl"
-        )}
-      >
-        {secondary}
-      </h2>
     </div>
   );
 }

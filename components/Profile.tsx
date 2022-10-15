@@ -108,9 +108,7 @@ export default function Profile() {
 
   return (
     <main
-      className={tm(
-        "flex flex-row flex-wrap-reverse gap-12 max-w-7xl p-10 mb-20"
-      )}
+      className={tm("flex flex-row flex-wrap-reverse gap-12 max-w-7xl p-10")}
     >
       <section className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}>
         {loading ? renderLoading() : renderAtropos()}

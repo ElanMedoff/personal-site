@@ -105,7 +105,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
 
 export default function Github({ repos }: { repos: Repo[] }) {
   return (
-    <ul className="mb-20 flex flex-wrap gap-10 justify-center max-w-[1500px] px-5">
+    <ul className="flex flex-wrap gap-10 justify-center max-w-[1500px] px-5 m-auto">
       {repos.map((repo, index) => (
         <RepoCard repo={repo} key={index} index={index} />
       ))}

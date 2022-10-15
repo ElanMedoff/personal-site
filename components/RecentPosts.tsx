@@ -7,16 +7,18 @@ function Post({ post }: { post: Metadata }) {
     <Link href={`/blog/${post.slug}`}>
       <div
         className={tm(
-          "cursor-pointer rounded-2xl px-9 py-6 bg-base-100 h-56 transition duration-200",
+          "cursor-pointer rounded-2xl px-9 py-6 bg-base-100 h-60 transition duration-200",
           "flex flex-col justify-between",
           "shadow-lg hover:shadow-2xl",
           "border-2 hover:border-primary",
-          "w-[350px] sm:w-[500px]",
+          "w-[300px] sm:w-[500px]",
           "hover:scale-105"
         )}
       >
         <div>
-          <h2 className="mb-5 font-semibold sm:text-xl">{post.title}</h2>
+          <h2 className="mb-2 sm:mb-5 font-semibold sm:text-xl">
+            {post.title}
+          </h2>
           <p className="mb-2 text-xs italic">{post.lastUpdated}</p>
           <p className="mb-2 text-xs">{post.abstract}</p>
         </div>
@@ -46,7 +48,7 @@ export default function RecentPosts({ allPosts }: { allPosts: Metadata[] }) {
     .slice(0, 6);
 
   return (
-    <div className="px-5 mb-20 flex flex-col gap-20">
+    <div className="px-5 flex flex-col gap-20">
       <section
         className={tm(
           "flex justify-center flex-wrap items-center",

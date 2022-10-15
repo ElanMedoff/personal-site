@@ -46,7 +46,7 @@ export default function Favorites({
   const { comicPaths, bookPaths, moviePaths } = paths;
 
   return (
-    <div className="mb-20 flex flex-col gap-10">
+    <div className="mb-5 flex flex-col gap-10">
       <section
         className={tm(
           "flex justify-center flex-wrap items-center",
