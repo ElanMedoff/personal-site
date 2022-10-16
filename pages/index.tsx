@@ -7,6 +7,11 @@ import { fetchGithubRepos, Repo } from "../utils/githubHelpers";
 import RecentPosts from "../components/RecentPosts";
 import { fetchAllMetadata, Metadata } from "../utils/postHelpers";
 import Banner from "../components/Banner";
+import { ReactNode } from "react";
+
+function Section({ children }: { children: ReactNode }) {
+  return <div className="w-full">{children}</div>;
+}
 
 export default function About({
   paths,
@@ -21,31 +26,31 @@ export default function About({
     <div
       className={tm(
         "flex flex-col  items-center xl:border-x-2 xl:border-neutral max-w-[1700px] m-auto overflow-hidden",
-        "gap-10 lg:gap-32 pt-10 lg:pt-20"
+        "gap-10 lg:gap-40 pt-10 lg:pt-20"
       )}
     >
       <Profile />
-      <div className="w-full">
+      <Section>
         <Banner
           primary="github projects"
           /* secondary="a few of my (public) projects, powered by the github api!" */
         />
         <Github repos={repos} />
-      </div>
-      <div className="w-full">
+      </Section>
+      <Section>
         <Banner
           primary="recent blog posts"
           /* secondary="check out my three latest posts! brought to you by the blog that inspired this site" */
         />
         <RecentPosts allPosts={allPosts} />
-      </div>
-      <div className="w-full">
+      </Section>
+      <Section>
         <Banner
           primary="some of my favorites"
           /* secondary="outside of work, I like anything fiction – preferably fantasy!" */
         />
         <Favorites paths={paths} />
-      </div>
+      </Section>
       <div />
     </div>
   );

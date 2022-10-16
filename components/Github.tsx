@@ -3,7 +3,6 @@ import { twMerge as tm } from "tailwind-merge";
 import { languageToIconUrl, Repo } from "../utils/githubHelpers";
 import AtroposBorder from "./AtroposBorder";
 import Atropos from "atropos/react";
-import Banner from "./Banner";
 import { motion, useAnimationControls } from "framer-motion";
 import useIsMobile from "../hooks/useIsMobile";
 import "atropos/css";
@@ -13,18 +12,18 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
   const controls = useAnimationControls();
 
   useEffect(() => {
-    if (!isMobile) {
-      controls.start({
-        x: [null, 5, -5, 5, 0],
-        transition: {
-          type: "spring",
-          duration: 0.4,
-          repeat: Infinity,
-          repeatDelay: 4,
-          delay: 1,
-        },
-      });
-    }
+    if (isMobile) return;
+
+    controls.start({
+      x: [null, 5, -5, 5, 0],
+      transition: {
+        type: "spring",
+        duration: 0.4,
+        repeat: Infinity,
+        repeatDelay: 4,
+        delay: 1,
+      },
+    });
   }, [controls, isMobile]);
 
   const {

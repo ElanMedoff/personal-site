@@ -118,7 +118,7 @@ export default function Profile() {
         <h1 className="text-6xl font-bold sm:text-8xl uppercase">there,</h1>
         <p className="mt-6 text-lg">
           I&apos;m{" "}
-          <span className="font-semibold border-b-4 border-b-primary ">
+          <span className="font-semibold underline underline-offset-4 decoration-primary decoration-4">
             Elan Medoff
           </span>
           , a software engineer specializing in web and fullstack development.

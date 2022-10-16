@@ -10,6 +10,7 @@ import { MDXRemote } from "next-mdx-remote";
 import Info from "../../components/reusable/Info";
 import Link from "../../components/reusable/Link";
 import Aside from "../../components/reusable/Aside";
+import Image from "../../components/reusable/Image";
 import { anchorStyles } from "../../components/reusable/Anchor";
 import Content from "../../components/Content";
 import Head from "next/head";
@@ -35,6 +36,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
             <MDXRemote
               compiledSource={post.content}
               components={{
+                Image,
                 Code,
                 Info,
                 Link,

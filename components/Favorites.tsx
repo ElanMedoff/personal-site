@@ -18,7 +18,7 @@ function SwiperWrapper({
       <section className="border-2 border-neutral p-3 py-6 pr-7 rounded">
         <h3
           className={tm(
-            "uppercase font-bold text-2xl mb-3 border-b-4 border-primary w-max ml-6"
+            "uppercase font-bold text-2xl mb-3 ml-6 underline decoration-primary decoration-4 underline-offset-4"
           )}
         >
           {title}

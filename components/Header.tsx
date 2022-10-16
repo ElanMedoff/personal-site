@@ -41,10 +41,9 @@ export default function Header() {
   return (
     <nav
       className={tm(
-        "fixed left-0 z-10 py-3 border-b-2 border-neutral bg-base-100 w-full duration-[400ms]",
+        "fixed left-0 z-10 py-3 border-b-2 border-neutral bg-base-100 w-full duration-100 transition-all",
         scrollDir === "up" ? "top-0" : "top-[-100px]"
       )}
-      style={{ transition: "top" }}
     >
       <main className="flex items-center justify-between w-full px-5">
         <h3 className={tm("text-lg md:text-2xl", "font-bold cursor-pointer")}>
@@ -56,7 +55,7 @@ export default function Header() {
           </Link>
         </h3>
         <div className="flex items-center">
-          <span className="cursor-pointer select-none hover:text-primary transition">
+          <span className="cursor-pointer select-none hover:text-primary">
             <Link href="/blog">blog</Link>
           </span>
           <div className="divider divider-horizontal" />

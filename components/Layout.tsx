@@ -19,7 +19,10 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider value={{ enabled, setEnabledState }}>
-      <div data-theme={enabled ? "dracula" : "emerald"}>
+      <div
+        data-theme={enabled ? "dracula" : "emerald"}
+        className="transition-colors"
+      >
         <Head>
           <link rel="shortcut icon" href="/favicon/favicon.ico" />
           <title>elanmed.dev</title>
