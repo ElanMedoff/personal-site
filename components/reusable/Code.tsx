@@ -19,7 +19,7 @@ export default function Code({
   code: string;
   language: Language;
 }) {
-  const { enabled } = useContext(ThemeContext);
+  const { isDarkMode } = useContext(ThemeContext);
 
   return (
     <Highlight
@@ -33,7 +33,7 @@ export default function Code({
         <pre
           className={tm(
             "px-6 py-1 rounded-xl overflow-x-auto my-6",
-            enabled ? "bg-[#dadbe3]" : "bg-base-200",
+            isDarkMode ? "bg-[#dadbe3]" : "bg-base-200",
             className
           )}
           style={style}

@@ -3,9 +3,13 @@ import { twMerge as tm } from "tailwind-merge";
 import { useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 
-export default function Switch({ onToggle }: { onToggle: () => void }) {
-  const [isOn, setIsOn] = useState(false);
-
+export default function Switch({
+  onToggle,
+  isOn,
+}: {
+  onToggle: () => void;
+  isOn: boolean;
+}) {
   const controls = useAnimationControls();
 
   useEffect(() => {
@@ -22,7 +26,6 @@ export default function Switch({ onToggle }: { onToggle: () => void }) {
         "w-[50px] h-[30px] flex rounded-full p-[4px] cursor-pointer bg-base-100 border border-neutral"
       )}
       onClick={() => {
-        setIsOn((p) => !p);
         onToggle();
       }}
     >

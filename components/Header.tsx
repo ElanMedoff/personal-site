@@ -5,7 +5,7 @@ import { ThemeContext } from "./Layout";
 import Switch from "./reusable/Switch";
 
 export default function Header() {
-  const { setEnabledState } = useContext(ThemeContext);
+  const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
   const [scrollDir, setScrollDir] = useState<"down" | "up">("up");
 
   // https://stackoverflow.com/a/62497293
@@ -60,8 +60,9 @@ export default function Header() {
           </span>
           <div className="divider divider-horizontal" />
           <Switch
+            isOn={isDarkMode}
             onToggle={() => {
-              setEnabledState?.((prev) => !prev);
+              setIsDarkMode?.((prev) => !prev);
             }}
           />
         </div>

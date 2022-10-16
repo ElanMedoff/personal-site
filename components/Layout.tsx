@@ -3,24 +3,25 @@ import { ReactNode, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { createContext, Dispatch, SetStateAction } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
 /* import useLocalStorage from "../hooks/useLocalStorage"; */
 
 export const ThemeContext = createContext<{
-  enabled: boolean;
-  setEnabledState: null | Dispatch<SetStateAction<boolean>>;
-}>({ enabled: false, setEnabledState: null });
+  isDarkMode: boolean;
+  setIsDarkMode: null | Dispatch<SetStateAction<boolean>>;
+}>({ isDarkMode: false, setIsDarkMode: null });
 
 export default function Layout({ children }: { children: ReactNode }) {
-  /* const [enabled, setEnabledState] = useLocalStorage<boolean>( */
-  /*   "dark-mode-enabled", */
-  /*   false */
-  /* ); */
-  const [enabled, setEnabledState] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useLocalStorage<boolean>(
+    "dark-mode-isDarkMode",
+    false
+  );
+  /* const [isDarkMode, setIsDarkMode] = useState(false); */
 
   return (
-    <ThemeContext.Provider value={{ enabled, setEnabledState }}>
+    <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
       <div
-        data-theme={enabled ? "dracula" : "emerald"}
+        data-theme={isDarkMode ? "dracula" : "emerald"}
         className="transition-colors"
       >
         <Head>
