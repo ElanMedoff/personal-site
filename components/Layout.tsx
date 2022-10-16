@@ -1,10 +1,9 @@
 import Head from "next/head";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { createContext, Dispatch, SetStateAction } from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
-/* import useLocalStorage from "../hooks/useLocalStorage"; */
+import useIsDarkMode from "../hooks/useIsDarkMode";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
@@ -12,11 +11,7 @@ export const ThemeContext = createContext<{
 }>({ isDarkMode: false, setIsDarkMode: null });
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const [isDarkMode, setIsDarkMode] = useLocalStorage<boolean>(
-    "dark-mode-isDarkMode",
-    false
-  );
-  /* const [isDarkMode, setIsDarkMode] = useState(false); */
+  const [isDarkMode, setIsDarkMode] = useIsDarkMode();
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>

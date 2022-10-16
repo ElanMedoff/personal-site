@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { twMerge as tm } from "tailwind-merge";
-import { useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 
 export default function Switch({
