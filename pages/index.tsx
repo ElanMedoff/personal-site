@@ -26,7 +26,7 @@ export default function About({
     <div
       className={tm(
         "flex flex-col  items-center xl:border-x-2 xl:border-neutral max-w-[1700px] m-auto overflow-hidden",
-        "gap-10 lg:gap-40 pt-10 lg:pt-20"
+        "gap-10 lg:gap-32 pt-10 lg:pt-20"
       )}
     >
       <Profile />

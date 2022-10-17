@@ -29,11 +29,11 @@ export default function useIsDarkMode() {
   const [isDarkMode, setIsDarkMode] = useState(defaultValue);
   const isFirstRender = useRef(true);
 
-useEffect(() => {
-if (isFirstRender.current) {
-isFirstRender.current = false;
-const item = window.localStorage.getItem(key);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
 
+      const item = window.localStorage.getItem(key);
       if (item !== null) {
         setIsDarkMode(JSON.parse(item));
       } else {
@@ -47,10 +47,9 @@ const item = window.localStorage.getItem(key);
     } else {
       window.localStorage.setItem(key, JSON.stringify(isDarkMode));
     }
+  }, [isFirstRender, isDarkMode]);
 
-}, [isFirstRender, isDarkMode]);
-
-return [isDarkMode, setIsDarkMode] as const;
+  return [isDarkMode, setIsDarkMode] as const;
 }
 `} />
 
@@ -63,27 +62,27 @@ export default function useIsDarkMode() {
   const [isDarkMode, setIsDarkMode] = useState(defaultValue);
   const isFirstRender = useRef(true);
 
-const safelySetStorage = useCallback((valueToStore: string) => {
-try {
-window.localStorage.setItem(key, valueToStore);
-} catch (e) {}
-}, []);
+  const safelySetStorage = useCallback((valueToStore: string) => {
+    try {
+      window.localStorage.setItem(key, valueToStore);
+    } catch (e) {}
+  }, []);
 
-const safelyGetStorage = useCallback((defaultValue: boolean) => {
-let item: boolean;
-try {
-item = JSON.parse(window.localStorage.getItem(key) || "null");
-} catch (e) {
-item = defaultValue;
-}
-return item;
-}, []);
+  const safelyGetStorage = useCallback((defaultValue: boolean) => {
+    let item: boolean;
+    try {
+      item = JSON.parse(window.localStorage.getItem(key) || "null");
+    } catch (e) {
+      item = defaultValue;
+    }
+    return item;
+  }, []);
 
-useEffect(() => {
-if (isFirstRender.current) {
-isFirstRender.current = false;
-const item = safelyGetStorage(defaultValue);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
 
+      const item = safelyGetStorage(defaultValue);
       if (item !== null) {
         setIsDarkMode(item);
       } else {
@@ -97,8 +96,7 @@ const item = safelyGetStorage(defaultValue);
     } else {
       safelySetStorage(JSON.stringify(isDarkMode));
     }
-
-}, [isFirstRender, isDarkMode, safelySetStorage, safelyGetStorage]);
+  }, [isFirstRender, isDarkMode, safelySetStorage, safelyGetStorage]);
 
 return [isDarkMode, setIsDarkMode] as const;
 }
@@ -131,11 +129,11 @@ export default function useIsDarkMode() {
   const [isDarkMode, setIsDarkMode] = useState(defaultValue);
   const isFirstRender = useRef(true);
 
-useEffect(() => {
-if (isFirstRender.current) {
-isFirstRender.current = false;
-const item = window.localStorage.getItem(key);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
 
+      const item = window.localStorage.getItem(key);
       if (item !== null) {
         setIsDarkMode(JSON.parse(item));
       } else {
@@ -149,8 +147,7 @@ const item = window.localStorage.getItem(key);
     } else {
       window.localStorage.setItem(key, JSON.stringify(isDarkMode));
     }
-
-}, [isFirstRender, isDarkMode]);
+  }, [isFirstRender, isDarkMode]);
 
 return [isDarkMode, setIsDarkMode] as const;
 }
@@ -179,13 +176,13 @@ const safelySetStorage = useCallback((valueToStore: string) => {
 }, []);
 
 const safelyGetStorage = useCallback((defaultValue: boolean) => {
-let item: boolean;
-try {
-item = JSON.parse(window.localStorage.getItem(key) || "null");
-} catch (e) {
-item = defaultValue;
-}
-return item;
+  let item: boolean;
+  try {
+    item = JSON.parse(window.localStorage.getItem(key) || "null");
+  } catch (e) {
+    item = defaultValue;
+  }
+  return item;
 }, []);
 `} />
 
