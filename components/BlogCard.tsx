@@ -16,7 +16,7 @@ export default function BlogCard({
       <div
         className={tm(
           "max-w-[500px] cursor-pointer rounded-2xl flex items-center p-6 gap-3 bg-base-100",
-          "border-base-100 border-2 hover:border-primary hover:shadow-xl transition",
+          "border-base-100 border hover:border-primary hover:shadow-xl transition",
           className
         )}
       >
@@ -24,12 +24,12 @@ export default function BlogCard({
           <h2 className="mb-1 font-semibold">{metadata.title}</h2>
           <p className="mb-2 text-xs italic">{metadata.lastUpdated}</p>
           <p className="mb-2 text-xs">{metadata.abstract}</p>
-          <div>
+          <div className="flex flex-wrap gap-2">
             {metadata.tags.map((tag, index) => (
               <span
                 key={index}
                 className={tm(
-                  "px-4 py-1 mr-1 text-xs rounded-full border border-neutral",
+                  "px-4 py-1 text-xs rounded-full border border-neutral",
                   (selectedTags ?? []).includes(tag) &&
                     "bg-secondary text-secondary-content"
                 )}

@@ -6,6 +6,7 @@ import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 import { Collection } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
+import Divider from "../../components/reusable/Divider";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
@@ -35,14 +36,14 @@ const Pill = ({
   children,
   onClick,
 }: {
-  className: string;
+  className?: string;
   children: ReactNode;
   onClick: (args: any) => void;
 }) => {
   return (
     <span
       className={tm(
-        "cursor-pointer select-none rounded-full px-4 py-1 text-xs bg-base-200 transition border border-neutral",
+        "cursor-pointer select-none rounded-full px-4 py-1 h-max w-max text-xs bg-base-200 transition border border-neutral",
         "hover:bg-base-300",
         className
       )}
@@ -150,29 +151,40 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
           </section>
           <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
             <h2 className="m-3 text-lg underline w-max">tags</h2>
-            <div className="flex flex-wrap pl-3 gap-2">
-              {allTags.map((filter, index) => (
-                <Pill
-                  key={index}
-                  className={tm(
-                    selectedTags.includes(filter) &&
-                      "bg-secondary hover:bg-secondary text-secondary-content"
-                  )}
-                  onClick={() => {
-                    setSelectedTags((prevSelectedTags) => {
-                      if (prevSelectedTags.includes(filter)) {
-                        return prevSelectedTags.filter(
-                          (prevFilter) => prevFilter !== filter
-                        );
-                      } else {
-                        return prevSelectedTags.concat(filter);
-                      }
-                    });
-                  }}
-                >
-                  {filter}
-                </Pill>
-              ))}
+            <div className="flex flex-col pl-3 gap-3">
+              <div className="flex flex-wrap gap-2">
+                {allTags.map((filter, index) => (
+                  <Pill
+                    key={index}
+                    className={tm(
+                      selectedTags.includes(filter) &&
+                        "bg-secondary hover:bg-secondary text-secondary-content"
+                    )}
+                    onClick={() => {
+                      setSelectedTags((prevSelectedTags) => {
+                        if (prevSelectedTags.includes(filter)) {
+                          return prevSelectedTags.filter(
+                            (prevFilter) => prevFilter !== filter
+                          );
+                        } else {
+                          return prevSelectedTags.concat(filter);
+                        }
+                      });
+                    }}
+                  >
+                    {filter}
+                  </Pill>
+                ))}
+              </div>
+              <div className="divider my-0" />
+              <Pill
+                onClick={() => {
+                  setSelectedTags([]);
+                }}
+                className="active:scale-95"
+              >
+                reset all
+              </Pill>
             </div>
             <h2 className="m-3 mt-6 text-sm underline w-max">filter method</h2>
             <div className="flex flex-wrap pl-3 gap-2">

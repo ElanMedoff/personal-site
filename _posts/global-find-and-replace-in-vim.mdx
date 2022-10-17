@@ -156,23 +156,10 @@ First, the `nargs = "*"` indicates that our user command can take any number of 
 If you'd like to pass an argument with a space, just escape the white space like so:
 
 <Code language="vim" code={`
-:FindAndReplace foo hello\ there
+:FindAndReplace foo hello\\ there
 `} />
 
 and the second argument will be passed as `hello there`.
 
 One last note: if you regret your find and replace, don't panic! You can easily undo your changes with `:cdo undo`.
 
-## Bonus: Local Find and Replace With Options
-
-While a global find and replace is a bit of work in Vim, a local find a replace is actually quite simple – with the right keymappings.
-
-<Code language="vim" code={`
-noremap <leader>/c /\C<left><left>
-noremap <leader>/w /\<\><left><left>
-noremap <leader>cw /\<\>\C<left><left><left><left>
-`} />
-
-Just like in VSCode, these mappings give us the option to search case-sensitive (`<leader>/c`), search by whole word (`<leader>/w`), or both (`<leader>cw`)!
-
-To replace multiple results in a single file, highlight your results with `/` or one of the commands above, type `cgn`, enter the replacement, and press escape. Go the next entry with `n` as normal, and do the same replacement with `.`.

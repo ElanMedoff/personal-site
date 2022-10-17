@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { twMerge as tm } from "tailwind-merge";
 
 const anchorStyles =
-  "underline underline-offset-2 hover:underline-offset-4 transition";
+  "underline underline-offset-2 hover:underline-offset-4 transition-all";
 
 export default function Anchor({
   href,

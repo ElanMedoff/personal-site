@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const key = "dark-mode-isDarkMode";
+const key = "isDarkMode";
+const defaultValue = false;
 export default function useIsDarkMode() {
-  const [isFirstRender, setIsFirstRender] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(defaultValue);
+  const isFirstRender = useRef(true);
 
   // to make compat with ssg, only check local storage and match media after mount
   useEffect(() => {
-    if (isFirstRender) {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
       const item = window.localStorage.getItem(key);
 
-      if (item) {
+      if (item !== null) {
         setIsDarkMode(JSON.parse(item));
       } else {
         const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -23,8 +25,6 @@ export default function useIsDarkMode() {
     } else {
       window.localStorage.setItem(key, JSON.stringify(isDarkMode));
     }
-
-    setIsFirstRender(false);
   }, [isFirstRender, isDarkMode]);
 
   return [isDarkMode, setIsDarkMode] as const;

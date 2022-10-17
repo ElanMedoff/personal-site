@@ -10,7 +10,7 @@ function Post({ post }: { post: Metadata }) {
           "cursor-pointer rounded-2xl px-9 py-6 bg-base-100 h-60 duration-200 transition",
           "flex flex-col justify-between",
           "shadow-lg hover:shadow-2xl",
-          "border-2 hover:border-primary",
+          "border hover:border-primary",
           "w-[300px] sm:w-[500px]",
           "hover:scale-105"
         )}
