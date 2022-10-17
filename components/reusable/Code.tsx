@@ -4,7 +4,6 @@ import Highlight, { defaultProps, Language, Prism } from "prism-react-renderer";
 import { useContext } from "react";
 import { ThemeContext } from "../Layout";
 import github from "prism-react-renderer/themes/github";
-import styles from "./Code.module.scss";
 
 // @ts-ignore
 (typeof global !== "undefined" ? global : window).Prism = Prism;

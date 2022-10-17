@@ -6,7 +6,6 @@ export default function useIsDarkMode() {
   const [isDarkMode, setIsDarkMode] = useState(defaultValue);
   const isFirstRender = useRef(true);
 
-  // to make compat with ssg, only check local storage and match media after mount
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;

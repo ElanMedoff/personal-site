@@ -6,7 +6,6 @@ import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 import { Collection } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
-import Divider from "../../components/reusable/Divider";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
