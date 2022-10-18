@@ -6,7 +6,6 @@ import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 import { Collection } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
-import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
@@ -87,7 +86,9 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
   const renderPostsWoCollection = () => {
     return orderPosts(getPostsWoCollection(currPosts), "date").map(
       (metadata, index) => (
-        <BlogCard key={index} metadata={metadata} selectedTags={selectedTags} />
+        <li key={index}>
+          <BlogCard metadata={metadata} selectedTags={selectedTags} />
+        </li>
       )
     );
   };
@@ -95,23 +96,24 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
   const renderCollections = () => {
     return getPostsByCollection(currPosts, allCollections).map(
       (postsByCollection, index) => (
-        <SwiperCards
-          rounded
-          key={index}
-          slides={postsByCollection.map((metadata, index) => (
-            <BlogCard
-              metadata={metadata}
-              key={index}
-              className="border-primary"
-              selectedTags={selectedTags}
-            />
-          ))}
-          className={tm(
-            "xs:max-w-[300px]",
-            "[@media(min-width:450px)]:max-w-[400px]",
-            "xl:max-w-[500px]"
-          )}
-        />
+        <li key={index}>
+          <SwiperCards
+            rounded
+            slides={postsByCollection.map((metadata, index) => (
+              <BlogCard
+                metadata={metadata}
+                key={index}
+                className="border-primary"
+                selectedTags={selectedTags}
+              />
+            ))}
+            className={tm(
+              "xs:max-w-[300px]",
+              "[@media(min-width:450px)]:max-w-[400px]",
+              "xl:max-w-[500px]"
+            )}
+          />
+        </li>
       )
     );
   };
@@ -143,7 +145,9 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
             {shouldRenderCollectionsTitle() ? (
               <h2 className="pl-3 text-2xl underline">collections</h2>
             ) : null}
-            <div className="ml-[-10px] mb-5">{renderCollections()}</div>
+            <div className="ml-[-10px] mb-5">
+              <ul>{renderCollections()}</ul>
+            </div>
             {shouldRenderBlogTitle() ? (
               <h1 className="pl-3 text-2xl underline">blog posts</h1>
             ) : null}

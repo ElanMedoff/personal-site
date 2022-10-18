@@ -118,6 +118,7 @@ export default function Profile() {
         variants={sharedVariants}
         initial="hidden"
         whileInView="show"
+        viewport={{ once: true }}
         className="flex-1 min-w-auto sm:min-w-[400px]"
       >
         <h1 className="text-6xl font-bold sm:text-8xl uppercase">hey</h1>
