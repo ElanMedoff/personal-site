@@ -8,6 +8,7 @@ import { motion, useAnimationControls } from "framer-motion";
 import Skeleton from "./Skeleton";
 import Anchor from "./reusable/Anchor";
 import useIsMobile from "../hooks/useIsMobile";
+import { sharedVariants } from "../utils/framer";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);
@@ -113,7 +114,12 @@ export default function Profile() {
       <section className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}>
         {loading ? renderLoading() : renderAtropos()}
       </section>
-      <section className="flex-1 min-w-auto sm:min-w-[400px]">
+      <motion.section
+        variants={sharedVariants}
+        initial="hidden"
+        whileInView="show"
+        className="flex-1 min-w-auto sm:min-w-[400px]"
+      >
         <h1 className="text-6xl font-bold sm:text-8xl uppercase">hey</h1>
         <h1 className="text-6xl font-bold sm:text-8xl uppercase">there,</h1>
         <p className="mt-6 text-lg">
@@ -146,7 +152,7 @@ export default function Profile() {
             <span className="text-primary">]</span>
           </span>
         </article>
-      </section>
+      </motion.section>
     </main>
   );
 }

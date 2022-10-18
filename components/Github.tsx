@@ -6,6 +6,7 @@ import Atropos from "atropos/react";
 import { motion, useAnimationControls } from "framer-motion";
 import useIsMobile from "../hooks/useIsMobile";
 import "atropos/css";
+import { onScrollChildProps, onScrollContainerProps } from "../utils/framer";
 
 const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
   const isMobile = useIsMobile();
@@ -48,7 +49,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
       className="cursor-pointer"
       href={isMobile ? undefined : html_url}
       animate={index === 0 ? controls : undefined}
-      onMouseMove={index === 0 ? () => controls.stop() : undefined}
+      onMouseMove={() => controls.stop()}
     >
       <Atropos
         rotateXMax={25}
@@ -104,10 +105,15 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
 
 export default function Github({ repos }: { repos: Repo[] }) {
   return (
-    <ul className="flex flex-wrap gap-10 justify-center max-w-[1500px] px-5 m-auto">
+    <motion.ul
+      {...onScrollContainerProps}
+      className="flex flex-wrap gap-10 justify-center max-w-[1500px] px-5 m-auto"
+    >
       {repos.map((repo, index) => (
-        <RepoCard repo={repo} key={index} index={index} />
+        <motion.li {...onScrollChildProps} key={index}>
+          <RepoCard repo={repo} index={index} />
+        </motion.li>
       ))}
-    </ul>
+    </motion.ul>
   );
 }

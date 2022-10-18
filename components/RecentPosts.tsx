@@ -1,5 +1,11 @@
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { twMerge as tm } from "tailwind-merge";
+import {
+  onScrollChildProps,
+  onScrollContainerProps,
+  onScrollProps,
+} from "../utils/framer";
 import { Metadata } from "../utils/postHelpers";
 
 function Post({ post }: { post: Metadata }) {
@@ -48,17 +54,22 @@ export default function RecentPosts({ allPosts }: { allPosts: Metadata[] }) {
     .slice(0, 6);
 
   return (
-    <div className="px-5 flex flex-col gap-20">
-      <section
+    <motion.div
+      className="px-5 flex flex-col gap-20"
+      {...onScrollContainerProps}
+    >
+      <ul
         className={tm(
           "flex justify-center flex-wrap items-center",
           "gap-5 md:gap-10"
         )}
       >
         {topPosts.map((post, index) => (
-          <Post post={post} key={index} />
+          <motion.li {...onScrollChildProps} key={index}>
+            <Post post={post} />
+          </motion.li>
         ))}
-      </section>
-    </div>
+      </ul>
+    </motion.div>
   );
 }

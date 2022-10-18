@@ -1,4 +1,6 @@
+import { motion } from "framer-motion";
 import { twMerge as tm } from "tailwind-merge";
+import { onScrollChildProps, onScrollContainerProps } from "../utils/framer";
 import Banner from "./Banner";
 import SwiperCards from "./SwiperCards";
 
@@ -14,7 +16,7 @@ function SwiperWrapper({
   autoplay?: boolean;
 }) {
   return (
-    <article>
+    <motion.article {...onScrollChildProps}>
       <section className="border-2 border-neutral p-3 py-6 pr-7 rounded">
         <h3
           className={tm(
@@ -34,7 +36,7 @@ function SwiperWrapper({
           autoplay={autoplay}
         />
       </section>
-    </article>
+    </motion.article>
   );
 }
 
@@ -47,7 +49,8 @@ export default function Favorites({
 
   return (
     <div className="mb-5 flex flex-col gap-10">
-      <section
+      <motion.section
+        {...onScrollContainerProps}
         className={tm(
           "flex justify-center flex-wrap items-center",
           "gap-10 md:gap-20"
@@ -61,7 +64,7 @@ export default function Favorites({
         />
         <SwiperWrapper paths={bookPaths} dir="books" title="books" />
         <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
-      </section>
+      </motion.section>
     </div>
   );
 }

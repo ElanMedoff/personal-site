@@ -6,6 +6,7 @@ import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 import { Collection } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
+import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
@@ -86,7 +87,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
   const renderPostsWoCollection = () => {
     return orderPosts(getPostsWoCollection(currPosts), "date").map(
       (metadata, index) => (
-        <BlogCard metadata={metadata} key={index} selectedTags={selectedTags} />
+        <BlogCard key={index} metadata={metadata} selectedTags={selectedTags} />
       )
     );
   };
@@ -146,7 +147,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
             {shouldRenderBlogTitle() ? (
               <h1 className="pl-3 text-2xl underline">blog posts</h1>
             ) : null}
-            {renderPostsWoCollection()}
+            <ul>{renderPostsWoCollection()}</ul>
           </section>
           <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
             <h2 className="m-3 text-lg underline w-max">tags</h2>
