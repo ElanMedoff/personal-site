@@ -12,7 +12,9 @@ collection: null
 
 # A useIsDarkMode Hook For Server-Rendered Pages in Next.js
 
-Implementing a dark mode is surprisingly difficult when dealing with server-rendered content. Although the following hook _won't_ allow you detect the client's os-level theme preference (or any preferences previously saved to local storage) on the server, it will access these preferences during hydration and rerender the page with the correct theme if necessary.
+Implementing a dark mode is surprisingly difficult when dealing with server-rendered content - what's up with all of those `window is undefined` errors during build/request time? It turns out that to write a working `useIsDarkMode` hook, you need a solid knowledge of the rendering cycle used in Next.js: the process of how your app is generated on the server, hydrates on the client, and when you can and cannot access client-level apis. By the end of this post, you should have a solid grasp of all those concepts.
+
+Just a disclaimer: the following hook _won't_ allow you detect the client's os-level theme preference (or any preferences previously saved to local storage) on the server, but it will safely access these preferences during hydration and rerender the page with the correct theme if necessary.
 
 <Info>
   Note: All the relevant concepts in this post apply to server-side rendering as
@@ -106,19 +108,19 @@ return [isDarkMode, setIsDarkMode] as const;
 
 As a refresher, the rough lifecycle of a server generated page in Next.js goes something like the following:
 
-At build time (`npm run build`), Next will generate html for each page in the `pages` directory by running the components exported from each file. _However_, Next will only run code relevant for the first render, and nothing after. Since a `useEffect` runs after the render, this means any code in a `useEffect` is not run on the server during build time!
+At build time (or request time, if you're using `getServerSideProps`), Next will generate html for each page in the `pages` directory by running the components exported from each file. _However_, Next will only run code needed to generate the html from the first render. Since a `useEffect` runs after the render, this means any code in a `useEffect` is not run on the server at build/request time!
 
-At request time (when the user visits your url), Next sends the user the html generated during build time. Next will then rerun your component on the _client_ and ensure that the resulting dom is the same as the html built at build time on the server (if it's not, Next will give you a warning). At this point, we have the same dom that was generated on the server, but all the javascript associated with creating state, binding events, etc. is in place as well.
+At request time (when the user visits your url), Next sends the user the html generated during build/request time. Next will then rerun your component on the _client_ and ensure that the resulting dom is the same as the html generated on the server (if it's not, Next will give you a warning). At this point, we have the same dom that was generated on the server, but all the javascript associated with creating state, binding events, etc. is in place as well.
 
 Finally, Next will run the code in your `useEffect`s, and update the dom if needed. This whole process of Next rerunning the component on the client is known as hydration.
 
 ## The Problems With SSG and How UseEffect Comes to the Rescue
 
-Since the html returned to the user at request time is generated on the server at build time, it cannot be generated based on any information contained on the client. Unfortunately, this includes local storage - where we'll store the user's theme preference - and media queries - how we check if the user has an os-level theme preference.
+Since the html returned to the user at request time is generated on the server at build/request time, it cannot be generated based on any information contained on the client. Unfortunately, this includes local storage - where we'll store the user's theme preference - and media queries - how we check if the user has an os-level theme preference.
 
-In other words, we have _no way to know_ what theme to render when generating our html at build time. There's no way to get around that. Fortunately, once Next hydrates the page, we can access both media quries and local storage (remember that hydration occurs on the client).
+In other words, we have _no way to know_ what theme to render when generating our html on the server. There's just no way to get around that. Fortunately, once Next hydrates the page, we can access both media quries and local storage (remember that hydration occurs on the client).
 
-However, to ensure that we only call a media query or access local storage once the page is hydrated, we need need to wrap these calls in a `useEffect`. Otherwise, we'll get an error during build time that `window` is `undefined`.
+However, to ensure that we only call a media query or access local storage once the page is hydrated, we need need to wrap these calls in a `useEffect`. Otherwise, we'll get an error during build/request time that `window` is `undefined`.
 
 In practice, this gives us the following hook:
 
@@ -187,3 +189,7 @@ const safelyGetStorage = useCallback((defaultValue: boolean) => {
 `} />
 
 Both functions are wrapped in `useCallback` so they can be added to the dependency array of the `useEffect`.
+
+## Bonus
+
+If you enjoyed this post, I'd recommend checking out [this video](https://www.youtube.com/watch?v=d2yNsZd5PMs) by Theo of ping.gg - it's a really great explanation of the concepts discussed here, plus more!
