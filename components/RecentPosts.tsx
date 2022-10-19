@@ -4,7 +4,7 @@ import { twMerge as tm } from "tailwind-merge";
 import {
   onScrollChildProps,
   onScrollContainerProps,
-  onScrollProps,
+  generateOnScrollProps,
 } from "../utils/framer";
 import { Metadata } from "../utils/postHelpers";
 

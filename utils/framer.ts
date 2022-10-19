@@ -6,21 +6,21 @@ export const sharedVariants = {
   },
 };
 
-const sharedVariantsWithDelay = {
-  ...sharedVariants,
-  show: {
-    ...sharedVariants.show,
-    transition: {
-      delay: 0.7,
+export const generateOnScrollProps = (delay?: number) => {
+  return {
+    variants: {
+      ...sharedVariants,
+      show: {
+        ...sharedVariants.show,
+        transition: {
+          delay: delay ?? 0.6,
+        },
+      },
     },
-  },
-};
-
-export const onScrollProps = {
-  variants: sharedVariantsWithDelay,
-  initial: "hidden",
-  whileInView: "show",
-  viewport: { once: true },
+    initial: "hidden",
+    whileInView: "show",
+    viewport: { once: true },
+  };
 };
 
 const containerVariants = {
@@ -28,7 +28,9 @@ const containerVariants = {
   show: {
     ...sharedVariants.show,
     transition: {
+      delay: 0.6,
       staggerChildren: 0.4,
+      when: "beforeChildren",
     },
   },
 };

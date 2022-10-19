@@ -6,6 +6,7 @@ import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 import { Collection } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
@@ -86,9 +87,11 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
   const renderPostsWoCollection = () => {
     return orderPosts(getPostsWoCollection(currPosts), "date").map(
       (metadata, index) => (
-        <li key={index}>
-          <BlogCard metadata={metadata} selectedTags={selectedTags} />
-        </li>
+        <AnimatePresence key={index}>
+          <motion.li layout="position">
+            <BlogCard metadata={metadata} selectedTags={selectedTags} />
+          </motion.li>
+        </AnimatePresence>
       )
     );
   };
@@ -146,12 +149,17 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
               <h2 className="pl-3 text-2xl underline">collections</h2>
             ) : null}
             <div className="ml-[-10px] mb-5">
-              <ul>{renderCollections()}</ul>
+              <AnimatePresence>
+                <motion.ul layout="position">{renderCollections()}</motion.ul>
+              </AnimatePresence>
             </div>
             {shouldRenderBlogTitle() ? (
               <h1 className="pl-3 text-2xl underline">blog posts</h1>
             ) : null}
-            <ul>{renderPostsWoCollection()}</ul>
+            {/* TODO: these don't seem to be working */}
+            <AnimatePresence>
+              <motion.ul layout>{renderPostsWoCollection()}</motion.ul>
+            </AnimatePresence>
           </section>
           <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
             <h2 className="m-3 text-lg underline w-max">tags</h2>
