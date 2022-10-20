@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { ReactNode } from "react";
 import Header from "./Header";
-import Footer from "./Footer";
 import { createContext, Dispatch, SetStateAction } from "react";
 import useIsDarkMode from "../hooks/useIsDarkMode";
 
@@ -33,7 +32,6 @@ export default function Layout({ children }: { children: ReactNode }) {
         </Head>
         <Header />
         <div>{children}</div>
-        <Footer />
       </div>
     </ThemeContext.Provider>
   );

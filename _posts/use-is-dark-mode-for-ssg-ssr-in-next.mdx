@@ -104,7 +104,7 @@ return [isDarkMode, setIsDarkMode] as const;
 }
 `} />
 
-## The Basics of SSG
+## The Basics of Server Rendering and Hydration
 
 As a refresher, the rough lifecycle of a server generated page in Next.js goes something like the following:
 
@@ -114,7 +114,7 @@ At request time (when the user visits your url), Next sends the user the html ge
 
 Finally, Next will run the code in your `useEffect`s, and update the dom if needed. This whole process of Next rerunning the component on the client is known as hydration.
 
-## The Problems With SSG and How UseEffect Comes to the Rescue
+## The Problems With Server Rendering
 
 Since the html returned to the user at request time is generated on the server at build/request time, it cannot be generated based on any information contained on the client. Unfortunately, this includes local storage - where we'll store the user's theme preference - and media queries - how we check if the user has an os-level theme preference.
 

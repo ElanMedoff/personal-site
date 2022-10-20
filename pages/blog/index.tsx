@@ -7,6 +7,7 @@ import { Collection } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import Footer from "../../components/Footer";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
@@ -222,6 +223,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
           </section>
         </div>
       </Content>
+      <Footer />
     </>
   );
 }

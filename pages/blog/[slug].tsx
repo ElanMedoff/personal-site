@@ -1,3 +1,5 @@
+import * as ReactDOMServer from "react-dom/server";
+import { twMerge as tm } from "tailwind-merge";
 import {
   fetchPostSlugs,
   fetchPostBySlug,
@@ -14,6 +16,14 @@ import Image from "../../components/reusable/Image";
 import { anchorStyles } from "../../components/reusable/Anchor";
 import Content from "../../components/Content";
 import Head from "next/head";
+import slugify from "slugify";
+import { BsLink45Deg as LinkIcon } from "react-icons/bs";
+import { useRouter } from "next/router";
+import { useEffect, useMemo } from "react";
+import queryString from "query-string";
+import { motion, useScroll, useSpring } from "framer-motion";
+import { convert } from "html-to-text";
+import { count } from "@wordpress/wordcount";
 
 interface Props {
   post: Post;
@@ -21,7 +31,58 @@ interface Props {
   mdxSource: any;
 }
 
+function msToReadingTime(ms: number) {
+  const minutes = Math.floor((ms / (1000 * 60)) % 60);
+  const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+
+  const formattedHours = hours ? `${hours} hour ` : "";
+  const formattedMinutes = minutes ? `${minutes} minute` : "";
+
+  return `${formattedHours}${formattedMinutes}`;
+}
+
 export default function PostPage({ post, relatedPostMetadata }: Props) {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  const router = useRouter();
+
+  useEffect(() => {
+    let { l } = queryString.parse(router.asPath.split(/\?/)[1]);
+    if (!l || Array.isArray(l)) return;
+    const header = document.querySelector(`[data-scrollposition=${l}]`);
+
+    if (!header) return;
+    const { y } = header.getBoundingClientRect();
+    if (!y) return;
+    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: y - 24, behavior: "smooth" });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const components = useMemo(() => ({ Image, Code, Info, Link, Aside }), []);
+  const wordCount = useMemo(
+    () =>
+      count(
+        convert(
+          ReactDOMServer.renderToString(
+            <MDXRemote compiledSource={post.content} components={components} />
+          )
+        ),
+        "words",
+        {}
+      ),
+    [components, post.content]
+  );
+  const avgReadingSpeed = 200;
+  const rawReadingTime = (wordCount / avgReadingSpeed) * 60000;
+  const formattedReadingTime = msToReadingTime(rawReadingTime);
+
   return (
     <>
       <Head>
@@ -30,17 +91,16 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
       <Content>
         <div>
           <div className="md:text-justify">
-            <div className="pb-2 mb-8 text-sm italic underline underline-offset-4 w-max">
-              last updated: {post.metadata.lastUpdated}
+            <div className="mb-8">
+              <p className="pb-2 text-sm underline underline-offset-4 w-max">
+                last updated: {post.metadata.lastUpdated}
+              </p>
+              <p className="text-sm italic">{formattedReadingTime} read</p>
             </div>
             <MDXRemote
               compiledSource={post.content}
               components={{
-                Image,
-                Code,
-                Info,
-                Link,
-                Aside,
+                ...components,
                 a: (props: any) => <a {...props} className={anchorStyles} />,
                 code: (props: any) => (
                   <code
@@ -55,12 +115,39 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
                     {...props}
                   />
                 ),
-                h2: (props: any) => (
-                  <h1
-                    className="text-xl md:text-2xl font-bold my-3 text-left"
-                    {...props}
-                  />
-                ),
+                h2: (props: any) => {
+                  const preProcessed = props.children
+                    .replace(/([0-9]|\.|:)/g, "")
+                    .toLowerCase();
+                  const slug = slugify(preProcessed);
+                  return (
+                    <div className="flex gap-4 items-center">
+                      <h1
+                        className="text-xl md:text-2xl font-bold my-3 text-left"
+                        {...props}
+                      />
+                      <div
+                        className={tm(
+                          "p-1 border border-neutral rounded-full cursor-pointer",
+                          "hover:bg-base-200 hover:border-base-100 transition-all",
+                          "active:scale-[85%]"
+                        )}
+                        onClick={() => {
+                          const url = new URL(window.location.href);
+                          url.searchParams.set("l", slug);
+                          window.history.pushState(
+                            undefined,
+                            "",
+                            url.toString()
+                          );
+                        }}
+                        data-scrollposition={slug}
+                      >
+                        <LinkIcon size={20} />
+                      </div>
+                    </div>
+                  );
+                },
                 h3: (props: any) => (
                   <h1 className="text-lg font-bold my-4 text-left" {...props} />
                 ),
@@ -95,6 +182,10 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
           </div>
         </div>
       </Content>
+      <motion.div
+        className="fixed bottom-0 left-0 right-0 h-3 bg-primary"
+        style={{ scaleX, transformOrigin: "0%" }}
+      />
     </>
   );
 }
