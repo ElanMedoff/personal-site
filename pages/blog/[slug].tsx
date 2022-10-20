@@ -18,9 +18,7 @@ import Content from "../../components/Content";
 import Head from "next/head";
 import slugify from "slugify";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
-import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
-import queryString from "query-string";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
@@ -49,12 +47,10 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
     restDelta: 0.001,
   });
 
-  const router = useRouter();
-
   useEffect(() => {
-    let { l } = queryString.parse(router.asPath.split(/\?/)[1]);
-    if (!l || Array.isArray(l)) return;
-    const header = document.querySelector(`[data-scrollposition=${l}]`);
+    const l = window.location.hash;
+    if (!l) return;
+    const header = document.querySelector(`[data-locationhash=${l.slice(1)}]`);
 
     if (!header) return;
     const { y } = header.getBoundingClientRect();
@@ -128,20 +124,15 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
                       />
                       <div
                         className={tm(
-                          "p-1 border border-neutral rounded-full cursor-pointer",
-                          "hover:bg-base-200 hover:border-base-100 transition-all",
-                          "active:scale-[85%]"
+                          "p-1 border border-base-100 rounded-full cursor-pointer",
+                          "hover:border-neutral transition-all",
+                          "active:scale-[90%]"
                         )}
                         onClick={() => {
-                          const url = new URL(window.location.href);
-                          url.searchParams.set("l", slug);
-                          window.history.pushState(
-                            undefined,
-                            "",
-                            url.toString()
-                          );
+                          window.history.pushState(undefined, "", `#${slug}`);
                         }}
-                        data-scrollposition={slug}
+                        // override native id to use our own scrolling on load
+                        data-locationhash={slug}
                       >
                         <LinkIcon size={20} />
                       </div>
