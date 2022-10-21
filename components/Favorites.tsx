@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { twMerge as tm } from "tailwind-merge";
 import { onScrollChildProps, onScrollContainerProps } from "../utils/framer";
-import Banner from "./Banner";
 import SwiperCards from "./SwiperCards";
 
 function SwiperWrapper({
@@ -17,7 +16,7 @@ function SwiperWrapper({
 }) {
   return (
     <motion.article {...onScrollChildProps}>
-      <section className="border-2 border-neutral p-3 py-6 pr-7 rounded">
+      <div className="border-2 border-neutral p-3 py-6 pr-7 rounded">
         <h3
           className={tm(
             "uppercase font-bold text-2xl mb-3 ml-6 underline decoration-primary decoration-4 underline-offset-4"
@@ -35,7 +34,7 @@ function SwiperWrapper({
           className="max-w-[200px] md:max-w-[300px] mx-6"
           autoplay={autoplay}
         />
-      </section>
+      </div>
     </motion.article>
   );
 }

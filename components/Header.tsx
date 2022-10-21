@@ -45,7 +45,7 @@ export default function Header() {
         scrollDir === "up" ? "top-0" : "top-[-100px]"
       )}
     >
-      <main className="flex items-center justify-between w-full px-5">
+      <div className="flex items-center justify-between w-full px-5">
         <h3 className={tm("text-lg md:text-2xl", "font-bold cursor-pointer")}>
           <Link href="/">
             <span>
@@ -69,7 +69,7 @@ export default function Header() {
             }}
           />
         </div>
-      </main>
+      </div>
     </nav>
   );
 }

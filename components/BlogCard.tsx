@@ -15,30 +15,30 @@ export default function BlogCard({
     <Link href={`/blog/${metadata.slug}`}>
       <div
         className={tm(
-          "max-w-[500px] cursor-pointer rounded-2xl flex items-center p-6 gap-3 bg-base-100",
-          "border-base-100 border hover:border-primary hover:shadow-xl transition",
+          "max-w-[500px] cursor-pointer rounded-2xl flex flex-col p-6 gap-5 bg-base-100",
+          "border-base-100 border hover:border-primary",
           className
         )}
       >
         <div>
-          <h2 className="mb-1 font-semibold">{metadata.title}</h2>
-          <p className="mb-2 text-xs italic">{metadata.lastUpdated}</p>
-          <p className="mb-2 text-xs">{metadata.abstract}</p>
-          <div className="flex flex-wrap gap-2">
-            {metadata.tags.map((tag, index) => (
-              <span
-                key={index}
-                className={tm(
-                  "px-4 py-1 text-xs rounded-full border border-neutral",
-                  (selectedTags ?? []).includes(tag) &&
-                    "bg-secondary text-secondary-content"
-                )}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          <h2 className="font-semibold">{metadata.title}</h2>
+          <p className="text-xs italic">{metadata.lastUpdated}</p>
         </div>
+        <p className="text-xs">{metadata.abstract}</p>
+        <ul className="flex flex-wrap gap-2">
+          {metadata.tags.map((tag, index) => (
+            <li
+              key={index}
+              className={tm(
+                "px-4 py-1 text-xs rounded-full border border-neutral",
+                (selectedTags ?? []).includes(tag) &&
+                  "bg-secondary text-secondary-content"
+              )}
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
       </div>
     </Link>
   );

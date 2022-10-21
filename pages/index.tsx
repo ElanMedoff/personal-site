@@ -43,6 +43,7 @@ export default function About({
           <Banner
             primary="recent blog posts"
             /* secondary="check out my three latest posts! brought to you by the blog that inspired this site" */
+            reverse
           />
           <RecentPosts allPosts={allPosts} />
         </Section>

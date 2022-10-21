@@ -77,13 +77,13 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
           >
             last updated: {new Date(pushed_at).toLocaleDateString()}
           </p>
-          <section data-atropos-offset={1}>
+          <div data-atropos-offset={1}>
             <div className="text-2xl font-semibold mb-2">{name}</div>
             <p className="italic text-xs">{description}</p>
-          </section>
-          <section className="flex flex-wrap gap-3" data-atropos-offset={4}>
+          </div>
+          <ul className="flex flex-wrap gap-3" data-atropos-offset={4}>
             {Object.keys(language_info).map((language, index) => (
-              <div
+              <li
                 className="flex gap-1 text-sm rounded-full px-3 py-1 border border-neutral"
                 key={index}
               >
@@ -94,9 +94,9 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
                   alt="language icon"
                 />
                 {language}
-              </div>
+              </li>
             ))}
-          </section>
+          </ul>
         </article>
       </Atropos>
     </motion.a>

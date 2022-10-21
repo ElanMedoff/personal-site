@@ -108,14 +108,14 @@ export default function Profile() {
   };
 
   return (
-    <main
+    <div
       className={tm("flex flex-row flex-wrap-reverse gap-12 max-w-7xl p-10")}
     >
-      <section className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}>
+      <div className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}>
         {loading ? renderLoading() : renderAtropos()}
-      </section>
-      <motion.section
-        {...generateOnScrollProps(0.3)}
+      </div>
+      <motion.div
+        {...generateOnScrollProps(0.2)}
         className="flex-1 min-w-auto sm:min-w-[400px]"
       >
         <h1 className="text-6xl font-bold sm:text-8xl uppercase">hey</h1>
@@ -137,7 +137,7 @@ export default function Profile() {
           <Anchor href="https://www.wealthfront.com/">Wealthfront</Anchor> as a
           web engineer!
         </p>
-        <article className="flex mt-4 gap-4">
+        <div className="flex mt-4 gap-4">
           <a className={styles.github} href="https://github.com/ElanMedoff" />
           <a
             className={styles.linkedin}
@@ -149,8 +149,8 @@ export default function Profile() {
             mailto
             <span className="text-primary">]</span>
           </span>
-        </article>
-      </motion.section>
-    </main>
+        </div>
+      </motion.div>
+    </div>
   );
 }

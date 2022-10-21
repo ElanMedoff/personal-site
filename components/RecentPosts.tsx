@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { twMerge as tm } from "tailwind-merge";
-import {
-  onScrollChildProps,
-  onScrollContainerProps,
-  generateOnScrollProps,
-} from "../utils/framer";
+import { onScrollChildProps, onScrollContainerProps } from "../utils/framer";
 import { Metadata } from "../utils/postHelpers";
 
 function Post({ post }: { post: Metadata }) {

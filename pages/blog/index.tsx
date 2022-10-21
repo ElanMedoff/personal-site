@@ -6,7 +6,7 @@ import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 import { Collection } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Footer from "../../components/Footer";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
@@ -165,7 +165,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
           <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
             <h2 className="m-3 text-lg underline w-max">tags</h2>
             <div className="flex flex-col pl-3 gap-3">
-              <div className="flex flex-wrap gap-2">
+              <ul className="flex flex-wrap gap-2">
                 {allTags.map((filter, index) => (
                   <Pill
                     key={index}
@@ -188,7 +188,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
                     {filter}
                   </Pill>
                 ))}
-              </div>
+              </ul>
               <div className="divider my-0" />
               <Pill
                 onClick={() => {
