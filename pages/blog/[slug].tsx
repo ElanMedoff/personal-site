@@ -1,4 +1,5 @@
 import * as ReactDOMServer from "react-dom/server";
+import queryString from "query-string";
 import { twMerge as tm } from "tailwind-merge";
 import {
   fetchPostSlugs,
@@ -22,6 +23,7 @@ import { useEffect, useMemo } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
+import { useRouter } from "next/router";
 
 interface Props {
   post: Post;
@@ -46,11 +48,12 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
     damping: 30,
     restDelta: 0.001,
   });
+  const router = useRouter();
 
   useEffect(() => {
-    const l = window.location.hash;
-    if (!l) return;
-    const header = document.querySelector(`[data-locationhash=${l.slice(1)}]`);
+    let { l } = queryString.parse(router.asPath.split(/\?/)[1]);
+    if (!l || Array.isArray(l)) return;
+    const header = document.querySelector(`[data-locationhash=${l}]`);
 
     if (!header) return;
     const { y } = header.getBoundingClientRect();
@@ -132,7 +135,9 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
                         "group-active:scale-[90%]"
                       )}
                       onClick={() => {
-                        window.history.pushState(undefined, "", `#${slug}`);
+                        const url = new URL(window.location.href);
+                        url.searchParams.set("l", slug);
+                        window.history.pushState(undefined, "", url.toString());
                       }}
                       // override native id to use our own scrolling on load
                       data-locationhash={slug}
