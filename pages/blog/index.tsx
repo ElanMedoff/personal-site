@@ -107,7 +107,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
               <BlogCard
                 metadata={metadata}
                 key={index}
-                className="border-primary"
+                className="border-primary bg-base-100"
                 selectedTags={selectedTags}
               />
             ))}

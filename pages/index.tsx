@@ -33,25 +33,15 @@ export default function About({
       >
         <Profile />
         <Section>
-          <Banner
-            primary="github projects"
-            /* secondary="a few of my (public) projects, powered by the github api!" */
-          />
-          <Github repos={repos} />
-        </Section>
-        <Section>
-          <Banner
-            primary="recent blog posts"
-            /* secondary="check out my three latest posts! brought to you by the blog that inspired this site" */
-            reverse
-          />
+          <Banner primary="recent blog posts" />
           <RecentPosts allPosts={allPosts} />
         </Section>
         <Section>
-          <Banner
-            primary="some of my favorites"
-            /* secondary="outside of work, I like anything fiction – preferably fantasy!" */
-          />
+          <Banner primary="github projects" reverse />
+          <Github repos={repos} />
+        </Section>
+        <Section>
+          <Banner primary="some of my favorites" />
           <Favorites paths={paths} />
         </Section>
         <div />

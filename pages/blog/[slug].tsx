@@ -48,12 +48,13 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
     damping: 30,
     restDelta: 0.001,
   });
-  const router = useRouter();
 
   useEffect(() => {
-    let { l } = queryString.parse(router.asPath.split(/\?/)[1]);
-    if (!l || Array.isArray(l)) return;
-    const header = document.querySelector(`[data-locationhash=${l}]`);
+    const hash = window.location.hash;
+    if (!hash) return;
+    const header = document.querySelector(
+      `[data-locationhash=${hash.slice(1)}]`
+    );
 
     if (!header) return;
     const { y } = header.getBoundingClientRect();
@@ -135,9 +136,7 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
                         "group-active:scale-[90%]"
                       )}
                       onClick={() => {
-                        const url = new URL(window.location.href);
-                        url.searchParams.set("l", slug);
-                        window.history.pushState(undefined, "", url.toString());
+                        window.history.pushState(undefined, "", `#${slug}`);
                       }}
                       // override native id to use our own scrolling on load
                       data-locationhash={slug}

@@ -23,7 +23,7 @@ export interface Post {
   metadata: Metadata;
 }
 
-const postsDirectory = join(process.cwd(), "_posts");
+const postsDirectory = join(process.cwd(), "posts");
 
 function fetchAllPaths() {
   const paths = readdirSync(postsDirectory);

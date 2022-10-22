@@ -19,7 +19,7 @@ export default function Banner({
           "text-4xl sm:text-6xl md:text-7xl lg:text-8xl",
           "mb-10 md:mb-20",
           "border-b-[15px] sm:border-b-[40px] border-primary",
-          reverse ? "text-right pr-10" : "text-left pl-10"
+          reverse ? "text-right pr-5 sm:pr-10" : "text-left pr-5 sm:pl-10"
         )}
       >
         {primary}
