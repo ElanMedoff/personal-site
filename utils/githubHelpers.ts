@@ -53,6 +53,7 @@ export async function fetchGithubRepos() {
   );
 }
 
+// TODO: replace with react icons
 export const languageToIconUrl: Record<string, string> = {
   TypeScript:
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg",

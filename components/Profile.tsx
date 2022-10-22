@@ -132,7 +132,7 @@ export default function Profile() {
         <p className="mt-6">
           These days, I&apos;m especially interested in authentication on the
           web, the (re)emergence of server-side rendering and all the new
-          approaches to it, and tinkering with my Neovim config.
+          approaches to it, and tinkering with my (Neo)Vim config.
         </p>
         <p className="mt-6">
           I currently work at{" "}

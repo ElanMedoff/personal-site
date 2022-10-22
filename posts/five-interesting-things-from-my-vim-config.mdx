@@ -1,17 +1,17 @@
 ---
-title: "Five Interesting Things From my NeoVim Config"
+title: "Five Interesting Things From my Vim Config"
 abstract: "A few interesting tidbits I've picked up from tinkering with my config"
 lastUpdated: "October 16, 2022"
-slug: five-interesting-things-from-my-neovim-config
+slug: five-interesting-things-from-my-vim-config
 tags:
   - software eng
   - vim
 collection: null
 ---
 
-# Five Interesting Things From my NeoVim Config
+# Five Interesting Things From my Vim Config
 
-Although I'm no expert in NeoVim, I've found a few interesting solutions for the problems I've encountered when switching from VSCode to Vim. For those new and old to (Neo)Vim, I hope I can provide some value as you tinker with your own config with the following interesting tidbits.
+Although I'm no expert in Vim, I've found a few interesting solutions for the problems I've encountered when switching from VSCode to Vim. For those new and old to (Neo)Vim, I hope I can provide some value as you tinker with your own config with the following interesting tidbits.
 
 ## 1. Absolute Imports in Lua
 
@@ -35,7 +35,7 @@ package.path = '../?.lua;' .. package.path
 
 As a reminder, `..` is the concatenate operator in Lua. This works fine for importing directly from the parent directory, but you can imagine how this can become unmanageable as the project grows and you need to import from several directories up.
 
-Enter absolute imports - relative to the directory of your choice. Let's say we're working on a NeoVim config located in the standard `~/.config/nvim` directory. The idea behind absolute imports is to add this directory to the `package.path` in all of your files so you can import modules relative from the `~/.config/nvim` directory, instead of importing relative to the current file.
+Enter absolute imports - relative to the directory of your choice. Let's say we're working on a Vim config located in the standard `~/.config/nvim` directory. The idea behind absolute imports is to add this directory to the `package.path` in all of your files so you can import modules relative from the `~/.config/nvim` directory, instead of importing relative to the current file.
 
 Luckily, Lua has some great utils for this! Using the `os.getenv("HOME")` function call, we can add the `~` section of our path to `package.path`, and then manually concatenate the remainder of the path ourselves:
 
@@ -83,11 +83,11 @@ With iTerm2, you can set remaps with the `command` key that send arbitrary key i
 1. The iTerm2 equivalent of `<cr>` is `\n`. This is mostly useful when submitting a Vim command, like `:w\n`
 2. To remap the `control` key, say `ctrl+x`, use the form `\<C-x>`
 
-You can add remaps by going to iTerm2 -> Preferences -> Keys and clicking the `+` sign at the bottom left. For the `action`, select _Send Text with vim Special Chars_, and you should be good to go!
+You can add remaps by going to iTerm2 -> Preferences -> Keys and clicking the `+` sign at the bottom left. For the `action`, select _Send Text with "vim" Special Chars_, and you should be good to go!
 
 ## 3. Shared Settings For a Barebones Config
 
-I've highlighted my motivations for periodically using a barebones config in <Link href="/blog/sensible-vim-defaults">this</Link> blog post, but I left out some implementation details on how this fit into my overall NeoVim config. Since nearly all of my options and a good chunk of my remaps can be shared between a barebones and full-blown config, I decided to take advantage of the overlap by sharing files between the two. Take a look at the following file structure:
+I've highlighted my motivations for periodically using a barebones config in <Link href="/blog/sensible-vim-defaults">this</Link> blog post, but I left out some implementation details on how this fit into my overall Vim config. Since nearly all of my options and a good chunk of my remaps can be shared between a barebones and full-blown config, I decided to take advantage of the overlap by sharing files between the two. Take a look at the following file structure:
 
 <Code
   code={`
@@ -111,7 +111,7 @@ I've highlighted my motivations for periodically using a barebones config in <Li
 `}
 />
 
-This file tree may look a bit weird, but hear me out. Ignoring the `barebones` directory, this is just a normal NeoVim config - an `init.lua` at the root, and some settings to import. In other words, by default, I use the full-blown config's `init.lua` and settings. In the `barebones` directory, I added a second `init.lua`, one which can be sourced with:
+This file tree may look a bit weird, but hear me out. Ignoring the `barebones` directory, this is just a normal Vim config - an `init.lua` at the root, and some settings to import. In other words, by default, I use the full-blown config's `init.lua` and settings. In the `barebones` directory, I added a second `init.lua`, one which can be sourced with:
 
 <Code
   language="bash"
@@ -209,7 +209,7 @@ Personally, I've had great results with these two types of solutions, and I'd hi
 
 ## 5. Search by Whole Word, Case Sensitive, or Both
 
-One of my favorite search-related features in VSCode was the ability to search by whole word, case, or both. Luckily, with the right keymappings, this isn't too hard to recreate in vim!
+One of my favorite search-related features in VSCode was the ability to search by whole word, case, or both. Luckily, with the right keymappings, this isn't too hard to recreate in Vim!
 
 <Code language="vim" code={`
 # case sensitive
