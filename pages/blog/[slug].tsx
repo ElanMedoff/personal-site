@@ -1,5 +1,4 @@
 import * as ReactDOMServer from "react-dom/server";
-import queryString from "query-string";
 import { twMerge as tm } from "tailwind-merge";
 import {
   fetchPostSlugs,
@@ -23,13 +22,8 @@ import { useEffect, useMemo } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
-import { useRouter } from "next/router";
-
-interface Props {
-  post: Post;
-  relatedPostMetadata: Metadata;
-  mdxSource: any;
-}
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import { ParsedUrlQuery } from "querystring";
 
 function msToReadingTime(ms: number) {
   const minutes = Math.floor((ms / (1000 * 60)) % 60);
@@ -41,7 +35,10 @@ function msToReadingTime(ms: number) {
   return `${formattedHours}${formattedMinutes}`;
 }
 
-export default function PostPage({ post, relatedPostMetadata }: Props) {
+export default function PostPage({
+  post,
+  relatedPostMetadata,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -186,19 +183,32 @@ export default function PostPage({ post, relatedPostMetadata }: Props) {
   );
 }
 
-export async function getStaticProps({ params }: { params: { slug: string } }) {
-  const { post, relatedPostMetadata } = await fetchPostBySlug(params.slug);
+interface Params extends ParsedUrlQuery {
+  slug: string;
+}
+
+interface Props {
+  post: Post;
+  relatedPostMetadata: Metadata;
+}
+
+export const getStaticProps: GetStaticProps<Props, Params> = async (
+  context
+) => {
+  const { slug } = context.params!;
+
+  const { post, relatedPostMetadata } = await fetchPostBySlug(slug);
   return {
     props: {
       post,
       relatedPostMetadata,
     },
   };
-}
+};
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: fetchPostSlugs(),
+    paths: await fetchPostSlugs(),
     fallback: false,
   };
-}
+};

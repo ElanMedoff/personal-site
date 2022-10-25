@@ -16,6 +16,7 @@ export interface Metadata {
   slug: string;
   tags: string[];
   collection: Collection | null;
+  isPublished: boolean;
 }
 
 export interface Post {
@@ -30,13 +31,25 @@ function fetchAllPaths() {
   return paths.filter((path) => path !== ".DS_Store");
 }
 
-export function fetchPostSlugs() {
+export async function fetchPostSlugs() {
   const paths = fetchAllPaths();
-  return paths.map((path) => ({
-    params: {
-      slug: path.replace(".mdx", ""),
-    },
-  }));
+
+  const allMetadata = await Promise.all(
+    paths.map(async (path) => {
+      const rawPost = readFileSync(join(postsDirectory, path)).toString();
+      const { data } = matter(rawPost);
+
+      return data as any as Metadata;
+    })
+  );
+
+  return allMetadata
+    .filter((metadata) => metadata.isPublished)
+    .map((metadata) => ({
+      params: {
+        slug: metadata.slug,
+      },
+    }));
 }
 
 export async function fetchPostBySlug(
@@ -75,9 +88,11 @@ export async function fetchPostBySlug(
 
 export function fetchAllMetadata(): Metadata[] {
   const paths = fetchAllPaths();
-  return paths.map((path) => {
-    const rawPost = readFileSync(join(postsDirectory, path));
-    const { data: metadata } = matter(rawPost);
-    return metadata as Metadata;
-  });
+  return paths
+    .map((path) => {
+      const rawPost = readFileSync(join(postsDirectory, path));
+      const { data: metadata } = matter(rawPost);
+      return metadata as Metadata;
+    })
+    .filter((post) => post.isPublished);
 }

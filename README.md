@@ -5,6 +5,7 @@ mostly a blog, partly a personal website
 <!--
 todo:
 - small animations here and there
-- test coverage
-- add field publish blog
+- add field is_published for blogs in progress
+- modal for copying link to clipboard
+- fuzzy search for posts
 -->

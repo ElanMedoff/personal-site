@@ -8,6 +8,7 @@ import Content from "../../components/Content";
 import Head from "next/head";
 import { AnimatePresence, motion } from "framer-motion";
 import Footer from "../../components/Footer";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
@@ -55,17 +56,21 @@ const Pill = ({
   );
 };
 
-export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
+export default function Blog({
+  allMetadata,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [filterMethod, setFilterMethod] = useState<"union" | "intersection">(
     "union"
   );
 
-  const allTags = Array.from(new Set(allPosts.map(({ tags }) => tags).flat()));
+  const allTags = Array.from(
+    new Set(allMetadata.map(({ tags }) => tags).flat())
+  );
 
   const allCollections = Array.from(
     new Set(
-      allPosts
+      allMetadata
         .map(({ collection }) => collection?.name)
         .filter(
           (value: string | undefined): value is string => value != undefined
@@ -73,7 +78,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
     )
   );
 
-  const filteredPosts = allPosts.filter((metadata) => {
+  const filteredPosts = allMetadata.filter((metadata) => {
     const numOverlappingTags = metadata.tags.filter((tag) =>
       selectedTags.includes(tag)
     ).length;
@@ -83,7 +88,7 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
       : numOverlappingTags === selectedTags.length;
   });
 
-  const currPosts = selectedTags.length > 0 ? filteredPosts : allPosts;
+  const currPosts = selectedTags.length > 0 ? filteredPosts : allMetadata;
 
   const renderPostsWoCollection = () => {
     return orderPosts(getPostsWoCollection(currPosts), "date").map(
@@ -228,10 +233,14 @@ export default function Blog({ allPosts }: { allPosts: Metadata[] }) {
   );
 }
 
-export async function getStaticProps() {
+interface Props {
+  allMetadata: Metadata[];
+}
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
   return {
     props: {
-      allPosts: fetchAllMetadata(),
+      allMetadata: fetchAllMetadata(),
     },
   };
-}
+};

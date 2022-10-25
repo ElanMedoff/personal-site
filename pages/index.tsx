@@ -9,6 +9,7 @@ import { fetchAllMetadata, Metadata } from "../utils/postHelpers";
 import Banner from "../components/Banner";
 import { ReactNode } from "react";
 import Footer from "../components/Footer";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
 
 function Section({ children }: { children: ReactNode }) {
   return <div className="w-full">{children}</div>;
@@ -17,12 +18,8 @@ function Section({ children }: { children: ReactNode }) {
 export default function About({
   paths,
   repos,
-  allPosts,
-}: {
-  paths: { comicPaths: string[]; bookPaths: string[]; moviePaths: string[] };
-  repos: Repo[];
-  allPosts: Metadata[];
-}) {
+  allMetadata,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
       <div
@@ -34,7 +31,7 @@ export default function About({
         <Profile />
         <Section>
           <Banner primary="recent blog posts" />
-          <RecentPosts allPosts={allPosts} />
+          <RecentPosts allMetadata={allMetadata} />
         </Section>
         <Section>
           <Banner primary="github projects" reverse />
@@ -51,7 +48,13 @@ export default function About({
   );
 }
 
-export async function getStaticProps() {
+interface Props {
+  paths: { comicPaths: string[]; bookPaths: string[]; moviePaths: string[] };
+  repos: Repo[];
+  allMetadata: Metadata[];
+}
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
   return {
     props: {
       paths: {
@@ -60,7 +63,7 @@ export async function getStaticProps() {
         comicPaths: fetchPublicImages("comics"),
       },
       repos: await fetchGithubRepos(),
-      allPosts: fetchAllMetadata(),
+      allMetadata: fetchAllMetadata(),
     },
   };
-}
+};

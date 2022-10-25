@@ -41,8 +41,12 @@ function Post({ post }: { post: Metadata }) {
   );
 }
 
-export default function RecentPosts({ allPosts }: { allPosts: Metadata[] }) {
-  const topPosts = allPosts
+export default function RecentPosts({
+  allMetadata,
+}: {
+  allMetadata: Metadata[];
+}) {
+  const topPosts = allMetadata
     .sort(
       (a, b) =>
         new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
