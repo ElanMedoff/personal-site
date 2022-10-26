@@ -48,7 +48,7 @@ export default function HeaderLink(props: any) {
       </label>
       <Dialog uuid={uuid}>
         <div className="flex flex-col gap-6 sm:gap-8">
-          <h2 className="text-2xl sm:text-4xl font-bold">Heads up -</h2>
+          <h2 className="text-xl sm:text-4xl font-bold">Heads up -</h2>
           <p>
             Clicking on a header will copy the link to your clipboard! It&apos;s
             a fancy URL that&apos;ll scroll to this section when the page loads.
