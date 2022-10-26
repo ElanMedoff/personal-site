@@ -1,5 +1,4 @@
 import * as ReactDOMServer from "react-dom/server";
-import { twMerge as tm } from "tailwind-merge";
 import {
   fetchPostSlugs,
   fetchPostBySlug,
@@ -16,14 +15,13 @@ import Image from "../../components/reusable/Image";
 import { anchorStyles } from "../../components/reusable/Anchor";
 import Content from "../../components/Content";
 import Head from "next/head";
-import slugify from "slugify";
-import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 import { useEffect, useMemo } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { ParsedUrlQuery } from "querystring";
+import HeaderLink from "../../components/reusable/HeaderLink";
 
 function msToReadingTime(ms: number) {
   const minutes = Math.floor((ms / (1000 * 60)) % 60);
@@ -109,42 +107,7 @@ export default function PostPage({
                   {...props}
                 />
               ),
-              h2: (props: any) => {
-                const preProcessed = props.children
-                  .replace(/([0-9]|\.|:)/g, "")
-                  .toLowerCase();
-                const slug = slugify(preProcessed);
-                return (
-                  <div
-                    className="group"
-                    onClick={async () => {
-                      window.history.pushState(undefined, "", `#${slug}`);
-                      await navigator.clipboard.writeText(
-                        window.location.toString()
-                      );
-                    }}
-                    // override native id to use our own scrolling on load
-                    data-locationhash={slug}
-                  >
-                    <h1
-                      className={tm(
-                        "cursor-pointer font-bold my-3 text-left inline mr-3",
-                        "text-xl md:text-2xl"
-                      )}
-                      {...props}
-                    />
-                    <span
-                      className={tm(
-                        "inline-block border border-base-100 py-[1px] px-[3px] rounded-full cursor-pointer relative top-[-2px]",
-                        "group-hover:border-neutral transition-all",
-                        "group-active:scale-[90%]"
-                      )}
-                    >
-                      <LinkIcon size={20} className="inline-block" />
-                    </span>
-                  </div>
-                );
-              },
+              h2: HeaderLink,
               h3: (props: any) => (
                 <h1 className="text-lg font-bold my-4 text-left" {...props} />
               ),
