@@ -9,6 +9,7 @@ import Head from "next/head";
 import { AnimatePresence, motion } from "framer-motion";
 import Footer from "../../components/Footer";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import fuzzysort from "fuzzysort";
 
 const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
@@ -31,6 +32,40 @@ const getPostsByCollection = (posts: Metadata[], allCollections: string[]) => {
 
 const getPostsWoCollection = (posts: Metadata[]) => {
   return posts.filter(({ collection }) => collection === null);
+};
+
+const getPostsWCollection = (posts: Metadata[]) => {
+  return posts.filter((post) => post.collection !== null);
+};
+
+const Collection = ({
+  formattedTitles,
+  posts,
+  selectedTags,
+}: {
+  posts: Metadata[];
+  selectedTags: string[];
+  formattedTitles?: (string | undefined)[];
+}) => {
+  return (
+    <SwiperCards
+      rounded
+      slides={posts.map((metadata, index) => (
+        <BlogCard
+          metadata={metadata}
+          key={index}
+          className="border-primary bg-base-100"
+          selectedTags={selectedTags}
+          formattedTitle={formattedTitles?.[index]}
+        />
+      ))}
+      className={tm(
+        "xs:max-w-[300px]",
+        "[@media(min-width:450px)]:max-w-[400px]",
+        "xl:max-w-[500px]"
+      )}
+    />
+  );
 };
 
 const Pill = ({
@@ -63,6 +98,7 @@ export default function Blog({
   const [filterMethod, setFilterMethod] = useState<"union" | "intersection">(
     "union"
   );
+  const [input, setInput] = useState("");
 
   const allTags = Array.from(
     new Set(allMetadata.map(({ tags }) => tags).flat())
@@ -88,10 +124,11 @@ export default function Blog({
       : numOverlappingTags === selectedTags.length;
   });
 
-  const currPosts = selectedTags.length > 0 ? filteredPosts : allMetadata;
+  const currPostsForTags =
+    selectedTags.length > 0 ? filteredPosts : allMetadata;
 
-  const renderPostsWoCollection = () => {
-    return orderPosts(getPostsWoCollection(currPosts), "date").map(
+  const renderPostsWoCollectionForTags = () => {
+    return orderPosts(getPostsWoCollection(currPostsForTags), "date").map(
       (metadata, index) => (
         <AnimatePresence key={index}>
           <motion.li layout="position">
@@ -102,39 +139,125 @@ export default function Blog({
     );
   };
 
-  const renderCollections = () => {
-    return getPostsByCollection(currPosts, allCollections).map(
+  const renderCollectionsForTags = () => {
+    return getPostsByCollection(currPostsForTags, allCollections).map(
       (postsByCollection, index) => (
         <li key={index}>
-          <SwiperCards
-            rounded
-            slides={postsByCollection.map((metadata, index) => (
-              <BlogCard
-                metadata={metadata}
-                key={index}
-                className="border-primary bg-base-100"
-                selectedTags={selectedTags}
-              />
-            ))}
-            className={tm(
-              "xs:max-w-[300px]",
-              "[@media(min-width:450px)]:max-w-[400px]",
-              "xl:max-w-[500px]"
-            )}
-          />
+          <Collection posts={postsByCollection} selectedTags={selectedTags} />
         </li>
       )
     );
   };
 
+  const renderPostsWoCollectionForSearch = () => {
+    const postsWoCollection = getPostsWoCollection(allMetadata);
+    const fuzzyResults = fuzzysort.go(
+      input,
+      postsWoCollection.map((post) => post.title)
+    );
+
+    const filteredPosts = fuzzyResults.map((result) =>
+      postsWoCollection.find((post) => post.title === result.target)
+    ) as Metadata[];
+
+    return filteredPosts.map((metadata, index) => {
+      const formattedTitle =
+        fuzzysort.highlight(
+          fuzzyResults[index],
+          "<span class='text-secondary'>",
+          "</span>"
+        ) ?? undefined;
+      return (
+        <AnimatePresence key={index}>
+          <motion.li layout="position">
+            <BlogCard
+              metadata={metadata}
+              selectedTags={selectedTags}
+              formattedTitle={formattedTitle}
+            />
+          </motion.li>
+        </AnimatePresence>
+      );
+    });
+  };
+
+  const renderCollectionsForSearch = () => {
+    const postsWCollection = getPostsWCollection(allMetadata);
+
+    const fuzzyResults = fuzzysort.go(
+      input,
+      postsWCollection.map((post) => post.title)
+    );
+
+    const hydratedResults = fuzzyResults.map((result) =>
+      postsWCollection.find((post) => post.title === result.target)
+    ) as Metadata[];
+
+    const postsByCollection = getPostsByCollection(
+      allMetadata,
+      allCollections
+    ).map((posts) => {
+      return posts.filter((post) => {
+        return hydratedResults.some((result) => {
+          return result.title === post.title;
+        });
+      });
+    });
+
+    return postsByCollection.map((posts, index) => {
+      const formattedTitles = posts.map((post) => {
+        const hydratedResult = hydratedResults.find(
+          (result) => result.title === post.title
+        ) as Metadata;
+
+        const formattedTitle =
+          fuzzysort.highlight(
+            fuzzyResults.find(
+              (result) => result.target === hydratedResult.title
+            ),
+            "<span class='text-secondary'>",
+            "</span>"
+          ) ?? undefined;
+
+        return formattedTitle;
+      });
+
+      return (
+        <li key={index}>
+          <Collection
+            posts={posts}
+            selectedTags={selectedTags}
+            formattedTitles={formattedTitles}
+          />
+        </li>
+      );
+    });
+  };
+
   const shouldRenderCollectionsTitle = () => {
-    const postsByCollection = getPostsByCollection(currPosts, allCollections);
-    return postsByCollection.length > 0;
+    if (input) {
+      return (
+        fuzzysort.go(
+          input,
+          getPostsWCollection(allMetadata).map((post) => post.title)
+        ).length > 0
+      );
+    }
+
+    return getPostsByCollection(currPostsForTags, allCollections).length > 0;
   };
 
   const shouldRenderBlogTitle = () => {
-    const postsWoCollection = getPostsWoCollection(currPosts);
-    return postsWoCollection.length > 0;
+    if (input) {
+      return (
+        fuzzysort.go(
+          input,
+          getPostsWoCollection(allMetadata).map((post) => post.title)
+        ).length > 0
+      );
+    }
+
+    return getPostsWoCollection(currPostsForTags).length > 0;
   };
 
   return (
@@ -156,7 +279,11 @@ export default function Blog({
             ) : null}
             <div className="ml-[-10px] mb-5">
               <AnimatePresence>
-                <motion.ul layout="position">{renderCollections()}</motion.ul>
+                <motion.ul layout="position">
+                  {input
+                    ? renderCollectionsForSearch()
+                    : renderCollectionsForTags()}
+                </motion.ul>
               </AnimatePresence>
             </div>
             {shouldRenderBlogTitle() ? (
@@ -164,10 +291,24 @@ export default function Blog({
             ) : null}
             {/* TODO: these don't seem to be working */}
             <AnimatePresence>
-              <motion.ul layout>{renderPostsWoCollection()}</motion.ul>
+              <motion.ul layout>
+                {input
+                  ? renderPostsWoCollectionForSearch()
+                  : renderPostsWoCollectionForTags()}
+              </motion.ul>
             </AnimatePresence>
           </section>
           <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
+            <input
+              type="text"
+              placeholder="fuzzy search for post"
+              className="input input-bordered w-full max-w-xs m-3 border border-neutral"
+              value={input}
+              onChange={(e) => {
+                setInput(e.target.value);
+                setSelectedTags([]);
+              }}
+            />
             <h2 className="m-3 text-lg underline w-max">tags</h2>
             <div className="flex flex-col pl-3 gap-3">
               <ul className="flex flex-wrap gap-2">
@@ -179,6 +320,7 @@ export default function Blog({
                         "bg-secondary hover:bg-secondary text-secondary-content"
                     )}
                     onClick={() => {
+                      setInput("");
                       setSelectedTags((prevSelectedTags) => {
                         if (prevSelectedTags.includes(filter)) {
                           return prevSelectedTags.filter(

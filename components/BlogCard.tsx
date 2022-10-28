@@ -1,15 +1,18 @@
 import { twMerge as tm } from "tailwind-merge";
 import Link from "next/link";
 import { Metadata } from "../utils/postHelpers";
+import { ReactNode } from "react";
 
 export default function BlogCard({
   metadata,
   className,
   selectedTags,
+  formattedTitle,
 }: {
   metadata: Metadata;
   className?: string;
   selectedTags?: string[];
+  formattedTitle?: string;
 }) {
   return (
     <Link href={`/blog/${metadata.slug}`}>
@@ -21,7 +24,13 @@ export default function BlogCard({
         )}
       >
         <div>
-          <h2 className="font-semibold">{metadata.title}</h2>
+          <h2 className="font-semibold">
+            {formattedTitle ? (
+              <span dangerouslySetInnerHTML={{ __html: formattedTitle }} />
+            ) : (
+              metadata.title
+            )}
+          </h2>
           <p className="text-xs italic">{metadata.lastUpdated}</p>
         </div>
         <p className="text-xs">{metadata.abstract}</p>
