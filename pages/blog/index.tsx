@@ -302,7 +302,7 @@ export default function Blog({
             <input
               type="text"
               placeholder="fuzzy search for post"
-              className="input input-bordered w-full max-w-xs m-3 border border-neutral"
+              className="input input-bordered max-w-xs w-3/4 m-3 border border-neutral"
               value={input}
               onChange={(e) => {
                 setInput(e.target.value);
