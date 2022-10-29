@@ -1,95 +1,23 @@
 import { twMerge as tm } from "tailwind-merge";
-import { ReactNode, useState } from "react";
-import BlogCard from "../../components/BlogCard";
-import SwiperCards from "../../components/SwiperCards";
+import { useEffect, useState } from "react";
 import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
-import { Collection } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
 import { AnimatePresence, motion } from "framer-motion";
 import Footer from "../../components/Footer";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import fuzzysort from "fuzzysort";
-
-const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
-  return posts.sort((a, b) =>
-    method === "date"
-      ? new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
-      : (a.collection as Collection).order - (b.collection as Collection).order
-  );
-};
-
-const getPostsByCollection = (posts: Metadata[], allCollections: string[]) => {
-  return allCollections
-    .map((collectionName) => {
-      return orderPosts(
-        posts.filter((post) => post.collection?.name === collectionName),
-        "collection"
-      );
-    })
-    .filter((collection) => collection.length > 0);
-};
-
-const getPostsWoCollection = (posts: Metadata[]) => {
-  return posts.filter(({ collection }) => collection === null);
-};
-
-const getPostsWCollection = (posts: Metadata[]) => {
-  return posts.filter((post) => post.collection !== null);
-};
-
-const Collection = ({
-  formattedTitles,
-  posts,
-  selectedTags,
-}: {
-  posts: Metadata[];
-  selectedTags: string[];
-  formattedTitles?: (string | undefined)[];
-}) => {
-  return (
-    <SwiperCards
-      rounded
-      slides={posts.map((metadata, index) => (
-        <BlogCard
-          metadata={metadata}
-          key={index}
-          className="border-primary bg-base-100"
-          selectedTags={selectedTags}
-          formattedTitle={formattedTitles?.[index]}
-        />
-      ))}
-      className={tm(
-        "xs:max-w-[300px]",
-        "[@media(min-width:450px)]:max-w-[400px]",
-        "xl:max-w-[500px]"
-      )}
-    />
-  );
-};
-
-const Pill = ({
-  className,
-  children,
-  onClick,
-}: {
-  className?: string;
-  children: ReactNode;
-  onClick: (args: any) => void;
-}) => {
-  return (
-    <span
-      className={tm(
-        "cursor-pointer select-none rounded-full px-4 py-1 h-max w-max text-xs bg-base-200 transition border border-neutral",
-        "hover:bg-base-300",
-        className
-      )}
-      onClick={onClick}
-    >
-      {children}
-    </span>
-  );
-};
+import PostsForSearch from "../../components/blog/PostsForSearch";
+import PostsForTags from "../../components/blog/PostsForTags";
+import {
+  getPostsByCollection,
+  getPostsWCollection,
+  getPostsWoCollection,
+} from "../../components/blog/helpers";
+import CollectionsForSearch from "../../components/blog/CollectionsForSearch";
+import CollectionsForTags from "../../components/blog/CollectionsForTags";
+import Pill from "../../components/blog/Pill";
+import { useRouter } from "next/router";
 
 export default function Blog({
   allMetadata,
@@ -99,6 +27,50 @@ export default function Blog({
     "union"
   );
   const [input, setInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
+
+  const setTagsQueryParam = (tags: string[]) => {
+    const url = new URL(window.location.href);
+    if (tags.length) {
+      url.searchParams.set("tags", tags.join("_"));
+    } else {
+      url.searchParams.delete("tags");
+    }
+    router.push(url.toString(), undefined, { shallow: true });
+  };
+
+  const setMethodQueryParam = (method: "union" | "intersection") => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("method", method);
+    router.push(url.toString(), undefined, { shallow: true });
+  };
+
+  const setSearchQueryParam = (search: string) => {
+    const url = new URL(window.location.href);
+    if (search) {
+      url.searchParams.set("search", search);
+    } else {
+      url.searchParams.delete("search");
+    }
+    router.push(url.toString(), undefined, { shallow: true });
+  };
+
+  useEffect(() => {
+    const { method, search, tags } = router.query;
+
+    if (method && !Array.isArray(method)) {
+      setFilterMethod(method as "union" | "intersection");
+    }
+    if (!Array.isArray(search)) {
+      setSearchTerm(search ?? "");
+      setInput(search ?? "");
+    }
+    if (!Array.isArray(tags)) {
+      const splitTags = tags?.split("_");
+      setSelectedTags(splitTags ?? []);
+    }
+  }, [router.query, router.query.method, router.query.search]);
 
   const allTags = Array.from(
     new Set(allMetadata.map(({ tags }) => tags).flat())
@@ -114,150 +86,43 @@ export default function Blog({
     )
   );
 
-  const filteredPosts = allMetadata.filter((metadata) => {
-    const numOverlappingTags = metadata.tags.filter((tag) =>
-      selectedTags.includes(tag)
-    ).length;
+  const filteredPostsByTags =
+    selectedTags.length > 0
+      ? allMetadata.filter((metadata) => {
+          const numOverlappingTags = metadata.tags.filter((tag) =>
+            selectedTags.includes(tag)
+          ).length;
 
-    return filterMethod === "union"
-      ? numOverlappingTags > 0
-      : numOverlappingTags === selectedTags.length;
-  });
-
-  const currPostsForTags =
-    selectedTags.length > 0 ? filteredPosts : allMetadata;
-
-  const renderPostsWoCollectionForTags = () => {
-    return orderPosts(getPostsWoCollection(currPostsForTags), "date").map(
-      (metadata, index) => (
-        <AnimatePresence key={index}>
-          <motion.li layout="position">
-            <BlogCard metadata={metadata} selectedTags={selectedTags} />
-          </motion.li>
-        </AnimatePresence>
-      )
-    );
-  };
-
-  const renderCollectionsForTags = () => {
-    return getPostsByCollection(currPostsForTags, allCollections).map(
-      (postsByCollection, index) => (
-        <li key={index}>
-          <Collection posts={postsByCollection} selectedTags={selectedTags} />
-        </li>
-      )
-    );
-  };
-
-  const renderPostsWoCollectionForSearch = () => {
-    const postsWoCollection = getPostsWoCollection(allMetadata);
-    const fuzzyResults = fuzzysort.go(
-      input,
-      postsWoCollection.map((post) => post.title)
-    );
-
-    const filteredPosts = fuzzyResults.map((result) =>
-      postsWoCollection.find((post) => post.title === result.target)
-    ) as Metadata[];
-
-    return filteredPosts.map((metadata, index) => {
-      const formattedTitle =
-        fuzzysort.highlight(
-          fuzzyResults[index],
-          "<span class='text-secondary'>",
-          "</span>"
-        ) ?? undefined;
-      return (
-        <AnimatePresence key={index}>
-          <motion.li layout="position">
-            <BlogCard
-              metadata={metadata}
-              selectedTags={selectedTags}
-              formattedTitle={formattedTitle}
-            />
-          </motion.li>
-        </AnimatePresence>
-      );
-    });
-  };
-
-  const renderCollectionsForSearch = () => {
-    const postsWCollection = getPostsWCollection(allMetadata);
-
-    const fuzzyResults = fuzzysort.go(
-      input,
-      postsWCollection.map((post) => post.title)
-    );
-
-    const hydratedResults = fuzzyResults.map((result) =>
-      postsWCollection.find((post) => post.title === result.target)
-    ) as Metadata[];
-
-    const postsByCollection = getPostsByCollection(
-      allMetadata,
-      allCollections
-    ).map((posts) => {
-      return posts.filter((post) => {
-        return hydratedResults.some((result) => {
-          return result.title === post.title;
-        });
-      });
-    });
-
-    return postsByCollection.map((posts, index) => {
-      const formattedTitles = posts.map((post) => {
-        const hydratedResult = hydratedResults.find(
-          (result) => result.title === post.title
-        ) as Metadata;
-
-        const formattedTitle =
-          fuzzysort.highlight(
-            fuzzyResults.find(
-              (result) => result.target === hydratedResult.title
-            ),
-            "<span class='text-secondary'>",
-            "</span>"
-          ) ?? undefined;
-
-        return formattedTitle;
-      });
-
-      return (
-        <li key={index}>
-          <Collection
-            posts={posts}
-            selectedTags={selectedTags}
-            formattedTitles={formattedTitles}
-          />
-        </li>
-      );
-    });
-  };
+          return filterMethod === "union"
+            ? numOverlappingTags > 0
+            : numOverlappingTags === selectedTags.length;
+        })
+      : allMetadata;
 
   const shouldRenderCollectionsTitle = () => {
-    if (input) {
+    if (searchTerm) {
       return (
         fuzzysort.go(
-          input,
+          searchTerm,
           getPostsWCollection(allMetadata).map((post) => post.title)
         ).length > 0
       );
     }
 
-    return getPostsByCollection(currPostsForTags, allCollections).length > 0;
+    return getPostsByCollection(filteredPostsByTags, allCollections).length > 0;
   };
 
   const shouldRenderBlogTitle = () => {
-    if (input) {
+    if (searchTerm) {
       return (
         fuzzysort.go(
-          input,
+          searchTerm,
           getPostsWoCollection(allMetadata).map((post) => post.title)
         ).length > 0
       );
     }
 
-    return getPostsWoCollection(currPostsForTags).length > 0;
+    return getPostsWoCollection(filteredPostsByTags).length > 0;
   };
 
   return (
@@ -280,9 +145,20 @@ export default function Blog({
             <div className="ml-[-10px] mb-5">
               <AnimatePresence>
                 <motion.ul layout="position">
-                  {input
-                    ? renderCollectionsForSearch()
-                    : renderCollectionsForTags()}
+                  {searchTerm ? (
+                    <CollectionsForSearch
+                      allCollections={allCollections}
+                      allMetadata={allMetadata}
+                      input={searchTerm}
+                      selectedTags={selectedTags}
+                    />
+                  ) : (
+                    <CollectionsForTags
+                      allCollections={allCollections}
+                      filteredPostsByTags={filteredPostsByTags}
+                      selectedTags={selectedTags}
+                    />
+                  )}
                 </motion.ul>
               </AnimatePresence>
             </div>
@@ -292,9 +168,18 @@ export default function Blog({
             {/* TODO: these don't seem to be working */}
             <AnimatePresence>
               <motion.ul layout>
-                {input
-                  ? renderPostsWoCollectionForSearch()
-                  : renderPostsWoCollectionForTags()}
+                {searchTerm ? (
+                  <PostsForSearch
+                    allMetadata={allMetadata}
+                    input={searchTerm}
+                    selectedTags={selectedTags}
+                  />
+                ) : (
+                  <PostsForTags
+                    filteredPostsByTags={filteredPostsByTags}
+                    selectedTags={selectedTags}
+                  />
+                )}
               </motion.ul>
             </AnimatePresence>
           </section>
@@ -306,7 +191,8 @@ export default function Blog({
               value={input}
               onChange={(e) => {
                 setInput(e.target.value);
-                setSelectedTags([]);
+                setSearchQueryParam(e.target.value);
+                /* setTagsQueryParam([]); */
               }}
             />
             <h2 className="m-3 text-lg underline w-max">tags</h2>
@@ -321,15 +207,14 @@ export default function Blog({
                     )}
                     onClick={() => {
                       setInput("");
-                      setSelectedTags((prevSelectedTags) => {
-                        if (prevSelectedTags.includes(filter)) {
-                          return prevSelectedTags.filter(
-                            (prevFilter) => prevFilter !== filter
-                          );
-                        } else {
-                          return prevSelectedTags.concat(filter);
-                        }
-                      });
+                      setSearchQueryParam("");
+                      setTagsQueryParam(
+                        selectedTags.includes(filter)
+                          ? selectedTags.filter(
+                              (prevFilter) => prevFilter !== filter
+                            )
+                          : selectedTags.concat(filter)
+                      );
                     }}
                   >
                     {filter}
@@ -339,7 +224,7 @@ export default function Blog({
               <div className="divider my-0" />
               <Pill
                 onClick={() => {
-                  setSelectedTags([]);
+                  /* setTagsQueryParam([]); */
                 }}
                 className="active:scale-95"
               >
@@ -353,7 +238,7 @@ export default function Blog({
                   filterMethod === "union" &&
                     "bg-secondary hover:bg-secondary text-secondary-content"
                 )}
-                onClick={() => setFilterMethod("union")}
+                onClick={() => setMethodQueryParam("union")}
               >
                 union
               </Pill>
@@ -362,7 +247,7 @@ export default function Blog({
                   filterMethod === "intersection" &&
                     "bg-secondary hover:bg-secondary text-secondary-content"
                 )}
-                onClick={() => setFilterMethod("intersection")}
+                onClick={() => setMethodQueryParam("intersection")}
               >
                 intersection
               </Pill>
