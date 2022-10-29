@@ -18,6 +18,7 @@ import CollectionsForSearch from "../../components/blog/CollectionsForSearch";
 import CollectionsForTags from "../../components/blog/CollectionsForTags";
 import Pill from "../../components/blog/Pill";
 import { useRouter } from "next/router";
+import useIsMobile from "../../hooks/useIsMobile";
 
 export default function Blog({
   allMetadata,
@@ -34,6 +35,7 @@ export default function Blog({
   const [input, setInput] = useState(initialSearch ?? "");
   const refInput = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const isMobile = useIsMobile();
 
   const setTagsQueryParam = (tags: string[]) => {
     const url = new URL(window.location.href);
@@ -84,12 +86,14 @@ export default function Blog({
   useEffect(() => {
     if (!refInput.current) return;
 
-    refInput.current.focus();
-    // hack to focus at end of input
-    const currInput = refInput.current.value;
-    refInput.current.value = "";
-    refInput.current.value = currInput;
-  }, []);
+    if (refInput.current.value && !isMobile) {
+      refInput.current.focus();
+      // hack to focus at end of input
+      const currInput = refInput.current.value;
+      refInput.current.value = "";
+      refInput.current.value = currInput;
+    }
+  }, [isMobile]);
 
   const allTags = Array.from(
     new Set(allMetadata.map(({ tags }) => tags).flat())
