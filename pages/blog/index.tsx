@@ -1,11 +1,11 @@
 import { twMerge as tm } from "tailwind-merge";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
 import { AnimatePresence, motion } from "framer-motion";
 import Footer from "../../components/Footer";
-import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { NextPageContext } from "next";
 import fuzzysort from "fuzzysort";
 import PostsForSearch from "../../components/blog/PostsForSearch";
 import PostsForTags from "../../components/blog/PostsForTags";
@@ -19,15 +19,20 @@ import CollectionsForTags from "../../components/blog/CollectionsForTags";
 import Pill from "../../components/blog/Pill";
 import { useRouter } from "next/router";
 
-export default function Blog({
+function Blog({
   allMetadata,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [filterMethod, setFilterMethod] = useState<"union" | "intersection">(
-    "union"
+  initialMethod,
+  initialSearch,
+  initialTags,
+}: Props) {
+  const [selectedTags, setSelectedTags] = useState<string[]>(
+    initialTags?.split("_") ?? []
   );
-  const [input, setInput] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [filterMethod, setFilterMethod] = useState<"union" | "intersection">(
+    initialMethod ?? "union"
+  );
+  const [input, setInput] = useState(initialSearch ?? "");
+  const refInput = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const setTagsQueryParam = (tags: string[]) => {
@@ -40,37 +45,51 @@ export default function Blog({
     router.push(url.toString(), undefined, { shallow: true });
   };
 
+  const setTagsState = (tags: string[]) => {
+    setSelectedTags(tags);
+    setTagsQueryParam(tags);
+  };
+
   const setMethodQueryParam = (method: "union" | "intersection") => {
     const url = new URL(window.location.href);
     url.searchParams.set("method", method);
     router.push(url.toString(), undefined, { shallow: true });
   };
 
-  const setSearchQueryParam = (search: string) => {
-    const url = new URL(window.location.href);
-    if (search) {
-      url.searchParams.set("search", search);
-    } else {
-      url.searchParams.delete("search");
-    }
-    router.push(url.toString(), undefined, { shallow: true });
+  const setMethodState = (method: "union" | "intersection") => {
+    setFilterMethod(method);
+    setMethodQueryParam(method);
   };
 
-  useEffect(() => {
-    const { method, search, tags } = router.query;
+  const setSearchQueryParam = useCallback(
+    (search: string) => {
+      const url = new URL(window.location.href);
+      if (search) {
+        url.searchParams.set("search", search);
+      } else {
+        url.searchParams.delete("search");
+      }
+      router.push(url.toString(), undefined, { shallow: true });
+    },
+    // https://github.com/vercel/next.js/issues/39007
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
-    if (method && !Array.isArray(method)) {
-      setFilterMethod(method as "union" | "intersection");
-    }
-    if (!Array.isArray(search)) {
-      setSearchTerm(search ?? "");
-      setInput(search ?? "");
-    }
-    if (!Array.isArray(tags)) {
-      const splitTags = tags?.split("_");
-      setSelectedTags(splitTags ?? []);
-    }
-  }, [router.query, router.query.method, router.query.search]);
+  useEffect(() => {
+    // hack to set query param with controlled component
+    setSearchQueryParam(input);
+  }, [input, setSearchQueryParam]);
+
+  useEffect(() => {
+    if (!refInput.current) return;
+
+    refInput.current.focus();
+    // hack to focus at end of input
+    const currInput = refInput.current.value;
+    refInput.current.value = "";
+    refInput.current.value = currInput;
+  }, []);
 
   const allTags = Array.from(
     new Set(allMetadata.map(({ tags }) => tags).flat())
@@ -100,10 +119,10 @@ export default function Blog({
       : allMetadata;
 
   const shouldRenderCollectionsTitle = () => {
-    if (searchTerm) {
+    if (input) {
       return (
         fuzzysort.go(
-          searchTerm,
+          input,
           getPostsWCollection(allMetadata).map((post) => post.title)
         ).length > 0
       );
@@ -113,10 +132,10 @@ export default function Blog({
   };
 
   const shouldRenderBlogTitle = () => {
-    if (searchTerm) {
+    if (input) {
       return (
         fuzzysort.go(
-          searchTerm,
+          input,
           getPostsWoCollection(allMetadata).map((post) => post.title)
         ).length > 0
       );
@@ -145,11 +164,11 @@ export default function Blog({
             <div className="ml-[-10px] mb-5">
               <AnimatePresence>
                 <motion.ul layout="position">
-                  {searchTerm ? (
+                  {input ? (
                     <CollectionsForSearch
                       allCollections={allCollections}
                       allMetadata={allMetadata}
-                      input={searchTerm}
+                      input={input}
                       selectedTags={selectedTags}
                     />
                   ) : (
@@ -168,10 +187,10 @@ export default function Blog({
             {/* TODO: these don't seem to be working */}
             <AnimatePresence>
               <motion.ul layout>
-                {searchTerm ? (
+                {input ? (
                   <PostsForSearch
                     allMetadata={allMetadata}
-                    input={searchTerm}
+                    input={input}
                     selectedTags={selectedTags}
                   />
                 ) : (
@@ -185,14 +204,14 @@ export default function Blog({
           </section>
           <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
             <input
+              ref={refInput}
               type="text"
               placeholder="fuzzy search for post"
               className="input input-bordered max-w-xs w-3/4 m-3 border border-neutral"
               value={input}
               onChange={(e) => {
                 setInput(e.target.value);
-                setSearchQueryParam(e.target.value);
-                /* setTagsQueryParam([]); */
+                setTagsState([]);
               }}
             />
             <h2 className="m-3 text-lg underline w-max">tags</h2>
@@ -207,8 +226,8 @@ export default function Blog({
                     )}
                     onClick={() => {
                       setInput("");
-                      setSearchQueryParam("");
-                      setTagsQueryParam(
+                      /* setSearchQueryParam(""); */
+                      setTagsState(
                         selectedTags.includes(filter)
                           ? selectedTags.filter(
                               (prevFilter) => prevFilter !== filter
@@ -224,7 +243,7 @@ export default function Blog({
               <div className="divider my-0" />
               <Pill
                 onClick={() => {
-                  /* setTagsQueryParam([]); */
+                  setTagsState([]);
                 }}
                 className="active:scale-95"
               >
@@ -238,7 +257,9 @@ export default function Blog({
                   filterMethod === "union" &&
                     "bg-secondary hover:bg-secondary text-secondary-content"
                 )}
-                onClick={() => setMethodQueryParam("union")}
+                onClick={() => {
+                  setMethodState("union");
+                }}
               >
                 union
               </Pill>
@@ -247,7 +268,9 @@ export default function Blog({
                   filterMethod === "intersection" &&
                     "bg-secondary hover:bg-secondary text-secondary-content"
                 )}
-                onClick={() => setMethodQueryParam("intersection")}
+                onClick={() => {
+                  setMethodState("intersection");
+                }}
               >
                 intersection
               </Pill>
@@ -262,12 +285,18 @@ export default function Blog({
 
 interface Props {
   allMetadata: Metadata[];
+  initialTags?: string;
+  initialMethod?: "union" | "intersection";
+  initialSearch?: string;
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+Blog.getInitialProps = (ctx: NextPageContext) => {
   return {
-    props: {
-      allMetadata: fetchAllMetadata(),
-    },
+    initialSearch: ctx.query.search,
+    initialTags: ctx.query.tags,
+    initialMethod: ctx.query.method,
+    allMetadata: fetchAllMetadata(),
   };
 };
+
+export default Blog;
