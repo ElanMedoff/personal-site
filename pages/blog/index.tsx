@@ -19,7 +19,7 @@ import CollectionsForTags from "../../components/blog/CollectionsForTags";
 import Pill from "../../components/blog/Pill";
 import { useRouter } from "next/router";
 
-function Blog({
+export default function Blog({
   allMetadata,
   initialMethod,
   initialSearch,
@@ -290,13 +290,13 @@ interface Props {
   initialSearch?: string;
 }
 
-Blog.getInitialProps = (ctx: NextPageContext) => {
+export function getServerSideProps(ctx: NextPageContext) {
   return {
-    initialSearch: ctx.query.search,
-    initialTags: ctx.query.tags,
-    initialMethod: ctx.query.method,
-    allMetadata: fetchAllMetadata(),
+    props: {
+      initialSearch: ctx.query.search ?? null,
+      initialTags: ctx.query.tags ?? null,
+      initialMethod: ctx.query.method ?? null,
+      allMetadata: fetchAllMetadata(),
+    },
   };
-};
-
-export default Blog;
+}
