@@ -202,8 +202,8 @@ export default function Blog({
                 type="text"
                 placeholder="fuzzy search for post"
                 className={tm(
-                  "max-w-xs w-3/4 py-3 px-6 pl-12 border border-neutral rounded-xl bg-base-100 transition-all",
-                  "focus:outline-none focus:outline-base-300"
+                  "max-w-xs w-3/4 py-3 px-6 pl-12 border border-neutral rounded-xl bg-base-100 transition-colors",
+                  "focus:outline-none focus:outline-neutral"
                 )}
                 value={inputValue}
                 onChange={(e) => {

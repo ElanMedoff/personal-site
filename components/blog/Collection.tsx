@@ -19,7 +19,7 @@ export default function CollectionOfPosts({
         <BlogCard
           metadata={metadata}
           key={index}
-          className="border-primary bg-base-100"
+          className="border-primary bg-base-100 transition-all"
           selectedTags={selectedTags}
           formattedTitle={formattedTitles?.[index]}
         />

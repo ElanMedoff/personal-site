@@ -18,7 +18,8 @@ export default function Dialog({
         <label
           className={tm(
             "modal-box relative border-4 border-content",
-            "py-8 sm:py-12 px-6 sm:px-8"
+            "py-8 sm:py-12 px-6 sm:px-8",
+            "border-b-0 sm:border-b-4"
           )}
         >
           {children}
