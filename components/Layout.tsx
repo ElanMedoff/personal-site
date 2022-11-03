@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { ReactNode } from "react";
 import Header from "./Header";
 import { createContext, Dispatch, SetStateAction } from "react";
@@ -18,18 +17,6 @@ export default function Layout({ children }: { children: ReactNode }) {
         data-theme={isDarkMode ? "dracula" : "emerald"}
         className="transition-colors"
       >
-        <Head>
-          <link rel="shortcut icon" href="/favicon/favicon.ico" />
-          <title>elanmed.dev</title>
-          <meta
-            name="description"
-            content="Mostly a blog, partly a personal website"
-          />
-          <meta
-            name="google-site-verification"
-            content="CE4T4wzf1pNuiL7JwIC9CqNdJyCfsfaNyLjkeFRr9Dc"
-          />
-        </Head>
         <Header />
         <div>{children}</div>
       </div>
