@@ -1,9 +1,14 @@
 module.exports = {
   apps: [
     {
-      name: "next",
+      name: "build",
       script: "/home/elan/.nvm/versions/node/v16.16.0/bin/npm",
-      args: "run prod",
+      args: "run build",
+    },
+    {
+      name: "start",
+      script: "/home/elan/.nvm/versions/node/v16.16.0/bin/npm",
+      args: "run start",
     },
   ],
 };

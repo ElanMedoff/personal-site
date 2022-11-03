@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prod": "next build && next start",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "push": "git push origin master",
     "deploy": "git push server"
