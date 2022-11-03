@@ -1,31 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
 import { languageToIconUrl, Repo } from "../utils/githubHelpers";
 import AtroposBorder from "./AtroposBorder";
 import Atropos from "atropos/react";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion, useAnimationControls, useInView } from "framer-motion";
 import useIsMobile from "../hooks/useIsMobile";
-import "atropos/css";
 import { onScrollChildProps, onScrollContainerProps } from "../utils/framer";
 
 const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
+  const [hasHovered, setHasHovered] = useState(false);
   const isMobile = useIsMobile();
   const controls = useAnimationControls();
+  const refContainer = useRef(null);
+  const isInView = useInView(refContainer);
 
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile || hasHovered || !isInView) return;
 
     controls.start({
-      x: [null, 5, -5, 5, 0],
+      x: [0, 5, -5, 5, 0],
       transition: {
         type: "spring",
         duration: 0.4,
         repeat: Infinity,
         repeatDelay: 4,
-        delay: 1,
+        delay: 2,
       },
     });
-  }, [controls, isMobile]);
+  }, [controls, hasHovered, isInView, isMobile]);
 
   const {
     // TODO: find a way to use this
@@ -38,7 +40,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
   } = repo;
 
   return (
-    <motion.a
+    <motion.div
       // open in background tab
       onClick={(e) => {
         e.preventDefault();
@@ -47,9 +49,12 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
         }
       }}
       className="cursor-pointer"
-      href={isMobile ? undefined : html_url}
       animate={index === 0 ? controls : undefined}
-      onMouseMove={() => controls.stop()}
+      onMouseMove={() => {
+        controls.stop();
+        setHasHovered(true);
+      }}
+      ref={refContainer}
     >
       <Atropos
         rotateXMax={25}
@@ -99,7 +104,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
           </ul>
         </article>
       </Atropos>
-    </motion.a>
+    </motion.div>
   );
 };
 

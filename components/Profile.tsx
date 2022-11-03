@@ -3,12 +3,13 @@ import "atropos/css";
 import AtroposImage from "./AtroposImage";
 import styles from "../styles/icons.module.scss";
 import Atropos from "atropos/react";
-import { useEffect, useState } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useAnimationControls, useInView } from "framer-motion";
 import Skeleton from "./Skeleton";
 import Anchor from "./reusable/Anchor";
 import useIsMobile from "../hooks/useIsMobile";
 import { generateOnScrollProps } from "../utils/framer";
+import AtroposBorder from "./AtroposBorder";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);
@@ -26,7 +27,10 @@ export default function Profile() {
     leaves: "",
     profile: "",
   });
+  const [hasHovered, setHasHovered] = useState(false);
   const controls = useAnimationControls();
+  const refContainer = useRef(null);
+  const isInView = useInView(refContainer);
 
   useEffect(() => {
     const load = async () => {
@@ -55,7 +59,7 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    if (loading || isMobile) return;
+    if (loading || isMobile || hasHovered || !isInView) return;
 
     controls.start({
       x: [null, 5, -5, 5, 0],
@@ -64,10 +68,10 @@ export default function Profile() {
         duration: 0.4,
         repeat: Infinity,
         repeatDelay: 4,
-        delay: 1,
+        delay: 2,
       },
     });
-  }, [controls, isMobile, loading]);
+  }, [controls, hasHovered, isInView, isMobile, loading]);
 
   const renderLoading = () => {
     return <Skeleton width={451} square />;
@@ -76,12 +80,26 @@ export default function Profile() {
   const renderAtropos = () => {
     const { sky, horizon, leaves, profile } = srcs;
     return (
-      <motion.div animate={controls} onMouseMove={() => controls.stop()}>
+      <motion.div
+        animate={controls}
+        onMouseMove={() => {
+          controls.stop();
+          setHasHovered(true);
+        }}
+      >
         <Atropos
           className="relative"
           innerClassName="overflow-hidden border-2 border-neutral"
           rotateXMax={20}
           rotateYMax={20}
+          rotateChildren={
+            <>
+              <AtroposBorder.Left base={25} color="neutral" />
+              <AtroposBorder.Right base={25} color="neutral" />
+              <AtroposBorder.Top base={25} color="neutral" />
+              <AtroposBorder.Bottom base={25} color="neutral" />
+            </>
+          }
         >
           <AtroposImage src={sky} alt="profile pic" offset={0} />
           <AtroposImage
@@ -113,7 +131,10 @@ export default function Profile() {
         "flex flex-row flex-wrap-reverse gap-12 max-w-7xl px-10 pt-10"
       )}
     >
-      <div className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}>
+      <div
+        className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}
+        ref={refContainer}
+      >
         {loading ? renderLoading() : renderAtropos()}
       </div>
       <motion.div

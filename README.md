@@ -4,5 +4,4 @@ mostly a blog, partly a personal website
 
 <!--
 todo:
-- basic analytics
 -->

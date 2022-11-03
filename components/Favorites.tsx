@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
 import { onScrollChildProps, onScrollContainerProps } from "../utils/framer";
 import SwiperCards from "./SwiperCards";

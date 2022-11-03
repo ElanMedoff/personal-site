@@ -21,7 +21,7 @@ export default function SwiperCards({
     <Swiper
       effect={"cards"}
       grabCursor={true}
-      modules={autoplay ? [Autoplay, EffectCards] : [EffectCards]}
+      modules={[Autoplay, EffectCards]}
       autoplay={
         autoplay
           ? {
