@@ -1,7 +1,6 @@
 import { twMerge as tm } from "tailwind-merge";
 import Link from "next/link";
 import { Metadata } from "../utils/postHelpers";
-import { ReactNode } from "react";
 
 export default function BlogCard({
   metadata,
@@ -18,8 +17,8 @@ export default function BlogCard({
     <Link href={`/blog/${metadata.slug}`}>
       <div
         className={tm(
-          "max-w-[500px] cursor-pointer rounded-2xl flex flex-col p-6 gap-5",
-          "border border-transparent  hover:border-primary",
+          "max-w-[500px] cursor-pointer rounded-2xl flex flex-col p-6 gap-5 transition-all",
+          "border border-transparent hover:border-primary",
           className
         )}
       >

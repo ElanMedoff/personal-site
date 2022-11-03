@@ -49,11 +49,15 @@ export default function Header() {
         <h3 className={tm("text-lg md:text-2xl", "font-bold cursor-pointer")}>
           <Link href="/">
             <span>
-              <span className="text-base-content">
+              <span className="text-base-content transition-all">
                 elan
-                <span className="text-primary sm:text-base-content">med</span>
+                <span className="text-primary sm:text-base-content transition-all">
+                  med
+                </span>
               </span>
-              <span className="hidden sm:inline text-primary">.dev</span>
+              <span className="hidden sm:inline text-primary transition-all">
+                .dev
+              </span>
             </span>
           </Link>
         </h3>

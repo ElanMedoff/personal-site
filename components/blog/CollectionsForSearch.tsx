@@ -5,19 +5,19 @@ import { getPostsByCollection, getPostsWCollection } from "./helpers";
 
 export default function CollectionsForSearch({
   allMetadata,
-  input,
+  inputValue,
   allCollections,
   selectedTags,
 }: {
   allMetadata: Metadata[];
-  input: string;
+  inputValue: string;
   allCollections: string[];
   selectedTags: string[];
 }) {
   const postsWCollection = getPostsWCollection(allMetadata);
 
   const fuzzyResults = fuzzysort.go(
-    input,
+    inputValue,
     postsWCollection.map((post) => post.title)
   );
 

@@ -6,16 +6,16 @@ import { getPostsWoCollection } from "./helpers";
 
 export default function PostsWoCollectionForSearch({
   allMetadata,
-  input,
+  inputValue,
   selectedTags,
 }: {
   allMetadata: Metadata[];
-  input: string;
+  inputValue: string;
   selectedTags: string[];
 }) {
   const postsWoCollection = getPostsWoCollection(allMetadata);
   const fuzzyResults = fuzzysort.go(
-    input,
+    inputValue,
     postsWoCollection.map((post) => post.title)
   );
 

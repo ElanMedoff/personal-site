@@ -67,7 +67,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
       >
         <article
           className={tm(
-            "min-h-[300px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-neutral",
+            "min-h-[300px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-neutral transition-all",
             "w-[300px] sm:w-[400px]"
           )}
         >

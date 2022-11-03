@@ -1,5 +1,5 @@
 import { twMerge as tm } from "tailwind-merge";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
@@ -19,6 +19,7 @@ import CollectionsForTags from "../../components/blog/CollectionsForTags";
 import Pill from "../../components/blog/Pill";
 import { useRouter } from "next/router";
 import useIsMobile from "../../hooks/useIsMobile";
+import { BsSearch as SearchIcon } from "react-icons/bs";
 
 export default function Blog({
   allMetadata,
@@ -32,56 +33,44 @@ export default function Blog({
   const [filterMethod, setFilterMethod] = useState<"union" | "intersection">(
     initialMethod ?? "union"
   );
-  const [input, setInput] = useState(initialSearch ?? "");
+  const [inputValue, setInputValue] = useState(initialSearch ?? "");
   const refInput = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const isMobile = useIsMobile();
 
-  const setTagsQueryParam = (tags: string[]) => {
+  const setState = ({
+    selectedTags,
+    filterMethod,
+    inputValue,
+  }: {
+    selectedTags?: string[];
+    filterMethod?: "union" | "intersection";
+    inputValue?: string;
+  }) => {
+    if (selectedTags !== undefined) setSelectedTags(selectedTags);
+    if (filterMethod !== undefined) setFilterMethod(filterMethod);
+    if (inputValue !== undefined) setInputValue(inputValue);
+
     const url = new URL(window.location.href);
-    if (tags.length) {
-      url.searchParams.set("tags", tags.join("_"));
+
+    if (selectedTags?.length) {
+      url.searchParams.set("tags", selectedTags.join("_"));
     } else {
       url.searchParams.delete("tags");
     }
-    router.push(url.toString(), undefined, { shallow: true });
+
+    if (filterMethod) {
+      url.searchParams.set("method", filterMethod);
+    }
+
+    if (inputValue) {
+      url.searchParams.set("search", inputValue);
+    } else {
+      url.searchParams.delete("search");
+    }
+
+    router.push(url, undefined, { shallow: true });
   };
-
-  const setTagsState = (tags: string[]) => {
-    setSelectedTags(tags);
-    setTagsQueryParam(tags);
-  };
-
-  const setMethodQueryParam = (method: "union" | "intersection") => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("method", method);
-    router.push(url.toString(), undefined, { shallow: true });
-  };
-
-  const setMethodState = (method: "union" | "intersection") => {
-    setFilterMethod(method);
-    setMethodQueryParam(method);
-  };
-
-  const setSearchQueryParam = useCallback(
-    (search: string) => {
-      const url = new URL(window.location.href);
-      if (search) {
-        url.searchParams.set("search", search);
-      } else {
-        url.searchParams.delete("search");
-      }
-      router.push(url.toString(), undefined, { shallow: true });
-    },
-    // https://github.com/vercel/next.js/issues/39007
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
-  useEffect(() => {
-    // hack to set query param with controlled component
-    setSearchQueryParam(input);
-  }, [input, setSearchQueryParam]);
 
   useEffect(() => {
     if (!refInput.current) return;
@@ -123,10 +112,10 @@ export default function Blog({
       : allMetadata;
 
   const shouldRenderCollectionsTitle = () => {
-    if (input) {
+    if (inputValue) {
       return (
         fuzzysort.go(
-          input,
+          inputValue,
           getPostsWCollection(allMetadata).map((post) => post.title)
         ).length > 0
       );
@@ -136,10 +125,10 @@ export default function Blog({
   };
 
   const shouldRenderBlogTitle = () => {
-    if (input) {
+    if (inputValue) {
       return (
         fuzzysort.go(
-          input,
+          inputValue,
           getPostsWoCollection(allMetadata).map((post) => post.title)
         ).length > 0
       );
@@ -168,11 +157,11 @@ export default function Blog({
             <div className="ml-[-10px] mb-5">
               <AnimatePresence>
                 <motion.ul layout="position">
-                  {input ? (
+                  {inputValue ? (
                     <CollectionsForSearch
                       allCollections={allCollections}
                       allMetadata={allMetadata}
-                      input={input}
+                      inputValue={inputValue}
                       selectedTags={selectedTags}
                     />
                   ) : (
@@ -191,10 +180,10 @@ export default function Blog({
             {/* TODO: these don't seem to be working */}
             <AnimatePresence>
               <motion.ul layout>
-                {input ? (
+                {inputValue ? (
                   <PostsForSearch
                     allMetadata={allMetadata}
-                    input={input}
+                    inputValue={inputValue}
                     selectedTags={selectedTags}
                   />
                 ) : (
@@ -207,17 +196,29 @@ export default function Blog({
             </AnimatePresence>
           </section>
           <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
-            <input
-              ref={refInput}
-              type="text"
-              placeholder="fuzzy search for post"
-              className="input input-bordered max-w-xs w-3/4 m-3 border border-neutral"
-              value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
-                setTagsState([]);
-              }}
-            />
+            <div className="relative m-3 mb-6">
+              <input
+                ref={refInput}
+                type="text"
+                placeholder="fuzzy search for post"
+                className={tm(
+                  "max-w-xs w-3/4 py-3 px-6 pl-12 border border-neutral rounded-xl bg-base-100 transition-all",
+                  "focus:outline-none focus:outline-base-300"
+                )}
+                value={inputValue}
+                onChange={(e) => {
+                  setState({
+                    selectedTags: [],
+                    filterMethod: "union",
+                    inputValue: e.target.value,
+                  });
+                }}
+              />
+              <SearchIcon
+                size={20}
+                className="inline-block absolute top-4 left-4"
+              />
+            </div>
             <h2 className="m-3 text-lg underline w-max">tags</h2>
             <div className="flex flex-col pl-3 gap-3">
               <ul className="flex flex-wrap gap-2">
@@ -229,15 +230,14 @@ export default function Blog({
                         "bg-secondary hover:bg-secondary text-secondary-content"
                     )}
                     onClick={() => {
-                      setInput("");
-                      /* setSearchQueryParam(""); */
-                      setTagsState(
-                        selectedTags.includes(filter)
+                      setState({
+                        selectedTags: selectedTags.includes(filter)
                           ? selectedTags.filter(
                               (prevFilter) => prevFilter !== filter
                             )
-                          : selectedTags.concat(filter)
-                      );
+                          : selectedTags.concat(filter),
+                        inputValue: "",
+                      });
                     }}
                   >
                     {filter}
@@ -247,7 +247,7 @@ export default function Blog({
               <div className="divider my-0" />
               <Pill
                 onClick={() => {
-                  setTagsState([]);
+                  setState({ selectedTags: [] });
                 }}
                 className="active:scale-95"
               >
@@ -262,7 +262,7 @@ export default function Blog({
                     "bg-secondary hover:bg-secondary text-secondary-content"
                 )}
                 onClick={() => {
-                  setMethodState("union");
+                  setState({ filterMethod: "union" });
                 }}
               >
                 union
@@ -273,7 +273,7 @@ export default function Blog({
                     "bg-secondary hover:bg-secondary text-secondary-content"
                 )}
                 onClick={() => {
-                  setMethodState("intersection");
+                  setState({ filterMethod: "intersection" });
                 }}
               >
                 intersection

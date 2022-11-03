@@ -9,7 +9,7 @@ function Post({ post }: { post: Metadata }) {
     <Link href={`/blog/${post.slug}`}>
       <div
         className={tm(
-          "cursor-pointer rounded-2xl px-9 py-6 bg-base-100 h-60 duration-200 transition",
+          "cursor-pointer rounded-2xl px-9 py-6 bg-base-100 h-60 duration-200 transition-all",
           "flex flex-col justify-between",
           "shadow-lg hover:shadow-2xl",
           "border hover:border-primary",
