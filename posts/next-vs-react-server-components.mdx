@@ -1,0 +1,148 @@
+---
+title: "Next.js vs React Server Components"
+abstract: ""
+lastUpdated: "November 03, 2022"
+slug: next-vs-react-server-components
+tags:
+  - software eng
+  - react
+  - nextjs
+  - server components
+collection: null
+isPublished: false
+---
+
+# Next.js vs React Server Components
+
+With the release of Next.js [version 13](https://nextjs.org/blog/next-13), React server components are finally an official, semi-stable feature of the React ecosystem. But for those not as familiar with the ins and outs of server rendering and hydration, the impact of this release may not be so clear. 
+
+Part of the reason for this confusion is that much of the material written/discussed on the subject has tried to avoid directly comparing server components with ssr, claming instead that the two compliment one another. And while this is _technically_ true, comparisons are often much easier to digest, and it's not too hard to divise a situation where a comparison is fairly reasonable.
+
+## Our Contrived Example of SSR
+
+Say we have an app made of the following two components:
+
+<Code language="tsx" code={`
+export default function Parent() {
+  return (
+    <div>
+      <p>this is some static markup</p>
+      <Child />
+    </div>
+  );
+}
+
+function Child() {
+  const [counter, setCounter] = useState(0);
+
+  return (
+    <div>
+      <p>{counter}</p>
+      <button onClick={() => setCounter((prevCounter) => prevCounter + 1)}>
+        Increase
+      </button>
+    </div>
+  );
+}
+`} />
+
+The key thing to notice is that `Parent` only contains static markup, while `Child` contains state and event handlers - the building blocks of interactivity. 
+
+Let's consider what the request lifecycle would look like if you went to the page where `Parent` was exported from.
+
+1. At build time (or request time, if you use `getServerSideProps`), Next.js runs the default export for the page, i.e. `Parent`, to generate its markup. This includes running `Child` to determine its own markup for the first render. In our case, the this would generate markup that looks something like the following:
+
+<Code language="html" code={`
+<div>
+  <p>this is some static markup</p>
+  <div>
+    <p>0</p>
+    <button>Increase</button>
+  </div>
+</div>
+`} />
+
+2. At request time, Next.js sends the html generated in step 1 to the browser, along with a script tag that references a javascript bundle which lives on the server.
+    - This javascript bundle contains the React code for our two components, `Parent` and `Child`
+3. The browser paints the html for the user to see, and fetches the javascript bundle from the server
+4. The javascript bundle is fetched and executed, booting up the Next.js runtime on the browser
+5. Next.js (on the browser) reruns the code for the two components, but instead of only generating the html for the first render like it did in step 1, it also creates state (i.e. `useState`) and event listeners (i.e. `onClick`). The state and event listeners are attached to the DOM, and just like that, your app is interactive. This process of rerunning components on the browser to make server-generated html interactive is known as hydration. 
+
+Let's consider server components.
+
+## Basics of Server Components
+
+In a nutshell, server components are React components that render to html on the server - client components (i.e. current React) render to html on the client. This'll become more clear when we go through the request lifecycle. A few interesting tradeoffs:
+
+1. Server components can have client component children, but client components _cannot_ have server component children
+2. Server components can't have any kind of interactivity or state 
+3. Any code or libraries imported into a server component isn't shipped to the client - only the html that code generates
+
+<Aside>
+if you read the RFC, you may know that server components aren't actually rendered to html, but rather a new JSON-like format. This is important for maintaing client-side state when a client-component's server-component parent is refetched, but that's not super important for our purposes.
+</Aside>
+
+With that in mind, let's take a look at the following code:
+
+<Code language="tsx" code={`
+// parent.server.js
+export default function Parent() {
+  return (
+    <div>
+      <p>this is some static markup</p>
+      <Child />
+    </div>
+  );
+}
+
+// child.client.js
+export default function Child() {
+  const [counter, setCounter] = useState(0);
+
+  return (
+    <div>
+      <p>{counter}</p>
+      <button onClick={() => setCounter((prevCounter) => prevCounter + 1)}>
+        Increase
+      </button>
+    </div>
+  );
+}
+`} />
+
+This should look familiar, but now our `Parent` and `Child` are in two different files. Notice that `Child` has a `.client.js` file extension, while `Parent` has a `.server.js` extension - this is to indicate which is a server component, and which is a client component. Since `Parent` only renders static markup, it's a great candidate for a server component, while `Child` needs to be a client component since it uses state.
+
+Let's go through the request lifecycle for server components and compare it to the Next.js lifecycle.
+
+1. At request time, React runs the server components relevant to the request (in our case `Page`) to generate its html. However, unlike Next.js, this does _not_ include running `Child` to determine its markup for the first render. Instead, `Child` is left as an empty `div` to be rendered on the client. This means we generate markup that looks something like the following:
+
+<Code language="html" code={`
+<div>
+  <p>this is some static markup</p>
+  <div id="child"/>
+</div>
+`} />
+
+2. React sends the html generated in step 1 to the browser, along with a script tag that references a javascript bundle that lives on the server.
+    - Unlike ssr, whose bundle includes the React code for `Parent` and `Child`, the bundle when using server components only includes the code for `Child`!
+3. The browser paints the html for the user to see, and fetches the javascript bundle from the server
+4. The javascript bundle is fetched and executed, booting up the React runtime on the browser
+5. React (on the browser) runs the code necessary to render `Child`. Unlike ssr, there's no hydration, because the only components which would need to be hydrated (i.e. stateful client components) were never rendered to dehydrated html in the first place! The only time client components are rendered is on the browser, and like in traditional React apps, when components are rendered on the browser, they're already fully interactive. 
+
+Let's really hammer in the differences between these two lifecycles.
+
+## The Main Differences
+
+1. With ssr, the React code for `Parent` is sent to the browser in the javascript bundle, while with server components, `Parent` is not. In other words, server components do not increase bundle size! Imagine if `Parent` imported a heavy date formatting library - with ssr, the whole library would be sent to the browser, while with server components, it's not.
+2. The reason the React code for `Parent` isn't sent in the javascript bundle when using server components is that server components don't need to hydrate! Hydration is the process of adding state and event listeners to dehyrated html, but server components by definition don't have any interactivity, and client components are _only_ rendered on the client - they're never rendered to dehyrated html.
+
+
+## How SSR Compliments Server Components
+
+As keep emphasizing, client components aren't rendered to html on the server - they're rendered solely on the client. However, with our example, that means the user is left with a blank `<div />` until step 5. Not a great user experience. What if we could server render our client components, then hydrate them on the client? In that case, we'd have the best from ssr and server components. 
+
+With server rendered client components, we'd need to ship the code for `Child` to the browser so it can be rerun on the client and we can hdyrate the component - but with both traditional server components and ssr, we're already shipping `Child` to the browser, so no downside there. 
+
+In fact there's actually an upside - by using the server components architecture, we _only_ need to ship the code for `Child` to the browser, we can leave `Parent` out of the bundle. In other words, server rendered child components takes the reduced bundle of server components with the great ux of having initial markup that's hydrated from ssr. 
+
+In essence, this is Next.js version 13 - server components with server rendered client components - but hopefully you have a bit of a better understanding of it now. 
