@@ -3,19 +3,25 @@ import Link from "next/link";
 import { twMerge as tm } from "tailwind-merge";
 import { onScrollChildProps, onScrollContainerProps } from "../utils/framer";
 import { Metadata } from "../utils/postHelpers";
+import { transitionProperties } from "../utils/styles";
 
 function Post({ post }: { post: Metadata }) {
   return (
     <Link href={`/blog/${post.slug}`}>
       <div
         className={tm(
-          "cursor-pointer rounded-2xl px-9 py-6 bg-base-100 h-60 duration-200 transition-all",
+          "cursor-pointer rounded-2xl px-9 py-6 bg-base-100 h-60",
           "flex flex-col justify-between",
           "shadow-lg hover:shadow-2xl",
           "border hover:border-primary",
           "w-[300px] sm:w-[500px]",
           "hover:scale-105"
         )}
+        style={{
+          ...transitionProperties,
+          transitionProperty: "transform, border-color, box-shadow",
+          transitionDuration: "200ms",
+        }}
       >
         <div>
           <h2 className="mb-2 sm:mb-5 font-semibold sm:text-xl">

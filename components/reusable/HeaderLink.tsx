@@ -4,6 +4,8 @@ import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 import Dialog from "./Dialog";
 import { v4 as uuidv4 } from "uuid";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import { transitionProperties } from "../../utils/styles";
+import { useRouter } from "next/router";
 
 export default function HeaderLink(props: any) {
   const uuid = uuidv4();
@@ -11,6 +13,7 @@ export default function HeaderLink(props: any) {
     "header-link-show-dialog",
     true
   );
+  const router = useRouter();
 
   const preProcessed = props.children
     .replace(/([0-9]|\.|:)/g, "")
@@ -22,7 +25,9 @@ export default function HeaderLink(props: any) {
       <label
         className="group"
         onClick={async () => {
-          window.history.pushState(undefined, "", `#${slug}`);
+          const url = new URL(window.location.href);
+          url.hash = slug;
+          router.push(url, undefined, { shallow: true });
           await navigator.clipboard.writeText(window.location.toString());
         }}
         // override native id to use our own scrolling on load
@@ -39,9 +44,13 @@ export default function HeaderLink(props: any) {
         <span
           className={tm(
             "inline-block border border-base-100 py-[1px] px-[3px] rounded-full cursor-pointer relative top-[-2px]",
-            "group-hover:border-neutral transition-all",
+            "group-hover:border-neutral",
             "group-active:scale-[90%]"
           )}
+          style={{
+            ...transitionProperties,
+            transitionProperty: "transform, border",
+          }}
         >
           <LinkIcon size={20} className="inline-block" />
         </span>

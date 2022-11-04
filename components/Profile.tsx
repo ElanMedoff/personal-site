@@ -68,7 +68,7 @@ export default function Profile() {
         duration: 0.4,
         repeat: Infinity,
         repeatDelay: 4,
-        delay: 2,
+        delay: 1.5,
       },
     });
   }, [controls, hasHovered, isInView, isMobile, loading]);

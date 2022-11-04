@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
 import Content from "../../components/Content";
 import Head from "next/head";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import Footer from "../../components/Footer";
 import { NextPageContext } from "next";
 import fuzzysort from "fuzzysort";
@@ -20,6 +20,7 @@ import Pill from "../../components/blog/Pill";
 import { useRouter } from "next/router";
 import useIsMobile from "../../hooks/useIsMobile";
 import { BsSearch as SearchIcon } from "react-icons/bs";
+import { transitionProperties } from "../../utils/styles";
 
 export default function Blog({
   allMetadata,
@@ -37,6 +38,7 @@ export default function Blog({
   const refInput = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const isMobile = useIsMobile();
+  const controls = useAnimationControls();
 
   const setState = ({
     selectedTags,
@@ -83,6 +85,19 @@ export default function Blog({
       refInput.current.value = currInput;
     }
   }, [isMobile]);
+
+  useEffect(() => {
+    controls.start({
+      x: [null, 5, -5, 5, 0],
+      transition: {
+        type: "spring",
+        duration: 0.4,
+        repeat: Infinity,
+        repeatDelay: 4,
+        delay: 0.75,
+      },
+    });
+  }, [controls]);
 
   const allTags = Array.from(
     new Set(allMetadata.map(({ tags }) => tags).flat())
@@ -196,16 +211,17 @@ export default function Blog({
             </AnimatePresence>
           </section>
           <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
-            <div className="relative m-3 mb-6">
+            <motion.div animate={controls} className="relative m-3 mb-6">
               <input
                 ref={refInput}
                 type="text"
-                placeholder="fuzzy search for post"
+                placeholder="fuzzy search"
                 className={tm(
-                  "max-w-xs w-3/4 py-3 px-6 pl-12 border border-neutral rounded-xl bg-base-100 transition-colors",
+                  "max-w-xs w-full py-3 px-6 pl-12 border border-neutral rounded-xl bg-base-100",
                   "focus:outline-none focus:outline-neutral"
                 )}
                 value={inputValue}
+                onFocus={() => controls.stop()}
                 onChange={(e) => {
                   setState({
                     selectedTags: [],
@@ -218,7 +234,7 @@ export default function Blog({
                 size={20}
                 className="inline-block absolute top-4 left-4"
               />
-            </div>
+            </motion.div>
             <h2 className="m-3 text-lg underline w-max">tags</h2>
             <div className="flex flex-col pl-3 gap-3">
               <ul className="flex flex-wrap gap-2">

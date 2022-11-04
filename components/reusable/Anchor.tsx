@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import { twMerge as tm } from "tailwind-merge";
+import { transitionProperties } from "../../utils/styles";
 
-const anchorStyles =
-  "underline underline-offset-2 hover:underline-offset-4 transition-all";
+const anchorStyles = "underline underline-offset-2 hover:underline-offset-4";
 
 export default function Anchor({
   href,
@@ -14,7 +14,14 @@ export default function Anchor({
   className?: string;
 }) {
   return (
-    <a href={href} className={tm(anchorStyles, className)}>
+    <a
+      href={href}
+      className={tm(anchorStyles, className)}
+      style={{
+        transitionProperty: "text-underline-offset",
+        ...transitionProperties,
+      }}
+    >
       {children}
     </a>
   );

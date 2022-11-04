@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
+import { transitionProperties } from "../utils/styles";
 import { ThemeContext } from "./Layout";
 import Switch from "./reusable/Switch";
 
@@ -41,23 +42,23 @@ export default function Header() {
   return (
     <nav
       className={tm(
-        "fixed left-0 z-10 py-3 border-b-2 border-neutral bg-base-100 w-full duration-100 transition-all",
+        "fixed left-0 z-10 py-3 border-b-2 border-neutral bg-base-100 w-full",
         scrollDir === "up" ? "top-0" : "top-[-100px]"
       )}
+      style={{
+        ...transitionProperties,
+        transitionProperty: "top",
+      }}
     >
       <div className="flex items-center justify-between w-full px-5">
         <h3 className={tm("text-lg md:text-2xl", "font-bold cursor-pointer")}>
           <Link href="/">
             <span>
-              <span className="text-base-content transition-all">
+              <span className="text-base-content">
                 elan
-                <span className="text-primary sm:text-base-content transition-all">
-                  med
-                </span>
+                <span className="text-primary sm:text-base-content">med</span>
               </span>
-              <span className="hidden sm:inline text-primary transition-all">
-                .dev
-              </span>
+              <span className="hidden sm:inline text-primary">.dev</span>
             </span>
           </Link>
         </h3>

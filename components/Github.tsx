@@ -18,7 +18,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
     if (isMobile || hasHovered || !isInView) return;
 
     controls.start({
-      x: [0, 5, -5, 5, 0],
+      x: [null, 5, -5, 5, 0],
       transition: {
         type: "spring",
         duration: 0.4,
@@ -72,7 +72,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
       >
         <article
           className={tm(
-            "min-h-[300px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-neutral transition-all",
+            "min-h-[300px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-neutral",
             "w-[300px] sm:w-[400px]"
           )}
         >

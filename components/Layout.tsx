@@ -13,10 +13,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
-      <div
-        data-theme={isDarkMode ? "dracula" : "emerald"}
-        className="transition-colors"
-      >
+      <div data-theme={isDarkMode ? "dracula" : "emerald"}>
         <Header />
         <div>{children}</div>
       </div>
