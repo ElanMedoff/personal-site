@@ -158,7 +158,7 @@ return [isDarkMode, setIsDarkMode] as const;
 
 Let's go through the lifecycle of this hook when it's run in a component.
 
-1. The component is rendered, meaning the code in the component is run
+1. The component is rendered
 2. `useIsDarkMode` is called, which just returns the default value for the `isDarkMode` state, and the setter
 3. The component finishes rendering
 4. The `useEffect` in `useIsDarkMode` is called, since `useEffect` always runs after the first render
