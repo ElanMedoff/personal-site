@@ -55,12 +55,7 @@ export default function Favorites({
           "gap-10 md:gap-20"
         )}
       >
-        <SwiperWrapper
-          paths={moviePaths}
-          dir="movies"
-          title="movies"
-          autoplay
-        />
+        <SwiperWrapper paths={moviePaths} dir="movies" title="movies" />
         <SwiperWrapper paths={bookPaths} dir="books" title="books" />
         <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
       </motion.section>
