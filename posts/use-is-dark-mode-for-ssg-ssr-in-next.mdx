@@ -15,7 +15,7 @@ isPublished: true
 
 Implementing a dark mode is surprisingly difficult when dealing with server-rendered content - what's up with all of those `window is undefined` errors during build/request time? It turns out that to write a working `useIsDarkMode` hook, you need a solid knowledge of the rendering cycle used in Next.js: the process of how your app is generated on the server, hydrates on the client, and when you can and cannot access client-level apis. By the end of this post, you should have a solid grasp of all those concepts.
 
-Just a disclaimer: the following hook _won't_ allow you detect the client's os-level theme preference (or any preferences previously saved to local storage) on the server, but it will safely access these preferences during hydration and rerender the page with the correct theme if necessary.
+I'll also note that the following hook _won't_ allow you detect the client's os-level theme preference (or any preferences previously saved to local storage) on the server, but it will safely access these preferences during hydration and rerender the page with the correct theme if necessary.
 
 <Info>
   Note: All the relevant concepts in this post apply to server-side rendering as
