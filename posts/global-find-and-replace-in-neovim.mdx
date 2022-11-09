@@ -1,8 +1,8 @@
 ---
-title: "Global Find and Replace in Vim"
-abstract: "Stitching together the fzf, quickfix list, cdo, and a custom lua function for an awesome find and replace in Vim"
+title: "Global Find and Replace in Neovim"
+abstract: "Stitching together the fzf, quickfix list, cdo, and a custom lua function for an awesome find and replace in Neovim"
 lastUpdated: "November 08, 2022"
-slug: global-find-and-replace-in-vim
+slug: global-find-and-replace-in-neovim
 tags:
   - software eng
   - vim
@@ -10,9 +10,9 @@ collection: null
 isPublished: true
 ---
 
-# Global Find and Replace in Vim
+# Global Find and Replace in Neovim
 
-Of all the VSCode features I've re-implemented in Vim, none have given me as much trouble as the global find and replace. In VSCode, the global-search ui is built into the sidebar with options to include/exclude files, and search by whole word, case sensitive, case insensitive, and any combination of the three. Once you've narrowed down your search, you can easily replace all instances in the same ui. For renaming across multiple files, it's a lifesaver. Luckily, with a bit of a work, and a little flexibility, we can get an analogous solution working in Vim.
+Of all the VSCode features I've re-implemented in Neovim, none have given me as much trouble as the global find and replace. In VSCode, the global-search ui is built into the sidebar with options to include/exclude files, and search by whole word, case sensitive, case insensitive, and any combination of the three. Once you've narrowed down your search, you can easily replace all instances in the same ui. For renaming across multiple files, it's a lifesaver. Luckily, with a bit of a work, and a little flexibility, we can get an analogous solution working in Neovim.
 
 ## tl;dr
 
@@ -20,7 +20,7 @@ Find your first-pass results with [fzf-lua](https://github.com/ibhagwan/fzf-lua)
 
 ## Search With fzf
 
-fzf is an awesome command line utility for fuzzy finding just about anything (seriously, anything). In our case, we'll be using the `fzf-lua` package for Vim, and focusing on just one specific command: `grep`
+fzf is an awesome command line utility for fuzzy finding just about anything (seriously, anything). In our case, we'll be using the `fzf-lua` package for Neovim, and focusing on just one specific command: `grep`
 
 `grep` allows you to input a search term and narrow down the results "fuzzily" by filename. I use the following key remaps, but feel free to use your own:
 
@@ -121,7 +121,7 @@ Between creating lists, fuzzy searching within a list, and repeating, you should
 
 ## Replace With cdo
 
-The key to this last step is the native Vim `cdo` command. If we enter the command `:help cdo` in Vim, we learn the following info:
+The key to this last step is the native Neovim `cdo` command. If we enter the command `:help cdo` in Neovim, we learn the following info:
 
 
 In practice, this means we need to narrow our search to a single quickfix list (i.e. with `zn` and `zf`) so we can replace its every instance.
@@ -134,9 +134,9 @@ Luckily, since `cdo` applies its command argument to every instance in the quick
 
 ## Custom User Command
 
-Technically, you could stop here and you'd be good to go – just use the `:cdo s/foo/bar/` command as above. If you're like me, however, this can feel a bit unweildy. What about creating a key remap to interpolate the `foo` and `bar`? While it's not possible for a Vim remap to accept arguments, a user command can!
+Technically, you could stop here and you'd be good to go – just use the `:cdo s/foo/bar/` command as above. If you're like me, however, this can feel a bit unweildy. What about creating a key remap to interpolate the `foo` and `bar`? While it's not possible for a Neovim remap to accept arguments, a user command can!
 
-Our custom user command will accept two arguments, a `foo` and a `bar`, and execute a Vim command that interpolates the values into a string of the form `:cdo s/foo/bar/` and saves each file. Let's look at the following code:
+Our custom user command will accept two arguments, a `foo` and a `bar`, and execute a Neovim command that interpolates the values into a string of the form `:cdo s/foo/bar/` and saves each file. Let's look at the following code:
 
 <Code language="lua" code={`
 vim.api.nvim_create_user_command("FindAndReplace", function(opts)

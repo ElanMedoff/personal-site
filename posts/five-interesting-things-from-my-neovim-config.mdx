@@ -1,8 +1,8 @@
 ---
-title: "Five Interesting Things From my Vim Config"
+title: "Five Interesting Things From my Neovim Config"
 abstract: "A few interesting tidbits I've picked up from tinkering with my config"
 lastUpdated: "October 16, 2022"
-slug: five-interesting-things-from-my-vim-config
+slug: five-interesting-things-from-my-neovim-config
 tags:
   - software eng
   - vim
@@ -10,9 +10,9 @@ collection: null
 isPublished: true
 ---
 
-# Five Interesting Things From my Vim Config
+# Five Interesting Things From my Neovim Config
 
-Although I'm no expert in Vim, I've found a few interesting solutions for the problems I've encountered when switching from VSCode to Vim. For those new and old to (Neo)Vim, I hope I can provide some value as you tinker with your own config with the following interesting tidbits.
+Although I'm no expert in Neovim, I've found a few interesting solutions for the problems I've encountered when switching from VSCode to Neovim. For those new and old to Neovim, I hope I can provide some value as you tinker with your own config with the following interesting tidbits.
 
 ## 1. Absolute Imports in Lua
 
@@ -36,7 +36,7 @@ package.path = '../?.lua;' .. package.path
 
 As a reminder, `..` is the concatenate operator in Lua. This works fine for importing directly from the parent directory, but you can imagine how this can become unmanageable as the project grows and you need to import from several directories up.
 
-Enter absolute imports - relative to the directory of your choice. Let's say we're working on a Vim config located in the standard `~/.config/nvim` directory. The idea behind absolute imports is to add this directory to the `package.path` in all of your files so you can import modules relative from the `~/.config/nvim` directory, instead of importing relative to the current file.
+Enter absolute imports - relative to the directory of your choice. Let's say we're working on a Neovim config located in the standard `~/.config/nvim` directory. The idea behind absolute imports is to add this directory to the `package.path` in all of your files so you can import modules relative from the `~/.config/nvim` directory, instead of importing relative to the current file.
 
 Luckily, Lua has some great utils for this! Using the `os.getenv("HOME")` function call, we can add the `~` section of our path to `package.path`, and then manually concatenate the remainder of the path ourselves:
 
@@ -75,20 +75,20 @@ local helpers = require("lua.shared.helpers")
 
 And because these imports are absolute (relative to a single directory, that is), you can use these same two lines in any file in the `nvim` directory!
 
-## 2. Sending Vim Keys Though iTerm2
+## 2. Sending Neovim Keys Though iTerm2
 
-When I first switched from VSCode to Vim, one of the greatest pain points was relearning all the shortcuts I became so used to: `cmd+s`, `cmd+p`, `cmd+z` etc. Unfortunately, as pointed out in this [stackoverflow](https://stackoverflow.com/a/40991167) answer, you can only remap the `command` key with MacVim (i.e. not NeoVim). Luckily, there's another alternative: using [iTerm2](https://iterm2.com/).
+When I first switched from VSCode to Neovim, one of the greatest pain points was relearning all the shortcuts I became so used to: `cmd+s`, `cmd+p`, `cmd+z` etc. Unfortunately, as pointed out in this [stackoverflow](https://stackoverflow.com/a/40991167) answer, you can only remap the `command` key with MacVim (i.e. not NeoVim). Luckily, there's another alternative: using [iTerm2](https://iterm2.com/).
 
 With iTerm2, you can set remaps with the `command` key that send arbitrary key inputs to the terminal. In other words, you can set up a remap like `cmd+s` to send the key inputs `:w`! A few gotchas to keep in mind:
 
-1. The iTerm2 equivalent of `<cr>` is `\n`. This is mostly useful when submitting a Vim command, like `:w\n`
+1. The iTerm2 equivalent of `<cr>` is `\n`. This is mostly useful when submitting a Neovim command, like `:w\n`
 2. To remap the `control` key, say `ctrl+x`, use the form `\<C-x>`
 
 You can add remaps by going to iTerm2 -> Preferences -> Keys and clicking the `+` sign at the bottom left. For the `action`, select _Send Text with "vim" Special Chars_, and you should be good to go!
 
 ## 3. Shared Settings For a Barebones Config
 
-I've highlighted my motivations for periodically using a barebones config in <Link href="/blog/sensible-vim-defaults">this</Link> blog post, but I left out some implementation details on how this fit into my overall Vim config. Since nearly all of my options and a good chunk of my remaps can be shared between a barebones and full-blown config, I decided to take advantage of the overlap by sharing files between the two. Take a look at the following file structure:
+I've highlighted my motivations for periodically using a barebones config in <Link href="/blog/sensible-vim-defaults">this</Link> blog post, but I left out some implementation details on how this fit into my overall Neovim config. Since nearly all of my options and a good chunk of my remaps can be shared between a barebones and full-blown config, I decided to take advantage of the overlap by sharing files between the two. Take a look at the following file structure:
 
 <Code
   code={`
@@ -112,7 +112,7 @@ I've highlighted my motivations for periodically using a barebones config in <Li
 `}
 />
 
-This file tree may look a bit weird, but hear me out. Ignoring the `barebones` directory, this is just a normal Vim config - an `init.lua` at the root, and some settings to import. In other words, by default, I use the full-blown config's `init.lua` and settings. In the `barebones` directory, I added a second `init.lua`, one which can be sourced with:
+This file tree may look a bit weird, but hear me out. Ignoring the `barebones` directory, this is just a normal Neovim config - an `init.lua` at the root, and some settings to import. In other words, by default, I use the full-blown config's `init.lua` and settings. In the `barebones` directory, I added a second `init.lua`, one which can be sourced with:
 
 <Code
   language="bash"
@@ -166,7 +166,7 @@ Each config imports its own unique settings, along with the shared settings for 
 
 ## 4. Remaps For Hard-to-Reach Keys
 
-I've always had trouble hitting the keys on the top row of the keyboard, especially the pinkey-keys to the right of `0`: `-`, `_`, `=`, `+`. To make these keys a bit easier to use, I have two types of solutions: snippets and native Vim remaps.
+I've always had trouble hitting the keys on the top row of the keyboard, especially the pinkey-keys to the right of `0`: `-`, `_`, `=`, `+`. To make these keys a bit easier to use, I have two types of solutions: snippets and native Neovim remaps.
 
 For snippets, I use [coc-snippets](https://github.com/neoclide/coc-snippets) with the following `coc-settings.json`:
 
@@ -195,7 +195,7 @@ This sources custom snippets from the `snippets` directory in the root of your c
 `}
 />
 
-This works wonders with using the `+` key, but snippets don't quite work for the other hard-to-reach keys. Since snippets are triggered by a `prefix` like `hh`, the prefix must be separated from any characters before it with a space. Unfortunately, there are many situations where you wouldn't want a space before the character. Say we want to create a snippet for `=`, we can see that a trigger prefix won't work for cases like `prop={prop}`. Instead, for `-`, `_`, and `=`, I use the following native Vim remaps:
+This works wonders with using the `+` key, but snippets don't quite work for the other hard-to-reach keys. Since snippets are triggered by a `prefix` like `hh`, the prefix must be separated from any characters before it with a space. Unfortunately, there are many situations where you wouldn't want a space before the character. Say we want to create a snippet for `=`, we can see that a trigger prefix won't work for cases like `prop={prop}`. Instead, for `-`, `_`, and `=`, I use the following native Neovim remaps:
 
 <Code
   language="vim"
@@ -210,7 +210,7 @@ Personally, I've had great results with these two types of solutions, and I'd hi
 
 ## 5. Search by Whole Word, Case Sensitive, or Both
 
-One of my favorite search-related features in VSCode was the ability to search by whole word, case, or both. Luckily, with the right keymappings, this isn't too hard to recreate in Vim!
+One of my favorite search-related features in VSCode was the ability to search by whole word, case, or both. Luckily, with the right keymappings, this isn't too hard to recreate in Neovim!
 
 <Code language="vim" code={`
 # case sensitive
