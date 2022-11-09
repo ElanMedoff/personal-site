@@ -1,6 +1,6 @@
 ---
 title: "Global Find and Replace in Neovim"
-abstract: "Stitching together the fzf, quickfix list, cdo, and a custom lua function for an awesome find and replace in Neovim"
+abstract: "Stitching together the fzf, the quickfix list, cdo, and a custom lua function for an awesome find and replace in Neovim"
 lastUpdated: "November 08, 2022"
 slug: global-find-and-replace-in-neovim
 tags:
@@ -16,7 +16,7 @@ Of all the VSCode features I've re-implemented in Neovim, none have given me as 
 
 ## tl;dr
 
-Find your first-pass results with [fzf-lua](https://github.com/ibhagwan/fzf-lua)/[telescope](https://github.com/nvim-telescope/telescope.nvim), populate them into the quickfix list, narrow it down with [bfq](https://github.com/kevinhwang91/nvim-bqf), and replace all instances by executing `cdo s/find/replace` with a custom user command to accept arguments for `find` and `replace`.
+Find your first-pass results with [fzf-lua](https://github.com/ibhagwan/fzf-lua)/[telescope](https://github.com/nvim-telescope/telescope.nvim), populate them into the quickfix list, narrow it down with [bqf](https://github.com/kevinhwang91/nvim-bqf), and replace all instances by executing `cdo s/find/replace` with a custom user command to accept arguments for `find` and `replace`.
 
 ## Search With fzf
 
@@ -96,11 +96,11 @@ This will allow you to mark a selection with `tab`/`shift-tab` and export the se
 
 Back to our example, let's mark all the instances where we remap an fzf command. This will populate the quickfix list, which should look something like the following:
 
-<Image src="/blog/bfq-initial.png" />
+<Image src="/blog/bqf-initial.png" />
 
-## Narrow Down With bfq
+## Narrow Down With bqf
 
-The second plugin we'll use is [bfq](https://github.com/kevinhwang91/nvim-bqf), an awesome utility for the quickfix list. I won't dive into all the details, but some of the highlights are:
+The second plugin we'll use is [bqf](https://github.com/kevinhwang91/nvim-bqf), an awesome utility for the quickfix list. I won't dive into all the details, but some of the highlights are:
 
 - create another list by marking an entry with tab and pressing `zn`.
 - navigate between lists with `>` and `<`
@@ -108,7 +108,11 @@ The second plugin we'll use is [bfq](https://github.com/kevinhwang91/nvim-bqf), 
 - navigate by file (not result) with `ctrl-p` and `ctrl-n`
 - scroll in the preview window with `ctrl-b` and `ctrl-f`
 
-I also use some bfq-agnostic quickfix list remaps that may be helpful:
+<Info>
+Note that to use `zf`, you'll need to install [fzf.vim](https://github.com/junegunn/fzf.vim). Thanks [evergreengt](https://www.reddit.com/r/neovim/comments/yq8ofh/comment/ivn8rzx/?utm_source=share&utm_medium=web2x&context=3) for pointing this out!
+</Info>
+
+I also use some bqf-agnostic quickfix list remaps that may be helpful:
 
 <Code language="vim" code={`
 nnoremap gn :cnext<cr>
