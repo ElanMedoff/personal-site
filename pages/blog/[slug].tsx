@@ -122,12 +122,15 @@ export default function PostPage({
               ),
               ol: (props: any) => (
                 <ol
-                  className="leading-7 list-decimal pl-5 sm:pl-10"
+                  className="leading-7 list-decimal pl-5 sm:pl-10 my-6"
                   {...props}
                 />
               ),
               ul: (props: any) => (
-                <ul className="leading-7 list-disc pl-5 sm:pl-10" {...props} />
+                <ul
+                  className="leading-7 list-disc pl-5 sm:pl-10 my-6"
+                  {...props}
+                />
               ),
             }}
           />

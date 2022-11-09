@@ -1,7 +1,7 @@
 ---
 title: "Global Find and Replace in Vim"
 abstract: "Stitching together the fzf, quickfix list, cdo, and a custom lua function for an awesome find and replace in Vim"
-lastUpdated: "October 09, 2022"
+lastUpdated: "November 08, 2022"
 slug: global-find-and-replace-in-vim
 tags:
   - software eng
@@ -136,11 +136,12 @@ Luckily, since `cdo` applies its command argument to every instance in the quick
 
 Technically, you could stop here and you'd be good to go – just use the `:cdo s/foo/bar/` command as above. If you're like me, however, this can feel a bit unweildy. What about creating a key remap to interpolate the `foo` and `bar`? While it's not possible for a Vim remap to accept arguments, a user command can!
 
-Our custom user command will accept two arguments, a `foo` and a `bar`, and execute a Vim command that interpolates the values into a string of the form `:cdo s/foo/bar/`. Let's look at the following code:
+Our custom user command will accept two arguments, a `foo` and a `bar`, and execute a Vim command that interpolates the values into a string of the form `:cdo s/foo/bar/` and saves each file. Let's look at the following code:
 
 <Code language="lua" code={`
 vim.api.nvim_create_user_command("FindAndReplace", function(opts)
   vim.api.nvim_command(string.format("cdo s/%s/%s", opts.fargs[1], opts.fargs[2]))
+  vim.api.nvim_command("cfdo update")
 end, { nargs = "*" })
 
 
@@ -152,7 +153,7 @@ vim.api.nvim_set_keymap(
 )
 `} />
 
-First, the `nargs = "*"` indicates that our user command can take any number of arguments. The arguments are passed through `opts.fargs` as entries in a dictionary. We can interpolate the values with `string.format` (remember that Lua is 1-indexed!), and execute the command with `nvim_command`. Finally, we can set a key-mapping.
+First, the `nargs = "*"` indicates that our user command can take any number of arguments. The arguments are passed through `opts.fargs` as entries in a dictionary. We can interpolate the values with `string.format` (remember that Lua is 1-indexed!), and execute the command with `nvim_command`. We run the `cfdo update` command to save each file in the quickfix list, and finally set a key-mapping.
 
 If you'd like to pass an argument with a space, just escape the white space like so:
 

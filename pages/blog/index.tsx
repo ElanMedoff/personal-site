@@ -265,7 +265,6 @@ export default function Blog({
                 onClick={() => {
                   setState({ selectedTags: [] });
                 }}
-                className="active:scale-95"
               >
                 reset all
               </Pill>
