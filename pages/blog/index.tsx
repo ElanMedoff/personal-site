@@ -93,7 +93,7 @@ export default function Blog({
         type: "spring",
         duration: 0.4,
         repeat: Infinity,
-        repeatDelay: 4,
+        repeatDelay: 8,
         delay: 0.75,
       },
     });
