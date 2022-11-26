@@ -2,7 +2,7 @@ import { twMerge as tm } from "tailwind-merge";
 import React from "react";
 import Highlight, { defaultProps, Language, Prism } from "prism-react-renderer";
 import { useContext } from "react";
-import { ThemeContext } from "../Layout";
+import { ThemeContext } from "components/root/Layout";
 import github from "prism-react-renderer/themes/github";
 
 // @ts-ignore

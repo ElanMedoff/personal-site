@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { twMerge as tm } from "tailwind-merge";
-import { onScrollChildProps, onScrollContainerProps } from "../utils/framer";
-import SwiperCards from "./SwiperCards";
+import {
+  onScrollChildProps,
+  onScrollContainerProps,
+} from "utils/framerHelpers";
+import SwiperCards from "components/reusable/SwiperCards";
 
 function SwiperWrapper({
   paths,

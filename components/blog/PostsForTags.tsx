@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Metadata } from "../../utils/postHelpers";
-import BlogCard from "../BlogCard";
-import { getPostsWoCollection, orderPosts } from "./helpers";
+import { Metadata } from "utils/postHelpers";
+import BlogCard from "components/blog/BlogCard";
+import { getPostsWoCollection, orderPosts } from "components/blog/helpers";
 
 export default function PostsWoCollectionForTags({
   filteredPostsByTags,

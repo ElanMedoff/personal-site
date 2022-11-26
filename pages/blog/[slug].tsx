@@ -4,16 +4,16 @@ import {
   fetchPostBySlug,
   Post,
   Metadata,
-} from "../../utils/postHelpers";
-import BlogCard from "../../components/BlogCard";
-import Code from "../../components/reusable/Code";
+} from "utils/postHelpers";
+import BlogCard from "components/blog/BlogCard";
+import Code from "components/reusable/Code";
 import { MDXRemote } from "next-mdx-remote";
-import Info from "../../components/reusable/Info";
-import Link from "../../components/reusable/Link";
-import Aside from "../../components/reusable/Aside";
-import Image from "../../components/reusable/Image";
-import { anchorStyles } from "../../components/reusable/Anchor";
-import Content from "../../components/Content";
+import Info from "components/reusable/Info";
+import Link from "components/reusable/Link";
+import Aside from "components/reusable/Aside";
+import Image from "components/reusable/Image";
+import { anchorStyles } from "components/reusable/Anchor";
+import Content from "components/blog/Content";
 import Head from "next/head";
 import { useEffect, useMemo } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
@@ -21,7 +21,7 @@ import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { ParsedUrlQuery } from "querystring";
-import HeaderLink from "../../components/reusable/HeaderLink";
+import HeaderLink from "components/reusable/HeaderLink";
 
 function msToReadingTime(ms: number) {
   const minutes = Math.floor((ms / (1000 * 60)) % 60);

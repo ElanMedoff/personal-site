@@ -1,4 +1,4 @@
-import styles from "./Skeleton.module.scss";
+import styles from "components/root/Skeleton.module.scss";
 
 interface SharedProps {
   width: number;

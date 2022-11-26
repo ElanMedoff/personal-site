@@ -1,6 +1,6 @@
 import { twMerge as tm } from "tailwind-merge";
 import Link from "next/link";
-import { Metadata } from "../utils/postHelpers";
+import { Metadata } from "utils/postHelpers";
 
 export default function BlogCard({
   metadata,

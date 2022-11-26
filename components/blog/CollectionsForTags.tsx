@@ -1,6 +1,6 @@
-import { Metadata } from "../../utils/postHelpers";
-import Collection from "./Collection";
-import { getPostsByCollection } from "./helpers";
+import { Metadata } from "utils/postHelpers";
+import Collection from "components/blog/Collection";
+import { getPostsByCollection } from "components/blog/helpers";
 
 export default function CollectionsForTags({
   filteredPostsByTags,

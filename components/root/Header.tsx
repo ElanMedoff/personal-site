@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
-import { transitionProperties } from "../utils/styles";
-import { ThemeContext } from "./Layout";
-import Switch from "./reusable/Switch";
+import { transitionProperties } from "utils/styleHelpers";
+import { ThemeContext } from "components/root/Layout";
+import Switch from "components/reusable/Switch";
 
 export default function Header() {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);

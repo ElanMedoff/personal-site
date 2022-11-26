@@ -1,5 +1,5 @@
 import Link, { LinkProps } from "next/link";
-import { anchorStyles } from "./Anchor";
+import { anchorStyles } from "components/reusable/Anchor";
 import { twMerge as tm } from "tailwind-merge";
 import { ReactNode } from "react";
 

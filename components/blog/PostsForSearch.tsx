@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import fuzzysort from "fuzzysort";
-import { Metadata } from "../../utils/postHelpers";
-import BlogCard from "../BlogCard";
-import { getPostsWoCollection } from "./helpers";
+import { Metadata } from "utils/postHelpers";
+import BlogCard from "components/blog/BlogCard";
+import { getPostsWoCollection } from "components/blog/helpers";
 
 export default function PostsWoCollectionForSearch({
   allMetadata,

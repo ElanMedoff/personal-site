@@ -1,7 +1,7 @@
 import { twMerge as tm } from "tailwind-merge";
-import { Metadata } from "../../utils/postHelpers";
-import BlogCard from "../BlogCard";
-import SwiperCards from "../SwiperCards";
+import { Metadata } from "utils/postHelpers";
+import BlogCard from "components/blog/BlogCard";
+import SwiperCards from "components/reusable/SwiperCards";
 
 export default function CollectionOfPosts({
   formattedTitles,

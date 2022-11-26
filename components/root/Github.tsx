@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
-import { languageToIconUrl, Repo } from "../utils/githubHelpers";
-import AtroposBorder from "./AtroposBorder";
+import { languageToIconUrl, Repo } from "utils/githubHelpers";
+import AtroposBorder from "components/reusable/atropos/AtroposBorder";
 import Atropos from "atropos/react";
 import { motion, useAnimationControls, useInView } from "framer-motion";
-import useIsMobile from "../hooks/useIsMobile";
-import { onScrollChildProps, onScrollContainerProps } from "../utils/framer";
+import useIsMobile from "hooks/useIsMobile";
+import {
+  onScrollChildProps,
+  onScrollContainerProps,
+} from "utils/framerHelpers";
 
 const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
   const [hasHovered, setHasHovered] = useState(false);

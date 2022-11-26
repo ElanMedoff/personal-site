@@ -1,14 +1,14 @@
-import { fetchPublicImages } from "../utils/publicHelpers";
+import { fetchPublicImages } from "utils/publicHelpers";
 import { twMerge as tm } from "tailwind-merge";
-import Profile from "../components/Profile";
-import Favorites from "../components/Favorites";
-import Github from "../components/Github";
-import { fetchGithubRepos, Repo } from "../utils/githubHelpers";
-import RecentPosts from "../components/RecentPosts";
-import { fetchAllMetadata, Metadata } from "../utils/postHelpers";
-import Banner from "../components/Banner";
+import Profile from "components/root/Profile";
+import Favorites from "components/root/Favorites";
+import Github from "components/root/Github";
+import { fetchGithubRepos, Repo } from "utils/githubHelpers";
+import RecentPosts from "components/root/RecentPosts";
+import { fetchAllMetadata, Metadata } from "utils/postHelpers";
+import Banner from "components/root/Banner";
 import { ReactNode } from "react";
-import Footer from "../components/Footer";
+import Footer from "components/reusable/Footer";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 
 function Section({ children }: { children: ReactNode }) {

@@ -1,7 +1,7 @@
 import { twMerge as tm } from "tailwind-merge";
 import React, { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { generateOnScrollProps } from "../utils/framer";
+import { generateOnScrollProps } from "utils/framerHelpers";
 
 export default function Banner({
   primary,

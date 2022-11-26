@@ -1,26 +1,25 @@
 import { twMerge as tm } from "tailwind-merge";
 import { useEffect, useRef, useState } from "react";
-import { fetchAllMetadata, Metadata } from "../../utils/postHelpers";
-import Content from "../../components/Content";
+import { fetchAllMetadata, Metadata } from "utils/postHelpers";
+import Content from "components/blog/Content";
 import Head from "next/head";
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
-import Footer from "../../components/Footer";
+import Footer from "components/reusable/Footer";
 import { NextPageContext } from "next";
 import fuzzysort from "fuzzysort";
-import PostsForSearch from "../../components/blog/PostsForSearch";
-import PostsForTags from "../../components/blog/PostsForTags";
+import PostsForSearch from "components/blog/PostsForSearch";
+import PostsForTags from "components/blog/PostsForTags";
 import {
   getPostsByCollection,
   getPostsWCollection,
   getPostsWoCollection,
-} from "../../components/blog/helpers";
-import CollectionsForSearch from "../../components/blog/CollectionsForSearch";
-import CollectionsForTags from "../../components/blog/CollectionsForTags";
-import Pill from "../../components/blog/Pill";
+} from "components/blog/helpers";
+import CollectionsForSearch from "components/blog/CollectionsForSearch";
+import CollectionsForTags from "components/blog/CollectionsForTags";
+import Pill from "components/blog/Pill";
 import { useRouter } from "next/router";
-import useIsMobile from "../../hooks/useIsMobile";
+import useIsMobile from "hooks/useIsMobile";
 import { BsSearch as SearchIcon } from "react-icons/bs";
-import { transitionProperties } from "../../utils/styles";
 
 export default function Blog({
   allMetadata,

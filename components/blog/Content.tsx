@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { twMerge as tm } from "tailwind-merge";
-import { transitionProperties } from "../utils/styles";
 
 export default function Content({ children }: { children: ReactNode }) {
   return (

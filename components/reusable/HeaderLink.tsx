@@ -1,10 +1,10 @@
 import slugify from "slugify";
 import { twMerge as tm } from "tailwind-merge";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
-import Dialog from "./Dialog";
+import Dialog from "components/reusable/Dialog";
 import { v4 as uuidv4 } from "uuid";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import { transitionProperties } from "../../utils/styles";
+import useLocalStorage from "hooks/useLocalStorage";
+import { transitionProperties } from "utils/styleHelpers";
 import { useRouter } from "next/router";
 
 export default function HeaderLink(props: any) {

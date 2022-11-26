@@ -1,4 +1,4 @@
-import { Collection, Metadata } from "../../utils/postHelpers";
+import { Collection, Metadata } from "utils/postHelpers";
 
 export const orderPosts = (
   posts: Metadata[],

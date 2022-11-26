@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import Header from "./Header";
+import Header from "components/root/Header";
 import { createContext, Dispatch, SetStateAction } from "react";
-import useIsDarkMode from "../hooks/useIsDarkMode";
+import useIsDarkMode from "hooks/useIsDarkMode";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
