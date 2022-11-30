@@ -12,9 +12,12 @@
     "deploy": "git push server"
   },
   "dependencies": {
+    "@octokit/core": "^4.1.0",
+    "@prisma/client": "^4.7.0",
     "@types/prismjs": "^1.26.0",
     "@wordpress/wordcount": "^3.20.0",
     "atropos": "^1.0.2",
+    "cookies": "^0.8.0",
     "daisyui": "^2.19.0",
     "framer-motion": "^7.5.1",
     "fuzzysort": "^2.0.1",
@@ -36,6 +39,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/cookies": "^0.7.7",
     "@types/html-to-text": "^8.1.1",
     "@types/node": "18.0.6",
     "@types/react": "18.0.15",
@@ -48,6 +52,7 @@
     "eslint-config-prettier": "^8.5.0",
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",
+    "prisma": "^4.7.0",
     "tailwindcss": "^3.1.6",
     "typescript": "4.7.4"
   }

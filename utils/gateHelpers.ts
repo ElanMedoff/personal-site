@@ -1,7 +1,9 @@
-const gates = { comments: false } as const;
+import { isProd } from "utils/envHelpers";
 
-type Gate = keyof typeof gates;
+const features = { oauth: { dev: true, prod: false } } as const;
 
-export const isGateOpen = (gate: Gate) => {
-  return gates[gate];
+type Feature = keyof typeof features;
+
+export const isFeatureEnabled = (feature: Feature) => {
+  return isProd() ? features[feature].prod : features[feature].dev;
 };

@@ -15,13 +15,19 @@ import Image from "components/reusable/Image";
 import { anchorStyles } from "components/reusable/Anchor";
 import Content from "components/blog/Content";
 import Head from "next/head";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { ParsedUrlQuery } from "querystring";
 import HeaderLink from "components/reusable/HeaderLink";
+import { isFeatureEnabled } from "utils/gateHelpers";
+import Login from "components/blog/Login";
+import { useRouter } from "next/router";
+import { ApiResponse } from "utils/apiHelpers";
+import { ExchangePayload } from "pages/api/exchange";
+import useUser from "hooks/useUser";
 
 function msToReadingTime(ms: number) {
   const minutes = Math.floor((ms / (1000 * 60)) % 60);
@@ -37,6 +43,9 @@ export default function PostPage({
   post,
   relatedPostMetadata,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const hasCalledExchange = useRef(false);
+  const { user, fetchUser } = useUser();
+  const router = useRouter();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -57,6 +66,43 @@ export default function PostPage({
 
     window.scrollTo({ top: y - 24, behavior: "smooth" });
   }, []);
+
+  useEffect(() => {
+    if (!isFeatureEnabled("oauth") || hasCalledExchange.current) return;
+
+    const url = new URL(window.location.toString());
+    const params = new URLSearchParams(url.search);
+
+    if (!params.has("code") || !params.has("state")) return;
+
+    const exchange = async () => {
+      try {
+        const response = await fetch("/api/exchange");
+        const data: ApiResponse<ExchangePayload> = await response.json();
+
+        if (data.type === "error") {
+          throw new Error(data.errorMessage);
+        }
+
+        fetchUser();
+
+        const url = new URL(window.location.href);
+        url.searchParams.delete("code");
+        url.searchParams.delete("state");
+        router.push(url, undefined, { shallow: true });
+
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    exchange();
+    hasCalledExchange.current = true;
+  }, [fetchUser]);
 
   const components = useMemo(() => ({ Image, Code, Info, Link, Aside }), []);
   const wordCount = useMemo(
@@ -140,6 +186,11 @@ export default function PostPage({
           <p className="mb-3 text-sm italic">you may also like:</p>
           <BlogCard metadata={relatedPostMetadata} />
         </section>
+        {isFeatureEnabled("oauth") ? (
+          <div className="w-full flex justify-center mt-6">
+            <Login user={user} />
+          </div>
+        ) : null}
       </Content>
       <motion.div
         className="fixed bottom-0 left-0 right-0 h-3 bg-primary"

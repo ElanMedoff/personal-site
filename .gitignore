@@ -2,3 +2,4 @@
 .DS_Store
 /.next
 .env.local
+/prisma/data.db
