@@ -3,14 +3,14 @@ import { useCallback, useEffect, useState } from "react";
 import { ApiResponse } from "utils/apiHelpers";
 
 export default function useUser() {
-  const [user, setUser] = useState<UserPayload["user"] | null>(null);
+  const [user, setUser] = useState<UserPayload["user"]>();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string>();
 
   const fetchUser = useCallback(async () => {
-    setUser(null);
+    setUser(undefined);
     setLoading(true);
-    setError(null);
+    setError(undefined);
 
     try {
       const response = await fetch("/api/user");
