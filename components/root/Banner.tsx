@@ -13,7 +13,7 @@ export default function Banner({
   return (
     <div className="w-full mb-5">
       <motion.p
-        {...generateOnScrollProps()}
+        {...generateOnScrollProps}
         className={tm(
           "font-bold text-center uppercase px-5 pt-10 w-full",
           "text-4xl sm:text-6xl md:text-7xl lg:text-8xl",

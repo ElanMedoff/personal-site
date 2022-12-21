@@ -138,7 +138,7 @@ export default function Profile() {
         {loading ? renderLoading() : renderAtropos()}
       </div>
       <motion.div
-        {...generateOnScrollProps()}
+        {...generateOnScrollProps}
         className="flex-1 min-w-auto sm:min-w-[400px]"
       >
         <h1 className="text-6xl font-bold sm:text-8xl uppercase">hey</h1>

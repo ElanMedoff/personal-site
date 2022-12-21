@@ -6,21 +6,19 @@ const sharedVariants = {
   },
 };
 
-export const generateOnScrollProps = (delay?: number) => {
-  return {
-    variants: {
-      ...sharedVariants,
-      show: {
-        ...sharedVariants.show,
-        transition: {
-          delay: delay ?? 0.2,
-        },
+export const generateOnScrollProps = {
+  variants: {
+    ...sharedVariants,
+    show: {
+      ...sharedVariants.show,
+      transition: {
+        delay: 0.2,
       },
     },
-    initial: "hidden",
-    whileInView: "show",
-    viewport: { once: true },
-  };
+  },
+  initial: "hidden",
+  whileInView: "show",
+  viewport: { once: true },
 };
 
 export const onScrollContainerProps = {
