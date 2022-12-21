@@ -30,7 +30,7 @@ export const onScrollContainerProps = {
       ...sharedVariants.show,
       transition: {
         delay: 0.2,
-        staggerChildren: 0.4,
+        staggerChildren: 0.3,
         when: "beforeChildren",
       },
     },
