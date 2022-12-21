@@ -1,4 +1,4 @@
-export const sharedVariants = {
+const sharedVariants = {
   hidden: { opacity: 0, y: 25 },
   show: {
     opacity: 1,
@@ -13,7 +13,7 @@ export const generateOnScrollProps = (delay?: number) => {
       show: {
         ...sharedVariants.show,
         transition: {
-          delay: delay ?? 0.6,
+          delay: delay ?? 0.2,
         },
       },
     },
@@ -23,20 +23,18 @@ export const generateOnScrollProps = (delay?: number) => {
   };
 };
 
-const containerVariants = {
-  ...sharedVariants,
-  show: {
-    ...sharedVariants.show,
-    transition: {
-      delay: 0.6,
-      staggerChildren: 0.4,
-      when: "beforeChildren",
+export const onScrollContainerProps = {
+  variants: {
+    ...sharedVariants,
+    show: {
+      ...sharedVariants.show,
+      transition: {
+        delay: 0.2,
+        staggerChildren: 0.4,
+        when: "beforeChildren",
+      },
     },
   },
-};
-
-export const onScrollContainerProps = {
-  variants: containerVariants,
   initial: "hidden",
   whileInView: "show",
   viewport: { once: true },
