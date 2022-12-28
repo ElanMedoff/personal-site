@@ -1,6 +1,7 @@
 import { UserPayload } from "pages/api/user";
 import { useCallback, useEffect, useState } from "react";
 import { ApiResponse } from "utils/apiHelpers";
+import { isFeatureEnabled } from "utils/gateHelpers";
 
 export default function useUser() {
   const [user, setUser] = useState<UserPayload["user"]>();
@@ -8,6 +9,11 @@ export default function useUser() {
   const [error, setError] = useState<string>();
 
   const fetchUser = useCallback(async () => {
+    if (!isFeatureEnabled("oauth")) {
+      setLoading(false);
+      return;
+    }
+
     setUser(undefined);
     setLoading(true);
     setError(undefined);
