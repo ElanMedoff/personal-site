@@ -9,7 +9,7 @@ function cecho(){
 cecho "building locally" 4
 if npx next build; then
   cecho "built locally" 2
-  cecho "input commit message" 7
+  cecho "input commit message >" 4
   read COMMIT
   git add -A
   git commit -m "$COMMIT"
