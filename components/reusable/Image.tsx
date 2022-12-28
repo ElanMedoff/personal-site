@@ -1,21 +1,21 @@
-import { twMerge as tm } from "tailwind-merge";
+import NextImage from "next/image";
+import { ImgHTMLAttributes } from "react";
+
 export default function Image({
   src,
-  size = "large",
-}: {
-  src: string;
-  size: "small" | "medium" | "large";
-}) {
+  width,
+  height,
+  className,
+}: ImgHTMLAttributes<HTMLImageElement>) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      alt="static image"
-      src={src}
-      className={tm(
-        "m-auto w-[95%]",
-        size === "small" && "sm:w-1/2",
-        size === "medium" && "sm:w-3/4"
-      )}
-    />
+    <div className={className}>
+      <NextImage
+        alt="static image"
+        src={src ?? ""}
+        width={width}
+        height={height}
+        layout="responsive"
+      />
+    </div>
   );
 }

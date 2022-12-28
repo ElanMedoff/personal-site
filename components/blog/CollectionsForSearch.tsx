@@ -52,7 +52,7 @@ export default function CollectionsForSearch({
               fuzzyResults.find(
                 (result) => result.target === hydratedResult.title
               ),
-              "<span class='text-secondary'>",
+              "<span class='text-secondary underline'>",
               "</span>"
             ) ?? undefined;
 

@@ -29,7 +29,7 @@ export default function PostsWoCollectionForSearch({
         const formattedTitle =
           fuzzysort.highlight(
             fuzzyResults[index],
-            "<span class='text-secondary'>",
+            "<span class='text-secondary underline'>",
             "</span>"
           ) ?? undefined;
         return (

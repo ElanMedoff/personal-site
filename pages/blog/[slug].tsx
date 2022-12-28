@@ -6,46 +6,25 @@ import {
   Metadata,
 } from "utils/postHelpers";
 import BlogCard from "components/blog/BlogCard";
-import Code from "components/reusable/Code";
 import { MDXRemote } from "next-mdx-remote";
-import Info from "components/reusable/Info";
-import Link from "components/reusable/Link";
-import Aside from "components/reusable/Aside";
-import Image from "components/reusable/Image";
-import { anchorStyles } from "components/reusable/Anchor";
 import Content from "components/blog/Content";
 import Head from "next/head";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { ParsedUrlQuery } from "querystring";
-import HeaderLink from "components/reusable/HeaderLink";
 import { isFeatureEnabled } from "utils/gateHelpers";
 import Login from "components/blog/Login";
-import { useRouter } from "next/router";
-import { ApiResponse } from "utils/apiHelpers";
-import { ExchangePayload } from "pages/api/exchange";
-import useUser from "hooks/useUser";
-
-function msToReadingTime(ms: number) {
-  const minutes = Math.floor((ms / (1000 * 60)) % 60);
-  const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
-
-  const formattedHours = hours ? `${hours} hour ` : "";
-  const formattedMinutes = minutes ? `${minutes} minute` : "";
-
-  return `${formattedHours}${formattedMinutes}`;
-}
+import useOAuthExchange from "hooks/useOAuthExchange";
+import { components, msToReadingTime } from "components/blog/helpers";
 
 export default function PostPage({
   post,
   relatedPostMetadata,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const hasCalledExchange = useRef(false);
-  const { user, fetchUser } = useUser();
-  const router = useRouter();
+  const { user } = useOAuthExchange();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -67,57 +46,18 @@ export default function PostPage({
     window.scrollTo({ top: y - 24, behavior: "smooth" });
   }, []);
 
-  useEffect(() => {
-    if (!isFeatureEnabled("oauth") || hasCalledExchange.current) return;
+  const memoizedComponents = useMemo(() => components, []);
+  const wordCount = useMemo(() => {
+    const asString = ReactDOMServer.renderToString(
+      <MDXRemote
+        compiledSource={post.content}
+        components={memoizedComponents}
+      />
+    );
+    const asPlainText = convert(asString);
 
-    const url = new URL(window.location.toString());
-    const params = new URLSearchParams(url.search);
-
-    if (!params.has("code") || !params.has("state")) return;
-
-    const exchange = async () => {
-      try {
-        const response = await fetch("/api/exchange");
-        const data: ApiResponse<ExchangePayload> = await response.json();
-
-        if (data.type === "error") {
-          throw new Error(data.errorMessage);
-        }
-
-        fetchUser();
-
-        const url = new URL(window.location.href);
-        url.searchParams.delete("code");
-        url.searchParams.delete("state");
-        router.push(url, undefined, { shallow: true });
-
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: "smooth",
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    exchange();
-    hasCalledExchange.current = true;
-  }, [fetchUser]);
-
-  const components = useMemo(() => ({ Image, Code, Info, Link, Aside }), []);
-  const wordCount = useMemo(
-    () =>
-      count(
-        convert(
-          ReactDOMServer.renderToString(
-            <MDXRemote compiledSource={post.content} components={components} />
-          )
-        ),
-        "words",
-        {}
-      ),
-    [components, post.content]
-  );
+    return count(asPlainText, "words", {});
+  }, [memoizedComponents, post.content]);
   const avgReadingSpeed = 200;
   const rawReadingTime = (wordCount / avgReadingSpeed) * 60000;
   const formattedReadingTime = msToReadingTime(rawReadingTime);
@@ -139,45 +79,6 @@ export default function PostPage({
             compiledSource={post.content}
             components={{
               ...components,
-              a: (props: any) => <a {...props} className={anchorStyles} />,
-              code: (props: any) => (
-                <code
-                  className="bg-warning text-warning-content rounded-md px-3 inline-block text-sm"
-                  {...props}
-                />
-              ),
-              p: (props: any) => <p className="my-6" {...props} />,
-              h1: (props: any) => (
-                <h1
-                  className="text-2xl md:text-4xl font-bold my-2 text-center"
-                  {...props}
-                />
-              ),
-              h2: HeaderLink,
-              h3: (props: any) => (
-                <h1 className="text-lg font-bold my-4 text-left" {...props} />
-              ),
-              h4: (props: any) => (
-                <h1 className="text-base font-bold my-5 text-left" {...props} />
-              ),
-              h5: (props: any) => (
-                <h1 className="text-sm font-bold my-6 text-left" {...props} />
-              ),
-              h6: (props: any) => (
-                <h1 className="text-xs font-bold my-10 text-left" {...props} />
-              ),
-              ol: (props: any) => (
-                <ol
-                  className="leading-7 list-decimal pl-5 sm:pl-10 my-6"
-                  {...props}
-                />
-              ),
-              ul: (props: any) => (
-                <ul
-                  className="leading-7 list-disc pl-5 sm:pl-10 my-6"
-                  {...props}
-                />
-              ),
             }}
           />
         </section>

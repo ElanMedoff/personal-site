@@ -6,6 +6,24 @@ import {
 } from "utils/framerHelpers";
 import SwiperCards from "components/reusable/SwiperCards";
 
+/* const dirToDimensions: Record< */
+/*   "movies" | "books" | "comics", */
+/*   { width: number; height: number } */
+/* > = { */
+/*   movies: { */
+/*     width: 460, */
+/*     height: 690, */
+/*   }, */
+/*   books: { */
+/*     width: 300, */
+/*     height: 450, */
+/*   }, */
+/*   comics: { */
+/*     width: 920, */
+/*     height: 1350, */
+/*   }, */
+/* }; */
+
 function SwiperWrapper({
   paths,
   dir,
@@ -13,10 +31,16 @@ function SwiperWrapper({
   autoplay,
 }: {
   paths: string[];
-  dir: string;
+  dir: "movies" | "books" | "comics";
   title: string;
   autoplay?: boolean;
 }) {
+  /* const dimensions = { */
+  /*   width: dirToDimensions[dir].width, */
+  /*   height: dirToDimensions[dir].height, */
+  /* }; */
+
+  // TODO: why doesn't this work well with next's Image?
   return (
     <motion.article {...onScrollChildProps}>
       <div className="border-2 border-neutral p-3 py-6 pr-7 rounded">
@@ -28,12 +52,14 @@ function SwiperWrapper({
           {title}
         </h3>
         <SwiperCards
-          slides={paths.map((path, index) => (
-            <div key={index} className="p-1  bg-neutral">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/${dir}/${path}`} alt={dir} />
-            </div>
-          ))}
+          slides={paths.map((path, index) => {
+            return (
+              <div key={index} className="p-1  bg-neutral">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`/${dir}/${path}`} alt={dir} />
+              </div>
+            );
+          })}
           className="max-w-[200px] md:max-w-[300px] mx-6"
           autoplay={autoplay}
         />

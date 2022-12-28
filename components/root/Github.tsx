@@ -95,12 +95,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
                 className="flex gap-1 text-sm rounded-full px-3 py-1 border border-neutral"
                 key={index}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={languageToIconUrl[language]}
-                  className="w-5"
-                  alt="language icon"
-                />
+                <object data={languageToIconUrl[language]} className="w-5" />
                 {language}
               </li>
             ))}

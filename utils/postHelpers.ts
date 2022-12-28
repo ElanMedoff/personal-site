@@ -2,6 +2,7 @@ import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
+import imageMetadataPlugin from "./imageMetadataPlugin";
 
 export interface Collection {
   name: string;
@@ -59,7 +60,13 @@ export async function fetchPostBySlug(
   const rawPost = readFileSync(join(postsDirectory, path)).toString();
   const { compiledSource: content, frontmatter: data } = await serialize(
     rawPost,
-    { parseFrontmatter: true }
+    {
+      parseFrontmatter: true,
+      mdxOptions: {
+        rehypePlugins: [imageMetadataPlugin],
+        format: "mdx",
+      },
+    }
   );
 
   const allMetadata = fetchAllMetadata();
@@ -69,18 +76,35 @@ export async function fetchPostBySlug(
       return metadata.tags.filter((tag) => data?.tags.includes(tag)).length > 0;
     })
     .map((metadata) => `${metadata.slug}.mdx`);
-  const relatedPath =
-    relatedPaths[Math.floor(Math.random() * relatedPaths.length)];
+
+  const castMetadata = data as any as Metadata;
+
+  let relatedPath: string;
+  if (castMetadata.collection) {
+    const nonNullCollection = castMetadata.collection;
+    const collectionLength = allMetadata.filter(({ collection }) => {
+      return collection?.name === nonNullCollection.name;
+    })!.length;
+
+    relatedPath =
+      allMetadata.find(({ collection }) => {
+        return (
+          collection?.name === nonNullCollection.name &&
+          // if last article in a collection, link to first
+          collection?.order === (nonNullCollection.order + 1) % collectionLength
+        );
+      })!.slug + ".mdx";
+  } else {
+    relatedPath = relatedPaths[Math.floor(Math.random() * relatedPaths.length)];
+  }
+
   const rawRelatedPost = readFileSync(join(postsDirectory, relatedPath));
   const { data: relatedData } = matter(rawRelatedPost);
 
   return {
     post: {
       content,
-      metadata: {
-        // bleh
-        ...(data as any as Metadata),
-      },
+      metadata: castMetadata,
     },
     relatedPostMetadata: { ...(relatedData as Metadata) },
   };
