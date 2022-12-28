@@ -2,17 +2,17 @@ import { ReactNode } from "react";
 import { twMerge as tm } from "tailwind-merge";
 
 export default function Dialog({
-  uuid,
+  id,
   children,
 }: {
-  uuid: string;
+  id: string;
   children: ReactNode;
 }) {
   return (
     <>
-      <input type="checkbox" id={uuid} className="modal-toggle" />
+      <input type="checkbox" id={id} className="modal-toggle" />
       <label
-        htmlFor={uuid}
+        htmlFor={id}
         className="modal modal-bottom sm:modal-middle cursor-pointer"
       >
         <label

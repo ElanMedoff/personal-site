@@ -2,13 +2,11 @@ import slugify from "slugify";
 import { twMerge as tm } from "tailwind-merge";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 import Dialog from "components/reusable/Dialog";
-import { v4 as uuidv4 } from "uuid";
 import useLocalStorage from "hooks/useLocalStorage";
 import { transitionProperties } from "utils/styleHelpers";
 import { useRouter } from "next/router";
 
 export default function HeaderLink(props: any) {
-  const uuid = uuidv4();
   const [showDialog, setShowDialog] = useLocalStorage(
     "header-link-show-dialog",
     true
@@ -30,9 +28,8 @@ export default function HeaderLink(props: any) {
           router.push(url, undefined, { shallow: true });
           await navigator.clipboard.writeText(window.location.toString());
         }}
-        // override native id to use our own scrolling on load
         data-locationhash={slug}
-        htmlFor={showDialog ? uuid : undefined}
+        htmlFor={showDialog ? slugify(props.children) : undefined}
       >
         <h1
           className={tm(
@@ -55,7 +52,7 @@ export default function HeaderLink(props: any) {
           <LinkIcon size={20} className="inline-block" />
         </span>
       </label>
-      <Dialog uuid={uuid}>
+      <Dialog id={slugify(props.children)}>
         <div className="flex flex-col gap-6 sm:gap-8">
           <h2 className="text-xl sm:text-4xl font-bold">Heads up -</h2>
           <p>
