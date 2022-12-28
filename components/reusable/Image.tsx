@@ -1,17 +1,28 @@
+import { twMerge as tm } from "tailwind-merge";
 import NextImage from "next/image";
-import { ImgHTMLAttributes } from "react";
 
 export default function Image({
   src,
   width,
   height,
-  className,
-}: ImgHTMLAttributes<HTMLImageElement>) {
+  size = "large",
+}: {
+  src: string;
+  width: number;
+  height: number;
+  size: "small" | "medium" | "large";
+}) {
   return (
-    <div className={className}>
+    <div
+      className={tm(
+        "m-auto w-[95%]",
+        size === "small" && "sm:w-1/2",
+        size === "medium" && "sm:w-3/4"
+      )}
+    >
       <NextImage
         alt="static image"
-        src={src ?? ""}
+        src={src}
         width={width}
         height={height}
         layout="responsive"

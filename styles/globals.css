@@ -2,27 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* TODO: extend tailwind instead of writing raw css. even better, figure out how to access data attributes in react comp */
-.image-medium {
-  margin: auto;
-  width: 95%;
-}
-@media (min-width: 640px) {
-  .image-medium {
-    width: 75%;
-  }
-}
-
-.image-small {
-  margin: auto;
-  width: 95%;
-}
-@media (min-width: 640px) {
-  .image-small {
-    width: 50%;
-  }
-}
-
 html,
 body {
   padding: 0;

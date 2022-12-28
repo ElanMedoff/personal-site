@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
 import { transitionProperties } from "utils/styleHelpers";
 import Switch from "components/reusable/Switch";
-import { ThemeContext } from "components/root/Layout";
+import { ThemeContext } from "pages/_app";
 
 export default function Header() {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);

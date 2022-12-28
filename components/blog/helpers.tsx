@@ -6,6 +6,7 @@ import Aside from "components/reusable/Aside";
 import Image from "components/reusable/Image";
 import { anchorStyles } from "components/reusable/Anchor";
 import HeaderLink from "components/reusable/HeaderLink";
+import { HTMLAttributes } from "react";
 
 export const orderPosts = (
   posts: Metadata[],
@@ -41,42 +42,46 @@ export const getPostsWCollection = (posts: Metadata[]) => {
 };
 
 export const components = {
-  img: Image,
+  Image,
   Code,
   Info,
   Link,
   Aside,
-  a: (props: any) => <a {...props} className={anchorStyles} />,
-  code: (props: any) => (
+  a: (props: HTMLAttributes<HTMLAnchorElement>) => (
+    <a {...props} className={anchorStyles} />
+  ),
+  code: (props: HTMLAttributes<HTMLPreElement>) => (
     <code
       className="bg-warning text-warning-content rounded-md px-3 inline-block text-sm"
       {...props}
     />
   ),
-  p: (props: any) => <p className="my-6" {...props} />,
-  h1: (props: any) => (
+  p: (props: HTMLAttributes<HTMLParagraphElement>) => (
+    <p className="my-6" {...props} />
+  ),
+  h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className="text-2xl md:text-4xl font-bold my-2 text-center"
       {...props}
     />
   ),
   h2: HeaderLink,
-  h3: (props: any) => (
+  h3: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h1 className="text-lg font-bold my-4 text-left" {...props} />
   ),
-  h4: (props: any) => (
+  h4: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h1 className="text-base font-bold my-5 text-left" {...props} />
   ),
-  h5: (props: any) => (
+  h5: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h1 className="text-sm font-bold my-6 text-left" {...props} />
   ),
-  h6: (props: any) => (
+  h6: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h1 className="text-xs font-bold my-10 text-left" {...props} />
   ),
-  ol: (props: any) => (
+  ol: (props: HTMLAttributes<HTMLOListElement>) => (
     <ol className="leading-7 list-decimal pl-5 sm:pl-10 my-6" {...props} />
   ),
-  ul: (props: any) => (
+  ul: (props: HTMLAttributes<HTMLUListElement>) => (
     <ul className="leading-7 list-disc pl-5 sm:pl-10 my-6" {...props} />
   ),
 };

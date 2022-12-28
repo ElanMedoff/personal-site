@@ -93,7 +93,7 @@ export default function Blog({
         duration: 0.4,
         repeat: Infinity,
         repeatDelay: 10,
-        delay: 0.75,
+        delay: 3,
       },
     });
   }, [controls]);
@@ -151,6 +151,15 @@ export default function Blog({
     return getPostsWoCollection(filteredPostsByTags).length > 0;
   };
 
+  const handleTagClick = (filter: string) => {
+    setState({
+      selectedTags: selectedTags.includes(filter)
+        ? selectedTags.filter((prevFilter) => prevFilter !== filter)
+        : selectedTags.concat(filter),
+      inputValue: "",
+    });
+  };
+
   return (
     <>
       <Head>
@@ -158,65 +167,14 @@ export default function Blog({
       </Head>
       <Content>
         <div className="flex flex-wrap-reverse gap-12">
-          <section className="flex flex-col gap-4 flex-grow-[3] flex-shrink-[3] basis-[300px]">
-            {!shouldRenderCollectionsTitle() && !shouldRenderBlogTitle() ? (
-              <div className="pl-3">
-                <h2 className="mb-3 text-2xl">no results!</h2>
-                <p className="italic">try selecting a different combination</p>
-              </div>
-            ) : null}
-            {shouldRenderCollectionsTitle() ? (
-              <h2 className="pl-3 text-2xl underline">collections</h2>
-            ) : null}
-            <div className="ml-[-10px] mb-5">
-              <AnimatePresence>
-                <motion.ul layout="position">
-                  {inputValue ? (
-                    <CollectionsForSearch
-                      allCollections={allCollections}
-                      allMetadata={allMetadata}
-                      inputValue={inputValue}
-                      selectedTags={selectedTags}
-                    />
-                  ) : (
-                    <CollectionsForTags
-                      allCollections={allCollections}
-                      filteredPostsByTags={filteredPostsByTags}
-                      selectedTags={selectedTags}
-                    />
-                  )}
-                </motion.ul>
-              </AnimatePresence>
-            </div>
-            {shouldRenderBlogTitle() ? (
-              <h1 className="pl-3 text-2xl underline">blog posts</h1>
-            ) : null}
-            {/* TODO: these don't seem to be working */}
-            <AnimatePresence>
-              <motion.ul layout>
-                {inputValue ? (
-                  <PostsForSearch
-                    allMetadata={allMetadata}
-                    inputValue={inputValue}
-                    selectedTags={selectedTags}
-                  />
-                ) : (
-                  <PostsForTags
-                    filteredPostsByTags={filteredPostsByTags}
-                    selectedTags={selectedTags}
-                  />
-                )}
-              </motion.ul>
-            </AnimatePresence>
-          </section>
-          <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
-            <motion.div animate={controls} className="relative m-3 mb-6">
+          <section className="flex flex-col gap-10 flex-grow-[3] flex-shrink-[3] basis-[300px]">
+            <motion.div animate={controls} className="relative mt-3">
               <input
                 ref={refInput}
                 type="text"
                 placeholder="fuzzy search"
                 className={tm(
-                  "max-w-xs w-full py-3 px-6 pl-12 border border-neutral rounded-xl bg-base-100",
+                  "max-w-sm w-full py-3 px-6 pl-12 border border-neutral rounded-xl bg-base-100",
                   "focus:outline-none focus:outline-neutral"
                 )}
                 value={inputValue}
@@ -234,26 +192,66 @@ export default function Blog({
                 className="inline-block absolute top-4 left-4"
               />
             </motion.div>
+            {!shouldRenderCollectionsTitle() && !shouldRenderBlogTitle() ? (
+              <div className="pl-3">
+                <h2 className="mb-3 text-2xl">no results!</h2>
+                <p className="italic">try selecting a different combination</p>
+              </div>
+            ) : null}
+            <div>
+              {shouldRenderCollectionsTitle() ? (
+                <h2 className="pl-3 text-2xl underline mb-3">collections</h2>
+              ) : null}
+              <div className="ml-[-10px]">
+                <AnimatePresence>
+                  <motion.ul layout="position">
+                    {inputValue ? (
+                      <CollectionsForSearch
+                        allCollections={allCollections}
+                        allMetadata={allMetadata}
+                        inputValue={inputValue}
+                        selectedTags={selectedTags}
+                      />
+                    ) : (
+                      <CollectionsForTags
+                        allCollections={allCollections}
+                        filteredPostsByTags={filteredPostsByTags}
+                        selectedTags={selectedTags}
+                      />
+                    )}
+                  </motion.ul>
+                </AnimatePresence>
+              </div>
+            </div>
+            <div>
+              {shouldRenderBlogTitle() ? (
+                <h1 className="pl-3 text-2xl underline mb-3">blog posts</h1>
+              ) : null}
+              <ul>
+                {inputValue ? (
+                  <PostsForSearch
+                    allMetadata={allMetadata}
+                    inputValue={inputValue}
+                    selectedTags={selectedTags}
+                  />
+                ) : (
+                  <PostsForTags
+                    filteredPostsByTags={filteredPostsByTags}
+                    selectedTags={selectedTags}
+                  />
+                )}
+              </ul>
+            </div>
+          </section>
+          <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
             <h2 className="m-3 text-lg underline w-max">tags</h2>
             <div className="flex flex-col pl-3 gap-3">
               <ul className="flex flex-wrap gap-2">
                 {allTags.map((filter, index) => (
                   <Pill
                     key={index}
-                    className={tm(
-                      selectedTags.includes(filter) &&
-                        "bg-secondary hover:bg-secondary text-secondary-content"
-                    )}
-                    onClick={() => {
-                      setState({
-                        selectedTags: selectedTags.includes(filter)
-                          ? selectedTags.filter(
-                              (prevFilter) => prevFilter !== filter
-                            )
-                          : selectedTags.concat(filter),
-                        inputValue: "",
-                      });
-                    }}
+                    selected={selectedTags.includes(filter)}
+                    onClick={() => handleTagClick(filter)}
                   >
                     {filter}
                   </Pill>
@@ -271,10 +269,7 @@ export default function Blog({
             <h2 className="m-3 mt-6 text-sm underline w-max">filter method</h2>
             <div className="flex flex-wrap pl-3 gap-2">
               <Pill
-                className={tm(
-                  filterMethod === "union" &&
-                    "bg-secondary hover:bg-secondary text-secondary-content"
-                )}
+                selected={filterMethod === "union"}
                 onClick={() => {
                   setState({ filterMethod: "union" });
                 }}
@@ -282,10 +277,7 @@ export default function Blog({
                 union
               </Pill>
               <Pill
-                className={tm(
-                  filterMethod === "intersection" &&
-                    "bg-secondary hover:bg-secondary text-secondary-content"
-                )}
+                selected={filterMethod === "intersection"}
                 onClick={() => {
                   setState({ filterMethod: "intersection" });
                 }}

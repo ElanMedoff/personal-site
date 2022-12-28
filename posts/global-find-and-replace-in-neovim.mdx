@@ -36,19 +36,19 @@ nnoremap <leader>zf <cmd>lua require('telescope.builtin').grep_string({ search =
 
 Once you trigger the command, you'll be greeted with a prompt to input your initial search term:
 
-<img src="/blog/grep-for.png" className="image-small"/>
+<Image src="/blog/grep-for.png" size="small" width={818} height={160} />
 
 Enter the search term (in our case, let's look for the string `fzf`) and a window will appear with the filenames of every file containing your string.
 
-<img src="/blog/fzf-initial.png"/>
+<Image src="/blog/fzf-initial.png" width={1890} height={1040} />
 
 You can then narrow down your results by inputting a part of the filename, or negating a filename if you begin with a shebang i.e. `!.md`. See the [fzf docs](https://github.com/junegunn/fzf#search-syntax) for more options.
 
-<img src="/blog/fzf-narrow.png" />
+<Image src="/blog/fzf-narrow.png" width={1890} height={1039} />
 
 In our case, we negated any files with `packer` in the filepath. We can then export a subset of the files to the quickfix list by marking a result with tab ...
 
-<img src="/blog/fzf-mark.png" />
+<Image src="/blog/fzf-mark.png" width={1890} height={1039} />
 
 ... and pressing enter.
 
@@ -96,7 +96,7 @@ This will allow you to mark a selection with `tab`/`shift-tab` and export the se
 
 Back to our example, let's mark all the instances where we remap an fzf command. This will populate the quickfix list, which should look something like the following:
 
-<img src="/blog/bqf-initial.png" />
+<Image src="/blog/bqf-initial.png" width={2000} height={1149} />
 
 ## Narrow Down With bqf
 

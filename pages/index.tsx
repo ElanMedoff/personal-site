@@ -24,7 +24,7 @@ export default function About({
     <>
       <div
         className={tm(
-          "flex flex-col  items-center xl:border-x-2 xl:border-neutral max-w-[1700px] m-auto overflow-hidden",
+          "flex flex-col items-center xl:border-x-2 xl:border-neutral max-w-[1700px] m-auto overflow-hidden",
           "gap-8 sm:gap-16 md:gap-32 pt-10 lg:pt-20"
         )}
       >

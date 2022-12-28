@@ -3,8 +3,17 @@ import Head from "next/head";
 import Script from "next/script";
 import Layout from "components/root/Layout";
 import type { AppProps } from "next/app";
+import useIsDarkMode from "hooks/useIsDarkMode";
+import { createContext, Dispatch, SetStateAction } from "react";
+
+export const ThemeContext = createContext<{
+  isDarkMode: boolean;
+  setIsDarkMode: null | Dispatch<SetStateAction<boolean>>;
+}>({ isDarkMode: false, setIsDarkMode: null });
 
 export default function MyApp({ Component, pageProps }: AppProps) {
+  const [isDarkMode, setIsDarkMode] = useIsDarkMode();
+
   return (
     <>
       <Head>
@@ -32,9 +41,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           gtag('config', 'G-9Y9725W18J');
         `}
       </Script>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+        <div data-theme={isDarkMode ? "dracula" : "emerald"}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </div>
+      </ThemeContext.Provider>
     </>
   );
 }

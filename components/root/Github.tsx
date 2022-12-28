@@ -32,15 +32,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
     });
   }, [controls, hasHovered, isInView, isMobile]);
 
-  const {
-    // TODO: find a way to use this
-    /* clone_url, */
-    description,
-    name,
-    pushed_at,
-    html_url,
-    language_info,
-  } = repo;
+  const { description, name, pushed_at, html_url, language_info } = repo;
 
   return (
     <motion.div

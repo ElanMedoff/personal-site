@@ -1,5 +1,4 @@
 import { twMerge as tm } from "tailwind-merge";
-import "atropos/css";
 import AtroposImage from "components/reusable/atropos/AtroposImage";
 import styles from "styles/icons.module.scss";
 import Atropos from "atropos/react";
@@ -10,6 +9,8 @@ import Anchor from "components/reusable/Anchor";
 import useIsMobile from "hooks/useIsMobile";
 import { generateOnScrollProps } from "utils/framerHelpers";
 import AtroposBorder from "components/reusable/atropos/AtroposBorder";
+
+import "atropos/css";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);

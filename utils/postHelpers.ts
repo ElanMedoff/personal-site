@@ -2,7 +2,6 @@ import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
-import imageMetadataPlugin from "./imageMetadataPlugin";
 
 export interface Collection {
   name: string;
@@ -62,10 +61,6 @@ export async function fetchPostBySlug(
     rawPost,
     {
       parseFrontmatter: true,
-      mdxOptions: {
-        rehypePlugins: [imageMetadataPlugin],
-        format: "mdx",
-      },
     }
   );
 

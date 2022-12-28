@@ -5,17 +5,17 @@ import Dialog from "components/reusable/Dialog";
 import useLocalStorage from "hooks/useLocalStorage";
 import { transitionProperties } from "utils/styleHelpers";
 import { useRouter } from "next/router";
+import { HTMLProps } from "react";
 
-export default function HeaderLink(props: any) {
+export default function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
+  const children = props.children as string;
   const [showDialog, setShowDialog] = useLocalStorage(
     "header-link-show-dialog",
     true
   );
   const router = useRouter();
 
-  const preProcessed = props.children
-    .replace(/([0-9]|\.|:)/g, "")
-    .toLowerCase();
+  const preProcessed = children.replace(/([0-9]|\.|:)/g, "").toLowerCase();
   const slug = slugify(preProcessed);
 
   return (
@@ -29,7 +29,7 @@ export default function HeaderLink(props: any) {
           await navigator.clipboard.writeText(window.location.toString());
         }}
         data-locationhash={slug}
-        htmlFor={showDialog ? slugify(props.children) : undefined}
+        htmlFor={showDialog ? slugify(children) : undefined}
       >
         <h1
           className={tm(
@@ -52,7 +52,7 @@ export default function HeaderLink(props: any) {
           <LinkIcon size={20} className="inline-block" />
         </span>
       </label>
-      <Dialog id={slugify(props.children)}>
+      <Dialog id={slugify(children)}>
         <div className="flex flex-col gap-6 sm:gap-8">
           <h2 className="text-xl sm:text-4xl font-bold">Heads up -</h2>
           <p>
