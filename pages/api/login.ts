@@ -13,7 +13,7 @@ export interface LoginPayload {
   authorizeUrl: string;
 }
 
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<LoginPayload>>
 ) {
@@ -28,29 +28,27 @@ export default async function handler(
   const cookies = new Cookies(req, res);
   cookies.set("state", state, {
     maxAge: 1000 * 60 * 10,
-    secure: true,
+    // TODO: why does this break prod?
+    /* secure: isProd(), */
   });
-  return res
-    .status(400)
-    .json({ type: "error", errorMessage: `after cookies, ${isProd()}` });
 
-  /* const params = new URLSearchParams(); */
-  /* params.append("client_id", clientId); */
-  /* params.append("redirect_uri", req.headers.referer); */
-  /* params.append("scope", "read:user"); */
-  /* params.append("state", state); */
-  /**/
-  /* const authorizeUrl = new URL( */
-  /*   `https://github.com/login/oauth/authorize?${params}` */
-  /* ).toString(); */
-  /**/
-  /* res.status(200).json({ type: "success", payload: { authorizeUrl } }); */
+  const params = new URLSearchParams();
+  params.append("client_id", clientId);
+  params.append("redirect_uri", req.headers.referer);
+  params.append("scope", "read:user");
+  params.append("state", state);
+
+  const authorizeUrl = new URL(
+    `https://github.com/login/oauth/authorize?${params}`
+  ).toString();
+
+  res.status(200).json({ type: "success", payload: { authorizeUrl } });
 }
 
-/* export default withMiddlware( */
-/*   requireFeatures(["oauth"]), */
-/*   allowMethods(["POST"]), */
-/*   onlyLoggedOutUsers, */
-/*   deleteExpiredSessions, */
-/*   handler */
-/* ); */
+export default withMiddlware(
+  requireFeatures(["oauth"]),
+  allowMethods(["POST"]),
+  onlyLoggedOutUsers,
+  deleteExpiredSessions,
+  handler
+);

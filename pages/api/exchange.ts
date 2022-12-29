@@ -145,7 +145,7 @@ async function handler(
 
   cookies.set("sessionId", sessionId.id, {
     sameSite: "strict",
-    secure: isProd(),
+    /* secure: isProd(), */
     expires: expiresAt,
   });
   cookies.set("state");
