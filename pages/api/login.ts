@@ -26,12 +26,11 @@ export default async function handler(
   const state = randomUUID();
 
   const cookies = new Cookies(req, res);
+  return res.status(400).json({ type: "error", errorMessage: "after cookies" });
   cookies.set("state", state, {
     maxAge: 1000 * 60 * 10,
     secure: isProd(),
   });
-
-  return res.status(400).json({ type: "error", errorMessage: "after cookies" });
 
   /* const params = new URLSearchParams(); */
   /* params.append("client_id", clientId); */
