@@ -26,10 +26,7 @@ export default async function handler(
   const state = randomUUID();
 
   const cookies = new Cookies(req, res);
-  cookies.set("state", state, {
-    maxAge: 1000 * 60 * 10,
-    secure: true,
-  });
+  cookies.set("state", "asdf");
   return res
     .status(400)
     .json({ type: "error", errorMessage: `after cookies, ${isProd()}` });
