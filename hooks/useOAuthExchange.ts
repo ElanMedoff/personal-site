@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { isFeatureEnabled } from "utils/gateHelpers";
+import { isFeatureEnabled } from "utils/featureHelpers";
 import { ApiResponse } from "utils/apiHelpers";
 import { ExchangePayload } from "pages/api/exchange";
 import { useRouter } from "next/router";
@@ -23,23 +23,23 @@ export default function useOAuthExchange() {
         const response = await fetch("/api/exchange");
         const data: ApiResponse<ExchangePayload> = await response.json();
 
+        const url = new URL(window.location.href);
+        url.searchParams.delete("code");
+        url.searchParams.delete("state");
+        router.push(url, undefined, { shallow: true });
+
         if (data.type === "error") {
           throw new Error(data.errorMessage);
         }
 
         fetchUser();
 
-        const url = new URL(window.location.href);
-        url.searchParams.delete("code");
-        url.searchParams.delete("state");
-        router.push(url, undefined, { shallow: true });
-
         window.scrollTo({
           top: document.body.scrollHeight,
           behavior: "smooth",
         });
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        console.error(error);
       }
     };
 
@@ -47,5 +47,5 @@ export default function useOAuthExchange() {
     hasCalledExchange.current = true;
   }, [fetchUser]);
 
-  return { user };
+  return { user, fetchUser };
 }

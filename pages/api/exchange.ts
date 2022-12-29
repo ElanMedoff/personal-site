@@ -1,27 +1,23 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getClientId, getClientSecret, isProd } from "utils/envHelpers";
 import Cookies from "cookies";
-import { isFeatureEnabled } from "utils/gateHelpers";
 import { prisma } from "utils/prismaHelpers";
 import { Octokit } from "@octokit/core";
 import { ApiResponse, isUserLoggedIn } from "utils/apiHelpers";
+import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
+import { allowMethods } from "middleware/allowMethods";
+import { withMiddlware } from "utils/middlewareHelpers";
+import { Session } from "@prisma/client";
+import { requireFeatures } from "middleware/requireFeatures";
 
 export interface ExchangePayload {
   username: string;
 }
 
-// TODO: clear out old sessions
-
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<ExchangePayload>>
 ) {
-  if (!isFeatureEnabled("oauth")) {
-    return res
-      .status(401)
-      .json({ type: "error", errorMessage: "feature not enabled" });
-  }
-
   if (await isUserLoggedIn(req, res)) {
     return res
       .status(400)
@@ -73,24 +69,26 @@ export default async function handler(
     `https://github.com/login/oauth/access_token?${authorizationParams}`
   );
 
+  const headers = new Headers();
+  headers.append("Accept", "application/json");
+
   let accessToken = "";
   try {
-    const headers = new Headers();
-    headers.append("Accept", "application/json");
     const response = await fetch(authorizationUrl, { headers, method: "POST" });
-    const data = await response.json();
+    const data: { access_token?: string } | undefined = await response.json();
 
-    if (!data.access_token) {
+    if (!data?.access_token) {
       return res.status(500).json({
         type: "error",
         errorMessage: "no access token returned by github api",
       });
     }
     accessToken = data.access_token;
-  } catch {
-    return res
-      .status(500)
-      .json({ type: "error", errorMessage: "issue fetching to exchange code" });
+  } catch (error) {
+    return res.status(500).json({
+      type: "error",
+      errorMessage: `issue fetching to exchange code: ${error}`,
+    });
   }
 
   let username = "";
@@ -104,26 +102,50 @@ export default async function handler(
     if (!username) {
       throw new Error();
     }
-  } catch {
-    return res
-      .status(500)
-      .json({ type: "error", errorMessage: "issue fetching user profile" });
+  } catch (error) {
+    return res.status(500).json({
+      type: "error",
+      errorMessage: `issue fetching user profile: ${error}`,
+    });
+  }
+
+  try {
+    await prisma.session.deleteMany({ where: { user: { username } } });
+  } catch (error) {
+    return res.status(500).json({
+      type: "error",
+      errorMessage: `issue deleting previous session for user: ${error}`,
+    });
   }
 
   const expiresAt = new Date(
     new Date().getTime() + 1000 * 60 * (isProd() ? 30 : 1)
   );
-  const sessionId = await prisma.session.create({
-    data: {
-      accessToken,
-      expiresAt,
-      user: {
-        create: {
-          username,
+
+  let sessionId: Session;
+  try {
+    sessionId = await prisma.session.create({
+      data: {
+        accessToken,
+        expiresAt,
+        user: {
+          connectOrCreate: {
+            where: {
+              username,
+            },
+            create: {
+              username,
+            },
+          },
         },
       },
-    },
-  });
+    });
+  } catch (error) {
+    return res.status(500).json({
+      type: "error",
+      errorMessage: `issue creating a new session: ${error}`,
+    });
+  }
 
   cookies.set("sessionId", sessionId.id, {
     sameSite: "strict",
@@ -134,3 +156,10 @@ export default async function handler(
 
   return res.status(200).json({ type: "success", payload: { username } });
 }
+
+export default withMiddlware(
+  requireFeatures(["oauth"]),
+  allowMethods(["GET"]),
+  deleteExpiredSessions,
+  handler
+);

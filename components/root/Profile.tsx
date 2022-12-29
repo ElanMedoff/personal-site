@@ -50,8 +50,8 @@ export default function Profile() {
           leaves,
           profile,
         });
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        console.error(error);
       }
       setLoading(false);
     };

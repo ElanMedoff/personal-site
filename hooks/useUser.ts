@@ -1,22 +1,22 @@
 import { UserPayload } from "pages/api/user";
 import { useCallback, useEffect, useState } from "react";
 import { ApiResponse } from "utils/apiHelpers";
-import { isFeatureEnabled } from "utils/gateHelpers";
+import { isFeatureEnabled } from "utils/featureHelpers";
 
 export default function useUser() {
-  const [user, setUser] = useState<UserPayload["user"]>();
+  const [user, setUser] = useState<UserPayload["user"]>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<string | null>(null);
 
   const fetchUser = useCallback(async () => {
+    setUser(null);
+    setLoading(true);
+    setError(null);
+
     if (!isFeatureEnabled("oauth")) {
       setLoading(false);
       return;
     }
-
-    setUser(undefined);
-    setLoading(true);
-    setError(undefined);
 
     try {
       const response = await fetch("/api/user");
@@ -28,9 +28,9 @@ export default function useUser() {
       if (data.payload.user) {
         setUser(data.payload.user);
       }
-    } catch (e) {
+    } catch (error) {
       setError("Issue fetching user");
-      console.error(e);
+      console.error(error);
     } finally {
       setLoading(false);
     }

@@ -1,26 +1,21 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { isFeatureEnabled } from "utils/gateHelpers";
 import { randomUUID } from "crypto";
 import Cookies from "cookies";
 import { getClientId, isProd } from "utils/envHelpers";
 import { ApiResponse, isUserLoggedIn } from "utils/apiHelpers";
+import { withMiddlware } from "utils/middlewareHelpers";
+import { allowMethods } from "middleware/allowMethods";
+import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
+import { requireFeatures } from "middleware/requireFeatures";
 
 export interface LoginPayload {
   authorizeUrl: string;
 }
 
-// TODO: clear out old sessions
-
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<LoginPayload>>
 ) {
-  if (!isFeatureEnabled("oauth")) {
-    return res
-      .status(401)
-      .json({ type: "error", errorMessage: "feature not enabled" });
-  }
-
   if (await isUserLoggedIn(req, res)) {
     return res.status(400).json({
       type: "error",
@@ -53,3 +48,10 @@ export default async function handler(
 
   res.status(200).json({ type: "success", payload: { authorizeUrl } });
 }
+
+export default withMiddlware(
+  requireFeatures(["oauth"]),
+  allowMethods(["GET"]),
+  deleteExpiredSessions,
+  handler
+);

@@ -7,10 +7,16 @@ import { twMerge as tm } from "tailwind-merge";
 import { ApiResponse } from "utils/apiHelpers";
 import { transitionProperties } from "utils/styleHelpers";
 
-export default function Login({ user }: { user: UserPayload["user"] }) {
+export default function LoginLogout({
+  user,
+  fetchUser,
+}: {
+  user: UserPayload["user"];
+  fetchUser: () => Promise<void>;
+}) {
   const router = useRouter();
 
-  const onClick = async () => {
+  const handleLoginClick = async () => {
     try {
       const response = await fetch("/api/login");
       const data: ApiResponse<LoginPayload> = await response.json();
@@ -20,30 +26,46 @@ export default function Login({ user }: { user: UserPayload["user"] }) {
       }
 
       router.push(data.payload.authorizeUrl);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleLogoutClick = async () => {
+    try {
+      const response = await fetch("/api/logout");
+      const data: ApiResponse<null> = await response.json();
+
+      if (data.type === "error") {
+        throw new Error(data.errorMessage);
+      }
+
+      fetchUser();
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-4 mt-3">
+      {user ? <p>welcome, {user.username}!</p> : null}
       <button
         className={tm(
           "border-2 border-neutral px-6 py-3 rounded-lg flex items-center shadow-xl",
-          !user && "hover:scale-95 active:scale-90"
+          "hover:scale-95 active:scale-90"
         )}
-        onClick={user ? undefined : onClick}
+        onClick={user ? handleLogoutClick : handleLoginClick}
         style={{
           ...transitionProperties,
           transitionProperty: "transform",
         }}
       >
-        <span className={tm(styles.github, "mr-6")} />
-        <span>{user ? `welcome, ${user.username}!` : "login with github"}</span>
+        <span className={tm(styles.github, "mr-8")} />
+        <span>{user ? "logout" : "login with github"}</span>
       </button>
       {user ? (
-        <p className="text-xs italic w-full flex justify-center mt-4">
-          (more features to come)
+        <p className="text-xs italic w-full flex justify-center">
+          (more features coming soong)
         </p>
       ) : null}
     </div>

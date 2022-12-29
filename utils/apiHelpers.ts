@@ -32,13 +32,3 @@ export const isUserLoggedIn = async (
 
   return !!dbSession;
 };
-
-export const deleteExpiredSessions = async () => {
-  await prisma.session.deleteMany({
-    where: {
-      expiresAt: {
-        lte: new Date(),
-      },
-    },
-  });
-};

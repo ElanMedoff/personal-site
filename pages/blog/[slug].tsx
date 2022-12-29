@@ -15,16 +15,16 @@ import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { ParsedUrlQuery } from "querystring";
-import { isFeatureEnabled } from "utils/gateHelpers";
-import Login from "components/blog/Login";
+import { isFeatureEnabled } from "utils/featureHelpers";
 import useOAuthExchange from "hooks/useOAuthExchange";
 import { components, msToReadingTime } from "components/blog/helpers";
+import LoginLogout from "components/blog/LoginLogout";
 
 export default function PostPage({
   post,
   relatedPostMetadata,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const { user } = useOAuthExchange();
+  const { user, fetchUser } = useOAuthExchange();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -89,7 +89,7 @@ export default function PostPage({
         </section>
         {isFeatureEnabled("oauth") ? (
           <div className="w-full flex justify-center mt-6">
-            <Login user={user} />
+            <LoginLogout user={user} fetchUser={fetchUser} />
           </div>
         ) : null}
       </Content>
