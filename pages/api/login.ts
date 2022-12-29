@@ -17,18 +17,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<LoginPayload>>
 ) {
-  const postBody = JSON.parse(req.body);
-  if (typeof postBody !== "object" || postBody === null) {
-    return res.status(401).json({
-      type: "error",
-      errorMessage: "post body is null or is not an object",
-    });
-  }
-
-  if (!postBody.redirectUri) {
-    return res
-      .status(401)
-      .json({ type: "error", errorMessage: "no redirectUri in post body" });
+  if (!req.headers.referer) {
+    return res.status(401).json({ type: "error", errorMessage: "no referer" });
   }
 
   const clientId = getClientId();
@@ -42,7 +32,7 @@ export default async function handler(
 
   const params = new URLSearchParams();
   params.append("client_id", clientId);
-  params.append("redirect_uri", postBody.redirectUri);
+  params.append("redirect_uri", req.headers.referer);
   params.append("scope", "read:user");
   params.append("state", state);
 
