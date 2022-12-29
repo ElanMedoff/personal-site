@@ -18,7 +18,12 @@ export default function LoginLogout({
 
   const handleLoginClick = async () => {
     try {
-      const response = await fetch("/api/login");
+      const response = await fetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify({
+          redirectUri: `${window.location.origin}${window.location.pathname}`,
+        }),
+      });
       const data: ApiResponse<LoginPayload> = await response.json();
 
       if (data.type === "error") {
