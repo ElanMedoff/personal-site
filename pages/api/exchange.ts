@@ -37,7 +37,7 @@ async function handler(
     if (!req.body.state) {
       return res.status(401).json({
         type: "error",
-        errorMessage: "post body is null or not an object",
+        errorMessage: "post body is null or is not an object",
       });
     }
   }
