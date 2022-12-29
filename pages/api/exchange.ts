@@ -19,7 +19,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<ExchangePayload>>
 ) {
-  const cookies = new Cookies(req, res);
+  const cookies = new Cookies(req, res, { secure: isProd() });
   const cookieState = cookies.get("state");
   if (!cookieState) {
     return res
@@ -144,7 +144,6 @@ async function handler(
 
   cookies.set("sessionId", sessionId.id, {
     sameSite: "strict",
-    /* secure: isProd(), */
     expires: expiresAt,
   });
   cookies.set("state");

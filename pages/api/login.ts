@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
 import Cookies from "cookies";
-import { getClientId } from "utils/envHelpers";
+import { getClientId, isProd } from "utils/envHelpers";
 import { ApiResponse } from "utils/apiHelpers";
 import { withMiddlware } from "utils/middlewareHelpers";
 import { allowMethods } from "middleware/allowMethods";
@@ -25,11 +25,9 @@ async function handler(
 
   const state = randomUUID();
 
-  const cookies = new Cookies(req, res);
+  const cookies = new Cookies(req, res, { secure: isProd() });
   cookies.set("state", state, {
     maxAge: 1000 * 60 * 10,
-    // TODO: why does this break prod?
-    /* secure: isProd(), */
   });
 
   const params = new URLSearchParams();
