@@ -26,7 +26,7 @@ export default async function handler(
   const state = randomUUID();
 
   const cookies = new Cookies(req, res);
-  cookies.set("state", "asdf");
+  cookies.set("state", state);
   return res
     .status(400)
     .json({ type: "error", errorMessage: `after cookies, ${isProd()}` });
