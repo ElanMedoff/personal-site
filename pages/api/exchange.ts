@@ -24,18 +24,6 @@ async function handler(
       .json({ type: "error", errorMessage: "user already logged in" });
   }
 
-  if (!req.headers.referer) {
-    return res.status(401).json({ type: "error", errorMessage: "no referer" });
-  }
-
-  const refererUrl = new URL(req.headers.referer);
-  const refererParams = new URLSearchParams(refererUrl.search);
-  if (!refererParams.has("state")) {
-    return res
-      .status(401)
-      .json({ type: "error", errorMessage: "no state in url" });
-  }
-
   const cookies = new Cookies(req, res);
   const cookieState = cookies.get("state");
   if (!cookieState) {
@@ -44,18 +32,33 @@ async function handler(
       .json({ type: "error", errorMessage: "no state in cookie" });
   }
 
-  const urlState = refererParams.get("state");
-  if (cookieState !== urlState) {
+  const postBody = JSON.parse(req.body);
+  if (typeof postBody !== "object" || postBody === null) {
+    if (!req.body.state) {
+      return res.status(401).json({
+        type: "error",
+        errorMessage: "post body is null or not an object",
+      });
+    }
+  }
+
+  if (!postBody.state) {
+    return res
+      .status(401)
+      .json({ type: "error", errorMessage: "no state in post body" });
+  }
+
+  if (cookieState !== postBody.state) {
     return res.status(401).json({
       type: "error",
       errorMessage: "url state doesn't match cookie state",
     });
   }
 
-  if (!refererParams.has("code")) {
+  if (!postBody.code) {
     return res
       .status(401)
-      .json({ type: "error", errorMessage: "no code in url" });
+      .json({ type: "error", errorMessage: "no code in post body" });
   }
 
   const clientId = getClientId();
@@ -64,7 +67,7 @@ async function handler(
   const authorizationParams = new URLSearchParams();
   authorizationParams.append("client_id", clientId);
   authorizationParams.append("client_secret", clientSecret);
-  authorizationParams.append("code", refererParams.get("code")!);
+  authorizationParams.append("code", postBody.code);
   const authorizationUrl = new URL(
     `https://github.com/login/oauth/access_token?${authorizationParams}`
   );
@@ -159,7 +162,7 @@ async function handler(
 
 export default withMiddlware(
   requireFeatures(["oauth"]),
-  allowMethods(["GET"]),
+  allowMethods(["POST"]),
   deleteExpiredSessions,
   handler
 );

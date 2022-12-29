@@ -20,7 +20,13 @@ export default function useOAuthExchange() {
 
     const exchange = async () => {
       try {
-        const response = await fetch("/api/exchange");
+        const response = await fetch("/api/exchange", {
+          method: "POST",
+          body: JSON.stringify({
+            code: params.get("code"),
+            state: params.get("state"),
+          }),
+        });
         const data: ApiResponse<ExchangePayload> = await response.json();
 
         const url = new URL(window.location.href);
