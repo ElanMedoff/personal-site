@@ -13,7 +13,7 @@ export interface LoginPayload {
   authorizeUrl: string;
 }
 
-async function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<LoginPayload>>
 ) {
@@ -53,10 +53,10 @@ async function handler(
   res.status(200).json({ type: "success", payload: { authorizeUrl } });
 }
 
-export default withMiddlware(
-  requireFeatures(["oauth"]),
-  allowMethods(["POST"]),
-  onlyLoggedOutUsers,
-  deleteExpiredSessions,
-  handler
-);
+/* export default withMiddlware( */
+/*   requireFeatures(["oauth"]), */
+/*   allowMethods(["POST"]), */
+/*   onlyLoggedOutUsers, */
+/*   deleteExpiredSessions, */
+/*   handler */
+/* ); */
