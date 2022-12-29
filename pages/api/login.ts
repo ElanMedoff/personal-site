@@ -28,6 +28,7 @@ export default async function handler(
   const cookies = new Cookies(req, res);
   cookies.set("state", state, {
     maxAge: 1000 * 60 * 10,
+    secure: true,
   });
   return res
     .status(400)
