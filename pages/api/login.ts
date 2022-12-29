@@ -22,9 +22,9 @@ export default async function handler(
   }
 
   const clientId = getClientId();
-  return res.status(400).json({ type: "error", errorMessage: clientId });
 
-  /* const state = randomUUID(); */
+  const state = randomUUID();
+  return res.status(400).json({ type: "error", errorMessage: state });
   /**/
   /* const cookies = new Cookies(req, res); */
   /* cookies.set("state", state, { */
