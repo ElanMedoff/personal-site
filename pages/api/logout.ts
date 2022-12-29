@@ -4,6 +4,7 @@ import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { requireFeatures } from "middleware/requireFeatures";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ApiResponse } from "utils/apiHelpers";
+import { isProd } from "utils/envHelpers";
 import { withMiddlware } from "utils/middlewareHelpers";
 import { prisma } from "utils/prismaHelpers";
 
@@ -11,7 +12,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<null>>
 ) {
-  const cookies = new Cookies(req, res);
+  const cookies = new Cookies(req, res, { secure: isProd() });
   const cookieSessionId = cookies.get("sessionId");
   if (!cookieSessionId) {
     return res.status(200).json({ type: "success", payload: null });

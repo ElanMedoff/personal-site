@@ -43,7 +43,7 @@ async function handler(
   if (cookieState !== urlState) {
     return res.status(401).json({
       type: "error",
-      errorMessage: "url state doesn't match cookie state",
+      errorMessage: "url state doesnt match cookie state",
     });
   }
 
@@ -114,7 +114,7 @@ async function handler(
   }
 
   const expiresAt = new Date(
-    new Date().getTime() + 1000 * 60 * (isProd() ? 30 : 1)
+    new Date().getTime() + 1000 * 60 * (isProd() ? 60 * 12 : 1)
   );
 
   let sessionId: Session;

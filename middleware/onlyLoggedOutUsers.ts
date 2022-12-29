@@ -20,7 +20,7 @@ export const onlyLoggedOutUsers: Middleware = async (req, res, next) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ type: "error", errorMessage: "issue finding session" });
+      .json({ type: "error", errorMessage: `issue finding session: ${error}` });
   }
 
   if (dbSession) {

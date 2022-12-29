@@ -22,7 +22,6 @@ async function handler(
   }
 
   const clientId = getClientId();
-
   const state = randomUUID();
 
   const cookies = new Cookies(req, res, { secure: isProd() });
