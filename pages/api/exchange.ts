@@ -3,12 +3,13 @@ import { getClientId, getClientSecret, isProd } from "utils/envHelpers";
 import Cookies from "cookies";
 import { prisma } from "utils/prismaHelpers";
 import { Octokit } from "@octokit/core";
-import { ApiResponse, isUserLoggedIn } from "utils/apiHelpers";
+import { ApiResponse } from "utils/apiHelpers";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { allowMethods } from "middleware/allowMethods";
 import { withMiddlware } from "utils/middlewareHelpers";
 import { Session } from "@prisma/client";
 import { requireFeatures } from "middleware/requireFeatures";
+import { onlyLoggedOutUsers } from "middleware/onlyLoggedOutUsers";
 
 export interface ExchangePayload {
   username: string;
@@ -18,12 +19,6 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<ExchangePayload>>
 ) {
-  if (await isUserLoggedIn(req, res)) {
-    return res
-      .status(400)
-      .json({ type: "error", errorMessage: "user already logged in" });
-  }
-
   const cookies = new Cookies(req, res);
   const cookieState = cookies.get("state");
   if (!cookieState) {
@@ -161,6 +156,7 @@ async function handler(
 export default withMiddlware(
   requireFeatures(["oauth"]),
   allowMethods(["POST"]),
+  onlyLoggedOutUsers,
   deleteExpiredSessions,
   handler
 );

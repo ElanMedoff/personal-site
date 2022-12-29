@@ -2,11 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
 import Cookies from "cookies";
 import { getClientId, isProd } from "utils/envHelpers";
-import { ApiResponse, isUserLoggedIn } from "utils/apiHelpers";
+import { ApiResponse } from "utils/apiHelpers";
 import { withMiddlware } from "utils/middlewareHelpers";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { requireFeatures } from "middleware/requireFeatures";
+import { onlyLoggedOutUsers } from "middleware/onlyLoggedOutUsers";
 
 export interface LoginPayload {
   authorizeUrl: string;
@@ -16,13 +17,6 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<LoginPayload>>
 ) {
-  if (await isUserLoggedIn(req, res)) {
-    return res.status(400).json({
-      type: "error",
-      errorMessage: "user already logged in",
-    });
-  }
-
   const postBody = JSON.parse(req.body);
   if (typeof postBody !== "object" || postBody === null) {
     return res.status(401).json({
@@ -62,6 +56,7 @@ async function handler(
 export default withMiddlware(
   requireFeatures(["oauth"]),
   allowMethods(["POST"]),
+  onlyLoggedOutUsers,
   deleteExpiredSessions,
   handler
 );

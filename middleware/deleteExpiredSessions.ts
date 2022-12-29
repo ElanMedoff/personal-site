@@ -11,11 +11,11 @@ export const deleteExpiredSessions: Middleware = async (_, res, next) => {
       },
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       type: "error",
       errorMessage: `issue deleting expired sessions: ${error}`,
     });
   }
 
-  next();
+  return next();
 };
