@@ -22,25 +22,27 @@ export default async function handler(
   }
 
   const clientId = getClientId();
-  const state = randomUUID();
+  return res.status(400).json({ type: "error", errorMessage: clientId });
 
-  const cookies = new Cookies(req, res);
-  cookies.set("state", state, {
-    maxAge: 1000 * 60 * 10,
-    secure: isProd(),
-  });
-
-  const params = new URLSearchParams();
-  params.append("client_id", clientId);
-  params.append("redirect_uri", req.headers.referer);
-  params.append("scope", "read:user");
-  params.append("state", state);
-
-  const authorizeUrl = new URL(
-    `https://github.com/login/oauth/authorize?${params}`
-  ).toString();
-
-  res.status(200).json({ type: "success", payload: { authorizeUrl } });
+  /* const state = randomUUID(); */
+  /**/
+  /* const cookies = new Cookies(req, res); */
+  /* cookies.set("state", state, { */
+  /*   maxAge: 1000 * 60 * 10, */
+  /*   secure: isProd(), */
+  /* }); */
+  /**/
+  /* const params = new URLSearchParams(); */
+  /* params.append("client_id", clientId); */
+  /* params.append("redirect_uri", req.headers.referer); */
+  /* params.append("scope", "read:user"); */
+  /* params.append("state", state); */
+  /**/
+  /* const authorizeUrl = new URL( */
+  /*   `https://github.com/login/oauth/authorize?${params}` */
+  /* ).toString(); */
+  /**/
+  /* res.status(200).json({ type: "success", payload: { authorizeUrl } }); */
 }
 
 /* export default withMiddlware( */
