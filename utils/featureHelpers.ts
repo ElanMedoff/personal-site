@@ -1,7 +1,7 @@
 import { isProd } from "utils/envHelpers";
 
 const featuresMap: Record<string, { dev: boolean; prod: boolean }> = {
-  oauth: { dev: true, prod: true },
+  oauth: { dev: true, prod: false },
   comments: { dev: true, prod: false },
 } as const;
 
