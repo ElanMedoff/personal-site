@@ -24,14 +24,15 @@ export default async function handler(
   const clientId = getClientId();
 
   const state = randomUUID();
-  return res.status(400).json({ type: "error", errorMessage: state });
-  /**/
-  /* const cookies = new Cookies(req, res); */
-  /* cookies.set("state", state, { */
-  /*   maxAge: 1000 * 60 * 10, */
-  /*   secure: isProd(), */
-  /* }); */
-  /**/
+
+  const cookies = new Cookies(req, res);
+  cookies.set("state", state, {
+    maxAge: 1000 * 60 * 10,
+    secure: isProd(),
+  });
+
+  return res.status(400).json({ type: "error", errorMessage: "after cookies" });
+
   /* const params = new URLSearchParams(); */
   /* params.append("client_id", clientId); */
   /* params.append("redirect_uri", req.headers.referer); */
