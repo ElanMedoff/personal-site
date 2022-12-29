@@ -30,6 +30,7 @@ async function handler(
     maxAge: 1000 * 60 * 10,
     // TODO: why does this break prod?
     /* secure: isProd(), */
+    secureProxy: true,
   });
 
   const params = new URLSearchParams();
