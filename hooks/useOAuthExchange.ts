@@ -26,6 +26,9 @@ export default function useOAuthExchange() {
             code: params.get("code"),
             state: params.get("state"),
           }),
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
         const data: ApiResponse<ExchangePayload> = await response.json();
 

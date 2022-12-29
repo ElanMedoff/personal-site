@@ -23,6 +23,9 @@ export default function LoginLogout({
         body: JSON.stringify({
           redirectUri: `${window.location.origin}${window.location.pathname}`,
         }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       const data: ApiResponse<LoginPayload> = await response.json();
 
