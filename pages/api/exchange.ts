@@ -27,31 +27,30 @@ async function handler(
       .json({ type: "error", errorMessage: "no state in cookie" });
   }
 
-  const postBody = JSON.parse(req.body);
-  if (typeof postBody !== "object" || postBody === null) {
-    return res.status(401).json({
-      type: "error",
-      errorMessage: "post body is null or is not an object",
-    });
+  if (!req.headers.referer) {
+    return res.status(401).json({ type: "error", errorMessage: "no referer" });
   }
 
-  if (!postBody.state) {
+  const refererUrl = new URL(req.headers.referer);
+  const refererParams = new URLSearchParams(refererUrl.search);
+  if (!refererParams.has("state")) {
     return res
       .status(401)
-      .json({ type: "error", errorMessage: "no state in post body" });
+      .json({ type: "error", errorMessage: "no state in url" });
   }
 
-  if (cookieState !== postBody.state) {
+  const urlState = refererParams.get("state");
+  if (cookieState !== urlState) {
     return res.status(401).json({
       type: "error",
       errorMessage: "url state doesn't match cookie state",
     });
   }
 
-  if (!postBody.code) {
+  if (!refererParams.has("code")) {
     return res
       .status(401)
-      .json({ type: "error", errorMessage: "no code in post body" });
+      .json({ type: "error", errorMessage: "no code in url" });
   }
 
   const clientId = getClientId();
@@ -60,7 +59,7 @@ async function handler(
   const authorizationParams = new URLSearchParams();
   authorizationParams.append("client_id", clientId);
   authorizationParams.append("client_secret", clientSecret);
-  authorizationParams.append("code", postBody.code);
+  authorizationParams.append("code", refererParams.get("code")!);
   const authorizationUrl = new URL(
     `https://github.com/login/oauth/access_token?${authorizationParams}`
   );
@@ -155,7 +154,7 @@ async function handler(
 
 export default withMiddlware(
   requireFeatures(["oauth"]),
-  allowMethods(["POST"]),
+  allowMethods(["GET"]),
   onlyLoggedOutUsers,
   deleteExpiredSessions,
   handler

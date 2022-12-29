@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
 import Cookies from "cookies";
-import { getClientId, isProd } from "utils/envHelpers";
+import { getClientId } from "utils/envHelpers";
 import { ApiResponse } from "utils/apiHelpers";
 import { withMiddlware } from "utils/middlewareHelpers";
 import { allowMethods } from "middleware/allowMethods";
@@ -47,7 +47,7 @@ async function handler(
 
 export default withMiddlware(
   requireFeatures(["oauth"]),
-  allowMethods(["POST"]),
+  allowMethods(["GET"]),
   onlyLoggedOutUsers,
   deleteExpiredSessions,
   handler
