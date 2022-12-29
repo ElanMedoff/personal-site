@@ -22,12 +22,10 @@ async function handler(
       where: { id: cookieSessionId },
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        type: "error",
-        errorMessage: `issue deleting session: ${error}`,
-      });
+    return res.status(500).json({
+      type: "error",
+      errorMessage: `issue deleting session: ${error}`,
+    });
   }
 
   cookies.set("sessionId");
