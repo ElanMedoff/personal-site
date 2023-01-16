@@ -6,7 +6,6 @@ import Script from "next/script";
 import Layout from "components/root/Layout";
 import useIsDarkMode from "hooks/useIsDarkMode";
 import { createContext, Dispatch, SetStateAction } from "react";
-import { isProd } from "utils/envHelpers";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
@@ -15,9 +14,16 @@ export const ThemeContext = createContext<{
 
 type MyAppProps = Pick<AppProps, "Component" | "pageProps"> & {
   darkMode: boolean;
+  err: any;
 };
 
-export default function MyApp({ Component, pageProps, darkMode }: MyAppProps) {
+export default function MyApp({
+  Component,
+  pageProps,
+  darkMode,
+  err,
+}: MyAppProps) {
+  console.log(err);
   const [isDarkMode, setIsDarkMode] = useIsDarkMode(darkMode);
 
   return (
@@ -64,14 +70,20 @@ MyApp.getInitialProps = async (context: AppContext) => {
   const req = context.ctx.req!;
   const res = context.ctx.res!;
   const darkMode = getCookie("darkMode", { req, res }) as boolean | undefined;
+  let err: any;
   if (darkMode === undefined) {
-    setCookie("darkMode", false, {
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
-      httpOnly: false,
-      secure: false,
-      sameSite: "none",
-    });
-    return { ...ctx, darkMode: false };
+    try {
+      setCookie("darkMode", false, {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
+        httpOnly: false,
+        secure: false,
+        sameSite: "none",
+      });
+    } catch (e) {
+      err = e;
+      console.error(e);
+    }
+    return { ...ctx, darkMode: false, err };
   }
 
   return { ...ctx, darkMode };
