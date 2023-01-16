@@ -70,8 +70,8 @@ MyApp.getInitialProps = async (context: AppContext) => {
   const ctx = await App.getInitialProps(context);
   let errorMessage = "";
   if (!context.ctx.req?.headers?.cookie) {
-    errorMessage = `ERROR: ${context.ctx.req}`;
-    return { ...ctx, isDarkMode: false };
+    errorMessage = `ERROR: ${context.ctx}`;
+    return { ...ctx, isDarkModeCookie: false };
   }
 
   const cookies = cookie.parse(context.ctx.req!.headers.cookie!);
