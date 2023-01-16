@@ -5,6 +5,7 @@ NPX=/home/elan/.nvm/versions/node/v16.16.0/bin/npx
 PM2=/home/elan/.nvm/versions/node/v16.16.0/bin/pm2
 DIR=/var/www/elanmed.dev
 
+# overwrite
 echo "" > $LOG
 
 cd $DIR
