@@ -66,13 +66,13 @@ export default function Header() {
           <span className="cursor-pointer select-none hover:text-primary">
             <Link href="/blog">blog</Link>
           </span>
-          <div className="divider divider-horizontal" />
-          <Switch
-            isOn={isDarkMode}
-            onToggle={() => {
-              setIsDarkMode?.((prev) => !prev);
-            }}
-          />
+          {/* <div className="divider divider-horizontal" /> */}
+          {/* <Switch */}
+          {/*   isOn={isDarkMode} */}
+          {/*   onToggle={() => { */}
+          {/*     setIsDarkMode?.((prev) => !prev); */}
+          {/*   }} */}
+          {/* /> */}
         </div>
       </div>
     </nav>
