@@ -1,5 +1,5 @@
 import App, { AppContext, AppProps } from "next/app";
-import { setCookie, getCookie } from "cookies-next";
+import cookie from "cookie";
 import "styles/globals.css";
 import Head from "next/head";
 import Script from "next/script";
@@ -17,13 +17,7 @@ type MyAppProps = Pick<AppProps, "Component" | "pageProps"> & {
   err: any;
 };
 
-export default function MyApp({
-  Component,
-  pageProps,
-  darkMode,
-  err,
-}: MyAppProps) {
-  console.log(err);
+export default function MyApp({ Component, pageProps, darkMode }: MyAppProps) {
   const [isDarkMode, setIsDarkMode] = useIsDarkMode(darkMode);
 
   return (
@@ -67,19 +61,18 @@ export default function MyApp({
 MyApp.getInitialProps = async (context: AppContext) => {
   const ctx = await App.getInitialProps(context);
 
-  const req = context.ctx.req!;
-  const res = context.ctx.res!;
-  const darkMode = getCookie("darkMode", { req, res }) as boolean | undefined;
-  const err = req.headers.cookies;
-  if (darkMode === undefined) {
-    setCookie("darkMode", false, {
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
-      httpOnly: false,
-      secure: false,
-      sameSite: "none",
-    });
-    return { ...ctx, darkMode: false, err };
+  const { req, res } = context.ctx;
+  if (!req || !res) {
+    return { ...ctx };
   }
 
-  return { ...ctx, darkMode };
+  const cookies = cookie.parse(req.headers.cookie ?? "");
+  const { darkMode } = cookies;
+
+  if (darkMode === undefined) {
+    cookie.serialize("darkMode", "false", { httpOnly: false });
+    return { ...ctx, darkMode: false };
+  }
+
+  return { ...ctx, darkMode: darkMode === "true" ? true : false };
 };

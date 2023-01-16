@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
-import { setCookie } from "cookies-next";
+import Cookies from "cookies";
 import { getClientId, isProd } from "utils/envHelpers";
 import { ApiResponse } from "utils/apiHelpers";
 import { withMiddlware } from "utils/middlewareHelpers";
@@ -8,11 +8,9 @@ import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { requireFeatures } from "middleware/requireFeatures";
 import { onlyLoggedOutUsers } from "middleware/onlyLoggedOutUsers";
-
 export interface LoginPayload {
   authorizeUrl: string;
 }
-
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<LoginPayload>>
@@ -20,14 +18,11 @@ async function handler(
   if (!req.headers.referer) {
     return res.status(401).json({ type: "error", errorMessage: "no referer" });
   }
-
   const clientId = getClientId();
   const state = randomUUID();
 
-  setCookie("state", state, {
-    req,
-    res,
-    secure: isProd(),
+  const cookies = new Cookies(req, res, { secure: isProd() });
+  cookies.set("state", state, {
     maxAge: 1000 * 60 * 10,
   });
 
@@ -36,14 +31,11 @@ async function handler(
   params.append("redirect_uri", req.headers.referer);
   params.append("scope", "read:user");
   params.append("state", state);
-
   const authorizeUrl = new URL(
     `https://github.com/login/oauth/authorize?${params}`
   ).toString();
-
   res.status(200).json({ type: "success", payload: { authorizeUrl } });
 }
-
 export default withMiddlware(
   requireFeatures(["oauth"]),
   allowMethods(["GET"]),

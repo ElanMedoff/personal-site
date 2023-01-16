@@ -1,4 +1,4 @@
-import { getCookie, deleteCookie } from "cookies-next";
+import Cookies from "cookies";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { requireFeatures } from "middleware/requireFeatures";
@@ -7,19 +7,15 @@ import { ApiResponse } from "utils/apiHelpers";
 import { isProd } from "utils/envHelpers";
 import { withMiddlware } from "utils/middlewareHelpers";
 import { prisma } from "utils/prismaHelpers";
-
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<null>>
 ) {
-  const cookieSessionId = getCookie("sessionId", {
-    req,
-    res,
-  }) as string | undefined;
+  const cookies = new Cookies(req, res, { secure: isProd() });
+  const cookieSessionId = cookies.get("sessionId");
   if (!cookieSessionId) {
     return res.status(200).json({ type: "success", payload: null });
   }
-
   try {
     await prisma.session.delete({
       where: { id: cookieSessionId },
@@ -31,7 +27,7 @@ async function handler(
     });
   }
 
-  deleteCookie("sessionId", { req, res });
+  cookies.set("sessionId");
   return res.status(200).json({ type: "success", payload: null });
 }
 
