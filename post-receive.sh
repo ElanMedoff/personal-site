@@ -7,11 +7,6 @@ DIR=/var/www/elanmed.dev
 
 echo "" > $LOG
 
-echo "$(date)" >> $LOG
-echo "checking out branch ..." >> $LOG
-GIT_WORK_TREE=/var/www/elanmed.dev git checkout -f >> $LOG 2>&1
-echo "finished checking out branch" >> $LOG
-
 cd $DIR
 echo "running npm install..." >> $LOG
 $NPM install >> $LOG 2>&1
