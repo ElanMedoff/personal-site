@@ -7,6 +7,7 @@ export default function useIsDarkMode(firstRender: boolean) {
   useEffect(() => {
     setCookie("darkMode", isDarkMode, {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
+      sameSite: "none",
     });
   }, [isDarkMode]);
 
