@@ -68,7 +68,7 @@ MyApp.getInitialProps = async (context: AppContext) => {
     setCookie("darkMode", false, {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
       httpOnly: false,
-      secure: isProd(),
+      secure: false,
       sameSite: "none",
     });
     return { ...ctx, darkMode: false };

@@ -9,7 +9,7 @@ export default function useIsDarkMode(firstRender: boolean) {
     setCookie("darkMode", isDarkMode, {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
       httpOnly: false,
-      secure: isProd(),
+      secure: false,
       sameSite: "none",
     });
   }, [isDarkMode]);
