@@ -3,4 +3,5 @@
 /.next
 .env.local
 /prisma/data.db
-/cache/data.json
+/cache/*
+!cache/.gitkeep
