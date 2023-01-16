@@ -1,3 +1,5 @@
+import { readCache, updateCache } from "utils/cacheHelpers";
+
 interface UnpatchedRepo {
   name: string;
   fork: boolean;
@@ -17,13 +19,15 @@ export interface Repo extends UnpatchedRepo {
 }
 
 export async function fetchGithubRepos() {
-  let repos: UnpatchedRepo[] = [];
-  try {
-    const response = await fetch(
-      "https://api.github.com/users/ElanMedoff/repos"
-    );
-    repos = await response.json();
-  } catch {}
+  const cache = readCache();
+  const { cachedRepos } = cache;
+
+  if (cachedRepos && cachedRepos.expiresAt > Date.now()) {
+    return cachedRepos.repos;
+  }
+
+  const response = await fetch("https://api.github.com/users/ElanMedoff/repos");
+  const repos: UnpatchedRepo[] = await response.json();
   const exceptions = [
     "comics-relational-full-stack-public",
     "josh-css",
@@ -48,12 +52,19 @@ export async function fetchGithubRepos() {
     };
   });
 
-  return patchedRepos.sort(
+  patchedRepos.sort(
     (a, b) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime()
   );
+
+  updateCache("cachedRepos", {
+    repos: patchedRepos,
+    expiresAt: Date.now() + 1000 * 60 * 60 * 24,
+  });
+
+  return patchedRepos;
 }
 
-// TODO: replace with react icons
+// TODO: download icons
 export const languageToIconUrl: Record<string, string> = {
   TypeScript:
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg",

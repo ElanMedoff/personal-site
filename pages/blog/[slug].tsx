@@ -1,10 +1,5 @@
 import * as ReactDOMServer from "react-dom/server";
-import {
-  fetchPostSlugs,
-  fetchPostBySlug,
-  Post,
-  Metadata,
-} from "utils/postHelpers";
+import { fetchPostBySlug, Post, Metadata } from "utils/postHelpers";
 import BlogCard from "components/blog/BlogCard";
 import { MDXRemote } from "next-mdx-remote";
 import Content from "components/blog/Content";
@@ -13,7 +8,7 @@ import { useEffect, useMemo } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { isFeatureEnabled } from "utils/featureHelpers";
 import useOAuthExchange from "hooks/useOAuthExchange";
@@ -23,7 +18,7 @@ import LoginLogout from "components/blog/LoginLogout";
 export default function PostPage({
   post,
   relatedPostMetadata,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { user, fetchUser } = useOAuthExchange();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -110,7 +105,7 @@ interface Props {
   relatedPostMetadata: Metadata;
 }
 
-export const getStaticProps: GetStaticProps<Props, Params> = async (
+export const getServerSideProps: GetServerSideProps<Props, Params> = async (
   context
 ) => {
   const { slug } = context.params!;
@@ -124,9 +119,9 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   };
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: await fetchPostSlugs(),
-    fallback: false,
-  };
-};
+/* export const getStaticPaths: GetStaticPaths = async () => { */
+/*   return { */
+/*     paths: await fetchPostSlugs(), */
+/*     fallback: false, */
+/*   }; */
+/* }; */

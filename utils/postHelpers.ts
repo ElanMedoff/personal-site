@@ -31,26 +31,26 @@ function fetchAllPaths() {
   return paths.filter((path) => path !== ".DS_Store");
 }
 
-export async function fetchPostSlugs() {
-  const paths = fetchAllPaths();
-
-  const allMetadata = await Promise.all(
-    paths.map(async (path) => {
-      const rawPost = readFileSync(join(postsDirectory, path)).toString();
-      const { data } = matter(rawPost);
-
-      return data as any as Metadata;
-    })
-  );
-
-  return allMetadata
-    .filter((metadata) => metadata.isPublished)
-    .map((metadata) => ({
-      params: {
-        slug: metadata.slug,
-      },
-    }));
-}
+/* export async function fetchPostSlugs() { */
+/*   const paths = fetchAllPaths(); */
+/**/
+/*   const allMetadata = await Promise.all( */
+/*     paths.map(async (path) => { */
+/*       const rawPost = readFileSync(join(postsDirectory, path)).toString(); */
+/*       const { data } = matter(rawPost); */
+/**/
+/*       return data as any as Metadata; */
+/*     }) */
+/*   ); */
+/**/
+/*   return allMetadata */
+/*     .filter((metadata) => metadata.isPublished) */
+/*     .map((metadata) => ({ */
+/*       params: { */
+/*         slug: metadata.slug, */
+/*       }, */
+/*     })); */
+/* } */
 
 export async function fetchPostBySlug(
   slugToFetch: string

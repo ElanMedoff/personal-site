@@ -5,13 +5,7 @@ import Head from "next/head";
 import Script from "next/script";
 import Layout from "components/root/Layout";
 import useIsDarkMode from "hooks/useIsDarkMode";
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
@@ -19,19 +13,20 @@ export const ThemeContext = createContext<{
 }>({ isDarkMode: false, setIsDarkMode: null });
 
 type MyAppProps = Pick<AppProps, "Component" | "pageProps"> & {
-  /* darkMode: boolean; */
-  /* message: any; */
+  isDarkModeCookie: boolean;
+  errorMessage?: string;
 };
 
-export default function MyApp({ Component, pageProps }: MyAppProps) {
-  const [isDarkMode, setIsDarkMode] = useIsDarkMode();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
+export default function MyApp({
+  Component,
+  pageProps,
+  isDarkModeCookie,
+  errorMessage,
+}: MyAppProps) {
+  if (errorMessage) {
+    console.error(errorMessage);
+  }
+  const [isDarkMode, setIsDarkMode] = useIsDarkMode(isDarkModeCookie);
 
   return (
     <>
@@ -71,25 +66,24 @@ export default function MyApp({ Component, pageProps }: MyAppProps) {
   );
 }
 
-/* MyApp.getInitialProps = async (context: AppContext) => { */
-/*   const ctx = await App.getInitialProps(context); */
-/**/
-/*   let message; */
-/*   const { req, res } = context.ctx; */
-/*   message = `${req}, ${res}`; */
-/**/
-/*   if (!req || !res) { */
-/*     return { ...ctx }; */
-/*   } */
-/**/
-/*   const cookies = cookie.parse(req.headers.cookie ?? ""); */
-/*   const { darkMode } = cookies; */
-/**/
-/*   if (darkMode === undefined) { */
-/*     cookie.serialize("darkMode", "false", { httpOnly: false }); */
-/*     return { ...ctx, darkMode: false }; */
-/*   } */
-/**/
-/*   message = `cookie defined, value is ${darkMode}`; */
-/*   return { ...ctx, darkMode: darkMode === "true" ? true : false, message }; */
-/* }; */
+MyApp.getInitialProps = async (context: AppContext) => {
+  const ctx = await App.getInitialProps(context);
+  let errorMessage = "";
+  if (!context.ctx.req?.headers.cookie) {
+    errorMessage = `ERROR: ${context.ctx.req}`;
+  }
+
+  const cookies = cookie.parse(context.ctx.req!.headers.cookie!);
+  const { isDarkMode } = cookies;
+
+  if (isDarkMode === undefined) {
+    cookie.serialize("isDarkMode", "false", { httpOnly: false });
+    return { ...ctx, isDarkModeCookie: false, errorMessage };
+  }
+
+  return {
+    ...ctx,
+    isDarkModeCookie: isDarkMode === "true" ? true : false,
+    errorMessage,
+  };
+};
