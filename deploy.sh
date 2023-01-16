@@ -11,8 +11,8 @@ if npx next build; then
   cecho "built locally" 2
 
   cecho "backing up..." 4
-  rsync -av -e ssh --exclude="node_modules" --exclude=".next" --exclude="public" elan@147.182.190.69:/var/www/elanmed.dev ./backups
-  mv ./backups/elanmed.dev ./backups/"$(date +"%m:%d:%y_%H-%M-%S")"
+  rsync -av -e ssh --exclude="node_modules" --exclude=".next" --exclude="public" elan@147.182.190.69:/var/www/elanmed.dev ~/Desktop/personal-site-backups
+  mv ~/Desktop/personal-site-backups/elanmed.dev ~/Desktop/personal-site-backups/"$(date +"%m:%d:%y_%H-%M-%S")"
   cecho "backed up" 2
 
   cecho "input commit message >" 4

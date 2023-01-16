@@ -74,5 +74,7 @@ MyApp.getInitialProps = async (context: AppContext) => {
     return { ...ctx, darkMode: false };
   }
 
+  const message = `cookie defined, value is ${darkMode}`;
+
   return { ...ctx, darkMode: darkMode === "true" ? true : false };
 };
