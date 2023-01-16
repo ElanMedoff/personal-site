@@ -70,19 +70,14 @@ MyApp.getInitialProps = async (context: AppContext) => {
   const req = context.ctx.req!;
   const res = context.ctx.res!;
   const darkMode = getCookie("darkMode", { req, res }) as boolean | undefined;
-  let err: any;
+  const err = req.headers.cookies;
   if (darkMode === undefined) {
-    try {
-      setCookie("darkMode", false, {
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
-        httpOnly: false,
-        secure: false,
-        sameSite: "none",
-      });
-    } catch (e) {
-      err = e;
-      console.error(e);
-    }
+    setCookie("darkMode", false, {
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
+      httpOnly: false,
+      secure: false,
+      sameSite: "none",
+    });
     return { ...ctx, darkMode: false, err };
   }
 
