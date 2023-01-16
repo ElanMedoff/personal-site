@@ -65,7 +65,11 @@ MyApp.getInitialProps = async (context: AppContext) => {
   const res = context.ctx.res!;
   const darkMode = getCookie("darkMode", { req, res }) as boolean | undefined;
   if (darkMode === undefined) {
-    setCookie("darkMode", false, { httpOnly: false, secure: isProd() });
+    setCookie("darkMode", false, {
+      httpOnly: false,
+      secure: isProd(),
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
+    });
     return { ...ctx, darkMode: false };
   }
 
