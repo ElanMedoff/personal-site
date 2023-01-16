@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getClientId, getClientSecret, isProd } from "utils/envHelpers";
-import Cookies from "cookies";
+import { getCookie, setCookie, deleteCookie } from "cookies-next";
 import { prisma } from "utils/prismaHelpers";
 import { Octokit } from "@octokit/core";
 import { ApiResponse } from "utils/apiHelpers";
@@ -19,8 +19,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<ExchangePayload>>
 ) {
-  const cookies = new Cookies(req, res, { secure: isProd() });
-  const cookieState = cookies.get("state");
+  const cookieState = getCookie("state", { req, res });
   if (!cookieState) {
     return res
       .status(401)
@@ -142,11 +141,14 @@ async function handler(
     });
   }
 
-  cookies.set("sessionId", sessionId.id, {
+  setCookie("sessionId", sessionId.id, {
+    req,
+    res,
+    secure: isProd(),
     sameSite: "strict",
     expires: expiresAt,
   });
-  cookies.set("state");
+  deleteCookie("state", { req, res });
 
   return res.status(200).json({ type: "success", payload: { username } });
 }

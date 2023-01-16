@@ -1,11 +1,12 @@
 import { Session } from "@prisma/client";
-import Cookies from "cookies";
+import { getCookie } from "cookies-next";
 import { Middleware } from "utils/middlewareHelpers";
 import { prisma } from "utils/prismaHelpers";
 
 export const onlyLoggedOutUsers: Middleware = async (req, res, next) => {
-  const cookies = new Cookies(req, res);
-  const cookieSessionId = cookies.get("sessionId");
+  const cookieSessionId = getCookie("sessionId", { req, res }) as
+    | string
+    | undefined;
   if (!cookieSessionId) {
     return next();
   }

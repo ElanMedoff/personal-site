@@ -1,18 +1,24 @@
+import App, { AppContext, AppProps } from "next/app";
+import { setCookie, getCookie } from "cookies-next";
 import "styles/globals.css";
 import Head from "next/head";
 import Script from "next/script";
 import Layout from "components/root/Layout";
-import type { AppProps } from "next/app";
 import useIsDarkMode from "hooks/useIsDarkMode";
 import { createContext, Dispatch, SetStateAction } from "react";
+import { isProd } from "utils/envHelpers";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
   setIsDarkMode: null | Dispatch<SetStateAction<boolean>>;
 }>({ isDarkMode: false, setIsDarkMode: null });
 
-export default function MyApp({ Component, pageProps }: AppProps) {
-  const [isDarkMode, setIsDarkMode] = useIsDarkMode();
+type MyAppProps = Pick<AppProps, "Component" | "pageProps"> & {
+  darkMode: boolean;
+};
+
+export default function MyApp({ Component, pageProps, darkMode }: MyAppProps) {
+  const [isDarkMode, setIsDarkMode] = useIsDarkMode(darkMode);
 
   return (
     <>
@@ -51,3 +57,17 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+MyApp.getInitialProps = async (context: AppContext) => {
+  const ctx = await App.getInitialProps(context);
+
+  const req = context.ctx.req!;
+  const res = context.ctx.res!;
+  const darkMode = getCookie("darkMode", { req, res }) as boolean | undefined;
+  if (darkMode === undefined) {
+    setCookie("darkMode", false, { httpOnly: false, secure: isProd() });
+    return { ...ctx, darkMode: false };
+  }
+
+  return { ...ctx, darkMode };
+};

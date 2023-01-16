@@ -3,3 +3,4 @@
 /.next
 .env.local
 /prisma/data.db
+/backups

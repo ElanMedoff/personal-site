@@ -17,7 +17,6 @@ const CardWrapper = ({
   children: ReactNode;
   isMobile: boolean;
 }) => {
-  console.log({ isMobile });
   if (isMobile) {
     return <>{children}</>;
   }
