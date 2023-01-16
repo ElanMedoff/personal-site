@@ -5,7 +5,13 @@ import Head from "next/head";
 import Script from "next/script";
 import Layout from "components/root/Layout";
 import useIsDarkMode from "hooks/useIsDarkMode";
-import { createContext, Dispatch, SetStateAction } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
@@ -13,18 +19,19 @@ export const ThemeContext = createContext<{
 }>({ isDarkMode: false, setIsDarkMode: null });
 
 type MyAppProps = Pick<AppProps, "Component" | "pageProps"> & {
-  darkMode: boolean;
-  message: any;
+  /* darkMode: boolean; */
+  /* message: any; */
 };
 
-export default function MyApp({
-  Component,
-  pageProps,
-  darkMode,
-  message,
-}: MyAppProps) {
-  const [isDarkMode, setIsDarkMode] = useIsDarkMode(darkMode);
-  console.log(message);
+export default function MyApp({ Component, pageProps }: MyAppProps) {
+  const [isDarkMode, setIsDarkMode] = useIsDarkMode();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <>
@@ -64,25 +71,25 @@ export default function MyApp({
   );
 }
 
-MyApp.getInitialProps = async (context: AppContext) => {
-  const ctx = await App.getInitialProps(context);
-
-  let message;
-  const { req, res } = context.ctx;
-  message = `${req}, ${res}`;
-
-  if (!req || !res) {
-    return { ...ctx };
-  }
-
-  const cookies = cookie.parse(req.headers.cookie ?? "");
-  const { darkMode } = cookies;
-
-  if (darkMode === undefined) {
-    cookie.serialize("darkMode", "false", { httpOnly: false });
-    return { ...ctx, darkMode: false };
-  }
-
-  message = `cookie defined, value is ${darkMode}`;
-  return { ...ctx, darkMode: darkMode === "true" ? true : false, message };
-};
+/* MyApp.getInitialProps = async (context: AppContext) => { */
+/*   const ctx = await App.getInitialProps(context); */
+/**/
+/*   let message; */
+/*   const { req, res } = context.ctx; */
+/*   message = `${req}, ${res}`; */
+/**/
+/*   if (!req || !res) { */
+/*     return { ...ctx }; */
+/*   } */
+/**/
+/*   const cookies = cookie.parse(req.headers.cookie ?? ""); */
+/*   const { darkMode } = cookies; */
+/**/
+/*   if (darkMode === undefined) { */
+/*     cookie.serialize("darkMode", "false", { httpOnly: false }); */
+/*     return { ...ctx, darkMode: false }; */
+/*   } */
+/**/
+/*   message = `cookie defined, value is ${darkMode}`; */
+/*   return { ...ctx, darkMode: darkMode === "true" ? true : false, message }; */
+/* }; */

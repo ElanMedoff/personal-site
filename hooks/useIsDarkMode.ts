@@ -1,16 +1,30 @@
-import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function useIsDarkMode(firstRender: boolean) {
-  const [isDarkMode, setIsDarkMode] = useState(firstRender);
+const key = "isDarkMode";
+const defaultValue = false;
+export default function useIsDarkMode() {
+  const [isDarkMode, setIsDarkMode] = useState(defaultValue);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    try {
-      Cookies.set("darkMode", isDarkMode.toString(), { httpOnly: false });
-    } catch (e) {
-      console.error(e);
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      const item = window.localStorage.getItem(key);
+
+      if (item !== null) {
+        setIsDarkMode(JSON.parse(item));
+      } else {
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+        if (media.matches) {
+          setIsDarkMode(true);
+        } else {
+          setIsDarkMode(false);
+        }
+      }
+    } else {
+      window.localStorage.setItem(key, JSON.stringify(isDarkMode));
     }
-  }, [isDarkMode]);
+  }, [isFirstRender, isDarkMode]);
 
   return [isDarkMode, setIsDarkMode] as const;
 }
