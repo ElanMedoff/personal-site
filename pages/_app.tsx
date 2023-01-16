@@ -14,11 +14,17 @@ export const ThemeContext = createContext<{
 
 type MyAppProps = Pick<AppProps, "Component" | "pageProps"> & {
   darkMode: boolean;
-  err: any;
+  message: any;
 };
 
-export default function MyApp({ Component, pageProps, darkMode }: MyAppProps) {
+export default function MyApp({
+  Component,
+  pageProps,
+  darkMode,
+  message,
+}: MyAppProps) {
   const [isDarkMode, setIsDarkMode] = useIsDarkMode(darkMode);
+  console.log(message);
 
   return (
     <>
@@ -61,7 +67,10 @@ export default function MyApp({ Component, pageProps, darkMode }: MyAppProps) {
 MyApp.getInitialProps = async (context: AppContext) => {
   const ctx = await App.getInitialProps(context);
 
+  let message;
   const { req, res } = context.ctx;
+  message = `${req}, ${res}`;
+
   if (!req || !res) {
     return { ...ctx };
   }
@@ -74,7 +83,6 @@ MyApp.getInitialProps = async (context: AppContext) => {
     return { ...ctx, darkMode: false };
   }
 
-  const message = `cookie defined, value is ${darkMode}`;
-
-  return { ...ctx, darkMode: darkMode === "true" ? true : false };
+  message = `cookie defined, value is ${darkMode}`;
+  return { ...ctx, darkMode: darkMode === "true" ? true : false, message };
 };
