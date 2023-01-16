@@ -5,10 +5,11 @@ import Dialog from "components/reusable/Dialog";
 import useLocalStorage from "hooks/useLocalStorage";
 import { transitionProperties } from "utils/styleHelpers";
 import { useRouter } from "next/router";
-import { HTMLProps } from "react";
+import { HTMLProps, useState } from "react";
 
 export default function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
   const children = props.children as string;
+  const [checked, setChecked] = useState(false);
   const [showDialog, setShowDialog] = useLocalStorage(
     "header-link-show-dialog",
     true
@@ -18,15 +19,20 @@ export default function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
   const preProcessed = children.replace(/([0-9]|\.|:)/g, "").toLowerCase();
   const slug = slugify(preProcessed);
 
+  const copyToClipboard = async () => {
+    const url = new URL(window.location.href);
+    url.hash = slug;
+    router.push(url, undefined, { shallow: true });
+    await navigator.clipboard.writeText(window.location.toString());
+  };
+
   return (
     <>
       <label
         className="group"
         onClick={async () => {
-          const url = new URL(window.location.href);
-          url.hash = slug;
-          router.push(url, undefined, { shallow: true });
-          await navigator.clipboard.writeText(window.location.toString());
+          if (showDialog) return;
+          await copyToClipboard();
         }}
         data-locationhash={slug}
         htmlFor={showDialog ? slugify(children) : undefined}
@@ -56,16 +62,47 @@ export default function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
         <div className="flex flex-col gap-6 sm:gap-8">
           <h2 className="text-xl sm:text-4xl font-bold">Heads up -</h2>
           <p>
-            Clicking on a header will copy the link to your clipboard! It&apos;s
-            a fancy URL that&apos;ll scroll to this section when the page loads.
+            If you disable this pop-up in the future, clicking on a header will
+            copy the link to your clipboard.
           </p>
-          <div className="flex gap-4 items-center">
-            <input
-              type="checkbox"
-              className="checkbox checkbox-primary"
-              onChange={(e) => setShowDialog(!e.target.checked)}
+          <p>
+            It&apos;s a fancy URL that&apos;ll scroll to this section when the
+            page loads!
+          </p>
+
+          <label
+            className={tm(
+              "btn btn-active text-xl lowercase font-light",
+              "hover:scale-[98%] active:scale-95"
+            )}
+            htmlFor={slugify(children)}
+            onClick={async () => {
+              await copyToClipboard();
+            }}
+          >
+            Copy
+          </label>
+          <div
+            className="flex gap-4 items-center"
+            onClick={() => {
+              setChecked((p) => !p);
+              setShowDialog((p) => !p);
+            }}
+          >
+            <div
+              className={tm(
+                "w-6 h-6 border-2 border-primary rounded-md",
+                "hover:scale-90",
+                checked && "bg-primary"
+              )}
+              style={{
+                ...transitionProperties,
+                transitionProperty: "background-color",
+              }}
             />
-            <p className="italic text-sm">disable this pop-up in the future</p>
+            <p className="text-sm select-none">
+              disable this pop-up in the future
+            </p>
           </div>
         </div>
       </Dialog>

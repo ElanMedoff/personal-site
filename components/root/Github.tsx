@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
 import { languageToIconUrl, Repo } from "utils/githubHelpers";
 import AtroposBorder from "components/reusable/atropos/AtroposBorder";
@@ -9,6 +9,38 @@ import {
   onScrollChildProps,
   onScrollContainerProps,
 } from "utils/framerHelpers";
+
+const CardWrapper = ({
+  children,
+  isMobile,
+}: {
+  children: ReactNode;
+  isMobile: boolean;
+}) => {
+  console.log({ isMobile });
+  if (isMobile) {
+    return <>{children}</>;
+  }
+
+  return (
+    <Atropos
+      rotateXMax={25}
+      rotateYMax={25}
+      className="relative w-max"
+      highlight={false}
+      rotateChildren={
+        <>
+          <AtroposBorder.Left base={40} color="neutral" />
+          <AtroposBorder.Right base={40} color="neutral" />
+          <AtroposBorder.Top base={40} color="neutral" />
+          <AtroposBorder.Bottom base={40} color="neutral" />
+        </>
+      }
+    >
+      {children}
+    </Atropos>
+  );
+};
 
 const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
   const [hasHovered, setHasHovered] = useState(false);
@@ -33,16 +65,15 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
   }, [controls, hasHovered, isInView, isMobile]);
 
   const { description, name, pushed_at, html_url, language_info } = repo;
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    // open in background tab
+    window.open(html_url, "_blank");
+  };
 
   return (
     <motion.div
-      // open in background tab
-      onClick={(e) => {
-        e.preventDefault();
-        if (!isMobile) {
-          window.open(html_url, "_blank");
-        }
-      }}
+      onClick={handleClick}
       className="cursor-pointer"
       animate={index === 0 ? controls : undefined}
       onMouseMove={() => {
@@ -51,20 +82,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
       }}
       ref={refContainer}
     >
-      <Atropos
-        rotateXMax={25}
-        rotateYMax={25}
-        className="relative w-max"
-        highlight={false}
-        rotateChildren={
-          <>
-            <AtroposBorder.Left base={40} color="neutral" />
-            <AtroposBorder.Right base={40} color="neutral" />
-            <AtroposBorder.Top base={40} color="neutral" />
-            <AtroposBorder.Bottom base={40} color="neutral" />
-          </>
-        }
-      >
+      <CardWrapper isMobile={isMobile}>
         <article
           className={tm(
             "min-h-[300px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-neutral",
@@ -93,7 +111,7 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
             ))}
           </ul>
         </article>
-      </Atropos>
+      </CardWrapper>
     </motion.div>
   );
 };
