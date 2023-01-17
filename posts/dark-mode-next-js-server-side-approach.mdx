@@ -142,7 +142,7 @@ This approach has all the benefits of our `useIsDarkMode` hook from last article
 Since we're using the custom `pages/_app.tsx`, we can't use `getServerSideProps` to access the cookie on request. However, we can use `getInitialProps`! This has a few effects:
 
 1. By default, a page will no longer be statically generated. This is what we want, since we want to know the theme when generating the page, and the theme is only available at request time through the `isDarkMode` cookie.
-2. For any pages that use `getStaticProps`, the `getInitialProps` in `pages/_app.tsx` will be run on the client, not the server. This is no good, since the 
+2. For any pages that use `getStaticProps`, the `getInitialProps` in `pages/_app.tsx` will be run on the client, not the server. This is no good, since we need `getInitialProps` to run on the server
 
 <Info>
 For the initial page load, `getInitialProps` will run on the server only. `getInitialProps` will then run on the client when navigating to a different route via the `next/link` component or by using `next/router`. However, if `getInitialProps` is used in a custom _app.js, and the page being navigated to implements `getServerSideProps`, then `getInitialProps` will run on the server.

@@ -66,6 +66,7 @@ MyApp.getInitialProps = async (context: AppContext) => {
   const { req, res } = context.ctx;
 
   const isClient = typeof window !== "undefined";
+  console.log({ isClient, req });
   if (isClient) {
     return { ...ctx, isDarkModeCookie: null };
   }
