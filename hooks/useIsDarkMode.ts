@@ -1,12 +1,21 @@
-import Cookies from "js-cookie";
+import { setCookie, getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 
-export default function useIsDarkMode(firstRender: boolean) {
-  // TODO: add prefers dark mode for future calls
-  const [isDarkMode, setIsDarkMode] = useState(firstRender);
+export default function useIsDarkMode(serverSideCookie: boolean | null) {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (serverSideCookie === null) {
+      const clientSideCookie = getCookie("isDarkMode") as boolean | undefined;
+      if (clientSideCookie === undefined) {
+        return false;
+      }
+
+      return clientSideCookie;
+    }
+    return serverSideCookie;
+  });
 
   useEffect(() => {
-    Cookies.set("isDarkMode", isDarkMode.toString(), { httpOnly: false });
+    setCookie("isDarkMode", isDarkMode, { httpOnly: false });
   }, [isDarkMode]);
 
   return [isDarkMode, setIsDarkMode] as const;

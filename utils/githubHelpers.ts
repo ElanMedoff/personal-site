@@ -63,19 +63,3 @@ export async function fetchGithubRepos() {
 
   return patchedRepos;
 }
-
-// TODO: download icons
-export const languageToIconUrl: Record<string, string> = {
-  TypeScript:
-    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg",
-  JavaScript:
-    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-plain.svg",
-  SCSS: "https://upload.wikimedia.org/wikipedia/commons/9/96/Sass_Logo_Color.svg",
-  HTML: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain.svg",
-  Lua: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-plain-wordmark.svg",
-  Shell:
-    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-plain.svg",
-  CSS: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain.svg",
-  "Vim Script":
-    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vim/vim-plain.svg",
-};

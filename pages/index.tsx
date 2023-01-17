@@ -9,7 +9,7 @@ import { fetchAllMetadata, Metadata } from "utils/postHelpers";
 import Banner from "components/root/Banner";
 import { ReactNode } from "react";
 import Footer from "components/reusable/Footer";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
 
 function Section({ children }: { children: ReactNode }) {
   return <div className="w-full">{children}</div>;
@@ -19,7 +19,7 @@ export default function About({
   paths,
   repos,
   allMetadata,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
       <div
@@ -54,7 +54,7 @@ interface Props {
   allMetadata: Metadata[];
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getStaticProps: GetStaticProps<Props> = async () => {
   return {
     props: {
       paths: {

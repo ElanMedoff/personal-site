@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
-import { languageToIconUrl, Repo } from "utils/githubHelpers";
+import { Repo } from "utils/githubHelpers";
 import AtroposBorder from "components/reusable/atropos/AtroposBorder";
 import Atropos from "atropos/react";
 import { motion, useAnimationControls, useInView } from "framer-motion";
@@ -104,7 +104,12 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
                 className="flex gap-1 text-sm rounded-full px-3 py-1 border border-neutral"
                 key={index}
               >
-                <object data={languageToIconUrl[language]} className="w-5" />
+                <object
+                  data={`/languageIcons/${language
+                    .toLowerCase()
+                    .replaceAll(" ", "")}.svg`}
+                  className="w-5"
+                />
                 {language}
               </li>
             ))}

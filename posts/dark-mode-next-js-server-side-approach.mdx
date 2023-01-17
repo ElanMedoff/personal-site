@@ -1,0 +1,192 @@
+---
+title: "Dark Mode in Next.js Part 2: A Server-Side Approach"
+abstract: ""
+lastUpdated: "October 16, 2022"
+slug: dark-mode-next-js-server-side-approach
+tags:
+  - software eng
+  - react
+  - nextjs
+collection:
+  name: "dark-mode"
+  order: 1
+isPublished: false
+---
+
+# Dark Mode in Next.js Part 2: A Server-Side Approach
+
+Last <Link href="/blog/dark-mode-next-js-client-side-approach">article</Link>, we talked about a `useIsDarkMode` hook designed to access the global theme through client-only apis such as local storage and media queries. To avoid accessing these apis on the server (where `window` is undefined and these apis would fail), we wrapped the bulk of our hook in a `useEffect`, which only runs on the client. Unfortunately, this approach has a fundamental flaw: when the saved theme is dark, reloading the page will show a flash of a white theme. See the following gif:
+
+<Image src="/blog/fzf-mark.png" width={1890} height={1039} />
+
+In hindsight, this behavior should have been expected - if we only access the saved theme in a `useEffect`, which by definition runs after a component renders, the first render will use the default light theme. How can we solve this?
+
+A simple approach would be to only render the app after the first render, once the saved theme is available. First, however, some setup.
+
+## Setting up Context
+
+If we want to be able to use our `useIsDarkMode` globally in our app, we'll need to set up a context:
+
+<Code language="tsx" code={`
+interface Theme {
+  isDarkMode: boolean;
+  setIsDarkMode: null | Dispatch<SetStateAction<boolean>>;
+}
+
+export const ThemeContext = createContext<DarkModeTheme>({
+  isDarkMode: false,
+  setIsDarkMode: null,
+});
+`} />
+
+And create a custom `pages/_app.tsx` so each Next.js page is a child of our `ThemeContext.Provider`
+
+<Code language="tsx" code={`
+interface Theme {
+  isDarkMode: boolean;
+  setIsDarkMode: null | Dispatch<SetStateAction<boolean>>;
+}
+
+export const ThemeContext = createContext<DarkModeTheme>({
+  isDarkMode: false,
+  setIsDarkMode: null,
+});
+
+export default function MyApp({ Component, pageProps }) {
+  const [isDarkMode, setIsDarkMode] = useIsDarkMode();
+
+  return (
+    <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+      <Component {...pageProps} />
+    </ThemeContext.Provider>
+  )
+}
+`} />
+
+Now to consume the context in a page, we can simply use `useContext` passing in the `ThemeContext` we created in `pages/_app.tsx`
+
+<Code language="tsx" code={`
+import { ThemeContext } from "path/to/context";
+
+export default function Child() {
+  const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
+}
+`} />
+
+Looks good! Let's get back to our naive solution of solving the flash of white: returning early if the component isn't mounted
+
+## Avoiding the White Flash by Returning Early
+
+<Code language="tsx" code={`
+//...
+
+export default function MyApp({ Component, pageProps }) {
+  const [isDarkMode, setIsDarkMode] = useIsDarkMode();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(false);
+  }, []);
+
+  if (!isMounted) return null;
+
+  return (
+    <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+      <Component {...pageProps} />
+    </ThemeContext.Provider>
+  )
+}
+`} />
+
+Let's walk through this code step-by-step as it runs on the client.
+
+1. The component renders for the first time. This means `isMounted` and `useIsDarkMode` is set to their initial values of `false` 
+2. Since `isMounted` is `false`, the component returns `null`. Since `pages/_app.tsx` wraps every Next js page, this means our page will return `null` too
+3. After the render, the `useEffect` in `useIsDarkMode` is run, correctly setting the `isDarkMode` to the user's last saved theme (using local storage), or if there is none, the user's os theme preference (using media queries). See last <Link href="/blog/use-is-dark-mode-for-ssg-ssr-in-next#the-problems-with-server-rendering">article</Link> for more details
+3. The `useEffect` in `pages/_app.tsx` is run, setting `isMounted` to `true`
+4. Since `isMounted` is a peice of state, updating it in step 4 rerenders the component - as does setting `isDarkMode` in step 3.
+5. The component renders with `isMounted` as `true`, meaning `<Component {...pageProps} />` is returned and our page renders with the correct value for `isDarkMode`. 
+
+No white flash! However, we inadvertantly negated all the seo-related benefits of SSR/SSG - one of the key reasons you'd use a framework like Next.js in the first place!
+
+Let's take a look at the network tab to see the html returned by the server on request:
+
+<Code language="html" code={`
+<!DOCTYPE html>
+<html>
+    <head>
+      <!-- ... -->
+    </head>
+    <body>
+        <div id="__next"></div>
+        <script src="/_next/static/chunks/react-refresh.js?ts=1673917537551"></script>
+        <script id="__NEXT_DATA__" type="application/json">
+          <!-- ... -->
+        </script>
+    </body>
+</html>
+`} />
+
+The main `div` is empty! In hindsight, we should have expected this too - when generating the initial html to send to the user - whether with `getStaticProps` or `getServerSideProps`, Next will run your components to generate the outputted html for the first render. However, since `useEffect`s run after the first render, Next won't run these functions on the server! This means when Next runs `MyApp` server-side to generate its initial html, it will just return `null`! Essentially, what we have is a single-page app, complete with all the poor-seo associated with it. 
+
+Let's take a different approach: determining the theme on the _server_.
+
+## Avoiding the White Flash with Cookies
+
+The basic approach will go something like this: on request, the user will automatically send their cookies to the server. Before the server generates the initial html, it checks to see if the user sent an `isDarkMode` cookie, and if so, its value. If there's a cookie, the server generates the initial html with the theme considered. If there's no cookie, the server creates a cookie with the default theme, generates the initial html with the default theme as well, and returns both to the user.
+
+On the client, the `useIsDarkMode` hook will modify the cookie when the `isDarkMode` state is set. 
+
+This approach has all the benefits of our `useIsDarkMode` hook from last article without a white flash! Let's write some code.
+
+Since we're using the custom `pages/_app.tsx`, we can't use `getServerSideProps` to access the cookie on request. However, we can use `getInitialProps`! This has a few effects:
+
+1. By default, a page will no longer be statically generated. This is what we want, since we want to know the theme when generating the page, and the theme is only available at request time through the `isDarkMode` cookie.
+2. For any pages that use `getStaticProps`, the `getInitialProps` in `pages/_app.tsx` will be run on the client, not the server. This is no good, since the 
+
+<Info>
+For the initial page load, `getInitialProps` will run on the server only. `getInitialProps` will then run on the client when navigating to a different route via the `next/link` component or by using `next/router`. However, if `getInitialProps` is used in a custom _app.js, and the page being navigated to implements `getServerSideProps`, then `getInitialProps` will run on the server.
+</Info>
+
+<Code language="tsx" code={`
+import { setCookie, getCookie } from 'cookies-next';
+
+// ...
+
+type MyAppProps = Pick<AppProps, "Component" | "pageProps"> & {
+  isDarkModeCookie: boolean;
+};
+
+export default function MyApp({
+  Component,
+  pageProps,
+  isDarkModeCookie,
+}: MyAppProps) {
+  const [isDarkMode, setIsDarkMode] = useIsDarkMode(isDarkModeCookie);
+
+  return (
+    <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+      <Component {...pageProps} />
+    </ThemeContext.Provider>
+  );
+}
+
+MyApp.getInitialProps = async (context: AppContext) => {
+  const ctx = await App.getInitialProps(context);
+  const { req, res } = context.ctx;
+
+  const isDarkModeCookie = getCookie("isDarkMode", { req, res });
+
+  if (isDarkModeCookie === undefined) {
+    setCookie("isDarkMode", false, { req, res, httpOnly: false });
+    return { ...ctx, isDarkModeCookie: false };
+  }
+
+  return {
+    ...ctx,
+    isDarkModeCookie,
+  };
+};
+`} />
+
+
