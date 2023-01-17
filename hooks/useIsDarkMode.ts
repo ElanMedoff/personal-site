@@ -1,24 +1,27 @@
-import { setCookie, getCookie } from "cookies-next";
-import { useEffect, useState } from "react";
+import { setCookie } from "cookies-next";
+import { useEffect, useRef, useState } from "react";
 
 export default function useIsDarkMode(serverSideCookie: boolean | null) {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    console.log({ serverSideCookie });
-    if (serverSideCookie === null) {
-      const clientSideCookie = getCookie("isDarkMode") as boolean | undefined;
-      console.log({ clientSideCookie });
-      if (clientSideCookie === undefined) {
-        return false;
-      }
-
-      return clientSideCookie;
-    }
-    return serverSideCookie;
-  });
+  const [isDarkMode, setIsDarkMode] = useState(serverSideCookie ?? false);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    setCookie("isDarkMode", isDarkMode, { httpOnly: false });
-  }, [isDarkMode]);
+    if (!isFirstRender.current) return;
+    isFirstRender.current = false;
 
-  return [isDarkMode, setIsDarkMode] as const;
+    if (serverSideCookie === null) {
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      if (media.matches) {
+        setCookie("isDarkMode", true, { httpOnly: false });
+      }
+    }
+  }, [isDarkMode, serverSideCookie]);
+
+  const setStateAndCookie = (value: boolean | ((val: boolean) => boolean)) => {
+    const valueToSet = value instanceof Function ? value(isDarkMode) : value;
+    setIsDarkMode(valueToSet);
+    setCookie("isDarkMode", valueToSet, { httpOnly: false });
+  };
+
+  return [isDarkMode, setStateAndCookie] as const;
 }
