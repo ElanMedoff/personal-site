@@ -23,7 +23,7 @@ export default function BlogCard({
         )}
       >
         <div>
-          <h2 className="font-semibold">
+          <h2 className="font-semibold mb-1">
             {formattedTitle ? (
               <span dangerouslySetInnerHTML={{ __html: formattedTitle }} />
             ) : (

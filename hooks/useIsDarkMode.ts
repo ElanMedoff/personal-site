@@ -12,7 +12,15 @@ export default function useIsDarkMode(serverSideCookie: boolean | null) {
     if (serverSideCookie === null) {
       const media = window.matchMedia("(prefers-color-scheme: dark)");
       if (media.matches) {
-        setCookie("isDarkMode", true, { httpOnly: false });
+        setCookie("isDarkMode", true, {
+          httpOnly: false,
+          maxAge: 60 * 60 * 24 * 365,
+        });
+      } else {
+        setCookie("isDarkMode", false, {
+          httpOnly: false,
+          maxAge: 60 * 60 * 24 * 365,
+        });
       }
     }
   }, [isDarkMode, serverSideCookie]);
