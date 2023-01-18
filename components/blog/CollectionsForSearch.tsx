@@ -60,7 +60,7 @@ export default function CollectionsForSearch({
         });
 
         return (
-          <li key={index} className="mb-6">
+          <li key={index} className="mb-3">
             <Collection
               posts={posts}
               selectedTags={selectedTags}

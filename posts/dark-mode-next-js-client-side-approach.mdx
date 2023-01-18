@@ -15,9 +15,13 @@ isPublished: true
 
 # Dark Mode in Next.js: A Client-Side Approach
 
-Implementing a dark mode is surprisingly difficult when dealing with server-rendered content - what's up with all of those `window is undefined` errors during build/request time? It turns out that to write a working `useIsDarkMode` hook, you need a solid knowledge of the rendering cycle used in Next.js: the process of how your app is generated on the server, hydrates on the client, and when you can and cannot access client-level apis. By the end of this post, you should have a solid grasp of all those concepts.
+Implementing a dark mode hook is a deceptively difficult task when dealing with server-rendered content. You'll want to access a client's os-level theme preference through a media query, persist a chosen theme through local storage or cookies, and ensure that browser and server-specific apis are only used when they can be safely accessed. 
 
-I'll also note that the following hook _won't_ allow you detect the client's os-level theme preference (or any preferences previously saved to local storage) on the server, but it will safely access these preferences during hydration and rerender the page with the correct theme if necessary.
+As you can imagine, there's many different approaches you can take - but I'll boil it down to two. In this article, we'll talk about the first: a client-side approach using media queries to access os-level preferences, and local storage to save any manually-set preferences. The crux of this approach is to access the saved/os-level theme after the first render, and rerender the page if necessary.
+
+In the next <Link href="/blog/dark-mode-next-js-server-side-approach">article</Link>, we'll take a server-side approach, using cookies to store a client's chosen theme preference, while ignoring any os-level preferences. In the <Link href="blog/dark-mode-next-js-server-side-approach#bonus-accounting-for-an-os-level-theme-preference">Bonus</Link>, I'll discuss a hybrid approach to account for os-level preferences using both cookies and media queries, careful to only use a media query after the first render.
+
+With that introduction out of the way, let's get started!
 
 <Info>
   Note: All the relevant concepts in this post apply to server-side rendering as
@@ -28,10 +32,11 @@ I'll also note that the following hook _won't_ allow you detect the client's os-
 ## tl;dr:
 
 <Code language="tsx" code={`
+import { useEffect, useRef, useState } from "react";
+
 const key = "isDarkMode";
-const defaultValue = false;
 export default function useIsDarkMode() {
-  const [isDarkMode, setIsDarkMode] = useState(defaultValue);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -41,17 +46,19 @@ export default function useIsDarkMode() {
       const item = window.localStorage.getItem(key);
       if (item !== null) {
         setIsDarkMode(JSON.parse(item));
-      } else {
-        const media = window.matchMedia("(prefers-color-scheme: dark)");
-        if (media.matches) {
-          setIsDarkMode(true);
-        } else {
-          setIsDarkMode(false);
-        }
+        return;
       }
-    } else {
-      window.localStorage.setItem(key, JSON.stringify(isDarkMode));
+
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      if (media.matches) {
+        setIsDarkMode(true);
+      } else {
+        setIsDarkMode(false);
+      }
+      return;
     }
+
+    window.localStorage.setItem(key, JSON.stringify(isDarkMode));
   }, [isFirstRender, isDarkMode]);
 
   return [isDarkMode, setIsDarkMode] as const;
@@ -61,6 +68,8 @@ export default function useIsDarkMode() {
 or the "safe" version:
 
 <Code language="tsx" code={`
+import { useCallback, useEffect, useRef, useState } from "react";
+
 const key = "isDarkMode";
 const defaultValue = false;
 export default function useIsDarkMode() {
@@ -90,20 +99,22 @@ export default function useIsDarkMode() {
       const item = safelyGetStorage(defaultValue);
       if (item !== null) {
         setIsDarkMode(item);
-      } else {
-        const media = window.matchMedia("(prefers-color-scheme: dark)");
-        if (media.matches) {
-          setIsDarkMode(true);
-        } else {
-          setIsDarkMode(false);
-        }
+        return;
       }
-    } else {
-      safelySetStorage(JSON.stringify(isDarkMode));
+
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      if (media.matches) {
+        setIsDarkMode(true);
+      } else {
+        setIsDarkMode(false);
+      }
+      return;
     }
+
+    safelySetStorage(JSON.stringify(isDarkMode));
   }, [isFirstRender, isDarkMode, safelySetStorage, safelyGetStorage]);
 
-return [isDarkMode, setIsDarkMode] as const;
+  return [isDarkMode, setIsDarkMode] as const;
 }
 `} />
 
@@ -121,17 +132,18 @@ Finally, Next will run the code in your `useEffect`s, and update the dom if need
 
 Since the html returned to the user at request time is generated on the server at build/request time, it cannot be generated based on any information contained on the client. Unfortunately, this includes local storage - where we'll store the user's theme preference - and media queries - how we check if the user has an os-level theme preference.
 
-In other words, we have _no way to know_ what theme to render when generating our html on the server. There's just no way to get around that. Fortunately, once Next hydrates the page, we can access both media quries and local storage (remember that hydration occurs on the client).
+This means that for our approach, we have _no way to know_ what theme to render when generating our html on the server. There's just no way to get around that. Fortunately, once Next hydrates the page, we can access both media queries and local storage (remember that hydration occurs on the client).
 
-However, to ensure that we only call a media query or access local storage once the page is hydrated, we need need to wrap these calls in a `useEffect`. Otherwise, we'll get an error during build/request time that `window` is `undefined`.
+However, to ensure that we only call a media query or access local storage once the page is hydrated, we need to wrap these calls in a `useEffect`. Otherwise, we'll get an error during build/request time that `window` is `undefined`.
 
 In practice, this gives us the following hook:
 
 <Code language="tsx" code={`
+import { useEffect, useRef, useState } from "react";
+
 const key = "isDarkMode";
-const defaultValue = false;
 export default function useIsDarkMode() {
-  const [isDarkMode, setIsDarkMode] = useState(defaultValue);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -141,20 +153,22 @@ export default function useIsDarkMode() {
       const item = window.localStorage.getItem(key);
       if (item !== null) {
         setIsDarkMode(JSON.parse(item));
-      } else {
-        const media = window.matchMedia("(prefers-color-scheme: dark)");
-        if (media.matches) {
-          setIsDarkMode(true);
-        } else {
-          setIsDarkMode(false);
-        }
+        return;
       }
-    } else {
-      window.localStorage.setItem(key, JSON.stringify(isDarkMode));
+
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      if (media.matches) {
+        setIsDarkMode(true);
+      } else {
+        setIsDarkMode(false);
+      }
+      return;
     }
+
+    window.localStorage.setItem(key, JSON.stringify(isDarkMode));
   }, [isFirstRender, isDarkMode]);
 
-return [isDarkMode, setIsDarkMode] as const;
+  return [isDarkMode, setIsDarkMode] as const;
 }
 `} />
 

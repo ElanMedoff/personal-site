@@ -15,7 +15,7 @@ export default function CollectionsForTags({
     <>
       {getPostsByCollection(filteredPostsByTags, allCollections).map(
         (postsByCollection, index) => (
-          <li key={index} className="mb-6">
+          <li key={index} className="mb-3">
             <Collection posts={postsByCollection} selectedTags={selectedTags} />
           </li>
         )
