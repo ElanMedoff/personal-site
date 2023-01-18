@@ -82,7 +82,7 @@ export const components = {
     <ol className="leading-7 list-decimal pl-5 sm:pl-10 my-6" {...props} />
   ),
   ul: (props: HTMLAttributes<HTMLUListElement>) => (
-    <ul className="leading-7 list-disc pl-5 sm:pl-10 my-6" {...props} />
+    <ul className="leading-7 list-disc pl-5 sm:pl-10" {...props} />
   ),
 };
 
