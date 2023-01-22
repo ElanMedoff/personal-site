@@ -9,18 +9,30 @@ function cecho(){
 cecho "building locally..." 4
 if npx next build; then
   cecho "built locally" 2
-
-  cecho "backing up..." 4
-  rsync -av -e ssh --exclude="node_modules" --exclude=".next" --exclude="public" elan@147.182.190.69:/var/www/elanmed.dev ~/Desktop/personal-site-backups
-  mv ~/Desktop/personal-site-backups/elanmed.dev ~/Desktop/personal-site-backups/"$(date +"%m:%d:%y_%H-%M-%S")"
-  cecho "backed up" 2
-
-  cecho "input commit message >" 4
-  read COMMIT
-  git add -A
-  git commit -m "$COMMIT"
-  npm run push
-  npm run deploy
 else
   cecho "build failed, aborting" 1
+  exit
 fi
+
+pm2 --name e2e start npm -- start
+cecho "running e2es locally..." 4
+if npm run test:e2e; then
+  cecho "ran e2es locally" 2
+else
+  cecho "e2e tests failed, aborting" 1
+  pm2 delete 0
+  exit
+fi
+pm2 delete 0
+
+cecho "backing up..." 4
+rsync -av -e ssh --exclude="node_modules" --exclude=".next" --exclude="public" elan@147.182.190.69:/var/www/elanmed.dev ~/Desktop/personal-site-backups
+mv ~/Desktop/personal-site-backups/elanmed.dev ~/Desktop/personal-site-backups/"$(date +"%m:%d:%y_%H-%M-%S")"
+cecho "backed up" 2
+
+cecho "input commit message >" 4
+read COMMIT
+git add -A
+git commit -m "$COMMIT"
+npm run push
+npm run deploy

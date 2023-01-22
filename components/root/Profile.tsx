@@ -82,6 +82,7 @@ export default function Profile() {
     const { sky, horizon, leaves, profile } = srcs;
     return (
       <motion.div
+        data-testid="profile"
         animate={controls}
         onMouseMove={() => {
           controls.stop();
