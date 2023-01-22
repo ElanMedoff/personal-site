@@ -13,7 +13,7 @@ export const ThemeContext = createContext<{
 }>({ isDarkMode: false, setIsDarkMode: null });
 
 type MyAppProps = Pick<AppProps, "Component" | "pageProps"> & {
-  isDarkModeCookie: boolean | null;
+  isDarkModeCookie: boolean;
 };
 
 export default function MyApp({
@@ -70,7 +70,13 @@ MyApp.getInitialProps = async (context: AppContext) => {
     | undefined;
 
   if (isDarkModeCookie === undefined) {
-    return { ...ctx, isDarkModeCookie: null };
+    setCookie("isDarkMode", false, {
+      req,
+      res,
+      httpOnly: false,
+      maxAge: 60 * 60 * 24 * 365,
+    });
+    return { ...ctx, isDarkModeCookie: false };
   }
 
   return {

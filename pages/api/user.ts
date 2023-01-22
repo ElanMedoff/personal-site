@@ -1,4 +1,4 @@
-import Cookies from "cookies";
+import { getCookie } from "cookies-next";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { requireFeatures } from "middleware/requireFeatures";
@@ -15,8 +15,9 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<UserPayload>>
 ) {
-  const cookies = new Cookies(req, res);
-  const cookieSessionId = cookies.get("sessionId");
+  const cookieSessionId = getCookie("sessionId", { req, res }) as
+    | string
+    | undefined;
   if (!cookieSessionId) {
     return res.status(200).json({ type: "success", payload: { user: null } });
   }

@@ -1,4 +1,4 @@
-import Cookies from "cookies";
+import { getCookie, setCookie } from "cookies-next";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { requireFeatures } from "middleware/requireFeatures";
@@ -11,8 +11,9 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<null>>
 ) {
-  const cookies = new Cookies(req, res, { secure: isProd() });
-  const cookieSessionId = cookies.get("sessionId");
+  const cookieSessionId = getCookie("sessionId", { req, res }) as
+    | string
+    | undefined;
   if (!cookieSessionId) {
     return res.status(200).json({ type: "success", payload: null });
   }
@@ -27,7 +28,7 @@ async function handler(
     });
   }
 
-  cookies.set("sessionId");
+  setCookie("sessionId", { req, res, secure: isProd() });
   return res.status(200).json({ type: "success", payload: null });
 }
 

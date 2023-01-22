@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getClientId, getClientSecret, isProd } from "utils/envHelpers";
-import Cookies from "cookies";
 import { prisma } from "utils/prismaHelpers";
 import { Octokit } from "@octokit/core";
 import { ApiResponse } from "utils/apiHelpers";
@@ -10,6 +9,7 @@ import { withMiddlware } from "utils/middlewareHelpers";
 import { Session } from "@prisma/client";
 import { requireFeatures } from "middleware/requireFeatures";
 import { onlyLoggedOutUsers } from "middleware/onlyLoggedOutUsers";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 export interface ExchangePayload {
   username: string;
 }
@@ -17,8 +17,9 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<ExchangePayload>>
 ) {
-  const cookies = new Cookies(req, res, { secure: isProd() });
-  const cookieState = cookies.get("state");
+  const cookieState = getCookie("state", { req, res, secure: isProd() }) as
+    | string
+    | undefined;
   if (!cookieState) {
     return res
       .status(401)
@@ -126,11 +127,22 @@ async function handler(
     });
   }
 
-  cookies.set("sessionId", sessionId.id, {
+  setCookie("sessionId", sessionId.id, {
+    req,
+    res,
+    secure: isProd(),
     sameSite: "strict",
     expires: expiresAt,
   });
-  cookies.set("state");
+  deleteCookie("state", { req, res });
 
   return res.status(200).json({ type: "success", payload: { username } });
 }
+
+export default withMiddlware(
+  requireFeatures(["oauth"]),
+  allowMethods(["GET"]),
+  onlyLoggedOutUsers,
+  deleteExpiredSessions,
+  handler
+);

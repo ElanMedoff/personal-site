@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
-import Cookies from "cookies";
 import { getClientId, isProd } from "utils/envHelpers";
 import { ApiResponse } from "utils/apiHelpers";
 import { withMiddlware } from "utils/middlewareHelpers";
@@ -8,6 +7,7 @@ import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { requireFeatures } from "middleware/requireFeatures";
 import { onlyLoggedOutUsers } from "middleware/onlyLoggedOutUsers";
+import { setCookie } from "cookies-next";
 export interface LoginPayload {
   authorizeUrl: string;
 }
@@ -21,8 +21,10 @@ async function handler(
   const clientId = getClientId();
   const state = randomUUID();
 
-  const cookies = new Cookies(req, res, { secure: isProd() });
-  cookies.set("state", state, {
+  setCookie("state", state, {
+    req,
+    res,
+    secure: isProd(),
     maxAge: 1000 * 60 * 10,
   });
 
