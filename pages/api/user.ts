@@ -6,11 +6,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ApiResponse } from "utils/apiHelpers";
 import { withMiddlware } from "utils/middlewareHelpers";
 import { prisma } from "utils/prismaHelpers";
+
 export type UserPayload = {
   user: {
     username: string;
   } | null;
 };
+
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<UserPayload>>

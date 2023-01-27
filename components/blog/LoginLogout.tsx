@@ -1,50 +1,37 @@
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useRouter } from "next/router";
-import { LoginPayload } from "pages/api/login";
-import { UserPayload } from "pages/api/user";
 import React from "react";
 import styles from "styles/icons.module.scss";
 import { twMerge as tm } from "tailwind-merge";
-import { ApiResponse } from "utils/apiHelpers";
 import { transitionProperties } from "utils/styleHelpers";
+import userLoader from "loaders/userLoader";
+import logoutLoader from "loaders/logoutLoader";
+import loginLoader from "loaders/loginLoader";
 
-export default function LoginLogout({
-  user,
-  fetchUser,
-}: {
-  user: UserPayload["user"];
-  fetchUser: () => Promise<void>;
-}) {
+export default function LoginLogout() {
+  const queryClient = useQueryClient();
+  const { data: user, isLoading, isError } = useQuery("user", userLoader);
+  const { refetch: login } = useQuery("login", loginLoader, {
+    enabled: false,
+    onSuccess: (authorizeUrl) => {
+      router.push(authorizeUrl);
+    },
+  });
+  const mutation = useMutation(logoutLoader, {
+    onSuccess: () => queryClient.invalidateQueries("user"),
+  });
+
   const router = useRouter();
 
-  const handleLoginClick = async () => {
-    try {
-      const response = await fetch("/api/login");
-      const data: ApiResponse<LoginPayload> = await response.json();
-
-      if (data.type === "error") {
-        throw new Error(data.errorMessage);
-      }
-
-      router.push(data.payload.authorizeUrl);
-    } catch (error) {
-      console.error(error);
-    }
+  const handleLoginClick = () => {
+    login();
   };
 
-  const handleLogoutClick = async () => {
-    try {
-      const response = await fetch("/api/logout");
-      const data: ApiResponse<null> = await response.json();
-
-      if (data.type === "error") {
-        throw new Error(data.errorMessage);
-      }
-
-      fetchUser();
-    } catch (error) {
-      console.error(error);
-    }
+  const handleLogoutClick = () => {
+    mutation.mutate();
   };
+
+  if (isLoading || isError) return null;
 
   return (
     <div className="flex flex-col gap-4 mt-3">
@@ -65,7 +52,7 @@ export default function LoginLogout({
       </button>
       {user ? (
         <p className="text-xs italic w-full flex justify-center">
-          (more features coming soong)
+          (more features coming soon)
         </p>
       ) : null}
     </div>

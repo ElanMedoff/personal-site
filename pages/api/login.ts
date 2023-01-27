@@ -8,9 +8,11 @@ import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { requireFeatures } from "middleware/requireFeatures";
 import { onlyLoggedOutUsers } from "middleware/onlyLoggedOutUsers";
 import { setCookie } from "cookies-next";
+
 export interface LoginPayload {
   authorizeUrl: string;
 }
+
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<LoginPayload>>
@@ -38,6 +40,7 @@ async function handler(
   ).toString();
   res.status(200).json({ type: "success", payload: { authorizeUrl } });
 }
+
 export default withMiddlware(
   requireFeatures(["oauth"]),
   allowMethods(["GET"]),

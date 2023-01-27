@@ -19,7 +19,7 @@ export default function PostPage({
   post,
   relatedPostMetadata,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { user, fetchUser } = useOAuthExchange();
+  useOAuthExchange();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -84,7 +84,7 @@ export default function PostPage({
         </section>
         {isFeatureEnabled("oauth") ? (
           <div className="w-full flex justify-center mt-6">
-            <LoginLogout user={user} fetchUser={fetchUser} />
+            <LoginLogout />
           </div>
         ) : null}
       </Content>

@@ -5,7 +5,9 @@ import Head from "next/head";
 import Script from "next/script";
 import Layout from "components/root/Layout";
 import useIsDarkMode from "hooks/useIsDarkMode";
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
@@ -22,6 +24,7 @@ export default function MyApp({
   isDarkModeCookie,
 }: MyAppProps) {
   const [isDarkMode, setIsDarkMode] = useIsDarkMode(isDarkModeCookie);
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
     <>
@@ -50,13 +53,16 @@ export default function MyApp({
           gtag('config', 'G-9Y9725W18J');
         `}
       </Script>
-      <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
-        <div data-theme={isDarkMode ? "dracula" : "emerald"}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </div>
-      </ThemeContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+          <div data-theme={isDarkMode ? "dracula" : "emerald"}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </div>
+        </ThemeContext.Provider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 }
