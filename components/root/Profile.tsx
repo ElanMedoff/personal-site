@@ -75,7 +75,7 @@ export default function Profile() {
   }, [controls, hasHovered, isInView, isMobile, loading]);
 
   const renderLoading = () => {
-    return <Skeleton width={451} square />;
+    return <Skeleton width={800} square />;
   };
 
   const renderAtropos = () => {
@@ -103,24 +103,32 @@ export default function Profile() {
             </>
           }
         >
-          <AtroposImage src={sky} alt="profile pic" offset={0} />
+          <AtroposImage
+            src={sky}
+            alt=""
+            offset={0}
+            placeholderDimensions={{ width: 800, height: 800 }}
+          />
           <AtroposImage
             className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
             src={horizon}
-            alt="profile pic"
+            alt=""
             offset={2}
+            placeholderDimensions={{ width: 800, height: 800 }}
           />
           <AtroposImage
             className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
             src={leaves}
-            alt="profile pic"
+            alt=""
             offset={4}
+            placeholderDimensions={{ width: 800, height: 800 }}
           />
           <AtroposImage
             className="absolute top-[-5%] left-[-5%] w-[110%] max-w-none"
             src={profile}
-            alt="profile pic"
+            alt=""
             offset={2}
+            placeholderDimensions={{ width: 800, height: 800 }}
           />
         </Atropos>
       </motion.div>

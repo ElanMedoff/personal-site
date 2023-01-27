@@ -14,6 +14,7 @@ else
   exit
 fi
 
+kill -9 $(lsof -ti:3000)
 pm2 --name e2e start npm -- start
 cecho "running e2es locally..." 4
 if npm run test:e2e; then

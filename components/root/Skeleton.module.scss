@@ -9,7 +9,7 @@
 }
 
 .container {
-  @apply bg-base-300 rounded;
+  @apply bg-base-200;
   width: 100%;
   animation: pulseLoading 750ms cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
   cursor: progress;

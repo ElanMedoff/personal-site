@@ -8,6 +8,7 @@
     "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint",
+    "elan": "next start -p 8080",
     "test:e2e": "playwright test",
     "push": "git push origin master",
     "deploy": "git push server"

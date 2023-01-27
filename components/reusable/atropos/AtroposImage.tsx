@@ -3,11 +3,13 @@ export default function AtroposImage({
   alt,
   offset,
   className,
+  placeholderDimensions,
 }: {
   src: string;
   alt: string;
   offset: number;
   className?: string;
+  placeholderDimensions?: { width: number; height: number };
 }) {
   // Atropos has issues with next's Image
   return (
@@ -17,6 +19,8 @@ export default function AtroposImage({
       alt={alt}
       className={className}
       data-atropos-offset={offset}
+      width={placeholderDimensions?.width}
+      height={placeholderDimensions?.height}
     />
   );
 }
