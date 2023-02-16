@@ -1,47 +1,33 @@
-import { getCookie, setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { requireFeatures } from "middleware/requireFeatures";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ApiResponse } from "utils/apiHelpers";
+import deleteSessionById from "utils/apiHelpers/deleteSessionById";
+import { maybeGetSession } from "utils/apiHelpers/maybeGetSession";
+import { ApiResponse } from "utils/apiHelpers/types";
 import { isProd } from "utils/envHelpers";
 import { withMiddlware } from "utils/middlewareHelpers";
-import { prisma } from "utils/prismaHelpers";
 
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<null>>
 ) {
-  const cookieSessionId = getCookie("sessionId", { req, res }) as
-    | string
-    | undefined;
-  if (!cookieSessionId) {
+  const maybeSession = await maybeGetSession({ req, res });
+  if (maybeSession.type === "error") {
+    const { status, json } = maybeSession;
+    return res.status(status).json(json);
+  }
+  if (!maybeSession.payload.session) {
     return res.status(200).json({ type: "success", payload: null });
   }
 
-  try {
-    const foundSession = await prisma.session.findUnique({
-      where: { id: cookieSessionId },
-    });
-    if (!foundSession) {
-      return res.status(200).json({ type: "success", payload: null });
-    }
-  } catch (error) {
-    return res.status(500).json({
-      type: "error",
-      errorMessage: `issue getting session to delete: ${error}`,
-    });
-  }
-
-  try {
-    await prisma.session.delete({
-      where: { id: cookieSessionId },
-    });
-  } catch (error) {
-    return res.status(500).json({
-      type: "error",
-      errorMessage: `issue deleting session: ${error}`,
-    });
+  const deleted = await deleteSessionById({
+    session: maybeSession.payload.session,
+  });
+  if (deleted.type === "error") {
+    const { status, json } = deleted;
+    return res.status(status).json(json);
   }
 
   setCookie("sessionId", { req, res, secure: isProd() });

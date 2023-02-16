@@ -1,11 +1,10 @@
-import { getCookie } from "cookies-next";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { requireFeatures } from "middleware/requireFeatures";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ApiResponse } from "utils/apiHelpers";
+import { maybeGetSession } from "utils/apiHelpers/maybeGetSession";
+import { ApiResponse } from "utils/apiHelpers/types";
 import { withMiddlware } from "utils/middlewareHelpers";
-import { prisma } from "utils/prismaHelpers";
 
 export type UserPayload = {
   user: {
@@ -17,26 +16,19 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<UserPayload>>
 ) {
-  const cookieSessionId = getCookie("sessionId", { req, res }) as
-    | string
-    | undefined;
-  if (!cookieSessionId) {
+  const maybeSession = await maybeGetSession({ req, res });
+  if (maybeSession.type === "error") {
+    const { status, json } = maybeSession;
+    return res.status(status).json(json);
+  }
+  if (!maybeSession.payload.session) {
     return res.status(200).json({ type: "success", payload: { user: null } });
   }
-  const dbSession = await prisma.session.findUnique({
-    where: {
-      id: cookieSessionId,
-    },
-    include: {
-      user: true,
-    },
-  });
-  if (!dbSession) {
-    return res.status(200).json({ type: "success", payload: { user: null } });
-  }
+
+  const { username } = maybeSession.payload.session.user;
   return res.status(200).json({
     type: "success",
-    payload: { user: { username: dbSession.user.username } },
+    payload: { user: { username } },
   });
 }
 export default withMiddlware(

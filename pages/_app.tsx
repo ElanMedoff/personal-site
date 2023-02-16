@@ -6,8 +6,12 @@ import Script from "next/script";
 import Layout from "components/root/Layout";
 import useIsDarkMode from "hooks/useIsDarkMode";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
@@ -25,6 +29,7 @@ export default function MyApp({
 }: MyAppProps) {
   const [isDarkMode, setIsDarkMode] = useIsDarkMode(isDarkModeCookie);
   const [queryClient] = useState(() => new QueryClient());
+  /* console.log(JSON.stringify(pageProps.dehydratedState, null, 2)); */
 
   return (
     <>
@@ -54,13 +59,15 @@ export default function MyApp({
         `}
       </Script>
       <QueryClientProvider client={queryClient}>
-        <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
-          <div data-theme={isDarkMode ? "dracula" : "emerald"}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </div>
-        </ThemeContext.Provider>
+        <Hydrate state={pageProps.dehydratedState}>
+          <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+            <div data-theme={isDarkMode ? "dracula" : "emerald"}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </div>
+          </ThemeContext.Provider>
+        </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>

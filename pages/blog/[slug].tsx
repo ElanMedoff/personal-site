@@ -14,6 +14,12 @@ import { isFeatureEnabled } from "utils/featureHelpers";
 import useOAuthExchange from "hooks/useOAuthExchange";
 import { components, msToReadingTime } from "components/blog/helpers";
 import LoginLogout from "components/blog/LoginLogout";
+import Upvote from "components/blog/Upvote";
+import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
+import hasUpvotedLoader from "loaders/hasUpvotedLoader";
+import userLoader from "loaders/userLoader";
+import upvoteCountLoader from "loaders/upvoteCountLoader";
+import exchangeLoader from "loaders/exchangeLoader";
 
 export default function PostPage({
   post,
@@ -64,11 +70,14 @@ export default function PostPage({
       </Head>
       <Content>
         <section className="md:text-justify">
-          <div className="mb-8">
-            <p className="pb-2 text-sm underline underline-offset-4 w-max">
-              last updated: {post.metadata.lastUpdated}
-            </p>
-            <p className="text-sm italic">{formattedReadingTime} read</p>
+          <div className="flex justify-between items-start gap-6 mb-8">
+            <div>
+              <p className="pb-2 text-sm underline underline-offset-4 w-max">
+                last updated: {post.metadata.lastUpdated}
+              </p>
+              <p className="text-sm italic">{formattedReadingTime} read</p>
+            </div>
+            {isFeatureEnabled("oauth") ? <LoginLogout /> : null}
           </div>
           <MDXRemote
             compiledSource={post.content}
@@ -79,19 +88,15 @@ export default function PostPage({
         </section>
         <div className="w-1/2 divider" />
         <section>
-          <p className="mb-3 text-sm italic">you may also like:</p>
+          <p className="mb-3 text-sm italic">you may also upvote:</p>
           <BlogCard metadata={relatedPostMetadata} />
         </section>
-        {isFeatureEnabled("oauth") ? (
-          <div className="w-full flex justify-center mt-6">
-            <LoginLogout />
-          </div>
-        ) : null}
       </Content>
       <motion.div
         className="fixed bottom-0 left-0 right-0 h-3 bg-primary"
         style={{ scaleX, transformOrigin: "0%" }}
       />
+      {isFeatureEnabled("oauth") ? <Upvote /> : null}
     </>
   );
 }
@@ -103,25 +108,44 @@ interface Params extends ParsedUrlQuery {
 interface Props {
   post: Post;
   relatedPostMetadata: Metadata;
+  dehydratedState: DehydratedState;
 }
 
 export const getServerSideProps: GetServerSideProps<Props, Params> = async (
   context
 ) => {
   const { slug } = context.params!;
+  const queryClient = new QueryClient();
+
+  /* if (context.req.url) { */
+  /*   const url = new URL(context.req.url.toString()); */
+  /*   const params = new URLSearchParams(url.search); */
+  /*   const shouldExchange = params.has("code") && params.has("state"); */
+  /*   if (shouldExchange) { */
+  /*     await queryClient.prefetchQuery(["exchange"], exchangeLoader); */
+  /*   } */
+  /* } */
+
+  const getServerSidePropsCookie = context.req.cookies.sessionId;
+  await queryClient.prefetchQuery(["hasUpvoted", slug], () =>
+    hasUpvotedLoader({
+      slug,
+      getServerSidePropsCookie,
+    })
+  );
+  await queryClient.prefetchQuery(["upvoteCount", slug], () =>
+    upvoteCountLoader(slug)
+  );
+  await queryClient.prefetchQuery(["user"], () =>
+    userLoader(getServerSidePropsCookie)
+  );
 
   const { post, relatedPostMetadata } = await fetchPostBySlug(slug);
   return {
     props: {
       post,
       relatedPostMetadata,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
-
-/* export const getStaticPaths: GetStaticPaths = async () => { */
-/*   return { */
-/*     paths: await fetchPostSlugs(), */
-/*     fallback: false, */
-/*   }; */
-/* }; */

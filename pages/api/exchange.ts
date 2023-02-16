@@ -1,15 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getClientId, getClientSecret, isProd } from "utils/envHelpers";
-import { prisma } from "utils/prismaHelpers";
 import { Octokit } from "@octokit/core";
-import { ApiResponse } from "utils/apiHelpers";
+import { ApiResponse } from "utils/apiHelpers/types";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { allowMethods } from "middleware/allowMethods";
 import { withMiddlware } from "utils/middlewareHelpers";
-import { Session } from "@prisma/client";
 import { requireFeatures } from "middleware/requireFeatures";
 import { onlyLoggedOutUsers } from "middleware/onlyLoggedOutUsers";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import createSession from "utils/apiHelpers/createSession";
+import deleteSessionsByUsername from "utils/apiHelpers/deleteSessionsByUsername";
 
 async function handler(
   req: NextApiRequest,
@@ -99,45 +99,27 @@ async function handler(
     });
   }
 
-  try {
-    await prisma.session.deleteMany({ where: { user: { username } } });
-  } catch (error) {
-    return res.status(500).json({
-      type: "error",
-      errorMessage: `issue deleting previous session for user: ${error}`,
-    });
+  const deleted = await deleteSessionsByUsername({ username });
+  if (deleted.type === "error") {
+    const { status, json } = deleted;
+    return res.status(status).json(json);
   }
 
   const expiresAt = new Date(
     new Date().getTime() + 1000 * 60 * (isProd() ? 60 * 12 : 1)
   );
 
-  let sessionId: Session;
-  try {
-    sessionId = await prisma.session.create({
-      data: {
-        accessToken,
-        expiresAt,
-        user: {
-          connectOrCreate: {
-            where: {
-              username,
-            },
-            create: {
-              username,
-            },
-          },
-        },
-      },
-    });
-  } catch (error) {
-    return res.status(500).json({
-      type: "error",
-      errorMessage: `issue creating a new session: ${error}`,
-    });
+  const createdSession = await createSession({
+    accessToken,
+    expiresAt,
+    username,
+  });
+  if (createdSession.type === "error") {
+    const { status, json } = createdSession;
+    return res.status(status).json(json);
   }
 
-  setCookie("sessionId", sessionId.id, {
+  setCookie("sessionId", createdSession.payload.session.id, {
     req,
     res,
     secure: isProd(),

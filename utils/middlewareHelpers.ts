@@ -1,6 +1,6 @@
 // forked from https://github.com/KolbySisk/next-api-route-middleware
 import { NextApiRequest, NextApiResponse } from "next";
-import { ApiResponse } from "utils/apiHelpers";
+import { ApiResponse } from "utils/apiHelpers/types";
 
 export type Next = () => Promise<void>;
 

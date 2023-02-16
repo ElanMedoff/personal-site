@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
 import { getClientId, isProd } from "utils/envHelpers";
-import { ApiResponse } from "utils/apiHelpers";
+import { ApiResponse } from "utils/apiHelpers/types";
 import { withMiddlware } from "utils/middlewareHelpers";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";

@@ -15,7 +15,9 @@
   },
   "dependencies": {
     "@octokit/core": "^4.1.0",
-    "@prisma/client": "^4.7.0",
+    "@prisma/client": "^4.10.1",
+    "@tanstack/react-query": "^4.24.6",
+    "@tanstack/react-query-devtools": "^4.24.6",
     "@types/prismjs": "^1.26.0",
     "@wordpress/wordcount": "^3.20.0",
     "atropos": "^1.0.2",
@@ -34,7 +36,6 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.6.0",
-    "react-query": "^3.39.3",
     "sass": "^1.53.0",
     "slugify": "^1.6.5",
     "swiper": "^8.3.2",
@@ -55,8 +56,8 @@
     "eslint-config-prettier": "^8.5.0",
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",
-    "prisma": "^4.7.0",
-    "tailwindcss": "^3.1.6",
+    "prisma": "^4.10.1",
+    "tailwindcss": "^3.2.6",
     "typescript": "4.7.4"
   }
 }

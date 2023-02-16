@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React from "react";
 import styles from "styles/icons.module.scss";
@@ -9,19 +9,27 @@ import logoutLoader from "loaders/logoutLoader";
 import loginLoader from "loaders/loginLoader";
 
 export default function LoginLogout() {
+  const router = useRouter();
+  const slug = router.query.slug as string;
+
   const queryClient = useQueryClient();
-  const { data: user, isLoading, isError } = useQuery("user", userLoader);
-  const { refetch: login } = useQuery("login", loginLoader, {
+  const {
+    data: user,
+    isLoading,
+    isError,
+  } = useQuery(["user"], () => userLoader());
+  const { refetch: login } = useQuery(["login"], loginLoader, {
     enabled: false,
     onSuccess: (authorizeUrl) => {
       router.push(authorizeUrl);
     },
   });
   const mutation = useMutation(logoutLoader, {
-    onSuccess: () => queryClient.invalidateQueries("user"),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user"]);
+      queryClient.invalidateQueries(["hasUpvoted", slug]);
+    },
   });
-
-  const router = useRouter();
 
   const handleLoginClick = () => {
     login();
@@ -34,12 +42,12 @@ export default function LoginLogout() {
   if (isLoading || isError) return null;
 
   return (
-    <div className="flex flex-col gap-4 mt-3">
-      {user ? <p>welcome, {user.username}!</p> : null}
+    <div className="flex flex-col gap-4">
       <button
         className={tm(
-          "border-2 border-neutral px-6 py-3 rounded-lg flex items-center shadow-xl",
-          "hover:scale-95 active:scale-90"
+          "border-2 border-neutral px-2 py-2 rounded-lg flex items-center shadow-xl text-sm",
+          "hover:scale-95 active:scale-90",
+          user && "bg-warning"
         )}
         onClick={user ? handleLogoutClick : handleLoginClick}
         style={{
@@ -47,14 +55,18 @@ export default function LoginLogout() {
           transitionProperty: "transform",
         }}
       >
-        <span className={tm(styles.github, "mr-8")} />
-        <span>{user ? "logout" : "login with github"}</span>
+        <span className={tm(styles.github, "sm:mr-8")} />
+        <span className={user ? "text-warning-content" : ""}>
+          {user ? (
+            <p className="hidden sm:inline">logout</p>
+          ) : (
+            <p className="hidden sm:inline">
+              login
+              <span className="hidden md:inline"> with github</span>
+            </p>
+          )}
+        </span>
       </button>
-      {user ? (
-        <p className="text-xs italic w-full flex justify-center">
-          (more features coming soon)
-        </p>
-      ) : null}
     </div>
   );
 }
