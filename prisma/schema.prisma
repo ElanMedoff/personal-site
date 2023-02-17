@@ -15,7 +15,7 @@ model User {
 }
 
 model Session {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(cuid())
   user        User     @relation(fields: [userId], references: [id])
   userId      Int      @unique
   accessToken String
@@ -23,11 +23,11 @@ model Session {
 }
 
 model Upvote {
-  id       Int    @id @default(autoincrement())
-  user     User   @relation(fields: [userId], references: [id])
-  userId   Int
-  post     Post   @relation(fields: [slug], references: [slug])
-  slug String
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
+  post   Post   @relation(fields: [slug], references: [slug])
+  slug   String
 }
 
 model Post {

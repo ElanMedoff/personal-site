@@ -19,7 +19,6 @@ import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import hasUpvotedLoader from "loaders/hasUpvotedLoader";
 import userLoader from "loaders/userLoader";
 import upvoteCountLoader from "loaders/upvoteCountLoader";
-import exchangeLoader from "loaders/exchangeLoader";
 
 export default function PostPage({
   post,
@@ -116,15 +115,6 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async (
 ) => {
   const { slug } = context.params!;
   const queryClient = new QueryClient();
-
-  /* if (context.req.url) { */
-  /*   const url = new URL(context.req.url.toString()); */
-  /*   const params = new URLSearchParams(url.search); */
-  /*   const shouldExchange = params.has("code") && params.has("state"); */
-  /*   if (shouldExchange) { */
-  /*     await queryClient.prefetchQuery(["exchange"], exchangeLoader); */
-  /*   } */
-  /* } */
 
   const getServerSidePropsCookie = context.req.cookies.sessionId;
   await queryClient.prefetchQuery(["hasUpvoted", slug], () =>

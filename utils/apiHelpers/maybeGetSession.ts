@@ -40,21 +40,10 @@ export async function maybeGetSession({
     sessionId = cookieSessionId;
   }
 
-  if (Number.isNaN(Number(sessionId))) {
-    return {
-      type: "error",
-      status: 500,
-      json: {
-        type: "error",
-        errorMessage: "cookie session id cannot be converted to an int",
-      },
-    };
-  }
-
   try {
     const session = await prisma.session.findUnique({
       where: {
-        id: Number(sessionId),
+        id: sessionId,
       },
       include: {
         user: true,

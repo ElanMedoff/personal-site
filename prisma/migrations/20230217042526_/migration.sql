@@ -6,7 +6,7 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Session" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" TEXT NOT NULL PRIMARY KEY,
     "userId" INTEGER NOT NULL,
     "accessToken" TEXT NOT NULL,
     "expiresAt" DATETIME NOT NULL,
