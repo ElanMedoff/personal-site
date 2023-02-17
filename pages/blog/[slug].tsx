@@ -11,7 +11,6 @@ import { count } from "@wordpress/wordcount";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { isFeatureEnabled } from "utils/featureHelpers";
-import useOAuthExchange from "hooks/useOAuthExchange";
 import { components, msToReadingTime } from "components/blog/helpers";
 import LoginLogout from "components/blog/LoginLogout";
 import Upvote from "components/blog/Upvote";
@@ -24,7 +23,6 @@ export default function PostPage({
   post,
   relatedPostMetadata,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  useOAuthExchange();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,

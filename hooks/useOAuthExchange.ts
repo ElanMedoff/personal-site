@@ -18,7 +18,7 @@ export default function useOAuthExchange() {
       params.has("code") && params.has("state") && isFeatureEnabled("oauth");
   }
 
-  useQuery(["exchange"], exchangeLoader, {
+  return useQuery(["exchange"], exchangeLoader, {
     enabled,
     onSuccess: () => {
       const url = new URL(window.location.href);

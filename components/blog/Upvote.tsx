@@ -44,7 +44,7 @@ export default function Upvote() {
       <div
         className={tm(
           "flex [@media(min-width:1405px)]:flex-col items-center",
-          "border-base-content border-4 bg-base-100 p-1 rounded-xl",
+          "border-primary border-4 bg-base-100 p-1 rounded-xl",
           "[@media(min-width:1405px)]:border-none",
           disabled &&
             "tooltip tooltip-warning tooltip-right [@media(min-width:1405px)]:tooltip-left"
@@ -68,7 +68,7 @@ export default function Upvote() {
             upvote();
           }}
         />
-        <p className="p-1 text-lg">{upvoteCount}</p>
+        <p className="p-2 text-lg">{upvoteCount}</p>
       </div>
     </div>
   );
