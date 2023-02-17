@@ -50,7 +50,7 @@ export default function LoginLogout() {
       <div className="flex flex-col gap-4">
         <button
           className={tm(
-            "border-2 border-neutral px-2 py-2 rounded-lg flex items-center shadow-xl text-sm",
+            "border-2 border-neutral px-2 py-2 rounded-lg flex items-center shadow-2xl text-sm",
             "hover:scale-95 active:scale-90",
             user && "bg-warning"
           )}
@@ -60,12 +60,12 @@ export default function LoginLogout() {
             transitionProperty: "transform",
           }}
         >
-          <span className={tm(styles.github, "sm:mr-8")} />
+          <span className={tm(styles.github, "mr-8")} />
           <span className={user ? "text-warning-content" : ""}>
             {user ? (
-              <p className="hidden sm:inline">logout</p>
+              <p>logout</p>
             ) : (
-              <p className="hidden sm:inline">
+              <p>
                 login
                 <span className="hidden md:inline"> with github</span>
               </p>

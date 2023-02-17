@@ -67,9 +67,9 @@ export default function PostPage({
       </Head>
       <Content>
         <section className="md:text-justify">
-          <div className="flex justify-between items-start gap-6 mb-8">
+          <div className="flex flex-col-reverse [@media(min-width:500px)]:flex-row justify-between items-start gap-6 mb-8">
             <div>
-              <p className="pb-2 text-sm underline underline-offset-4 w-max">
+              <p className="pb-2 text-sm underline underline-offset-4 w-max min-w-[20px]">
                 last updated: {post.metadata.lastUpdated}
               </p>
               <p className="text-sm italic">{formattedReadingTime} read</p>
