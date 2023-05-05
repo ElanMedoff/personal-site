@@ -2,6 +2,7 @@ import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
+import { isProd } from "./envHelpers";
 
 export interface Collection {
   name: string;
@@ -92,7 +93,7 @@ export function fetchAllMetadata(): Metadata[] {
       const { data: metadata } = matter(rawPost);
       return metadata as Metadata;
     })
-    .filter((post) => post.isPublished);
+    .filter((post) => (isProd() ? post.isPublished : post));
 }
 
 async function fetchslugs() {
@@ -108,7 +109,7 @@ async function fetchslugs() {
   );
 
   return allMetadata
-    .filter((metadata) => metadata.isPublished)
+    .filter((post) => (isProd() ? post.isPublished : post))
     .map((metadata) => metadata.slug);
 }
 

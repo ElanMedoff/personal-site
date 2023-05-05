@@ -1,7 +1,7 @@
 ---
 title: "How I Built My Blog"
 abstract: "The stack I chose, or how I learned to stop worrying and love Next.js, mdx, and tailwind"
-lastUpdated: "October 09, 2022"
+lastUpdated: "May 05, 2023"
 slug: how-i-built-my-blog
 tags:
   - software eng
@@ -24,17 +24,17 @@ I decided to use [Next.js](https://nextjs.org/) as my front-end framework becaus
 
 I looked into some other frameworks that specialize in SSG, but Next.js had the best combination of popularity – which goes hand-in-hand with online resources – and a good ratio of framework-specific quirks to features. In other words, for all the features you can access with Next.js, you have to learn very little framework boilerplate.
 
+<Info>
+__Update__: I've since converted all my pages to use server side rendering (SSR) to allow for a more seemless dark mode experience (i.e. without a white flash).
+See my article <Link href="/blog/dark-mode-next-js-server-side-approach">Dark Mode in Next.js Part 2: A Server-Side Approach</Link> for a deeper dive 
+into the perils of dark-mode. Thankfully, Next.js has great support for SSR as well, and I haven't yet regreted my choice in framework.
+</Info>
+
 ### Design
 
 I decided to use [tailwindcss](https://tailwindcss.com/) as my CSS "framework". I've experimented in the past with css-modules, plain scss, and [vanilla extract](https://vanilla-extract.style/), but I've found tailwind to be my favorite so far. Nothing can beat its dx.
 
-Design isn't my strong suit, so I decided to go with [daisyui](https://daisyui.com/) as my component library. I mostly write my own components, but daisyui has some great color themes that I use (the theme for this site is `emerald`!) Daisyui also has great integration with tailwind, so I can use classes like `text-primary` instead of `text-gray-200`. If I ever decide to add a dark mode in the future, this should make that _much_ easier.
-
-<Aside>
-
-Update: I recently added a dark mode, and it really was as easy as I hoped!
-
-</Aside>
+Design isn't my strong suit, so I decided to go with [daisyui](https://daisyui.com/) as my component library. I mostly write my own components, but daisyui has some great color themes that I use (the theme for this site is `emerald`!) Daisyui also has great integration with tailwind, so I can use classes like `text-primary` instead of `text-gray-200`.
 
 I write my blog posts in Markdown, which has an awesome syntax for writing, and some really nice default styles. More specifically, I use [mdx](https://mdxjs.com/), which has support for JSX components. This may be a little overkill for my uses, but it makes it really seamless to use Next's `Link` component along with some of my own reusable components.
 
@@ -44,25 +44,26 @@ For the fancy 3D parallax image on the homepage, I use [Atropos](https://atropos
 
 <Info>
 
-Check out the `AtroposBorder` [component](https://github.com/ElanMedoff/personal-site/blob/master/components/AtroposBorder.tsx) to recreate the 3D borders on the github cards on the <Link href="/">homepage</Link>.
+Check out the `AtroposBorder` [component](https://github.com/ElanMedoff/personal-site/blob/master/components/reusable/atropos/AtroposBorder.tsx) to recreate the 3D borders on the github cards on the <Link href="/">homepage</Link>.
 
 </Info>
 
 ## Server
 
-On the server side of things, I host my blog on a [digital ocean](https://www.digitalocean.com/) droplet – the cheapest one available. I use [nginx](https://www.nginx.com/) as a proxy for my Next.js server, and [certbot](https://certbot.eff.org/) to set up my ssl certificate.
+On the server side of things, I use [Prisma](https://www.prisma.io/) as my database, Next.js's API routes, and [React Query](https://tanstack.com/query/v3/) to handle my data fetching. I do all of my fetching [server-side](https://tanstack.com/query/v3/docs/react/guides/ssr) to prevent any loading states, and I've been really happy with React Query's SSR capabilities. 
+
+Fetching on the server is a bit of a trade off - the data fetching blocks the page from being sent to the user until it's completed, so the user sees a blank screen for longer than they would if I did my data fetching client-side. However, since my database and Next.js server are hosted on the same digital ocean droplet, the data fetching should be nearly instant. I think it's worth a slightly longer blank screen to prevent a loading skeleton + layout shift, but YMMV.
+
+I implemented my OAuth authentication manually for the fun of it, since the only data I store is the user's public github username. To handle any sensitive user data, I'd probably use a battle-tested OAuth solution like [NextAuth](https://next-auth.js.org/) instead.
+
+## Devops
+
+On the devops side of things, I host my blog on a [digital ocean](https://www.digitalocean.com/) droplet – the cheapest one available. I use [nginx](https://www.nginx.com/) as a proxy for my Next.js server, and [certbot](https://certbot.eff.org/) to set up my ssl certificate.
 
 To manage my production code, I use [this setup](https://toroid.org/git-website-howto) to push changes to the server with the command `git push server`. It's bare-bones, low-level, and awesome.
 
-For my _very_ basic continuous integration, I wrote the following deploy script:
-
-<Code language="bash" code={`
-#!/bin/bash
-git add -A
-git commit -m "$1"
-git push origin master
-git push server
-`} />
+For my basic continuous integration, I wrote a deploy script that builds the site locally to make sure everything's good, run a handfull of end-to-end tests 
+with playwright, back up my database to my local machine, push to github, and push to the server. 
 
 I use [pm2](https://pm2.keymetrics.io/) to manage my Next.js server, and I restart the service automatically when new code is pushed – it took just a few lines added to the post-receive hook.
 
