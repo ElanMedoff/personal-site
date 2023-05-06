@@ -1,6 +1,6 @@
 ---
 title: "A Barebones Approach to Continuous Integration"
-abstract: "80% of the benefits of ci with 20% of the effort"
+abstract: "A handful of bash scripts and an unexpected git hook"
 lastUpdated: "May 05, 2023"
 slug: barebones-approach-to-continuous-integration
 tags:
@@ -8,7 +8,132 @@ tags:
   - devops
   - nextjs
 collection: null
-isPublished: false
+isPublished: true
 ---
 
 # A Barebones Approach to Continuous Integration
+
+Of the many areas of software engineering, devops is one I'm less familiar with. In fact, I'd say my general lack of familiarity makes me a great person to write on the topic of minimalist CI setups - I know just enough to do what I need with nothing too fancy to hold me back. That being said, I've done a lot of trial and error with my setup, and I think this is a great approach for small/medium sized projects. 
+
+## tl;dr
+
+Create a `deploy.sh` script to run your tests locally, and on success, push your code to the server. In a post-receive hook on the server, execute a `post-receive.sh` script to rebuild your site and reload a pm2 daemon.
+
+
+## Pushing Changes to the Server With Git
+
+I won't write too much on this topic since I really just use the approach in this [article](https://toroid.org/git-website-howto), but I will add that whatever directory you create to check out the latest tree into (i.e `/var/www/www.example.org`) _make sure you set the correct permissions_! Git needs to be able to write to that directory, so you may need to use `chmod`.
+
+## Post-receive.sh
+
+For our post-receive hook, I use the following setup: 
+
+<Code language="bash" code={`
+#!/bin/bash
+GIT_WORK_TREE=/var/www/[your project] git checkout -f
+/bin/bash /var/www/[your project]/post-receive.sh
+`} />
+
+which checks out the latest tree into our project folder (as in the article), and also executes a bash script checked into the repo. I'm a big fan of this approach, since it allows me to edit my script locally and push it to the server like any other part of my app. 
+
+In the `post-receive.sh`, I have:
+
+<Code language="bash" code={`
+#!/bin/bash
+LOG=/home/[username]/log.log
+NPM=/home/[username]/.nvm/versions/node/v16.16.0/bin/npm
+PM2=/home/[username]/.nvm/versions/node/v16.16.0/bin/pm2
+DIR=/var/www/[your project]
+
+# overwrite file
+echo "" > $LOG
+
+cd $DIR
+echo "running npm install..." >> $LOG # append to file
+$NPM install >> $LOG 2>&1 # redirect stderr to stdout
+echo "ran npm install" >> $LOG
+
+echo "rebuilding..." >> $LOG
+$NPM run build >> $LOG 2>&1
+echo "rebuilt" >> $LOG
+
+echo "restarting pm2 daemon..." >> $LOG
+$PM2 --name e2e reload npm -- start >> $LOG 2>&1
+echo "restarted pm2 daemon" >> $LOG
+`} />
+
+First, I define a whole bunch of variables because, as explained in this [stackoverflow post](https://stackoverflow.com/a/35420236), the `PATH` when a git hook runs isn't necessarily the same as when you ssh into a machine. I then run `npm install`, since I don't check `node_modules` into the repo (and you shouldn't either!). Finally, I run `npm run build` to build Next.js for production, and reload the daemon. To manage my processes, I use [pm2](https://pm2.keymetrics.io/). As a tl;dr, with the command:
+
+<Code language="bash" code={`
+$PM2 --name e2e reload npm -- start
+`} />
+
+I'm telling pm2 to reload a process called `e2e` by running the command `npm run start` - and if `e2e` doesn't exist yet, `pm2` will create it for us.
+
+I write to the log before and after every step, which has been really helpful for debugging issues. To read from your log in real time, use `tail -f log.log`. 
+
+## Deploy.sh
+
+That works for the server, but to start everything off we need a local `deploy.sh` script to run when we're ready to push new code. This script builds Next.js for production locally to make sure everything's as expected, and runs my e2es and unit tests. 
+
+<Code language="bash" code={`
+#!/bin/bash
+
+# colored echo
+# 4: blue
+# 2: green
+# 1: red
+function cecho(){
+    tput setaf $2;
+    echo $1;
+    tput sgr0;
+}
+
+cecho "building locally..." 4
+if npm run build; then
+  cecho "built locally" 2
+else
+  cecho "build failed, aborting" 1
+  exit
+fi
+
+# kill anything running on port 3000 so we can use it for e2es
+kill -9 $(lsof -ti:3000)
+# start up a local pm2 daemon to run our e2es against
+pm2 --name e2e start npm -- start
+cecho "running e2es locally..." 4
+if npm run test:e2e; then
+  cecho "ran e2es locally" 2
+else
+  cecho "e2e tests failed, aborting" 1
+  pm2 delete e2e 
+  exit
+fi
+pm2 delete e2e 
+
+if npm run test:unit; then
+  cecho "ran unit tests locally" 2
+else
+  cecho "unit tests failed, aborting" 1
+  exit
+fi
+`} />
+
+If everything passes, you're ready to push to the server! You can either add the following code to the `deploy.sh` script:
+
+<Code language="bash" code={`
+cecho "input commit message >" 4
+read COMMIT
+git add -A
+git commit -m "$COMMIT"
+git push origin master
+git push server
+`} />
+
+or move to a separate script entirely.
+
+That's about it! A few daemons, a handful of bash scripts, and you have a simple yet effective CI for your next side project.
+
+## Bonus: Learn Bash in 15 Minutes
+
+Learning Bash is an underrated skill, and just investing [15 minutes](https://learnxinyminutes.com/docs/bash/) can improve your scripting productivity dramatically.

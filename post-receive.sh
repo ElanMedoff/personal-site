@@ -25,4 +25,3 @@ echo "migrated prisma" > $LOG
 echo "restarting pm2 daemon..." >> $LOG
 $PM2 reload $ECO --only elanmed >> $LOG 2>&1
 echo "restarted pm2 daemon" >> $LOG
-
