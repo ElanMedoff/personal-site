@@ -1,6 +1,5 @@
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
-import { requireFeatures } from "middleware/requireFeatures";
 import { NextApiRequest, NextApiResponse } from "next";
 import { maybeGetSession } from "utils/apiHelpers/maybeGetSession";
 import { ApiResponse } from "utils/apiHelpers/types";
@@ -32,7 +31,6 @@ async function handler(
   });
 }
 export default withMiddlware(
-  requireFeatures(["oauth"]),
   allowMethods(["GET"]),
   deleteExpiredSessions,
   handler

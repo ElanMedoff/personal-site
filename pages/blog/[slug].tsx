@@ -10,7 +10,6 @@ import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { ParsedUrlQuery } from "querystring";
-import { isFeatureEnabled } from "utils/featureHelpers";
 import { components, msToReadingTime } from "components/blog/helpers";
 import LoginLogout from "components/blog/LoginLogout";
 import Upvote from "components/blog/Upvote";
@@ -18,6 +17,7 @@ import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import hasUpvotedLoader from "loaders/hasUpvotedLoader";
 import userLoader from "loaders/userLoader";
 import upvoteCountLoader from "loaders/upvoteCountLoader";
+import { setCookie } from "cookies-next";
 
 export default function PostPage({
   post,
@@ -74,7 +74,7 @@ export default function PostPage({
               </p>
               <p className="text-sm italic">{formattedReadingTime} read</p>
             </div>
-            {isFeatureEnabled("oauth") ? <LoginLogout /> : null}
+            <LoginLogout />
           </div>
           <MDXRemote
             compiledSource={post.content}
@@ -93,7 +93,7 @@ export default function PostPage({
         className="fixed bottom-0 left-0 right-0 h-3 bg-primary"
         style={{ scaleX, transformOrigin: "0%" }}
       />
-      {isFeatureEnabled("oauth") ? <Upvote /> : null}
+      <Upvote />
     </>
   );
 }
@@ -115,18 +115,20 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async (
   const queryClient = new QueryClient();
 
   const getServerSidePropsCookie = context.req.cookies.sessionId;
+  setCookie("sessionId", getServerSidePropsCookie, {
+    req: context.req,
+    res: context.res,
+  });
+
   await queryClient.prefetchQuery(["hasUpvoted", slug], () =>
     hasUpvotedLoader({
       slug,
-      getServerSidePropsCookie,
     })
   );
   await queryClient.prefetchQuery(["upvoteCount", slug], () =>
     upvoteCountLoader(slug)
   );
-  await queryClient.prefetchQuery(["user"], () =>
-    userLoader(getServerSidePropsCookie)
-  );
+  await queryClient.prefetchQuery(["user"], () => userLoader());
 
   const { post, relatedPostMetadata } = await fetchPostBySlug(slug);
   return {

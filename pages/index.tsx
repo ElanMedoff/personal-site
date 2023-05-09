@@ -24,8 +24,8 @@ export default function About({
     <>
       <div
         className={tm(
-          "flex flex-col items-center xl:border-x-2 xl:border-neutral max-w-[1700px] m-auto overflow-hidden",
-          "gap-8 sm:gap-16 md:gap-32 pt-10 lg:pt-20"
+          "flex flex-col items-center xl:border-x-2 xl:border-neutral max-w-[1500px] m-auto overflow-hidden",
+          "gap-8 sm:gap-16 md:gap-48 pt-10 lg:pt-20"
         )}
       >
         <Profile />
@@ -38,7 +38,7 @@ export default function About({
           <Github repos={repos} />
         </Section>
         <Section>
-          <Banner primary="some of my favorites" />
+          <Banner primary="bonus: a few favorites" />
           <Favorites paths={paths} />
         </Section>
         <div />

@@ -3,7 +3,6 @@ import { ApiResponse } from "utils/apiHelpers/types";
 import { withMiddlware } from "utils/middlewareHelpers";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
-import { requireFeatures } from "middleware/requireFeatures";
 import { isSlugValid } from "utils/postHelpers";
 import { maybeGetSession } from "utils/apiHelpers/maybeGetSession";
 import { maybeGetFirstUpvote } from "utils/apiHelpers/maybeGetFirstUpvote";
@@ -67,7 +66,6 @@ async function handler(
 }
 
 export default withMiddlware(
-  requireFeatures(["oauth"]),
   allowMethods(["GET"]),
   deleteExpiredSessions,
   handler

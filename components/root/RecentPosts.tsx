@@ -60,7 +60,7 @@ export default function RecentPosts({
       (a, b) =>
         new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
     )
-    .slice(0, 6);
+    .slice(0, 4);
 
   return (
     <motion.div

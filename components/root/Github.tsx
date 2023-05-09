@@ -126,7 +126,7 @@ export default function Github({ repos }: { repos: Repo[] }) {
       {...onScrollContainerProps}
       className="flex flex-wrap gap-10 justify-center max-w-[1500px] px-5 m-auto"
     >
-      {repos.map((repo, index) => (
+      {repos.slice(0, 6).map((repo, index) => (
         <motion.li {...onScrollChildProps} key={index}>
           <RepoCard repo={repo} index={index} />
         </motion.li>

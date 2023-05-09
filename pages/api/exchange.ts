@@ -5,7 +5,6 @@ import { ApiResponse } from "utils/apiHelpers/types";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { allowMethods } from "middleware/allowMethods";
 import { withMiddlware } from "utils/middlewareHelpers";
-import { requireFeatures } from "middleware/requireFeatures";
 import { onlyLoggedOutUsers } from "middleware/onlyLoggedOutUsers";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import createSession from "utils/apiHelpers/createSession";
@@ -132,7 +131,6 @@ async function handler(
 }
 
 export default withMiddlware(
-  requireFeatures(["oauth"]),
   allowMethods(["GET"]),
   onlyLoggedOutUsers,
   deleteExpiredSessions,

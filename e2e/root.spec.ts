@@ -46,7 +46,7 @@ test.describe("root", async () => {
   });
 
   test("has favorites", async ({ page }) => {
-    await expect(page.getByText("some of my favorites")).toBeVisible();
+    await expect(page.getByText("bonus: a few favorites")).toBeVisible();
     await expect(page.getByText("movies")).toBeVisible();
     await expect(page.getByText("books")).toBeVisible();
   });

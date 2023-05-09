@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from "utils/featureHelpers";
 import { useRouter } from "next/router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import exchangeLoader from "loaders/exchangeLoader";
@@ -14,8 +13,7 @@ export default function useOAuthExchange() {
   } else {
     const url = new URL(window.location.toString());
     const params = new URLSearchParams(url.search);
-    enabled =
-      params.has("code") && params.has("state") && isFeatureEnabled("oauth");
+    enabled = params.has("code") && params.has("state");
   }
 
   return useQuery(["exchange"], exchangeLoader, {

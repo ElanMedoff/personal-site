@@ -3,7 +3,6 @@ import { ApiResponse } from "utils/apiHelpers/types";
 import { withMiddlware } from "utils/middlewareHelpers";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
-import { requireFeatures } from "middleware/requireFeatures";
 import { isSlugValid } from "utils/postHelpers";
 import { getUpvotes } from "utils/apiHelpers/getUpvotes";
 import { generateUrlPrefix } from "loaders/helpers";
@@ -46,7 +45,6 @@ async function handler(
 }
 
 export default withMiddlware(
-  requireFeatures(["oauth"]),
   allowMethods(["GET"]),
   deleteExpiredSessions,
   handler

@@ -1,7 +1,6 @@
 import { setCookie } from "cookies-next";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
-import { requireFeatures } from "middleware/requireFeatures";
 import { NextApiRequest, NextApiResponse } from "next";
 import deleteSessionById from "utils/apiHelpers/deleteSessionById";
 import { maybeGetSession } from "utils/apiHelpers/maybeGetSession";
@@ -35,7 +34,6 @@ async function handler(
 }
 
 export default withMiddlware(
-  requireFeatures(["oauth"]),
   allowMethods(["GET"]),
   deleteExpiredSessions,
   handler
