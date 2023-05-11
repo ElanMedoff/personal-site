@@ -10,6 +10,7 @@ import Banner from "components/root/Banner";
 import { ReactNode } from "react";
 import Footer from "components/reusable/Footer";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import Head from "next/head";
 
 function Section({ children }: { children: ReactNode }) {
   return <div className="w-full">{children}</div>;
@@ -20,8 +21,19 @@ export default function About({
   repos,
   allMetadata,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const description = "Mostly a blog, partly a personal website. Welcome!";
+  const title = "elanmed.dev";
+
   return (
     <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} key="desc" />
+
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="https://elanmed.dev/og.jpg" />
+      </Head>
       <div
         className={tm(
           "flex flex-col items-center xl:border-x-2 xl:border-neutral max-w-[1500px] m-auto overflow-hidden",

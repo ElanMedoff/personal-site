@@ -30,20 +30,10 @@ export default function MyApp({
   const [isDarkMode, setIsDarkMode] = useIsDarkMode(isDarkModeCookie);
   const [queryClient] = useState(() => new QueryClient());
 
-  const description = "Mostly a blog, partly a personal website. Welcome!";
-  const title = "elanmed.dev";
-
   return (
     <>
       <Head>
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
-
-        <title>{title}</title>
-        <meta name="description" content={description} key="desc" />
-
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content="https://elanmed.dev/og.jpg" />
 
         <meta
           name="google-site-verification"
