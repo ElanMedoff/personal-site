@@ -29,28 +29,26 @@ export default function MyApp({
 }: MyAppProps) {
   const [isDarkMode, setIsDarkMode] = useIsDarkMode(isDarkModeCookie);
   const [queryClient] = useState(() => new QueryClient());
-  /* console.log(JSON.stringify(pageProps.dehydratedState, null, 2)); */
+
+  const description = "Mostly a blog, partly a personal website. Welcome!";
+  const title = "elanmed.dev";
 
   return (
     <>
       <Head>
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
-        <title>elanmed.dev</title>
-        <meta
-          name="description"
-          content="Mostly a blog, partly a personal website. Welcome!"
-          key="desc"
-        />
+
+        <title>{title}</title>
+        <meta name="description" content={description} key="desc" />
+
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="https://elanmed.dev/og.jpg" />
+
         <meta
           name="google-site-verification"
           content="CE4T4wzf1pNuiL7JwIC9CqNdJyCfsfaNyLjkeFRr9Dc"
         />
-        <meta property="og:title" content="elanmed.dev" />
-        <meta
-          property="og:description"
-          content="Mostly a blog, partly a personal website. Welcome!"
-        />
-        <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-9Y9725W18J"

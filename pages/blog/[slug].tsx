@@ -60,11 +60,17 @@ export default function PostPage({
   const rawReadingTime = (wordCount / avgReadingSpeed) * 60000;
   const formattedReadingTime = msToReadingTime(rawReadingTime);
 
+  const title = `elanmed.dev | ${post.metadata.title}`;
+
   return (
     <>
       <Head>
-        <title>{post.metadata.title}</title>
+        <title>{title}</title>
         <meta name="description" content={post.metadata.abstract} key="desc" />
+
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={post.metadata.abstract} />
+        <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
       <Content>
         <section className="md:text-justify">

@@ -160,15 +160,19 @@ export default function Blog({
     });
   };
 
+  const title = "elanmed.dev | blog";
+  const description =
+    "Check out 15+ blog posts on everything from React to NeoVim to comics!";
+
   return (
     <>
       <Head>
-        <title>elanmed.dev | blog</title>
-        <meta
-          name="description"
-          content="check out 15+ blog posts on everything from React to NeoVim to comics!"
-          key="desc"
-        />
+        <title>{title}</title>
+        <meta name="description" content={description} key="desc" />
+
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
       <Content>
         <div className="flex flex-wrap-reverse gap-12">

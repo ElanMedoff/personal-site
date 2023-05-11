@@ -32,10 +32,18 @@ export default function PostPage() {
     window.open(`${generateUrlPrefix()}/resume.pdf`, "_blank");
   };
 
+  const description = "Check out my resume, printable to pdf!";
+  const title = "elanmed.dev | resume";
+
   return (
     <>
       <Head>
-        <title>elanmed.dev | resume</title>
+        <title>{title}</title>
+        <meta name="description" content={description} key="desc" />
+
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
       <Content>
         <div className="flex flex-col gap-16 mt-8">
