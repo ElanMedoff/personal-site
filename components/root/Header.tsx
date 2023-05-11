@@ -4,6 +4,10 @@ import { twMerge as tm } from "tailwind-merge";
 import { transitionProperties } from "utils/styleHelpers";
 import Switch from "components/reusable/Switch";
 import { ThemeContext } from "pages/_app";
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
+const { APP_ENV } = publicRuntimeConfig;
 
 export default function Header() {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
@@ -39,6 +43,10 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [scrollDir]);
 
+  if (APP_ENV === "screenshot") {
+    return null;
+  }
+
   return (
     <nav
       className={tm(
@@ -62,11 +70,14 @@ export default function Header() {
             </span>
           </Link>
         </h3>
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
+          <span className="cursor-pointer select-none hover:text-primary">
+            <Link href="/resume">resume</Link>
+          </span>
           <span className="cursor-pointer select-none hover:text-primary">
             <Link href="/blog">blog</Link>
           </span>
-          <div className="divider divider-horizontal" />
+          <div className="divider divider-horizontal mx-0" />
           <Switch
             isOn={isDarkMode}
             onToggle={() => {

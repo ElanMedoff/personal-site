@@ -8,7 +8,10 @@
     "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint",
-    "test": "playwright test",
+    "test": "playwright test e2e/",
+    "resume:start": "APP_ENV=screenshot next start",
+    "resume:dev": "APP_ENV=screenshot next dev",
+    "resume:screenshot": "playwright test utils/resumeHelpers/resume.spec.ts",
     "push": "git push origin master",
     "deploy": "git push server"
   },

@@ -15,7 +15,7 @@ else
 fi
 
 kill -9 $(lsof -ti:3000)
-pm2 --name e2e start npm -- start
+pm2 start "npm run start" --name e2e
 cecho "running e2es locally..." 4
 if npm run test; then
   cecho "ran e2es locally" 2
@@ -25,6 +25,18 @@ else
   exit
 fi
 pm2 delete e2e 
+
+kill -9 $(lsof -ti:3000)
+pm2 start "npm run resume:start" --name resume
+cecho "generating resume ..." 4
+if npm run resume:screenshot; then
+  cecho "generated resume" 2
+else
+  cecho "generating resume failed, aborting" 1
+  pm2 delete resume 
+  exit
+fi
+pm2 delete resume 
 
 cecho "backing up..." 4
 rsync -av -e ssh --exclude="node_modules" --exclude=".next" --exclude="public" elan@147.182.190.69:/var/www/elanmed.dev ~/Desktop/personal-site-backups

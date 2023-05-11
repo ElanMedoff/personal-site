@@ -11,6 +11,9 @@ const nextConfig = {
 
     return config;
   },
+  publicRuntimeConfig: {
+    APP_ENV: process.env.APP_ENV,
+  },
 };
 
 module.exports = nextConfig;

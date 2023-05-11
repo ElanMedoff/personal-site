@@ -1,13 +1,19 @@
 import { ReactNode } from "react";
 import { twMerge as tm } from "tailwind-merge";
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
+const { APP_ENV } = publicRuntimeConfig;
 
 export default function Content({ children }: { children: ReactNode }) {
   return (
     <div
       className={tm(
-        "min-h-screen w-full max-w-6xl m-auto py-20 bg-base-100 overflow-hidden border-neutral",
-        "border-x-0 lg:border-x-2"
+        "min-h-screen w-full max-w-6xl m-auto bg-base-100 overflow-hidden border-neutral",
+        "border-x-0 lg:border-x-2",
+        APP_ENV === "screenshot" ? "pt-8" : "py-20"
       )}
+      data-testid="content"
     >
       <main className="max-w-5xl m-auto w-full px-4">{children}</main>
     </div>

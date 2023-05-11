@@ -1,6 +1,4 @@
 // forked from https://nostalgic-css.github.io/NES.css/
-$default-size: 1px;
-$icon-size: $default-size * 16;
 
 $icon-wealthfront-colors: (#fff, #4844bc);
 $icon-wealthfront: (
@@ -168,13 +166,13 @@ $icon-github: (
   }
 }
 
-@mixin icon {
+@mixin icon($size) {
   position: relative;
   display: inline-block;
-  width: $icon-size;
-  height: $icon-size;
-  margin-right: $icon-size;
-  margin-bottom: $icon-size;
+  width: $size * 16;
+  height: $size * 16;
+  margin-right: $size * 16;
+  margin-bottom: $size * 16;
 
   // NOTE: Use `transform: scale()` because cannot use font-size less than 10px on Chrome
   // default 2px
@@ -183,8 +181,8 @@ $icon-github: (
 
   &::before {
     position: absolute;
-    top: $default-size * -1;
-    left: $default-size * -1;
+    top: $size * -1;
+    left: $size * -1;
     display: block;
     content: "";
     background: transparent;
@@ -192,31 +190,31 @@ $icon-github: (
 }
 
 .github {
-  @include icon;
+  @include icon(1px);
   &::before {
-    @include pixelize($default-size, $icon-github, $icon-github-colors);
+    @include pixelize(1px, $icon-github, $icon-github-colors);
   }
 }
 .gmail {
-  @include icon;
+  @include icon(1px);
   &::before {
-    @include pixelize($default-size, $icon-gmail, $icon-gmail-colors);
+    @include pixelize(1px, $icon-gmail, $icon-gmail-colors);
   }
 }
 .linkedin {
-  @include icon;
+  @include icon(1px);
   &::before {
-    @include pixelize($default-size, $icon-linkedin, $icon-linkedin-colors);
+    @include pixelize(1px, $icon-linkedin, $icon-linkedin-colors);
   }
 }
 .wealthfront {
-  @include icon;
+  @include icon(2px);
   &::before {
     @include pixelize(2px, $icon-wealthfront, $icon-wealthfront-colors);
   }
 }
 .hopkins {
-  @include icon;
+  @include icon(2px);
   &::before {
     @include pixelize(2px, $icon-hopkins, $icon-hopkins-colors);
   }
