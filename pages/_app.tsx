@@ -38,12 +38,19 @@ export default function MyApp({
         <title>elanmed.dev</title>
         <meta
           name="description"
-          content="Mostly a blog, partly a personal website"
+          content="Mostly a blog, partly a personal website. Welcome!"
+          key="desc"
         />
         <meta
           name="google-site-verification"
           content="CE4T4wzf1pNuiL7JwIC9CqNdJyCfsfaNyLjkeFRr9Dc"
         />
+        <meta property="og:title" content="elanmed.dev" />
+        <meta
+          property="og:description"
+          content="Mostly a blog, partly a personal website. Welcome!"
+        />
+        <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-9Y9725W18J"

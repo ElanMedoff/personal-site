@@ -35,7 +35,7 @@ export default function PostPage() {
   return (
     <>
       <Head>
-        <title>Resume</title>
+        <title>elanmed.dev | resume</title>
       </Head>
       <Content>
         <div className="flex flex-col gap-16 mt-8">

@@ -163,7 +163,12 @@ export default function Blog({
   return (
     <>
       <Head>
-        <title>elanmed.dev - blog</title>
+        <title>elanmed.dev | blog</title>
+        <meta
+          name="description"
+          content="check out 15+ blog posts on everything from React to NeoVim to comics!"
+          key="desc"
+        />
       </Head>
       <Content>
         <div className="flex flex-wrap-reverse gap-12">

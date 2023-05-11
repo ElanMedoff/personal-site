@@ -64,6 +64,7 @@ export default function PostPage({
     <>
       <Head>
         <title>{post.metadata.title}</title>
+        <meta name="description" content={post.metadata.abstract} key="desc" />
       </Head>
       <Content>
         <section className="md:text-justify">
