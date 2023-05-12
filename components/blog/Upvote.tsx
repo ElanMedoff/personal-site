@@ -3,7 +3,7 @@ import upvoteCountLoader from "loaders/upvoteCountLoader";
 import upvoteLoader from "loaders/upvoteLoader";
 import userLoader from "loaders/userLoader";
 import { useRouter } from "next/router";
-import { FaArrowCircleUp } from "react-icons/fa";
+import { BsArrowUpCircleFill as ArrowIcon } from "react-icons/bs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { twMerge as tm } from "tailwind-merge";
 import { transitionProperties } from "utils/styleHelpers";
@@ -51,7 +51,7 @@ export default function Upvote() {
         )}
         data-tip="log in to vote!"
       >
-        <FaArrowCircleUp
+        <ArrowIcon
           size={70}
           className={tm(
             disabled

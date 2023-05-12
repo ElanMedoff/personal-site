@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import styles from "styles/icons.module.scss";
 import {
   BsPrinter as PrinterIcon,
-  BsArrowUpCircle as ArrowIcon,
+  BsArrowUp as ArrowIcon,
 } from "react-icons/bs";
 import { generateUrlPrefix } from "loaders/helpers";
 import { transitionProperties } from "utils/styleHelpers";
@@ -231,7 +231,7 @@ function SkillsByLevel({
       <ArrowIcon
         size={40}
         className={tm(
-          "rounded-full border border-neutral flex-shrink-0",
+          "rounded-full border-2 border-neutral flex-shrink-0 p-1",
           experienceToColor[experience]
         )}
       />
