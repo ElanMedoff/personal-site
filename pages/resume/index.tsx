@@ -124,13 +124,11 @@ export default function PostPage() {
           <Section>
             <SectionTitle>Experience</SectionTitle>
             <article>
-              <SectionSubtitleWrapper>
-                <a className={tm(styles.wealthfront)} />
-                <SectionSubtitle>
-                  Software Engineer (Wealthfront)
-                </SectionSubtitle>
-                <SectionTimeFrame>July 2021 - present</SectionTimeFrame>
-              </SectionSubtitleWrapper>
+              <SectionSubtitle
+                iconStyles={styles.wealthfront}
+                subtitle="Software Engineer (Wealthfront)"
+                timeframe="July 2021 - present"
+              />
               <div className="divider my-2" />
               <ul className="list-disc ml-12">
                 <li>
@@ -158,13 +156,11 @@ export default function PostPage() {
               </ul>
             </article>
             <article>
-              <SectionSubtitleWrapper>
-                <a className={tm(styles.wealthfront)} />
-                <SectionSubtitle>
-                  Software Engineer Intern (Wealthfront)
-                </SectionSubtitle>
-                <SectionTimeFrame>Summer 2020</SectionTimeFrame>
-              </SectionSubtitleWrapper>
+              <SectionSubtitle
+                iconStyles={styles.wealthfront}
+                subtitle="Software Engineer Intern (Wealthfront)"
+                timeframe="Summer 2020"
+              />
               <div className="divider my-2" />
               <ul className="list-disc ml-12">
                 <li>
@@ -185,11 +181,11 @@ export default function PostPage() {
           <Section>
             <SectionTitle>Education</SectionTitle>
             <article>
-              <SectionSubtitleWrapper>
-                <a className={tm(styles.hopkins)} />
-                <SectionSubtitle>Johns Hopkins University</SectionSubtitle>
-                <SectionTimeFrame>2017 - 2021</SectionTimeFrame>
-              </SectionSubtitleWrapper>
+              <SectionSubtitle
+                iconStyles={styles.hopkins}
+                subtitle="Johns Hopkins University"
+                timeframe="2017 - 2021"
+              />
               <div className="divider my-2" />
               <ul className="ml-10">
                 <li>Bachelor&apos;s degree in Computer Science (3.83)</li>
@@ -229,7 +225,7 @@ function SkillsByLevel({
   skills: Skill[];
 }) {
   return (
-    <SectionSubtitleWrapper>
+    <div className="flex items-center gap-4">
       <ArrowIcon
         size={40}
         className={tm(
@@ -251,7 +247,7 @@ function SkillsByLevel({
           </Fragment>
         ))}
       </ul>
-    </SectionSubtitleWrapper>
+    </div>
   );
 }
 
@@ -261,12 +257,20 @@ function Section({ children }: { children: ReactNode }) {
 function SectionTitle({ children }: { children: ReactNode }) {
   return <h2 className="text-4xl font-semibold">{children}</h2>;
 }
-function SectionSubtitle({ children }: { children: ReactNode }) {
-  return <h3 className="text-lg md:text-2xl ml-3">{children}</h3>;
-}
-function SectionTimeFrame({ children }: { children: ReactNode }) {
-  return <span className="text-xs md:text-sm ml-auto">{children}</span>;
-}
-function SectionSubtitleWrapper({ children }: { children: ReactNode }) {
-  return <div className="flex items-center gap-4">{children}</div>;
+function SectionSubtitle({
+  iconStyles,
+  subtitle,
+  timeframe,
+}: {
+  iconStyles: string;
+  subtitle: string;
+  timeframe: string;
+}) {
+  return (
+    <div className="flex items-center gap-4">
+      <a className={tm(iconStyles)} />
+      <h3 className="text-lg md:text-2xl ml-3">{subtitle}</h3>
+      <span className="text-xs md:text-sm ml-auto">{timeframe}</span>
+    </div>
+  );
 }
