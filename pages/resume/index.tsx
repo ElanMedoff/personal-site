@@ -5,7 +5,10 @@ import { Fragment, ReactNode, useEffect } from "react";
 import { isFeatureEnabled } from "utils/featureHelpers";
 import { useRouter } from "next/router";
 import styles from "styles/icons.module.scss";
-import { BsPrinter as PrinterIcon } from "react-icons/bs";
+import {
+  BsPrinter as PrinterIcon,
+  BsArrowUpCircle as ArrowIcon,
+} from "react-icons/bs";
 import { generateUrlPrefix } from "loaders/helpers";
 import { transitionProperties } from "utils/styleHelpers";
 import getConfig from "next/config";
@@ -20,6 +23,7 @@ export default function PostPage() {
     if (!isFeatureEnabled("resume")) {
       router.push("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!isFeatureEnabled("resume")) {
@@ -46,10 +50,10 @@ export default function PostPage() {
         <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
       <Content>
-        <div className="flex flex-col gap-16 mt-8">
+        <div className="flex flex-col gap-16 md:mt-8">
           <section>
             <div className="flex items-center">
-              <h1 className="text-6xl font-bold">Elan Medoff</h1>
+              <h1 className="text-4xl md:text-6xl font-bold">Elan Medoff</h1>
               {APP_ENV === "screenshot" ? null : (
                 <PrinterIcon
                   size={70}
@@ -81,8 +85,8 @@ export default function PostPage() {
             </div>
           </section>
           <Section>
-            <h2 className="text-4xl font-semibold">Skills</h2>
-            <div className="flex flex-col gap-2">
+            <SectionTitle>Skills</SectionTitle>
+            <div className="flex flex-col gap-8 md:gap-2">
               <SkillsByLevel
                 experience="high"
                 skills={[
@@ -118,25 +122,28 @@ export default function PostPage() {
             </div>
           </Section>
           <Section>
-            <h2 className="text-4xl font-semibold">Experience</h2>
+            <SectionTitle>Experience</SectionTitle>
             <article>
-              <div className="flex items-center gap-4">
+              <SectionSubtitleWrapper>
                 <a className={tm(styles.wealthfront)} />
-                <h3 className="text-2xl ml-3">Software Engineer</h3>
-                <span className="text-sm ml-auto">July 2021 - present</span>
-              </div>
+                <SectionSubtitle>
+                  Software Engineer (Wealthfront)
+                </SectionSubtitle>
+                <SectionTimeFrame>July 2021 - present</SectionTimeFrame>
+              </SectionSubtitleWrapper>
               <div className="divider my-2" />
               <ul className="list-disc ml-12">
                 <li>
                   Worked on a cross-functional team of engineers, designers, and
-                  project managers to launch products such as: investment
-                  account portfolio customization, stock investment accounts,
-                  and bond investment accounts
+                  project managers to launch products such as: managed
+                  investment account portfolio customization, self-directed
+                  stock investment accounts, and managed bond investment
+                  accounts
                 </li>
                 <li>
-                  Standardized data fetching patterns in the codebase with React
-                  Query and number of utility wrappers; led the migration to
-                  adopt these new tools
+                  Standardized data fetching patterns in the web codebase with
+                  React Query and number of custom utilities; led the migration
+                  to adopt these new tools
                 </li>
                 <li>
                   Conducted technical interviews for prospective web engineers,
@@ -144,42 +151,45 @@ export default function PostPage() {
                   interviewees
                 </li>
                 <li>
-                  Participated in the web oncall rotation, working to triage a
+                  Participated in the web on-call rotation, working to triage a
                   variety of production bugs along with more serious
                   cross-functional issues
                 </li>
               </ul>
             </article>
             <article>
-              <div className="flex items-center gap-4">
+              <SectionSubtitleWrapper>
                 <a className={tm(styles.wealthfront)} />
-                <h3 className="text-2xl ml-3">Software Engineer Intern</h3>
-                <span className="text-sm ml-auto">Summer 2020</span>
-              </div>
+                <SectionSubtitle>
+                  Software Engineer Intern (Wealthfront)
+                </SectionSubtitle>
+                <SectionTimeFrame>Summer 2020</SectionTimeFrame>
+              </SectionSubtitleWrapper>
               <div className="divider my-2" />
               <ul className="list-disc ml-12">
                 <li>
-                  Colloborated with designers to renew an older landing page
+                  Collaborated with designers to renew an older landing page
                   with a sophisticated page-long scrolling animation with
                   several different stages
                 </li>
                 <li>
                   Worked on a cross-functional team of engineers, designers, and
                   project managers to launch products such as: highlighting the
-                  benefits of tax-loss harvesting on the investment account
-                  dashboard, and several sweepstakes events for new users
+                  benefits of tax-loss harvesting (Wealthfront&apos;s automated
+                  service to defer taxes) on the investment account dashboard,
+                  along with several sweepstakes events for new users
                 </li>
               </ul>
             </article>
           </Section>
           <Section>
-            <h2 className="text-4xl font-semibold">Education</h2>
+            <SectionTitle>Education</SectionTitle>
             <article>
-              <div className="flex items-center gap-4">
+              <SectionSubtitleWrapper>
                 <a className={tm(styles.hopkins)} />
-                <h3 className="text-2xl ml-3">Johns Hopkins University</h3>
-                <span className="text-sm ml-auto">2017 - 2021</span>
-              </div>
+                <SectionSubtitle>Johns Hopkins University</SectionSubtitle>
+                <SectionTimeFrame>2017 - 2021</SectionTimeFrame>
+              </SectionSubtitleWrapper>
               <div className="divider my-2" />
               <ul className="ml-10">
                 <li>Bachelor&apos;s degree in Computer Science (3.83)</li>
@@ -206,7 +216,7 @@ const skillCategorytoColor: Record<Skill["category"], string[]> = {
 
 type Experience = "high" | "medium" | "low";
 const experienceToColor: Record<Experience, string> = {
-  high: "bg-neutral",
+  high: "bg-neutral text-neutral-content",
   medium: "bg-base-300",
   low: "bg-base-100",
 };
@@ -219,10 +229,11 @@ function SkillsByLevel({
   skills: Skill[];
 }) {
   return (
-    <div className="flex items-center gap-6">
-      <span
+    <SectionSubtitleWrapper>
+      <ArrowIcon
+        size={40}
         className={tm(
-          "w-10 min-w-[2.5rem] h-10 min-h-[2.5rem] rounded-full border-4 border-netural",
+          "rounded-full border border-neutral flex-shrink-0",
           experienceToColor[experience]
         )}
       />
@@ -240,10 +251,22 @@ function SkillsByLevel({
           </Fragment>
         ))}
       </ul>
-    </div>
+    </SectionSubtitleWrapper>
   );
 }
 
 function Section({ children }: { children: ReactNode }) {
   return <section className="flex flex-col gap-6">{children}</section>;
+}
+function SectionTitle({ children }: { children: ReactNode }) {
+  return <h2 className="text-4xl font-semibold">{children}</h2>;
+}
+function SectionSubtitle({ children }: { children: ReactNode }) {
+  return <h3 className="text-lg md:text-2xl ml-3">{children}</h3>;
+}
+function SectionTimeFrame({ children }: { children: ReactNode }) {
+  return <span className="text-xs md:text-sm ml-auto">{children}</span>;
+}
+function SectionSubtitleWrapper({ children }: { children: ReactNode }) {
+  return <div className="flex items-center gap-4">{children}</div>;
 }

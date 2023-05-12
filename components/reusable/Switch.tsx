@@ -1,37 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { twMerge as tm } from "tailwind-merge";
-import { motion, useAnimationControls } from "framer-motion";
+import { BsSun as SunIcon, BsMoon as MoonIcon } from "react-icons/bs";
 
 export default function Switch({
   onToggle,
   isOn,
+  className,
 }: {
   onToggle: () => void;
   isOn: boolean;
+  className?: string;
 }) {
-  const controls = useAnimationControls();
-
-  useEffect(() => {
-    if (isOn) {
-      controls.start({ x: 20 });
-    } else {
-      controls.start({ x: 0 });
-    }
-  }, [controls, isOn]);
-
   return (
-    <motion.div
-      className={tm(
-        "w-[50px] h-[30px] flex rounded-full p-[4px] cursor-pointer bg-base-100 border border-neutral"
-      )}
-      onClick={() => {
-        onToggle();
-      }}
+    <label
+      className={tm("swap swap-rotate", isOn ? "swap-active" : "", className)}
+      onClick={onToggle}
     >
-      <motion.div
-        className="w-5 h-5 bg-base-content rounded-full"
-        animate={controls}
-      />
-    </motion.div>
+      <SunIcon size={25} className="swap-on" />
+      <MoonIcon size={25} className="swap-off" />
+    </label>
   );
 }

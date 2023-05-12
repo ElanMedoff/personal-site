@@ -58,7 +58,7 @@ export default function Header() {
         transitionProperty: "top",
       }}
     >
-      <div className="flex items-center justify-between w-full px-5">
+      <div className="flex items-center justify-around sm:justify-between w-full pl-5 gap-4">
         <h3 className={tm("text-lg md:text-2xl", "font-bold cursor-pointer")}>
           <Link href="/">
             <span>
@@ -70,7 +70,20 @@ export default function Header() {
             </span>
           </Link>
         </h3>
-        <div className="flex items-center gap-4">
+        <span className="cursor-pointer select-none hover:text-primary sm:hidden">
+          <Link href="/resume">resume</Link>
+        </span>
+        <span className="cursor-pointer select-none hover:text-primary sm:hidden">
+          <Link href="/blog">blog</Link>
+        </span>
+        <Switch
+          isOn={isDarkMode}
+          onToggle={() => {
+            setIsDarkMode?.((prev) => !prev);
+          }}
+          className="sm:hidden"
+        />
+        <div className="items-center justify-around gap-4 hidden sm:flex pr-5">
           <span className="cursor-pointer select-none hover:text-primary">
             <Link href="/resume">resume</Link>
           </span>
