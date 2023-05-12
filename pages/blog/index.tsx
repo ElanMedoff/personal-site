@@ -20,6 +20,7 @@ import Pill from "components/blog/Pill";
 import { useRouter } from "next/router";
 import useIsMobile from "hooks/useIsMobile";
 import { BsSearch as SearchIcon } from "react-icons/bs";
+import Header from "components/root/Header";
 
 export default function Blog({
   allMetadata,
@@ -174,10 +175,11 @@ export default function Blog({
         <meta property="og:description" content={description} />
         <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
+      <Header hideOnScroll={false} />
       <Content>
-        <div className="flex flex-wrap-reverse gap-12">
-          <section className="flex flex-col gap-10 flex-grow-[3] flex-shrink-[3] basis-[300px]">
-            <motion.div animate={controls} className="relative mt-3">
+        <div className="flex gap-6 md:gap-16 flex-wrap-reverse md:flex-nowrap">
+          <section className="w-full md:w-1/2">
+            <motion.div animate={controls} className="relative mt-6 mb-10">
               <input
                 ref={refInput}
                 type="text"
@@ -252,7 +254,7 @@ export default function Blog({
               </ul>
             </div>
           </section>
-          <section className="flex-grow-[2] flex-shrink-[2] basis-[290px]">
+          <section className="w-full md:w-1/2 self-start md:sticky md:top-16">
             <h2 className="m-3 text-lg underline w-max">tags</h2>
             <div className="flex flex-col pl-3 gap-3">
               <ul className="flex flex-wrap gap-2">

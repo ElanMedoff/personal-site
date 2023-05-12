@@ -9,12 +9,18 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 const { APP_ENV } = publicRuntimeConfig;
 
-export default function Header() {
+export default function Header({
+  hideOnScroll = true,
+}: {
+  hideOnScroll?: boolean;
+}) {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
   const [scrollDir, setScrollDir] = useState<"down" | "up">("up");
 
   // https://stackoverflow.com/a/62497293
   useEffect(() => {
+    if (!hideOnScroll) return;
+
     const threshold = 20;
     let lastScrollY = window.pageYOffset;
     let ticking = false;
@@ -41,7 +47,7 @@ export default function Header() {
     window.addEventListener("scroll", onScroll);
 
     return () => window.removeEventListener("scroll", onScroll);
-  }, [scrollDir]);
+  }, [hideOnScroll, scrollDir]);
 
   if (APP_ENV === "screenshot") {
     return null;
@@ -83,7 +89,7 @@ export default function Header() {
           }}
           className="sm:hidden pr-4"
         />
-        <div className="items-center justify-around gap-4 hidden sm:flex pr-4">
+        <div className="items-center justify-around gap-5 hidden sm:flex pr-4">
           <span className="cursor-pointer select-none hover:text-primary">
             <Link href="/resume">resume</Link>
           </span>

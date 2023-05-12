@@ -3,7 +3,6 @@ import App, { AppContext, AppProps } from "next/app";
 import "styles/globals.css";
 import Head from "next/head";
 import Script from "next/script";
-import Layout from "components/root/Layout";
 import useIsDarkMode from "hooks/useIsDarkMode";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 import {
@@ -57,9 +56,7 @@ export default function MyApp({
         <Hydrate state={pageProps.dehydratedState}>
           <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
             <div data-theme={isDarkMode ? "dracula" : "emerald"}>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              <Component {...pageProps} />
             </div>
           </ThemeContext.Provider>
         </Hydrate>

@@ -11,6 +11,7 @@ import { ReactNode } from "react";
 import Footer from "components/reusable/Footer";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
+import Header from "components/root/Header";
 
 function Section({ children }: { children: ReactNode }) {
   return <div className="w-full">{children}</div>;
@@ -34,6 +35,7 @@ export default function About({
         <meta property="og:description" content={description} />
         <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
+      <Header />
       <div
         className={tm(
           "flex flex-col items-center xl:border-x-2 xl:border-neutral max-w-[1500px] m-auto overflow-hidden",

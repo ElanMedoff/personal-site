@@ -12,6 +12,7 @@ import {
 import { generateUrlPrefix } from "loaders/helpers";
 import { transitionProperties } from "utils/styleHelpers";
 import getConfig from "next/config";
+import Header from "components/root/Header";
 
 const { publicRuntimeConfig } = getConfig();
 const { APP_ENV } = publicRuntimeConfig;
@@ -49,6 +50,7 @@ export default function PostPage() {
         <meta property="og:description" content={description} />
         <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
+      <Header />
       <Content>
         <div className="flex flex-col gap-16 md:mt-8">
           <section>

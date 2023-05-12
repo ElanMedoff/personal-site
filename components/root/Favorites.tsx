@@ -6,24 +6,6 @@ import {
 } from "utils/framerHelpers";
 import SwiperCards from "components/reusable/SwiperCards";
 
-/* const dirToDimensions: Record< */
-/*   "movies" | "books" | "comics", */
-/*   { width: number; height: number } */
-/* > = { */
-/*   movies: { */
-/*     width: 460, */
-/*     height: 690, */
-/*   }, */
-/*   books: { */
-/*     width: 300, */
-/*     height: 450, */
-/*   }, */
-/*   comics: { */
-/*     width: 920, */
-/*     height: 1350, */
-/*   }, */
-/* }; */
-
 function SwiperWrapper({
   paths,
   dir,
@@ -35,11 +17,6 @@ function SwiperWrapper({
   title: string;
   autoplay?: boolean;
 }) {
-  /* const dimensions = { */
-  /*   width: dirToDimensions[dir].width, */
-  /*   height: dirToDimensions[dir].height, */
-  /* }; */
-
   // TODO: why doesn't this work well with next's Image?
   return (
     <motion.article {...onScrollChildProps}>

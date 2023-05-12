@@ -9,7 +9,7 @@ export default function Content({ children }: { children: ReactNode }) {
   return (
     <div
       className={tm(
-        "min-h-screen w-full max-w-6xl m-auto bg-base-100 overflow-hidden border-neutral",
+        "min-h-screen w-full max-w-6xl m-auto bg-base-100 border-neutral",
         "border-x-0 lg:border-x-2",
         APP_ENV === "screenshot" ? "pt-8" : "py-20"
       )}

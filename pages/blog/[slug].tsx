@@ -18,6 +18,7 @@ import hasUpvotedLoader from "loaders/hasUpvotedLoader";
 import userLoader from "loaders/userLoader";
 import upvoteCountLoader from "loaders/upvoteCountLoader";
 import { setCookie } from "cookies-next";
+import Header from "components/root/Header";
 
 export default function PostPage({
   post,
@@ -72,6 +73,7 @@ export default function PostPage({
         <meta property="og:description" content={post.metadata.abstract} />
         <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
+      <Header />
       <Content>
         <section className="md:text-justify">
           <div className="flex flex-col-reverse [@media(min-width:500px)]:flex-row justify-between items-start gap-6 mb-8">
