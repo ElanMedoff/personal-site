@@ -209,7 +209,7 @@ export default function Blog({
                 <p className="italic">try selecting a different combination</p>
               </div>
             ) : null}
-            <div>
+            <div className="mb-10">
               {shouldRenderCollectionsTitle() ? (
                 <h2 className="pl-3 text-2xl underline mb-3">collections</h2>
               ) : null}
