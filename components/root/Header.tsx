@@ -77,7 +77,7 @@ export default function Header({
           </Link>
         </h3>
         <span className="cursor-pointer select-none hover:text-primary sm:hidden">
-          <Link href="/resume">resume</Link>
+          <Link href="/resume">resumé</Link>
         </span>
         <span className="cursor-pointer select-none hover:text-primary sm:hidden">
           <Link href="/blog">blog</Link>
@@ -91,7 +91,7 @@ export default function Header({
         />
         <div className="items-center justify-around gap-5 hidden sm:flex pr-4">
           <span className="cursor-pointer select-none hover:text-primary">
-            <Link href="/resume">resume</Link>
+            <Link href="/resume">resumé</Link>
           </span>
           <span className="cursor-pointer select-none hover:text-primary">
             <Link href="/blog">blog</Link>

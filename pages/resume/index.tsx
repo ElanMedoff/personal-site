@@ -5,14 +5,13 @@ import { Fragment, ReactNode, useEffect } from "react";
 import { isFeatureEnabled } from "utils/featureHelpers";
 import { useRouter } from "next/router";
 import styles from "styles/icons.module.scss";
-import {
-  BsPrinter as PrinterIcon,
-  BsArrowUp as ArrowIcon,
-} from "react-icons/bs";
+import { BsPrinter as PrinterIcon } from "react-icons/bs";
+import { GiDeathStar as StarIcon } from "react-icons/gi";
 import { generateUrlPrefix } from "loaders/helpers";
 import { transitionProperties } from "utils/styleHelpers";
 import getConfig from "next/config";
 import Header from "components/root/Header";
+import useIsMobile from "hooks/useIsMobile";
 
 const { publicRuntimeConfig } = getConfig();
 const { APP_ENV } = publicRuntimeConfig;
@@ -37,8 +36,8 @@ export default function PostPage() {
     window.open(`${generateUrlPrefix()}/resume.pdf`, "_blank");
   };
 
-  const description = "Check out my resume, printable to pdf!";
-  const title = "elanmed.dev | resume";
+  const description = "Check out my resumé, printable to pdf!";
+  const title = "elanmed.dev | resumé";
 
   return (
     <>
@@ -214,9 +213,9 @@ const skillCategorytoColor: Record<Skill["category"], string[]> = {
 
 type Experience = "high" | "medium" | "low";
 const experienceToColor: Record<Experience, string> = {
-  high: "bg-neutral text-neutral-content",
-  medium: "bg-base-300",
-  low: "bg-base-100",
+  high: "text-neutral text-neutral-content",
+  medium: "text-base-300",
+  low: "text-base-100",
 };
 
 function SkillsByLevel({
@@ -228,13 +227,31 @@ function SkillsByLevel({
 }) {
   return (
     <div className="flex items-center gap-4">
-      <ArrowIcon
-        size={40}
-        className={tm(
-          "rounded-full border-2 border-neutral flex-shrink-0 p-1",
-          experienceToColor[experience]
-        )}
-      />
+      <div className="flex">
+        {Array.from(
+          experience === "high"
+            ? Array(3)
+            : experience === "medium"
+            ? Array(2)
+            : Array(1)
+        ).map((_, index) => {
+          return (
+            <StarIcon
+              key={index}
+              size={30}
+              className={tm(
+                "flex-shrink-0",
+                experience === "medium"
+                  ? "first:ml-[30px]"
+                  : experience === "low"
+                  ? "first:ml-[60px]"
+                  : ""
+              )}
+              color="bg-green-200"
+            />
+          );
+        })}
+      </div>
       <ul className="flex flex-wrap gap-1">
         {skills.map((skill, index) => (
           <Fragment key={index}>
