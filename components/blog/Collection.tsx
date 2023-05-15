@@ -27,7 +27,9 @@ export default function CollectionOfPosts({
       className={tm(
         "xs:max-w-[300px]",
         "[@media(min-width:450px)]:max-w-[400px]",
-        "xl:max-w-[500px]"
+        "xl:max-w-[500px]",
+        "overflow-hidden sm:overflow-visible",
+        "px-8 sm:p-0"
       )}
     />
   );
