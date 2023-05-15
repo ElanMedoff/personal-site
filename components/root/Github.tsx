@@ -9,6 +9,7 @@ import {
   onScrollChildProps,
   onScrollContainerProps,
 } from "utils/framerHelpers";
+import Image from "next/image";
 
 const CardWrapper = ({
   children,
@@ -104,11 +105,13 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
                 className="flex gap-1 text-sm rounded-full px-3 py-1 border border-neutral"
                 key={index}
               >
-                <object
-                  data={`/languageIcons/${language
+                <Image
+                  src={`/languageIcons/${language
                     .toLowerCase()
                     .replaceAll(" ", "")}.svg`}
-                  className="w-5"
+                  width={18}
+                  height={18}
+                  alt={language}
                 />
                 {language}
               </li>
