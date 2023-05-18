@@ -5,8 +5,10 @@ import { Fragment, ReactNode, useEffect } from "react";
 import { isFeatureEnabled } from "utils/featureHelpers";
 import { useRouter } from "next/router";
 import styles from "styles/icons.module.scss";
-import { BsPrinter as PrinterIcon } from "react-icons/bs";
-import { GiDeathStar as StarIcon } from "react-icons/gi";
+import {
+  BsPrinter as PrinterIcon,
+  BsFillCheckCircleFill as CheckIcon,
+} from "react-icons/bs";
 import { generateUrlPrefix } from "loaders/helpers";
 import { transitionProperties } from "utils/styleHelpers";
 import getConfig from "next/config";
@@ -227,7 +229,7 @@ function SkillsByLevel({
 }) {
   return (
     <div className="flex items-center gap-4">
-      <div className="flex">
+      <div className="flex gap-1 w-[98px] justify-end">
         {Array.from(
           experience === "high"
             ? Array(3)
@@ -236,17 +238,10 @@ function SkillsByLevel({
             : Array(1)
         ).map((_, index) => {
           return (
-            <StarIcon
+            <CheckIcon
               key={index}
               size={30}
-              className={tm(
-                "flex-shrink-0",
-                experience === "medium"
-                  ? "first:ml-[30px]"
-                  : experience === "low"
-                  ? "first:ml-[60px]"
-                  : ""
-              )}
+              className={tm("flex-shrink-0")}
               color="bg-green-200"
             />
           );
