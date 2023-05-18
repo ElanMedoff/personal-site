@@ -16,38 +16,23 @@ Although I'm no expert in Neovim, I've found a few interesting solutions for the
 
 ## 1. Absolute Imports in Lua
 
-I love working in Lua, but it's no secret that importing another module into your Lua code is a pain. By default, requiring a module with
+Importing another module into your Lua code can be a little confusing, to say the least. For example, if you search how to import a module from a 
+parent directory, you might come across this [stackoverflow post](https://stackoverflow.com/questions/5761229/is-there-a-better-way-to-require-file-from-relative-path-in-lua) with 
+the following accepted answer: 
 
 <Code
   language="lua"
   code={`
-local module = require('hello.world')
+package.path = package.path .. ";../?.lua"
 `}
 />
 
-will first search (from the directory of the current file) for `lua/hello/world.lua`, then `lua/hello/world/init.lua`, then through the list of shared libraries (less relevant for our uses). The list of these paths is separated by `;` and stored in a global variable called `package.path`. To import a module from a parent, the standard solution is to update the `package.path` to include the parent directory, something like the following:
+For context, Lua keeps a list of semicolon-separated directories to search when resolving a `require`, and stores it in a global variable called `package.path`. 
+To import a module from a parent, the solution above suggests updating the `package.path` to include the parent directory.
 
-<Code
-  language="lua"
-  code={`
-package.path = '../?.lua;' .. package.path
-`}
-/>
+This works fine for importing directly from the parent directory, but you can imagine how poorly this scales.
 
-As a reminder, `..` is the concatenate operator in Lua. This works fine for importing directly from the parent directory, but you can imagine how this can become unmanageable as the project grows and you need to import from several directories up.
-
-Enter absolute imports - relative to the directory of your choice. Let's say we're working on a Neovim config located in the standard `~/.config/nvim` directory. The idea behind absolute imports is to add this directory to the `package.path` in all of your files so you can import modules relative from the `~/.config/nvim` directory, instead of importing relative to the current file.
-
-Luckily, Lua has some great utils for this! Using the `os.getenv("HOME")` function call, we can add the `~` section of our path to `package.path`, and then manually concatenate the remainder of the path ourselves:
-
-<Code
-  language="lua"
-  code={`
-package.path = os.getenv("HOME") .. "/.config/nvim/?.lua;" .. package.path
-`}
-/>
-
-To demonstrate, say we have the following filetree:
+As it turns out, Lua in Neovim helps us out by automatically adding its own runtime path (i.e. `~/.config/nvim/lua`) to the `package.path`! This means that with a filetree like so:
 
 <Code
   code={`
@@ -62,18 +47,17 @@ To demonstrate, say we have the following filetree:
 `}
 />
 
-To import the shared helpers in `helpers.lua` to our `barbar.lua` file, we can use the following code:
+We can import the shared helpers in `helpers.lua` to our `barbar.lua` using the following code:
 
 <Code
   language="lua"
   code={`
 -- barbar.lua
-package.path = os.getenv("HOME") .. "/.config/nvim/?.lua;" .. package.path
-local helpers = require("lua.shared.helpers")
+local helpers = require("shared.helpers")
 `}
 />
 
-And because these imports are absolute (relative to a single directory, that is), you can use these same two lines in any file in the `nvim` directory!
+No need to manually update your `package.path`, and no need for relative imports either - just include the entire path starting from `~/.config/nvim/lua`
 
 ## 2. Sending Neovim Keys Though iTerm2
 
