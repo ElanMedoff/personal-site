@@ -229,7 +229,7 @@ function SkillsByLevel({
 }) {
   return (
     <div className="flex items-center gap-4">
-      <div className="flex gap-1 w-[98px] justify-end">
+      <div className="flex gap-1 w-[98px] justify-end flex-shrink-0">
         {Array.from(
           experience === "high"
             ? Array(3)
