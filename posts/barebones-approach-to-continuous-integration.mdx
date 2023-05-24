@@ -83,7 +83,7 @@ First, I define a whole bunch of variables because, as explained in this [stacko
 $PM2 --name blog reload npm -- start
 `} />
 
-I'm telling pm2 to reload a process called `blog` by running the command `npm run start` - and if `e2e` doesn't exist yet, `pm2` will create it for us.
+I'm telling pm2 to reload a process called `blog` by running the command `npm run start` - and if `blog` doesn't exist yet, `pm2` will create it for us.
 
 I write to a log file before and after every step, and redirect any errors from each step itself to `stdout` so they'll be recorded as well. To read from your log in real time, use `tail -f log.log`. 
 
@@ -94,21 +94,11 @@ That works great for the server, but to start everything off you'll need a local
 <Code language="bash" code={`
 #!/bin/bash
 
-# colored echo
-# 4: blue
-# 2: green
-# 1: red
-function cecho(){
-    tput setaf $2;
-    echo $1;
-    tput sgr0;
-}
-
-cecho "building locally..." 4
+echo "building locally..."
 if npm run build; then
-  cecho "built locally" 2
+  echo "built locally"
 else
-  cecho "build failed, aborting" 1
+  echo "build failed, aborting"
   exit
 fi
 
@@ -116,20 +106,20 @@ fi
 kill -9 $(lsof -ti:3000)
 # start up a local pm2 daemon to run our e2es against
 pm2 --name e2e start npm -- start
-cecho "running e2es locally..." 4
+echo "running e2es locally..."
 if npm run test:e2e; then
-  cecho "ran e2es locally" 2
+  echo "ran e2es locally"
 else
-  cecho "e2e tests failed, aborting" 1
+  echo "e2e tests failed, aborting"
   pm2 delete e2e 
   exit
 fi
 pm2 delete e2e 
 
 if npm run test:unit; then
-  cecho "ran unit tests locally" 2
+  echo "ran unit tests locally"
 else
-  cecho "unit tests failed, aborting" 1
+  echo "unit tests failed, aborting"
   exit
 fi
 `} />
@@ -137,7 +127,7 @@ fi
 If everything passes, you're ready to push to the server! You can either add the following code to the `deploy.sh` script:
 
 <Code language="bash" code={`
-cecho "input commit message >" 4
+echo "input commit message >"
 read COMMIT
 git add -A
 git commit -m "$COMMIT"
