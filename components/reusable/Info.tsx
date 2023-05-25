@@ -11,7 +11,7 @@ export default function Info({
   return (
     <div
       className={tm(
-        "rounded-2xl bg-info text-info-content px-6 py-1 my-6 shadow-xl",
+        "rounded-2xl bg-info text-info-content px-6 py-1 my-6",
         className
       )}
     >

@@ -13,7 +13,7 @@ import { generateUrlPrefix } from "loaders/helpers";
 import { transitionProperties } from "utils/styleHelpers";
 import getConfig from "next/config";
 import Header from "components/root/Header";
-import useIsMobile from "hooks/useIsMobile";
+import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 
 const { publicRuntimeConfig } = getConfig();
 const { APP_ENV } = publicRuntimeConfig;
@@ -53,10 +53,28 @@ export default function PostPage() {
       </Head>
       <Header />
       <Content>
-        <div className="flex flex-col gap-16 md:mt-8">
+        <div className="flex flex-col gap-8 md:mt-8">
           <section>
             <div className="flex items-center">
-              <h1 className="text-4xl md:text-6xl font-bold">Elan Medoff</h1>
+              <div className="flex items-center gap-4 md:gap-10 flex-wrap">
+                <h1 className="text-4xl md:text-6xl font-bold">Elan Medoff</h1>
+                <div className="flex gap-4 my-auto">
+                  <a
+                    className={styles.github}
+                    href="https://github.com/ElanMedoff"
+                  />
+                  <a
+                    className={styles.linkedin}
+                    href="https://www.linkedin.com/in/elan-medoff/"
+                  />
+                  <a className={styles.gmail} href="mailto:info@elanmed.dev" />
+                  <span className="text-xs flex items-end ml-[-10px]">
+                    <span className="text-primary">[</span>
+                    mailto
+                    <span className="text-primary">]</span>
+                  </span>
+                </div>
+              </div>
               {APP_ENV === "screenshot" ? null : (
                 <PrinterIcon
                   size={70}
@@ -70,22 +88,6 @@ export default function PostPage() {
               )}
             </div>
             <div className="divider my-2" />
-            <div className="flex mt-4 gap-4">
-              <a
-                className={styles.github}
-                href="https://github.com/ElanMedoff"
-              />
-              <a
-                className={styles.linkedin}
-                href="https://www.linkedin.com/in/elan-medoff/"
-              />
-              <a className={styles.gmail} href="mailto:info@elanmed.dev" />
-              <span className="text-xs flex items-end ml-[-10px]">
-                <span className="text-primary">[</span>
-                mailto
-                <span className="text-primary">]</span>
-              </span>
-            </div>
           </section>
           <Section>
             <SectionTitle>Skills</SectionTitle>
@@ -98,28 +100,32 @@ export default function PostPage() {
                   { name: "HTML", category: "language" },
                   { name: "CSS", category: "language" },
                   { name: "React", category: "framework" },
-                  { name: "Next.js", category: "framework" },
+                  { name: "Next.js / Next.js V13", category: "framework" },
                   { name: "React Query", category: "library" },
-                  { name: "git", category: "skill" },
+                  { name: "Redux", category: "library" },
+                  { name: "Node.js", category: "skill" },
+                  { name: "Deno", category: "skill" },
                 ]}
               />
               <SkillsByLevel
                 experience="medium"
                 skills={[
                   { name: "Bash", category: "language" },
-                  { name: "Redux/Redux toolkit", category: "library" },
+                  { name: "Lua", category: "language" },
+                  { name: "Redux Toolkit", category: "library" },
                   { name: "MongoDB", category: "library" },
-                  { name: "Node.js", category: "skill" },
+                  { name: "Prisma", category: "library" },
+                  { name: "Git", category: "skill" },
                   { name: "OAuth", category: "skill" },
                 ]}
               />
               <SkillsByLevel
                 experience="low"
                 skills={[
-                  { name: "Ruby", category: "language" },
-                  { name: "Lua", category: "language" },
+                  { name: "Java", category: "language" },
+                  { name: "Python", category: "language" },
+                  { name: "OCaml", category: "language" },
                   { name: "Ruby on Rails", category: "framework" },
-                  { name: "Prisma", category: "library" },
                 ]}
               />
             </div>
@@ -136,25 +142,23 @@ export default function PostPage() {
               <ul className="list-disc ml-12">
                 <li>
                   Worked on a cross-functional team of engineers, designers, and
-                  project managers to launch products such as: managed
-                  investment account portfolio customization, self-directed
-                  stock investment accounts, and managed bond investment
-                  accounts
+                  project managers to launch several flagship investment
+                  products
                 </li>
                 <li>
                   Standardized data fetching patterns in the web codebase with
-                  React Query and number of custom utilities; led the migration
-                  to adopt these new tools
+                  React Query and number of custom utilities and wrappers; led
+                  the migration to adopt these new tools
                 </li>
                 <li>
                   Conducted technical interviews for prospective web engineers,
                   working through coding and conceptual questions with
-                  interviewees
+                  candidates
                 </li>
                 <li>
-                  Participated in the web on-call rotation, working to triage a
-                  variety of production bugs along with more serious
-                  cross-functional issues
+                  Participated in the web on-call rotation, triaging a variety
+                  of production bugs along with more serious cross-functional
+                  issues
                 </li>
               </ul>
             </article>
@@ -168,15 +172,53 @@ export default function PostPage() {
               <ul className="list-disc ml-12">
                 <li>
                   Collaborated with designers to renew an older landing page
-                  with a sophisticated page-long scrolling animation with
+                  with a sophisticated, page-long scrolling animation with
                   several different stages
                 </li>
+              </ul>
+            </article>
+          </Section>
+          <Section>
+            <SectionTitle>Personal projects</SectionTitle>
+            <article>
+              <SectionSubtitle
+                iconStyles={styles.star}
+                subtitle="elanmed.dev"
+                href="https://elanmed.dev/"
+              />
+              <div className="divider my-2" />
+              <ul className="list-disc ml-10">
                 <li>
-                  Worked on a cross-functional team of engineers, designers, and
-                  project managers to launch products such as: highlighting the
-                  benefits of tax-loss harvesting (Wealthfront&apos;s automated
-                  service to defer taxes) on the investment account dashboard,
-                  along with several sweepstakes events for new users
+                  Personal tech blog with 15+ articles on: programming with
+                  React, Next.js, and Typescipt, customizing NeoVim into a
+                  fully-fledge IDE, setting up continuous integration, and more
+                </li>
+                <li>
+                  Includes OAuth with Github (manually implemented), server-side
+                  data fetching with client-side optimistic updates, shareable
+                  URLs with automatic scrolling, and more
+                </li>
+                <li>
+                  Built with Next.js, Typescript, Tailwindcss, Prisma, React
+                  Query, Framer Motion, and Playwright
+                </li>
+              </ul>
+            </article>
+            <article>
+              <SectionSubtitle
+                iconStyles={styles.star}
+                subtitle="guacarina"
+                href="https://guacarina.com/scales"
+              />
+              <div className="divider my-2" />
+              <ul className="list-disc ml-10">
+                <li>
+                  Ocarina educational site with a focus on practicing ocarina
+                  scales. Includes a built-in metronome, shareable URLs to
+                  resume page-state, and more
+                </li>
+                <li>
+                  Built with Next.js v13, Typescript, Tailwindcss, and Reach UI
                 </li>
               </ul>
             </article>
@@ -207,24 +249,17 @@ interface Skill {
 }
 
 const skillCategorytoColor: Record<Skill["category"], string[]> = {
-  framework: ["bg-success", "text-success-content"],
+  framework: ["bg-base-300", "text-base-content"],
   language: ["bg-info", "text-info-content"],
-  library: ["bg-warning", "text-warning-content"],
-  skill: ["bg-error", "text-error-content"],
-};
-
-type Experience = "high" | "medium" | "low";
-const experienceToColor: Record<Experience, string> = {
-  high: "text-neutral text-neutral-content",
-  medium: "text-base-300",
-  low: "text-base-100",
+  library: ["bg-primary", "text-primary-content"],
+  skill: ["bg-accent", "text-accent-content"],
 };
 
 function SkillsByLevel({
   experience,
   skills,
 }: {
-  experience: Experience;
+  experience: "high" | "medium" | "low";
   skills: Skill[];
 }) {
   return (
@@ -269,21 +304,46 @@ function Section({ children }: { children: ReactNode }) {
   return <section className="flex flex-col gap-6">{children}</section>;
 }
 function SectionTitle({ children }: { children: ReactNode }) {
-  return <h2 className="text-4xl font-semibold">{children}</h2>;
+  return <h2 className="text-3xl font-semibold">{children}</h2>;
 }
 function SectionSubtitle({
   iconStyles,
   subtitle,
   timeframe,
+  href,
 }: {
   iconStyles: string;
   subtitle: string;
-  timeframe: string;
+  timeframe?: string;
+  href?: string;
 }) {
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-2">
       <a className={tm(iconStyles)} />
-      <h3 className="text-lg md:text-2xl ml-3">{subtitle}</h3>
+      {href ? (
+        <a href={href}>
+          <div className="cursor-pointer flex gap-2 items-end group">
+            <h3 className="text-lg md:text-2xl ml-1 group-hover:underline">
+              {subtitle}
+            </h3>
+            <span
+              className={tm(
+                "rounded-full p-1 border border-transparent",
+                "group-hover:border-neutral",
+                "group-active:scale-[90%]"
+              )}
+              style={{
+                ...transitionProperties,
+                transitionProperty: "transform",
+              }}
+            >
+              <LinkIcon size={20} />
+            </span>
+          </div>
+        </a>
+      ) : (
+        <h3 className="text-lg md:text-2xl ml-1">{subtitle}</h3>
+      )}
       <span className="text-xs md:text-sm ml-auto">{timeframe}</span>
     </div>
   );

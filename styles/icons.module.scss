@@ -100,6 +100,26 @@ $icon-github: (
   (0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0)
 );
 
+$icon-star-colors: (#fff, #444, #ebe527, #f59f54);
+$icon-star: (
+  (0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0),
+  (0, 0, 0, 0, 0, 0, 2, 3, 2, 0, 0, 0, 0, 0, 0, 0),
+  (0, 0, 0, 0, 0, 0, 2, 3, 2, 0, 0, 0, 0, 0, 0, 0),
+  (0, 0, 0, 0, 0, 2, 3, 3, 3, 2, 0, 0, 0, 0, 0, 0),
+  (0, 0, 0, 0, 0, 2, 1, 1, 3, 2, 0, 0, 0, 0, 0, 0),
+  (2, 2, 2, 2, 2, 2, 1, 3, 3, 3, 2, 2, 2, 2, 2, 0),
+  (2, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 2, 0),
+  (0, 2, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 4, 2, 0, 0),
+  (0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 2, 0, 0, 0),
+  (0, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 2, 0, 0, 0, 0),
+  (0, 0, 2, 3, 3, 3, 3, 4, 3, 3, 3, 3, 2, 0, 0, 0),
+  (0, 0, 2, 3, 3, 3, 4, 4, 4, 3, 3, 3, 2, 0, 0, 0),
+  (0, 2, 3, 3, 4, 4, 4, 2, 4, 4, 4, 3, 3, 2, 0, 0),
+  (0, 2, 3, 4, 4, 2, 2, 0, 2, 2, 4, 4, 3, 2, 0, 0),
+  (2, 4, 4, 2, 2, 0, 0, 0, 0, 0, 2, 2, 4, 4, 2, 0),
+  (2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0)
+);
+
 @mixin pixelize($size, $matrix, $colors, $default-color: null) {
   $ret: "";
   $moz: "";
@@ -208,14 +228,59 @@ $icon-github: (
   }
 }
 .wealthfront {
-  @include icon(2px);
+  @include icon(1px);
   &::before {
-    @include pixelize(2px, $icon-wealthfront, $icon-wealthfront-colors);
+    @include pixelize(1px, $icon-wealthfront, $icon-wealthfront-colors);
   }
 }
 .hopkins {
-  @include icon(2px);
+  @include icon(1px);
   &::before {
-    @include pixelize(2px, $icon-hopkins, $icon-hopkins-colors);
+    @include pixelize(1px, $icon-hopkins, $icon-hopkins-colors);
+  }
+}
+.star {
+  @include icon(1px);
+  &::before {
+    @include pixelize(1px, $icon-star, $icon-star-colors);
+  }
+}
+
+.mario {
+  $mario-colors: (#f81c2f, #65352b, #ffbb8e, #000, #1560ad, #aeaeac, #fef102);
+  $mario: (
+    (0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0),
+    (0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
+    (0, 0, 0, 2, 2, 2, 3, 3, 4, 3, 0, 0, 0, 0),
+    (0, 0, 2, 3, 2, 3, 3, 3, 4, 3, 3, 3, 0, 0),
+    (0, 0, 2, 3, 2, 2, 3, 3, 3, 4, 3, 3, 3, 0),
+    (0, 0, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 0, 0),
+    (0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0),
+    (0, 0, 0, 0, 1, 5, 1, 1, 5, 0, 0, 0, 0, 0),
+    (0, 0, 1, 1, 1, 5, 1, 1, 5, 1, 1, 1, 0, 0),
+    (0, 1, 1, 1, 1, 5, 5, 5, 5, 1, 1, 1, 1, 0),
+    (0, 6, 6, 1, 5, 7, 5, 5, 7, 5, 1, 6, 6, 0),
+    (0, 6, 6, 6, 5, 5, 5, 5, 5, 5, 6, 6, 6, 0),
+    (0, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 0),
+    (0, 0, 0, 5, 5, 5, 0, 0, 5, 5, 5, 0, 0, 0),
+    (0, 0, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 0, 0),
+    (0, 2, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2, 0)
+  );
+  $size: 3px;
+
+  position: relative;
+  display: inline-block;
+  width: $size * length(nth($mario, 1));
+  height: $size * length($mario);
+
+  &::before {
+    position: absolute;
+    top: -$size;
+    left: -$size;
+    content: "";
+    background: transparent;
+    transform: rotate(0);
+
+    @include pixelize($size, $mario, $mario-colors);
   }
 }

@@ -43,14 +43,15 @@ export default function Upvote() {
     >
       <div
         className={tm(
-          "flex [@media(min-width:1405px)]:flex-col items-center",
+          "flex [@media(min-width:1405px)]:flex-col items-center gap-1",
           "border-primary border-4 bg-base-100 p-1 rounded-xl",
           "[@media(min-width:1405px)]:border-none",
           disabled &&
             "tooltip tooltip-warning tooltip-right [@media(min-width:1405px)]:tooltip-left"
         )}
-        data-tip="log in to vote!"
+        data-tip="log in to upvote!"
       >
+        <p className="hidden [@media(min-width:1405px)]:block">upvote</p>
         <ArrowIcon
           size={70}
           className={tm(

@@ -84,9 +84,9 @@ A few interesting tradeoffs to consider:
 2. Server components can't have any kind of interactivity or state 
 3. Any code or libraries imported into a server component isn't shipped to the client - only the html that code generates
 
-<Aside>
+<Info>
 if you're already familiar with server components, you may know they're not actually rendered to html, but rather a new JSON-like format. This is important for maintaing client-side state when a client-component's server-component parent is refetched - but that's not important for our purposes.
-</Aside>
+</Info>
 
 With that in mind, let's take a look at a version of `Parent` and `Child` which uses server component architecture (SCA).
 

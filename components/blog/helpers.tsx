@@ -2,7 +2,6 @@ import { Collection, Metadata } from "utils/postHelpers";
 import Code from "components/reusable/Code";
 import Info from "components/reusable/Info";
 import Link from "components/reusable/Link";
-import Aside from "components/reusable/Aside";
 import Image from "components/reusable/Image";
 import { anchorStyles } from "components/reusable/Anchor";
 import HeaderLink from "components/reusable/HeaderLink";
@@ -46,7 +45,6 @@ export const components = {
   Code,
   Info,
   Link,
-  Aside,
   a: (props: HTMLAttributes<HTMLAnchorElement>) => (
     <a {...props} className={anchorStyles} />
   ),
@@ -83,6 +81,12 @@ export const components = {
   ),
   ul: (props: HTMLAttributes<HTMLUListElement>) => (
     <ul className="leading-7 list-disc pl-5 sm:pl-10" {...props} />
+  ),
+  blockquote: (props: HTMLAttributes<HTMLQuoteElement>) => (
+    <blockquote
+      className="border-l-4 border-l-base-300 pl-4 sm:mx-16 mx-4 text-sm"
+      {...props}
+    />
   ),
 };
 

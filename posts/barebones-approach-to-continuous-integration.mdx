@@ -21,9 +21,7 @@ Just a final note: this setup is based on the deploy process for my blog, a Next
 
 According to [aws](https://aws.amazon.com/devops/continuous-integration/): 
 
-<Aside>
-Continuous integration refers to the build and unit testing stages of the software release process. Every revision that is committed triggers an automated build and test. With continuous delivery, code changes are automatically built, tested, and prepared for a release to production.
-</Aside>
+> Continuous integration refers to the build and unit testing stages of the software release process. Every revision that is committed triggers an automated build and test. With continuous delivery, code changes are automatically built, tested, and prepared for a release to production.
 
 To achieve a simplified version of this, we'll create a `deploy.sh` script to run our test suites locally, and on success, push our code to the server. In a `post-receive` hook on the server, we'll execute a `post-receive.sh` script committed to the repo to rebuild the site for production. Finally, we'll reload a pm2 daemon to run the Next.js server and make the updates accessible on the web.
 
