@@ -41,6 +41,24 @@ export default function PostPage() {
   const description = "Check out my resumé, printable to pdf!";
   const title = "elanmed.dev | resumé";
 
+  const renderPrinter = () => {
+    return (
+      <>
+        {APP_ENV === "screenshot" ? null : (
+          <PrinterIcon
+            size={70}
+            className="cursor-pointer hover:bg-base-200 rounded-full p-3"
+            onClick={handleClick}
+            style={{
+              ...transitionProperties,
+              transitionProperty: "transform, background",
+            }}
+          />
+        )}
+      </>
+    );
+  };
+
   return (
     <>
       <Head>
@@ -55,10 +73,10 @@ export default function PostPage() {
       <Content>
         <div className="flex flex-col gap-8 md:mt-8">
           <section>
-            <div className="flex items-center">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-4 md:gap-10 flex-wrap">
                 <h1 className="text-4xl md:text-6xl font-bold">Elan Medoff</h1>
-                <div className="flex gap-4 my-auto">
+                <div className="flex gap-4 items-center">
                   <a
                     className={styles.github}
                     href="https://github.com/ElanMedoff"
@@ -73,19 +91,10 @@ export default function PostPage() {
                     mailto
                     <span className="text-primary">]</span>
                   </span>
+                  <span className="block lg:hidden">{renderPrinter()}</span>
                 </div>
               </div>
-              {APP_ENV === "screenshot" ? null : (
-                <PrinterIcon
-                  size={70}
-                  className="ml-auto cursor-pointer hover:bg-base-200 rounded-full p-3"
-                  onClick={handleClick}
-                  style={{
-                    ...transitionProperties,
-                    transitionProperty: "transform, background",
-                  }}
-                />
-              )}
+              <div className="hidden lg:block">{renderPrinter()}</div>
             </div>
             <div className="divider my-2" />
           </section>
@@ -318,14 +327,12 @@ function SectionSubtitle({
   href?: string;
 }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center">
       <a className={tm(iconStyles)} />
       {href ? (
-        <a href={href}>
+        <a href={href} className="ml-4">
           <div className="cursor-pointer flex gap-2 items-end group">
-            <h3 className="text-lg md:text-2xl ml-1 group-hover:underline">
-              {subtitle}
-            </h3>
+            <h3 className="text-lg md:text-2xl underline">{subtitle}</h3>
             <span
               className={tm(
                 "rounded-full p-1 border border-transparent",
@@ -342,7 +349,7 @@ function SectionSubtitle({
           </div>
         </a>
       ) : (
-        <h3 className="text-lg md:text-2xl ml-1">{subtitle}</h3>
+        <h3 className="text-lg md:text-2xl ml-4">{subtitle}</h3>
       )}
       <span className="text-xs md:text-sm ml-auto">{timeframe}</span>
     </div>
