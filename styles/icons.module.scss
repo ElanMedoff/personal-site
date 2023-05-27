@@ -186,23 +186,21 @@ $icon-star: (
   }
 }
 
-@mixin icon($size) {
+@mixin icon {
   position: relative;
   display: inline-block;
-  width: $size * 16;
-  height: $size * 16;
-  margin-right: $size * 16;
-  margin-bottom: $size * 16;
+  width: 16px;
+  height: 16px;
+  margin-right: 16px;
+  margin-bottom: 16px;
 
-  // NOTE: Use `transform: scale()` because cannot use font-size less than 10px on Chrome
-  // default 2px
   transform: scale(2);
   transform-origin: top left;
 
   &::before {
     position: absolute;
-    top: $size * -1;
-    left: $size * -1;
+    top: -1px;
+    left: -1px;
     display: block;
     content: "";
     background: transparent;
@@ -210,77 +208,38 @@ $icon-star: (
 }
 
 .github {
-  @include icon(1px);
+  @include icon();
   &::before {
     @include pixelize(1px, $icon-github, $icon-github-colors);
   }
 }
 .gmail {
-  @include icon(1px);
+  @include icon();
   &::before {
     @include pixelize(1px, $icon-gmail, $icon-gmail-colors);
   }
 }
 .linkedin {
-  @include icon(1px);
+  @include icon();
   &::before {
     @include pixelize(1px, $icon-linkedin, $icon-linkedin-colors);
   }
 }
 .wealthfront {
-  @include icon(1px);
+  @include icon();
   &::before {
     @include pixelize(1px, $icon-wealthfront, $icon-wealthfront-colors);
   }
 }
 .hopkins {
-  @include icon(1px);
+  @include icon();
   &::before {
     @include pixelize(1px, $icon-hopkins, $icon-hopkins-colors);
   }
 }
 .star {
-  @include icon(1px);
+  @include icon();
   &::before {
     @include pixelize(1px, $icon-star, $icon-star-colors);
-  }
-}
-
-.mario {
-  $mario-colors: (#f81c2f, #65352b, #ffbb8e, #000, #1560ad, #aeaeac, #fef102);
-  $mario: (
-    (0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0),
-    (0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-    (0, 0, 0, 2, 2, 2, 3, 3, 4, 3, 0, 0, 0, 0),
-    (0, 0, 2, 3, 2, 3, 3, 3, 4, 3, 3, 3, 0, 0),
-    (0, 0, 2, 3, 2, 2, 3, 3, 3, 4, 3, 3, 3, 0),
-    (0, 0, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 0, 0),
-    (0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0),
-    (0, 0, 0, 0, 1, 5, 1, 1, 5, 0, 0, 0, 0, 0),
-    (0, 0, 1, 1, 1, 5, 1, 1, 5, 1, 1, 1, 0, 0),
-    (0, 1, 1, 1, 1, 5, 5, 5, 5, 1, 1, 1, 1, 0),
-    (0, 6, 6, 1, 5, 7, 5, 5, 7, 5, 1, 6, 6, 0),
-    (0, 6, 6, 6, 5, 5, 5, 5, 5, 5, 6, 6, 6, 0),
-    (0, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 0),
-    (0, 0, 0, 5, 5, 5, 0, 0, 5, 5, 5, 0, 0, 0),
-    (0, 0, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 0, 0),
-    (0, 2, 2, 2, 2, 0, 0, 0, 0, 2, 2, 2, 2, 0)
-  );
-  $size: 3px;
-
-  position: relative;
-  display: inline-block;
-  width: $size * length(nth($mario, 1));
-  height: $size * length($mario);
-
-  &::before {
-    position: absolute;
-    top: -$size;
-    left: -$size;
-    content: "";
-    background: transparent;
-    transform: rotate(0);
-
-    @include pixelize($size, $mario, $mario-colors);
   }
 }

@@ -330,12 +330,12 @@ function SectionSubtitle({
   href?: string;
 }) {
   return (
-    <div className="flex items-center">
-      <a className={tm(iconStyles)} />
+    <div className="flex items-start">
+      <a className={tm(iconStyles, "shrink-0")} />
       {href ? (
-        <a href={href} className="ml-4">
-          <div className="cursor-pointer flex gap-2 items-end group">
-            <h3 className="text-lg md:text-2xl underline">{subtitle}</h3>
+        <a href={href} className="ml-3">
+          <div className="cursor-pointer flex items-end group">
+            <h3 className="text-lg md:text-2xl underline mr-2">{subtitle}</h3>
             <span
               className={tm(
                 "rounded-full p-1 border border-transparent",
@@ -352,7 +352,7 @@ function SectionSubtitle({
           </div>
         </a>
       ) : (
-        <h3 className="text-lg md:text-2xl ml-4">{subtitle}</h3>
+        <h3 className="text-lg md:text-2xl ml-3">{subtitle}</h3>
       )}
       <span className="text-xs md:text-sm ml-auto">{timeframe}</span>
     </div>
