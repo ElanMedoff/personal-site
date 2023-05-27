@@ -354,7 +354,7 @@ function SectionSubtitle({
       ) : (
         <h3 className="text-lg md:text-2xl ml-3">{subtitle}</h3>
       )}
-      <span className="text-xs md:text-sm ml-auto">{timeframe}</span>
+      <span className="hidden md:block md:text-sm ml-auto">{timeframe}</span>
     </div>
   );
 }
