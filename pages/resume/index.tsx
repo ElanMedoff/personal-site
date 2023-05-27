@@ -75,7 +75,7 @@ export default function PostPage() {
           <section>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4 md:gap-10 flex-wrap">
-                <h1 className="text-4xl md:text-6xl font-bold">Elan Medoff</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">Elan Medoff</h1>
                 <div className="flex gap-4 items-center">
                   <a
                     className={styles.github}
@@ -150,24 +150,24 @@ export default function PostPage() {
               <div className="divider my-2" />
               <ul className="list-disc ml-12">
                 <li>
-                  Worked on a cross-functional team of engineers, designers, and
-                  project managers to launch several flagship investment
-                  products
+                  Collaborated with a cross-functional team of engineers,
+                  designers, and project managers to launch several flagship
+                  investment products
                 </li>
                 <li>
                   Standardized data fetching patterns in the web codebase with
                   React Query and number of custom utilities and wrappers; led
-                  the migration to adopt these new tools
+                  the migration to adopt these new tools, improving perceived
+                  data loading speed and reducing code complexity significantly
                 </li>
                 <li>
                   Conducted technical interviews for prospective web engineers,
-                  working through coding and conceptual questions with
-                  candidates
+                  assessing their coding and conceptual skills
                 </li>
                 <li>
-                  Participated in the web on-call rotation, triaging a variety
-                  of production bugs along with more serious cross-functional
-                  issues
+                  Participated in the web on-call rotation, troubleshooting and
+                  resolving various production issues and ensuring a
+                  high-quality user experience
                 </li>
               </ul>
             </article>
@@ -180,9 +180,10 @@ export default function PostPage() {
               <div className="divider my-2" />
               <ul className="list-disc ml-12">
                 <li>
-                  Collaborated with designers to renew an older landing page
-                  with a sophisticated, page-long scrolling animation with
-                  several different stages
+                  Renewed an older landing page with a sophisticated, page-long
+                  scrolling animation with several different stages,
+                  collaborating with designers to create a visually appealing
+                  and interactive experience
                 </li>
               </ul>
             </article>
@@ -198,9 +199,10 @@ export default function PostPage() {
               <div className="divider my-2" />
               <ul className="list-disc ml-10">
                 <li>
-                  Personal tech blog with 15+ articles on: programming with
-                  React, Next.js, and Typescipt, customizing NeoVim into a
-                  fully-fledge IDE, setting up continuous integration, and more
+                  A personal tech blog with 15+ articles on various topics such
+                  as programming with React, Next.js, and Typescript,
+                  customizing NeoVim into a fully-fledge IDE, and setting up
+                  continuous integration
                 </li>
                 <li>
                   Includes OAuth with Github (manually implemented), server-side
@@ -222,12 +224,13 @@ export default function PostPage() {
               <div className="divider my-2" />
               <ul className="list-disc ml-10">
                 <li>
-                  Ocarina educational site with a focus on practicing ocarina
-                  scales. Includes a built-in metronome, shareable URLs to
-                  resume page-state, and more
+                  Created an ocarina educational site with a focus on practicing
+                  ocarina scales; included features such as a built-in
+                  metronome, shareable URLs to resume page-state, and more
                 </li>
                 <li>
                   Built with Next.js v13, Typescript, Tailwindcss, and Reach UI
+                  as the main technologies
                 </li>
               </ul>
             </article>
