@@ -260,11 +260,14 @@ interface Skill {
   category: "language" | "framework" | "library" | "skill";
 }
 
+const monochromeStyles =
+  APP_ENV === "screenshot" ? ["bg-base-100", "text-base-content"] : [];
+
 const skillCategorytoColor: Record<Skill["category"], string[]> = {
-  framework: ["bg-base-300", "text-base-content"],
-  language: ["bg-info", "text-info-content"],
-  library: ["bg-primary", "text-primary-content"],
-  skill: ["bg-accent", "text-accent-content"],
+  framework: ["bg-base-300", "text-base-content", ...monochromeStyles],
+  language: ["bg-info", "text-info-content", ...monochromeStyles],
+  library: ["bg-primary", "text-primary-content", ...monochromeStyles],
+  skill: ["bg-accent", "text-accent-content", ...monochromeStyles],
 };
 
 function SkillsByLevel({
