@@ -11,6 +11,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { generateUrlPrefix } from "loaders/helpers";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
@@ -32,7 +33,10 @@ export default function MyApp({
   return (
     <>
       <Head>
-        <link rel="icon" href="/favicon/favicon.ico" />
+        <link
+          rel="shortcut icon"
+          href={`${generateUrlPrefix}/favicon/favicon.ico`}
+        />
 
         <meta
           name="google-site-verification"
