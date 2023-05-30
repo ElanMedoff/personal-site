@@ -35,7 +35,7 @@ export default function MyApp({
       <Head>
         <link
           rel="shortcut icon"
-          href={`${generateUrlPrefix}/favicon/favicon.ico`}
+          href="https://elanmed.dev/favicon/favicon.ico"
         />
 
         <meta
