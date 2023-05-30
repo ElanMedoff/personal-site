@@ -38,6 +38,10 @@ else
 fi
 pm2 delete resume 
 
+cecho "generating sitemap ..." 4
+npm run generateSitemap
+cecho "generated sitemap" 2
+
 cecho "backing up..." 4
 rsync -av -e ssh --exclude="node_modules" --exclude=".next" --exclude="public" elan@147.182.190.69:/var/www/elanmed.dev ~/Desktop/personal-site-backups
 mv ~/Desktop/personal-site-backups/elanmed.dev ~/Desktop/personal-site-backups/"$(date +"%m:%d:%y_%H-%M-%S")"

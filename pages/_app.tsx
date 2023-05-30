@@ -32,7 +32,7 @@ export default function MyApp({
   return (
     <>
       <Head>
-        <link rel="shortcut icon" href="/favicon/favicon.ico" />
+        <link rel="icon" href="/favicon/favicon.ico" />
 
         <meta
           name="google-site-verification"

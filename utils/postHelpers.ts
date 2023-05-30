@@ -96,7 +96,7 @@ export function fetchAllMetadata(): Metadata[] {
     .filter((post) => (isProd() ? post.isPublished : post));
 }
 
-export async function fetchslugs() {
+async function fetchslugs() {
   const paths = fetchAllPaths();
 
   const allMetadata = await Promise.all(
