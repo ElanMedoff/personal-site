@@ -33,11 +33,7 @@ export default function MyApp({
   return (
     <>
       <Head>
-        <link
-          rel="shortcut icon"
-          href="https://elanmed.dev/favicon/favicon.ico"
-        />
-
+        <link rel="shortcut icon" href="/favicon.ico" />
         <meta
           name="google-site-verification"
           content="CE4T4wzf1pNuiL7JwIC9CqNdJyCfsfaNyLjkeFRr9Dc"
