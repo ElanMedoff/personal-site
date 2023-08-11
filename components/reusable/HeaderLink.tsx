@@ -16,7 +16,7 @@ export default function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
   );
   const router = useRouter();
 
-  const preProcessed = children.replace(/([0-9]|\.|:)/g, "").toLowerCase();
+  const preProcessed = children.replace(/[^a-zA-Z\s]/g, "").toLowerCase();
   const slug = slugify(preProcessed);
 
   const copyToClipboard = async () => {

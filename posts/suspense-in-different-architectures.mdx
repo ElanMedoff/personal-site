@@ -1,0 +1,147 @@
+---
+title: "React Suspense in three different architectures"
+abstract: "Unpacking React's most versatile API"
+lastUpdated: "August 10, 2023"
+slug: suspense-in-different-architectures
+tags:
+  - software eng
+  - nextjs
+  - react
+  - server comps
+collection: null
+isPublished: true
+---
+
+# React Suspense in three different architectures
+
+Since 2018, React `Suspense` has been a publicly available API. For years it was little used and was seen as having little benefit - but not for long. With the recent release of React 18, `Suspense` provides a whole new set of benefits which deserve a second look. Unfortunately, these benefits can range from uninspiring to esoteric, and depend significantly on your app's architechture. Let's take a look at the three most common rendering architectures today and how React `Suspense` can play a role. 
+
+## tl;dr
+
+- **Client-side rendering**: Show a fallback while `React.lazy` loads; declaratively handles loading/error states when fetching data with a suspense-compatible framework
+- **Server-side rendering**: Components wrapped in a suspense are selectively hydrated
+- **Server components**: Asynchronous server components wrapped in a suspense are streamed to the client in stages: first it's fallback, then it's final content. 
+
+Now for a deeper dive!
+
+## Client-side rendering
+
+This is React at its most basic. On request, the server responds with a barebones html file with a `<script>` tag referencing a javascript bundle. When the javascript is loaded and executed, it generates the content on the page and populates our empty html file. Navigations are completely client-side and make no additional requests to the server - which leads us to the first use-case for `Suspense`. Given that our javascript bundle contains the code necessary to generate any part of the app, it can grow quite large. Since the entire javascript file must be loaded, parsed, and executed before the page's content is rendered, this becomes a serious performance bottleneck. But of course, you don't really _need_ the code to generate every part of your app on every single page. What if instead, we could split our app into several different javascript bundles, each only sent to the client when necessary? Enter `Suspense` and `React.lazy`.
+
+### Suspense with React.lazy
+
+At its core, `React.lazy` lets you lazy-load a React component by passing it a function that returns a Promise which resolves to a component. In most cases, however, you'll see it  used with the [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) syntax to lazy load another module.
+
+<Code language="tsx" code={`
+const Post = lazy(() => import('./Post.ts'));
+`} />
+
+Paired with `Suspense`, you can dictate to React to render a fallback loading state while the import is loading: 
+
+<Code language="tsx" code={`
+export default function Wrapper() {
+  return (
+    <Suspense fallback={<div>Loading ...</div>}>
+      <Post />
+    </Suspense>
+  )
+}
+`} />
+
+If you're using a navigation library like React Router, you can code-split your app by route, lazy loading the entry point for each page separately in your `Route` components.
+
+You could implement this `fallback` behavior yourself using an `useEffect`, an `isLoading` state, and some state to hold your lazily imported component, but using `Suspense` is much more elegant. However, this raises the question: what if we could simplify _all_ data fetching done in `useEffect`s with `Suspense`?
+
+### Suspense with data-fetching in a useEffect
+
+Before we get any further, it's time to take a quick look into the internals of `<Suspense />`. Mainly, how does the parent `<Suspense>` know when its child is loading? As far as I know, there's really only two ways for a child component to change the state of its parent. 
+
+1. The child mutates a piece of state used in the parent
+2. The child throws a value, which can be caught and processed by the parent
+
+This second option normally comes in the form of an error boundary, which is a React component designed to catch an unintentional error thrown by a child when your app breaks. Interestingly enough, React has co-opted this mechanism for more than just throwing errors: `Suspense` relies on the child throwing a _promise_. 
+
+In short, the child throws a Promise that's pending while it's loading and resolves when it's ready to render. The parent catches this promise and renders the fallback prop or the children's content accordingly. 
+
+As you can imagine, setting up your own suspense-enabled data fetching utilities can be quite complicated, and you're probably better off letting a library take care of it. 
+
+That's all to say that if your library supports it, you can wrap your component in a `<Suspense />`, specify a `fallback`, add an error boundary to catch any rejected promises, and you never have to worry about `isLoading` or `isError` states again!
+
+<Code language="tsx" code={`
+function Post() {
+  // with React Query, for example
+  const { data } = useQuery({ suspense: true })
+
+  // you can assume data will be fully fetched, since React will 
+  // "suspend" the component when the data's loading and this 
+  // code won't be executed!
+  return <div>{data}</div>
+}
+
+export default function Wrapper() {
+  return (
+    <ErrorBoundary fallbackRender={<div>Error!</div>}>
+      <Suspense fallback={<div>Loading ...</div>}>
+        <Post />
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
+`} />
+
+For some this may look simpler, but others may see the early stages of a pyramid of doom and prefer to handle loading and error states imperatively themselves. Either way, it's hard to argue that data fetching with `Suspense` is opening any doors you couldn't implement yourself. Those will come. 
+
+## Server-side rendering 
+
+In server-side rendered apps, like those built with Next.js (`pages` dir) or Remix, `Suspense` begins to unlock some very interesting new capabilities. 
+
+But first, a few words on the basics of hydration.
+
+At request time, your metaframework will generate html for each page by running the components exported from each file to generate the html for the first render. This html will be sent to the user so they can look at something meaningful while the javascript bundle loads. Once the javascript arrives, the metaframework will rerun your component on the _client_ and ensure that the resulting dom is the same as the html generated on the server (if it's not, you'll probably get a warning). At this point, we have the same dom that was generated on the server, but all the javascript associated with creating state, binding events, etc. is in place as well. This whole process of Next rerunning the component on the client is known as hydration.
+
+Compared with client-side rendering, server-side provides a better user experience on first page-load since the user can look at some server-generated html while your javascript bundle loads and executes. However, look is all they can do - without javascript, the page can't be interacted with. Magnifying this problem is the fact that the _entire_ page needs to be hydrated before _any_ of it can be interacted with! Enter use-case three of `Suspense`: selective hydration.
+
+By wrapping a component in `Suspense`, React will hydrate it separately from the rest of the page. Wrap several components in `Suspense`, and React can intelligently decide which to hydrate first based on which the user is interacting with at the time.
+
+This brings us to our fourth and final use-case: streaming with server components.
+
+## Server components
+
+In a nutshell, server components are React components that render to html on the server before they're sent to the client. This may sound like server-side rendering, but server components are _server-only_; they never run on the client. They can't use event handlers, state, or hooks, and are fundamentally non-interactive. Instead, server components are optimized for fetching and rendering static data: 
+
+<Code language="tsx" code={`
+export default async function Post() {
+  const data = await fetch(...)
+
+  return <div>{data}</div>
+}
+`} />
+
+Notice that the function/component is asynchronous! You can just wait for your data to load, then render your content to html and send it to the client. Simple and elegant, but not a great user experience - until the asynchronous action completes, your component is blocked, and the user sees nothing from your component! In fact, this situation is exactly what loading states were created for. So how can we give a loading state to our server component? `Suspense`. 
+
+By wrapping your asynchronous server component in a `<Suspense />`, React will render and send the `fallback` to the client while the component is fetching. Once the data finishes loading, it'll send the rendered content from the component itself. This process of sending multiple chunks of html to the client over time is known as streaming. 
+
+<Code language="tsx" code={`
+async function Post() {
+  const data = await fetch(...)
+
+  return <div>{data}</div>
+}
+
+export default function Wrapper() {
+  return (
+    <Suspense fallback={<div>Loading ...</div>}>
+      <Post />
+    </Suspense>
+  )
+}
+`} />
+
+## Conclusion
+
+So there we have it, four different use-cases of React `Suspense` for three different architectures. I'll leave it to the reader to decide if a single API is appropriate for so many different situations, but at least this article should give you some clarity on the situation. Thanks for reading!
+
+## Sources
+- [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)
+- [react.dev documentation on React.lazy](https://react.dev/reference/react/lazy)
+- [Splitting the Work: Streaming Server Rendering with Suspense: Shaundai Person](https://www.youtube.com/watch?v=Q98l5o1y3ao)

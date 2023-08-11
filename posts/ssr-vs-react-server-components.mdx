@@ -80,7 +80,8 @@ In a nutshell, server components are React components that render to html on the
 
 A few interesting tradeoffs to consider:
 
-1. Server components can have client component children, but client components _cannot_ have server component children
+1. Server components can import client components, but client components _cannot_ import server components
+  - However, a client component can render a server component as a child if it's passed down as a prop!
 2. Server components can't have any kind of interactivity or state 
 3. Any code or libraries imported into a server component isn't shipped to the client - only the html that code generates
 

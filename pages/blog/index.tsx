@@ -214,24 +214,22 @@ export default function Blog({
                 <h2 className="pl-3 text-2xl underline mb-3">collections</h2>
               ) : null}
               <div className="ml-[-10px]">
-                <AnimatePresence>
-                  <motion.ul layout="position">
-                    {inputValue ? (
-                      <CollectionsForSearch
-                        allCollections={allCollections}
-                        allMetadata={allMetadata}
-                        inputValue={inputValue}
-                        selectedTags={selectedTags}
-                      />
-                    ) : (
-                      <CollectionsForTags
-                        allCollections={allCollections}
-                        filteredPostsByTags={filteredPostsByTags}
-                        selectedTags={selectedTags}
-                      />
-                    )}
-                  </motion.ul>
-                </AnimatePresence>
+                <ul>
+                  {inputValue ? (
+                    <CollectionsForSearch
+                      allCollections={allCollections}
+                      allMetadata={allMetadata}
+                      inputValue={inputValue}
+                      selectedTags={selectedTags}
+                    />
+                  ) : (
+                    <CollectionsForTags
+                      allCollections={allCollections}
+                      filteredPostsByTags={filteredPostsByTags}
+                      selectedTags={selectedTags}
+                    />
+                  )}
+                </ul>
               </div>
             </div>
             <div>
