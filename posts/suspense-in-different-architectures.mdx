@@ -1,7 +1,7 @@
 ---
 title: "React Suspense in three different architectures"
 abstract: "Unpacking React's most versatile API"
-lastUpdated: "August 10, 2023"
+lastUpdated: "August 17, 2023"
 slug: suspense-in-different-architectures
 tags:
   - software eng
@@ -14,13 +14,13 @@ isPublished: true
 
 # React Suspense in three different architectures
 
-Since 2018, React `Suspense` has been a publicly available API. For years it was little used and was seen as having little benefit - but not for long. With the recent release of React 18, `Suspense` provides a whole new set of benefits which deserve a second look. Unfortunately, these benefits can range from uninspiring to esoteric, and depend significantly on your app's architechture. Let's take a look at the three most common rendering architectures today and how React `Suspense` can play a role. 
+React `Suspense` has had a strange journey: for years it was little used and was seen as having little benefit, just a fancy way to render a loading state. With the recent release of React 18, however, `Suspense` provides a whole new set of benefits which deserve a second look. Unfortunately, these advantages can range from uninspiring to esoteric, and depend significantly on your app's architechture. Let's take a look at the three most common rendering architectures today and how React `Suspense` can play a role. 
 
 ## tl;dr
 
-- **Client-side rendering**: Show a fallback while `React.lazy` loads; declaratively handles loading/error states when fetching data with a suspense-compatible framework
-- **Server-side rendering**: Components wrapped in a suspense are selectively hydrated
-- **Server components**: Asynchronous server components wrapped in a suspense are streamed to the client in stages: first it's fallback, then it's final content. 
+- **Client-side rendering**: Show a fallback while `React.lazy` loads; declaratively handle loading/error states when fetching data with a suspense-compatible framework.
+- **Server-side rendering**: Everything above + server-side rendered components wrapped in a `<Suspense />` are selectively hydrated on the client.
+- **Server components**: Everything above + asynchronous server components wrapped in a `<Suspense />` are streamed to the client in stages: first it's fallback, then it's final content. 
 
 Now for a deeper dive!
 
@@ -52,9 +52,9 @@ If you're using a navigation library like React Router, you can code-split your 
 
 You could implement this `fallback` behavior yourself using an `useEffect`, an `isLoading` state, and some state to hold your lazily imported component, but using `Suspense` is much more elegant. However, this raises the question: what if we could simplify _all_ data fetching done in `useEffect`s with `Suspense`?
 
-### Suspense with data-fetching in a useEffect
+### Suspense for data-fetching in a useEffect
 
-Before we get any further, it's time to take a quick look into the internals of `<Suspense />`. Mainly, how does the parent `<Suspense>` know when its child is loading? As far as I know, there's really only two ways for a child component to change the state of its parent. 
+Before we get any further, it's time to take a quick look into the internals of `<Suspense />`. Primarily, how does the parent `<Suspense>` know when its child is loading? As far as I can tell, there's only two ways for a child component to change the state of its parent:
 
 1. The child mutates a piece of state used in the parent
 2. The child throws a value, which can be caught and processed by the parent
@@ -97,7 +97,7 @@ In server-side rendered apps, like those built with Next.js (`pages` dir) or Rem
 
 But first, a few words on the basics of hydration.
 
-At request time, your metaframework will generate html for each page by running the components exported from each file to generate the html for the first render. This html will be sent to the user so they can look at something meaningful while the javascript bundle loads. Once the javascript arrives, the metaframework will rerun your component on the _client_ and ensure that the resulting dom is the same as the html generated on the server (if it's not, you'll probably get a warning). At this point, we have the same dom that was generated on the server, but all the javascript associated with creating state, binding events, etc. is in place as well. This whole process of Next rerunning the component on the client is known as hydration.
+At request time, your metaframework will generate html for each page by running the components exported from each file to generate the html for the first render. This html will be sent to the user so they can look at something meaningful while the javascript bundle loads. Once the javascript arrives, the metaframework will rerun your component on the _client_ and ensure that the resulting dom is the same as the html generated on the server (if it's not, you'll probably get a warning). At this point, we have the same dom that was generated on the server, but all the javascript associated with creating state, binding events, etc. is in place as well. This whole process of rerunning the component on the client is known as hydration.
 
 Compared with client-side rendering, server-side provides a better user experience on first page-load since the user can look at some server-generated html while your javascript bundle loads and executes. However, look is all they can do - without javascript, the page can't be interacted with. Magnifying this problem is the fact that the _entire_ page needs to be hydrated before _any_ of it can be interacted with! Enter use-case three of `Suspense`: selective hydration.
 
@@ -139,7 +139,7 @@ export default function Wrapper() {
 
 ## Conclusion
 
-So there we have it, four different use-cases of React `Suspense` for three different architectures. I'll leave it to the reader to decide if a single API is appropriate for so many different situations, but at least this article should give you some clarity on the situation. Thanks for reading!
+So there we have it, four different use-cases of React `Suspense` for three different architectures. I'll leave it to the reader to decide if a single API is appropriate for so many different situations, but hopefully this article should give you some clarity on the situation. Thanks for reading!
 
 ## Sources
 - [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)
