@@ -50,7 +50,7 @@ export default function Wrapper() {
 
 If you're using a navigation library like React Router, you can code-split your app by route, lazy loading the entry point for each page separately in your `Route` components.
 
-You could implement this `fallback` behavior yourself using an `useEffect`, an `isLoading` state, and some state to hold your lazily imported component, but using `Suspense` is much more elegant. However, this raises the question: what if we could simplify _all_ data fetching done in `useEffect`s with `Suspense`?
+You could implement this behavior yourself - render a loading state while dynamically importing a component - without `Suspense` and `React.lazy`, but using `Suspense` is much more elegant. This raises the question, however: what if we could simplify _all_ data fetching done in `useEffect`s with `Suspense`?
 
 ### Suspense for data-fetching in a useEffect
 
