@@ -86,7 +86,7 @@ A few interesting tradeoffs to consider:
 3. Any code or libraries imported into a server component isn't shipped to the client - only the html that code generates
 
 <Info>
-if you're already familiar with server components, you may know they're not actually rendered to html, but rather a new JSON-like format. This is important for maintaing client-side state when a client-component's server-component parent is refetched - but that's not important for our purposes.
+if you're already familiar with server components, you may know they're not actually rendered to html, but rather a new JSON-like format. This is important for maintaining client-side state when a client-component's server-component parent is refetched - but that's not important for our purposes.
 </Info>
 
 With that in mind, let's take a look at a version of `Parent` and `Child` which uses server component architecture (SCA).
@@ -146,12 +146,12 @@ Unlike SSR, whose bundle includes the React code for `Parent` and `Child`, the b
 Let's really hammer in the differences between these two lifecycles.
 
 1. With SSR, the React code for `Parent` is sent to the browser in the javascript bundle, while with SCA, `Parent` is not. In other words, server components do not increase the bundle size! Imagine if `Parent` imported a heavy date formatting library - with SSR, the whole library would be sent to the browser, while with server components, it's not.
-2. The reason the React code for `Parent` isn't sent in the javascript bundle with SCA is that server components don't need to hydrate! Remember, hydration is the process of adding state and event listeners to dehyrated html - but server components, by definition, don't have any interactivity. Meanwhile, client components are _only_ rendered on the client - they're never rendered to dehyrated html on the server.
+2. The reason the React code for `Parent` isn't sent in the javascript bundle with SCA is that server components don't need to hydrate! Remember, hydration is the process of adding state and event listeners to dehydrated html - but server components, by definition, don't have any interactivity. Meanwhile, client components are _only_ rendered on the client - they're never rendered to dehydrated html on the server.
 
 ## How SSR Compliments Server Components
 
-Let's switch gears and talk about some of the side-effects of only rendering client components on the browser: with our example, the user is left with a blank `<div />` until React renders the component in step 5. Not the best user experience. In fact, doesn't Next.js use SSR to server-render components that would otherwise be rendered on the client precisly to avoid this situation - only today, the entirety of every React app is composed of client components. 
+Let's switch gears and talk about some of the side-effects of only rendering client components on the browser: with our example, the user is left with a blank `<div />` until React renders the component in step 5. Not the best user experience. In fact, doesn't Next.js use SSR to server-render components that would otherwise be rendered on the client precisely to avoid this situation - only today, the entirety of every React app is composed of client components. 
 
-What if - and this is where things get interesting - we could server-render our client components, hydrate them on the client, but leave our server components alone? By using server-rendered client components, we would only need to ship the code for `Child` to the browser, while leaving `Parent` out of the bundle altogether. In other words, server-rendered child components takes the reduced bundle of SCA with the great ux of having initial markup generated from SSR. 
+What if - and this is where things get interesting - we could server-render our client components, hydrate them on the client, but leave our server components alone? By using server-rendered client components, we would only need to ship the code for `Child` to the browser, while leaving `Parent` out of the bundle altogether. In other words, server-rendered child components take the reduced bundle of SCA with the great ux of having initial markup generated from SSR. 
 
 In essence, this is Next.js version 13 - SCA with server-rendered client components. It took a little while to get here, but I hope I could give you a better understanding of this new release - it's really cool stuff, and I'm excited to see how it plays out in practice. 

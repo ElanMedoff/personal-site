@@ -72,7 +72,7 @@ You can add remaps by going to iTerm2 -> Preferences -> Keys and clicking the `+
 
 ## 3. Shared Settings For a Barebones Config
 
-I've highlighted my motivations for periodically using a barebones config in <Link href="/blog/sensible-vim-defaults">this</Link> blog post, but I left out some implementation details on how this fit into my overall Neovim config. Since nearly all of my options and a good chunk of my remaps can be shared between a barebones and full-blown config, I decided to take advantage of the overlap by sharing files between the two. Take a look at the following file structure:
+I've highlighted my motivations for periodically using a barebones config in <Link href="/blog/sensible-vim-defaults">this</Link> blog post, but I left out some implementation details on how this fits into my overall Neovim config. Since nearly all of my options and a good chunk of my remaps can be shared between a barebones and full-blown config, I decided to take advantage of the overlap by sharing files between the two. Take a look at the following file structure:
 
 <Code
   code={`
@@ -207,4 +207,4 @@ noremap <leader>/w /\<\><left><left>
 noremap <leader>cw /\<\>\C<left><left><left><left>
 `} />
 
-To replace multiple results in a single file, highlight your results with `/` or one of the commands above, type `cgn`, enter the replacement, and press escape. Go the next entry with `n` as normal, and do the same replacement with `.`.
+To replace multiple results in a single file, highlight your results with `/` or one of the commands above, type `cgn`, enter the replacement, and press escape. Go to the next entry with `n` as normal, and do the same replacement with `.`.

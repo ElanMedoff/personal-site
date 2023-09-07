@@ -146,16 +146,16 @@ Now that we're dealing with two components, we have the option to null check in 
 
 ## Parent-Dependent Children
 
-A Parent-dependent child relies on it's parent to do it's null checking for them. It has no null checking of it's own, and it expects it's props to always be populated and of the correct type. Otherwise, it may throw.
+A Parent-dependent child relies on its parent to do its null checking for them. It has no null checking of its own, and it expects its props to always be populated and of the correct type. Otherwise, it may throw.
 
 In our example above, this would mean the `Parent` should return early, ensuring that when `FormatNumber` _is_ rendered, its `num` prop is always populated and a `number`.
 Alternatively, the `Parent` could perform inline null checking with a fallback value and achieve the same result.
 
-It's worth nothing that if the child's prop is a more complicated data structure, such as a series of nested objects, passing a fallback value like `?? 0` isn't always an option.
+It's worth noting that if the child's prop is a more complicated data structure, such as a series of nested objects, passing a fallback value like `?? 0` isn't always an option.
 
 ## Parent-Agnostic Children
 
-In contrast to a Parent-dependent child, a Parent-agnostic child expects no null checking from it's parent. Maybe the parent will null check before rendering the child, maybe it won't - the Parent-agnostic child won't rely on either behavior. Instead, the Parent-agnostic child will perform it's own null checking, gracefully handling every case on its own.
+In contrast to a Parent-dependent child, a Parent-agnostic child expects no null checking from its parent. Maybe the parent will null check before rendering the child, maybe it won't - the Parent-agnostic child won't rely on either behavior. Instead, the Parent-agnostic child will perform its own null checking, gracefully handling every case on its own.
 
 In our example above, `FormatNumber` would have its own null checking, maybe something like:
 
@@ -168,7 +168,7 @@ function FormatNumber({ num: number }) {
 
 <Info>
 
-**Note**: when null checking a number or string, a simple `if (!prop)` check is mostly likely _not_ what you want – it will return `false` with `0` or `""`!
+**Note**: when null checking a number or string, a simple `if (!prop)` check is most likely _not_ what you want – it will return `false` with `0` or `""`!
 
 </Info>
 
@@ -230,4 +230,4 @@ Is the child a general-purpose component designed to be used by multiple parents
 
 On the other hand, if the child is only used by a single parent, that may be a better case for writing a Parent-dependent child. The mental effort of remembering to pass non-nullish values to the child (either by returning early, or passing a fallback value when performing inline null checking), may be worth the code saved by making the child Parent-dependent.
 
-It's not ideal, but for situations where we have to rely on best practices instead of compile-time checks, all you can do is use your best judgement.
+It's not ideal, but for situations where we have to rely on best practices instead of compile-time checks, all you can do is use your best judgment.

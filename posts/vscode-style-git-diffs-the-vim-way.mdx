@@ -12,7 +12,7 @@ isPublished: true
 
 # VSCode-Style Git Diffs the Vim Way
 
-The deeper you dive into the Vim black hole, the less you take opinionated editors like VSCode for granted. Nowhere is this more true than when viewing git diffs. In VSCode, you have an elegant interface in the sidebar that shows every change since your last commit as a side-by-side diff. It also has other nice features, like the option to the discard all the changes in a particular file.
+The deeper you dive into the Vim black hole, the less you take opinionated editors like VSCode for granted. Nowhere is this more true than when viewing git diffs. In VSCode, you have an elegant interface in the sidebar that shows every change since your last commit as a side-by-side diff. It also has other nice features, like the option to discard all the changes in a particular file.
 
 Before I switched to Vim, using this feature was an essential part of my workflow. I'd make a few changes, check the diffs to make sure I got rid of my TODOS, and pushed. It was great.
 
@@ -63,7 +63,7 @@ In the github documentation for vim-fugitive, we can see the following info on `
 
 Putting everything together, our `gd` bash function opens a tab for every changed file, and for each tab, opens up a side-by-side git diff.
 
-This homegrown function lacks some of the fancier capabilities of VSCode, but navigating forward is _fast_. To go from one file to the next, simply exit twice, once for each split! You can even setup a keybinding to make it that much faster.
+This homegrown function lacks some of the fancier capabilities of VSCode, but navigating forward is _fast_. To go from one file to the next, simply exit twice, once for each split! You can even set up a keybinding to make it that much faster.
 
 <Code code={`
 nnoremap gn :q<cr>:q<cr>

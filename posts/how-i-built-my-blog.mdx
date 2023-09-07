@@ -20,14 +20,14 @@ This post shouldn't function as a step-by-step tutorial, but rather a high-level
 
 ## Client
 
-I decided to use [Next.js](https://nextjs.org/) as my front-end framework because of it's optimization for static site generation. With SSG, every page is pre-rendered at build time and served to the user immediately. This is distinct from server side rendering, which renders the requested page at request-time. Since my blog renders the same content for every user, it makes a great use case for pre-rendering the site with SSG.
+I decided to use [Next.js](https://nextjs.org/) as my front-end framework because of its optimization for static site generation. With SSG, every page is pre-rendered at build time and served to the user immediately. This is distinct from server side rendering, which renders the requested page at request-time. Since my blog renders the same content for every user, it makes a great use case for pre-rendering the site with SSG.
 
 I looked into some other frameworks that specialize in SSG, but Next.js had the best combination of popularity – which goes hand-in-hand with online resources – and a good ratio of framework-specific quirks to features. In other words, for all the features you can access with Next.js, you have to learn very little framework boilerplate.
 
 <Info>
-__Update__: I've since converted all my pages to use server side rendering (SSR) to allow for a more seemless dark mode experience (i.e. without a white flash).
+__Update__: I've since converted all my pages to use server side rendering (SSR) to allow for a more seamless dark mode experience (i.e. without a white flash).
 See my article <Link href="/blog/dark-mode-next-js-server-side-approach">Dark Mode in Next.js Part 2: A Server-Side Approach</Link> for a deeper dive 
-into the perils of dark-mode. Thankfully, Next.js has great support for SSR as well, and I haven't yet regreted my choice in framework.
+into the perils of dark-mode. Thankfully, Next.js has great support for SSR as well, and I haven't yet regretted my choice in framework.
 </Info>
 
 ### Design
@@ -62,12 +62,12 @@ On the devops side of things, I host my blog on a [digital ocean](https://www.di
 
 To manage my production code, I use [this setup](https://toroid.org/git-website-howto) to push changes to the server with the command `git push server`. It's bare-bones, low-level, and awesome.
 
-For my basic continuous integration, I wrote a deploy script that builds the site locally to make sure everything's good, run a handfull of end-to-end tests 
-with playwright, back up my database to my local machine, push to github, and push to the server. 
+For my basic continuous integration, I wrote a deploy script that builds the site locally to make sure everything's good, run a handful of end-to-end tests 
+with playwright, backup my database to my local machine, push to github, and push to the server. 
 
 I use [pm2](https://pm2.keymetrics.io/) to manage my Next.js server, and I restart the service automatically when new code is pushed – it took just a few lines added to the post-receive hook.
 
-I'll write a full post on my minimal approach to continuous integration, but this should do for now.
+Check out this other <Link href="/blog/third-party-narration-rarely-works">post</Link> I wrote on my minimal approach to continuous integration for more info!
 
 ## Bonus: Some of my Favorite Blog Posts
 
@@ -75,8 +75,9 @@ I'll write a full post on my minimal approach to continuous integration, but thi
 - [Remix vs Next.js](https://remix.run/blog/remix-vs-next)
 - [Fix the slow render before you fix the re-render](https://kentcdodds.com/blog/fix-the-slow-render-before-you-fix-the-re-render)
 - [Why Efficient Hydration in JavaScript Frameworks is so Challenging](https://dev.to/this-is-learning/why-efficient-hydration-in-javascript-frameworks-is-so-challenging-1ca3)
-- [How to write Performant React code: rules, patterns, do's and don'ts](https://www.developerway.com/posts/how-to-write-performant-react-code)
+- [React Server Components and Remix](https://remix.run/blog/react-server-components)
 - [The Ultimate Guide to handling JWTs on frontend clients](https://hasura.io/blog/best-practices-of-using-jwt-with-graphql)
-- [OAuth 2 Simplified](https://aaronparecki.com/oauth-2-simplified/)
+- [Stop using JWT for sessions](http://cryto.net/~joepie91/blog/2016/06/13/stop-using-jwt-for-sessions/)
+- [The Grug Brained Developer](https://grugbrain.dev/)
 
 You can get a pretty good idea of my interests from this list!
