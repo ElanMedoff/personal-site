@@ -7,6 +7,7 @@ import { BsArrowUpCircleFill as ArrowIcon } from "react-icons/bs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { twMerge as tm } from "tailwind-merge";
 import { transitionProperties } from "utils/styleHelpers";
+import { generateQueryKey } from "loaders/helpers";
 
 export default function Upvote() {
   const router = useRouter();
@@ -14,12 +15,26 @@ export default function Upvote() {
 
   const queryClient = useQueryClient();
 
-  const { data: hasUpvoted } = useQuery(["hasUpvoted", slug], () =>
-    hasUpvotedLoader({ slug })
+  const { data: hasUpvoted } = useQuery(
+    generateQueryKey("hasUpvoted", [slug]),
+    () => hasUpvotedLoader(slug),
+    {
+      staleTime: 5_000,
+    }
   );
-  const { data: user } = useQuery(["user"], () => userLoader());
-  const { data: upvoteCount } = useQuery(["upvoteCount", slug], () =>
-    upvoteCountLoader(slug)
+  const { data: user } = useQuery(
+    generateQueryKey("user", []),
+    () => userLoader(),
+    {
+      staleTime: 5_000,
+    }
+  );
+  const { data: upvoteCount } = useQuery(
+    generateQueryKey("upvoteCount", [slug]),
+    () => upvoteCountLoader(slug),
+    {
+      staleTime: 5_000,
+    }
   );
   const { refetch: upvote } = useQuery(
     ["upvote", slug],

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import exchangeLoader from "loaders/exchangeLoader";
+import { generateQueryKey } from "loaders/helpers";
 
 export default function useOAuthExchange() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function useOAuthExchange() {
     enabled = params.has("code") && params.has("state");
   }
 
-  return useQuery(["exchange"], exchangeLoader, {
+  return useQuery(generateQueryKey("exchange", []), exchangeLoader, {
     enabled,
     onSuccess: () => {
       const url = new URL(window.location.href);
@@ -24,8 +25,8 @@ export default function useOAuthExchange() {
       url.searchParams.delete("state");
       router.push(url, undefined, { shallow: true });
 
-      queryClient.invalidateQueries(["user"]);
-      queryClient.invalidateQueries(["hasUpvoted", slug]);
+      queryClient.invalidateQueries(generateQueryKey("user", []));
+      queryClient.invalidateQueries(generateQueryKey("hasUpvoted", [slug]));
     },
   });
 }

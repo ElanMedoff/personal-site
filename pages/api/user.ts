@@ -15,7 +15,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<UserPayload>>
 ) {
-  const maybeSession = await maybeGetSession({ req, res });
+  const maybeSession = await maybeGetSession({ req, res, src: "user" });
   if (maybeSession.type === "error") {
     const { status, json } = maybeSession;
     return res.status(status).json(json);

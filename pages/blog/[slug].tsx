@@ -1,5 +1,10 @@
 import * as ReactDOMServer from "react-dom/server";
-import { fetchPostBySlug, Post, Metadata } from "utils/postHelpers";
+import {
+  fetchPostBySlug,
+  Post,
+  Metadata,
+  isSlugValid,
+} from "utils/postHelpers";
 import BlogCard from "components/blog/BlogCard";
 import { MDXRemote } from "next-mdx-remote";
 import Content from "components/blog/Content";
@@ -17,8 +22,8 @@ import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import hasUpvotedLoader from "loaders/hasUpvotedLoader";
 import userLoader from "loaders/userLoader";
 import upvoteCountLoader from "loaders/upvoteCountLoader";
-import { setCookie } from "cookies-next";
 import Header from "components/root/Header";
+import { generateQueryKey } from "loaders/helpers";
 
 export default function PostPage({
   post,
@@ -121,23 +126,28 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async (
   context
 ) => {
   const { slug } = context.params!;
+  if (!isSlugValid(slug)) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/500",
+      },
+    };
+  }
+
   const queryClient = new QueryClient();
 
   const getServerSidePropsCookie = context.req.cookies.sessionId;
-  setCookie("sessionId", getServerSidePropsCookie, {
-    req: context.req,
-    res: context.res,
-  });
 
-  await queryClient.prefetchQuery(["hasUpvoted", slug], () =>
-    hasUpvotedLoader({
-      slug,
-    })
+  await queryClient.prefetchQuery(generateQueryKey("user", []), () =>
+    userLoader(getServerSidePropsCookie)
   );
-  await queryClient.prefetchQuery(["upvoteCount", slug], () =>
-    upvoteCountLoader(slug)
+  await queryClient.prefetchQuery(generateQueryKey("hasUpvoted", [slug]), () =>
+    hasUpvotedLoader(slug, getServerSidePropsCookie)
   );
-  await queryClient.prefetchQuery(["user"], () => userLoader());
+  await queryClient.prefetchQuery(generateQueryKey("upvoteCount", [slug]), () =>
+    upvoteCountLoader(slug, getServerSidePropsCookie)
+  );
 
   const { post, relatedPostMetadata } = await fetchPostBySlug(slug);
   return {

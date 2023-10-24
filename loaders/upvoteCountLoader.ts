@@ -2,9 +2,17 @@ import { UpvoteCountPayload } from "pages/api/upvoteCount";
 import { ApiResponse } from "utils/apiHelpers/types";
 import { generateUrlPrefix } from "./helpers";
 
-export default async function upvoteCountLoader(slug: string) {
+export default async function upvoteCountLoader(
+  slug: string,
+  getServerSidePropsCookie?: string
+) {
+  const headers = new Headers();
+  if (getServerSidePropsCookie) {
+    headers.append("Cookie", `sessionId=${getServerSidePropsCookie}`);
+  }
   const response = await fetch(
-    `${generateUrlPrefix()}/api/upvoteCount?slug=${slug}`
+    `${generateUrlPrefix()}/api/upvoteCount?slug=${slug}`,
+    { headers }
   );
 
   const data: ApiResponse<UpvoteCountPayload> = await response.json();

@@ -96,23 +96,21 @@ export function fetchAllMetadata(): Metadata[] {
     .filter((post) => (isProd() ? post.isPublished : post));
 }
 
-async function fetchslugs() {
+function fetchslugs() {
   const paths = fetchAllPaths();
 
-  const allMetadata = await Promise.all(
-    paths.map(async (path) => {
-      const rawPost = readFileSync(join(postsDirectory, path)).toString();
-      const { data } = matter(rawPost);
+  const allMetadata = paths.map((path) => {
+    const rawPost = readFileSync(join(postsDirectory, path)).toString();
+    const { data } = matter(rawPost);
 
-      return data as any as Metadata;
-    })
-  );
+    return data as any as Metadata;
+  });
 
   return allMetadata
     .filter((post) => (isProd() ? post.isPublished : post))
     .map((metadata) => metadata.slug);
 }
 
-export async function isSlugValid(slug: string) {
-  return (await fetchslugs()).includes(slug);
+export function isSlugValid(slug: string) {
+  return fetchslugs().includes(slug);
 }

@@ -9,7 +9,7 @@ import logoutLoader from "loaders/logoutLoader";
 import loginLoader from "loaders/loginLoader";
 import Spinner from "react-spinners/ClipLoader";
 import useOAuthExchange from "hooks/useOAuthExchange";
-import { generateUrlPrefix } from "loaders/helpers";
+import { generateQueryKey, generateUrlPrefix } from "loaders/helpers";
 
 export default function LoginLogout() {
   const { isFetching } = useOAuthExchange();
@@ -23,17 +23,22 @@ export default function LoginLogout() {
   }, [router.asPath, isFetching]);
 
   const queryClient = useQueryClient();
-  const { data: user } = useQuery(["user"], () => userLoader());
-  const { refetch: login } = useQuery(["login"], loginLoader, {
-    enabled: false,
-    onSuccess: (authorizeUrl) => {
-      router.push(authorizeUrl);
-    },
-  });
-  const mutation = useMutation(logoutLoader, {
+  const { data: user } = useQuery(generateQueryKey("user", []), () =>
+    userLoader()
+  );
+  const { mutate: login } = useMutation(
+    generateQueryKey("login", []),
+    loginLoader,
+    {
+      onSuccess: (authorizeUrl) => {
+        router.push(authorizeUrl);
+      },
+    }
+  );
+  const { mutate: logout } = useMutation(logoutLoader, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["user"]);
-      queryClient.invalidateQueries(["hasUpvoted", slug]);
+      queryClient.invalidateQueries(generateQueryKey("user", []));
+      queryClient.invalidateQueries(generateQueryKey("hasUpvoted", [slug]));
     },
   });
 
@@ -42,7 +47,7 @@ export default function LoginLogout() {
   };
 
   const handleLogoutClick = () => {
-    mutation.mutate();
+    logout();
   };
 
   return (

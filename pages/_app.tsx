@@ -11,8 +11,6 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { generateUrlPrefix } from "loaders/helpers";
-import { ErrorBoundary } from "components/reusable/ErrorBoundary";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
@@ -53,18 +51,16 @@ export default function MyApp({
           gtag('config', 'G-9Y9725W18J');
         `}
       </Script>
-      <ErrorBoundary>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
-              <div data-theme={isDarkMode ? "dracula" : "emerald"}>
-                <Component {...pageProps} />
-              </div>
-            </ThemeContext.Provider>
-          </Hydrate>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+            <div data-theme={isDarkMode ? "dracula" : "emerald"}>
+              <Component {...pageProps} />
+            </div>
+          </ThemeContext.Provider>
+        </Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 }

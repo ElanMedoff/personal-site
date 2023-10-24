@@ -7,9 +7,11 @@ import { prisma } from "utils/prismaHelpers";
 export async function maybeGetSession({
   req,
   res,
+  src,
 }: {
   req: NextApiRequest;
   res: NextApiResponse;
+  src?: string;
 }): Promise<ApiHelperResponse<{ session: (Session & { user: User }) | null }>> {
   const sessionId = getCookie("sessionId", { req, res }) as string | undefined;
 

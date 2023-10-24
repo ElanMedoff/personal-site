@@ -105,7 +105,7 @@ async function handler(
   }
 
   const expiresAt = new Date(
-    new Date().getTime() + 1000 * 60 * (isProd() ? 60 * 12 : 1)
+    new Date().getTime() + 1000 * 60 * (isProd() ? 60 * 12 : 10)
   );
 
   const createdSession = await createSession({
