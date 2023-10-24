@@ -83,6 +83,7 @@ MyApp.getInitialProps = async (context: AppContext) => {
       res,
       httpOnly: false,
       maxAge: 60 * 60 * 24 * 365,
+      sameSite: true,
     });
     return { ...ctx, isDarkModeCookie: false };
   }
