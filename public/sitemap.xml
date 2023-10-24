@@ -47,6 +47,10 @@
        </url>
      
        <url>
+           <loc>https://elanmed.dev/blog/security</loc>
+       </url>
+     
+       <url>
            <loc>https://elanmed.dev/blog/sensible-vim-defaults</loc>
        </url>
      
@@ -72,6 +76,10 @@
      
        <url>
            <loc>https://elanmed.dev/blog/tie-together-smaller-arcs</loc>
+       </url>
+     
+       <url>
+           <loc>https://elanmed.dev/blog/typescript-type-assertions-cheat-sheet</loc>
        </url>
      
        <url>

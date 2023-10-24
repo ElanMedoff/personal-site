@@ -18,17 +18,13 @@ test.describe("root", async () => {
   test("has recent blog posts", async ({ page }) => {
     await expect(page.getByText("recent blog posts")).toBeVisible();
     await expect(
-      page.getByText(
-        "Dark Mode in Next.js: A Server-Side Approach With Cookies"
-      )
+      page.getByText("A Cheat Sheet For Using Type Assertions in Typescript")
     ).toBeVisible();
 
     await page
-      .getByText("Dark Mode in Next.js: A Server-Side Approach With Cookies")
+      .getByText("A Cheat Sheet For Using Type Assertions in Typescript")
       .click();
-    await expect(page).toHaveURL(
-      "/blog/dark-mode-next-js-server-side-approach"
-    );
+    await expect(page).toHaveURL("blog/typescript-type-assertions-cheat-sheet");
   });
 
   test("has recent github projects", async ({ page }) => {
