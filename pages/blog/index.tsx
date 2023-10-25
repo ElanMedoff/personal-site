@@ -252,7 +252,10 @@ export default function Blog({
               </ul>
             </div>
           </section>
-          <section className="w-full md:w-1/2 self-start md:sticky md:top-16">
+          <section
+            className="w-full md:w-1/2 self-start md:sticky md:top-16"
+            data-testid="sidebar"
+          >
             <h2 className="m-3 text-lg underline w-max">tags</h2>
             <div className="flex flex-col pl-3 gap-3">
               <ul className="flex flex-wrap gap-2">

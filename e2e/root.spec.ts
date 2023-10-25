@@ -17,10 +17,6 @@ test.describe("root", async () => {
 
   test("has recent blog posts", async ({ page }) => {
     await expect(page.getByText("recent blog posts")).toBeVisible();
-    await expect(
-      page.getByText("A Cheat Sheet For Using Type Assertions in Typescript")
-    ).toBeVisible();
-
     await page
       .getByText("A Cheat Sheet For Using Type Assertions in Typescript")
       .click();

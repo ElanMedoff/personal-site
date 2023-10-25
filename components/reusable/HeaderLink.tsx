@@ -59,7 +59,10 @@ export default function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
         </span>
       </label>
       <Dialog id={slugify(children)}>
-        <div className="flex flex-col gap-6 sm:gap-8">
+        <div
+          className="flex flex-col gap-6 sm:gap-8"
+          data-testid={`copy-url-dialog-${slug}`}
+        >
           <h2 className="text-xl sm:text-4xl font-bold">Heads up -</h2>
           <p>
             If you disable this pop-up in the future, clicking on a header will
@@ -79,6 +82,7 @@ export default function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
             onClick={async () => {
               await copyToClipboard();
             }}
+            data-testid="copy-button"
           >
             Copy
           </label>
@@ -100,7 +104,7 @@ export default function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
                 transitionProperty: "background-color",
               }}
             />
-            <p className="text-sm select-none">
+            <p className="text-sm select-none" data-testid="disable-button">
               disable this pop-up in the future
             </p>
           </div>

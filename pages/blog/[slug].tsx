@@ -99,7 +99,7 @@ export default function PostPage({
         </section>
         <div className="w-1/2 divider" />
         <section>
-          <p className="mb-3 text-sm italic">you may also upvote:</p>
+          <p className="mb-3 text-sm italic">you might also like:</p>
           <BlogCard metadata={relatedPostMetadata} />
         </section>
       </Content>
