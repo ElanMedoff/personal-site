@@ -6,6 +6,7 @@ import Script from "next/script";
 import useIsDarkMode from "hooks/useIsDarkMode";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 import {
+  DehydratedState,
   Hydrate,
   QueryClient,
   QueryClientProvider,
@@ -18,7 +19,10 @@ export const ThemeContext = createContext<{
   setIsDarkMode: null | Dispatch<SetStateAction<boolean>>;
 }>({ isDarkMode: false, setIsDarkMode: null });
 
-type MyAppProps = Pick<AppProps, "Component" | "pageProps"> & {
+type MyAppProps = Pick<
+  AppProps<{ dehydratedState: DehydratedState }>,
+  "Component" | "pageProps"
+> & {
   isDarkModeCookie: boolean;
 };
 
