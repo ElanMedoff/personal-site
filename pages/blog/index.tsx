@@ -1,9 +1,9 @@
 import { twMerge as tm } from "tailwind-merge";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { fetchAllMetadata, Metadata } from "utils/postHelpers";
 import Content from "components/blog/Content";
 import Head from "next/head";
-import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
+import { motion, useAnimationControls } from "framer-motion";
 import Footer from "components/reusable/Footer";
 import { NextPageContext } from "next";
 import fuzzysort from "fuzzysort";
@@ -17,62 +17,59 @@ import {
 import CollectionsForSearch from "components/blog/CollectionsForSearch";
 import CollectionsForTags from "components/blog/CollectionsForTags";
 import Pill from "components/blog/Pill";
-import { useRouter } from "next/router";
 import useIsMobile from "hooks/useIsMobile";
 import { BsSearch as SearchIcon } from "react-icons/bs";
 import Header from "components/root/Header";
+import { useSearchParamState } from "use-search-param-state";
+import { z } from "zod";
 
-export default function Blog({
-  allMetadata,
-  initialMethod,
-  initialSearch,
-  initialTags,
-}: Props) {
-  const [selectedTags, setSelectedTags] = useState<string[]>(
-    initialTags?.split("_") ?? []
+export default function Blog({ allMetadata, serverSideURL }: Props) {
+  const allCollections = Array.from(
+    new Set(
+      allMetadata
+        .map(({ collection }) => collection?.name)
+        .filter(
+          (value: string | undefined): value is string => value != undefined
+        )
+    )
   );
-  const [filterMethod, setFilterMethod] = useState<"union" | "intersection">(
-    initialMethod ?? "union"
+  const allTags = Array.from(
+    new Set(allMetadata.map(({ tags }) => tags).flat())
   );
-  const [inputValue, setInputValue] = useState(initialSearch ?? "");
+
+  const [selectedTags, setSelectedTags] = useSearchParamState<string[]>(
+    "tags",
+    [],
+    {
+      serverSideURL,
+      parse: (unparsed) => {
+        if (unparsed === "") return [];
+        return unparsed.split("_");
+      },
+      stringify: (val) => val.join("_"),
+      validate: (unvalidatedTags) => {
+        if (!Array.isArray(unvalidatedTags)) throw new Error();
+
+        const badTag = unvalidatedTags.find((tag) => !allTags.includes(tag));
+        if (badTag) throw new Error();
+        return unvalidatedTags;
+      },
+    }
+  );
+  const [filterMethod, setFilterMethod] = useSearchParamState<
+    "union" | "intersection"
+  >("method", "union", {
+    serverSideURL,
+    validate: z.union([z.literal("union"), z.literal("intersection")]).parse,
+  });
+  const [inputValue, setInputValue] = useSearchParamState("search", "", {
+    serverSideURL,
+    validate: z.coerce.string().parse,
+  });
+
   const refInput = useRef<HTMLInputElement>(null);
-  const router = useRouter();
   const isMobile = useIsMobile();
   const controls = useAnimationControls();
-
-  const setState = ({
-    selectedTags,
-    filterMethod,
-    inputValue,
-  }: {
-    selectedTags?: string[];
-    filterMethod?: "union" | "intersection";
-    inputValue?: string;
-  }) => {
-    if (selectedTags !== undefined) setSelectedTags(selectedTags);
-    if (filterMethod !== undefined) setFilterMethod(filterMethod);
-    if (inputValue !== undefined) setInputValue(inputValue);
-
-    const url = new URL(window.location.href);
-
-    if (selectedTags?.length) {
-      url.searchParams.set("tags", selectedTags.join("_"));
-    } else {
-      url.searchParams.delete("tags");
-    }
-
-    if (filterMethod) {
-      url.searchParams.set("method", filterMethod);
-    }
-
-    if (inputValue) {
-      url.searchParams.set("search", inputValue);
-    } else {
-      url.searchParams.delete("search");
-    }
-
-    router.push(url, undefined, { shallow: true });
-  };
 
   useEffect(() => {
     if (!refInput.current) return;
@@ -98,20 +95,6 @@ export default function Blog({
       },
     });
   }, [controls]);
-
-  const allTags = Array.from(
-    new Set(allMetadata.map(({ tags }) => tags).flat())
-  );
-
-  const allCollections = Array.from(
-    new Set(
-      allMetadata
-        .map(({ collection }) => collection?.name)
-        .filter(
-          (value: string | undefined): value is string => value != undefined
-        )
-    )
-  );
 
   const filteredPostsByTags =
     selectedTags.length > 0
@@ -153,12 +136,12 @@ export default function Blog({
   };
 
   const handleTagClick = (filter: string) => {
-    setState({
-      selectedTags: selectedTags.includes(filter)
-        ? selectedTags.filter((prevFilter) => prevFilter !== filter)
-        : selectedTags.concat(filter),
-      inputValue: "",
-    });
+    setInputValue("");
+    setSelectedTags((currTags) =>
+      currTags.includes(filter)
+        ? currTags.filter((prevFilter) => prevFilter !== filter)
+        : currTags.concat(filter)
+    );
   };
 
   const title = "elanmed.dev | blog";
@@ -191,11 +174,9 @@ export default function Blog({
                 value={inputValue}
                 onFocus={() => controls.stop()}
                 onChange={(e) => {
-                  setState({
-                    selectedTags: [],
-                    filterMethod: "union",
-                    inputValue: e.target.value,
-                  });
+                  setSelectedTags([]);
+                  setFilterMethod("union");
+                  setInputValue(e.target.value);
                 }}
               />
               <SearchIcon
@@ -272,7 +253,7 @@ export default function Blog({
               <div className="divider my-0" />
               <Pill
                 onClick={() => {
-                  setState({ selectedTags: [] });
+                  setSelectedTags([]);
                 }}
               >
                 reset all
@@ -283,7 +264,7 @@ export default function Blog({
               <Pill
                 selected={filterMethod === "union"}
                 onClick={() => {
-                  setState({ filterMethod: "union" });
+                  setFilterMethod("union");
                 }}
               >
                 union
@@ -291,7 +272,7 @@ export default function Blog({
               <Pill
                 selected={filterMethod === "intersection"}
                 onClick={() => {
-                  setState({ filterMethod: "intersection" });
+                  setFilterMethod("intersection");
                 }}
               >
                 intersection
@@ -310,15 +291,20 @@ interface Props {
   initialTags?: string;
   initialMethod?: "union" | "intersection";
   initialSearch?: string;
+  serverSideURL: string;
 }
 
 export function getServerSideProps(ctx: NextPageContext) {
+  const protocol = ctx.req?.headers["x-forwarded-proto"] || "http";
+  const serverSideURL = `${protocol}://${ctx.req?.headers.host}${ctx.req?.url}`;
+
   return {
     props: {
       initialSearch: ctx.query.search ?? null,
       initialTags: ctx.query.tags ?? null,
       initialMethod: ctx.query.method ?? null,
       allMetadata: fetchAllMetadata(),
+      serverSideURL,
     },
   };
 }

@@ -11,6 +11,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { SearchParamStateProvider } from "use-search-param-state";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
@@ -28,6 +29,11 @@ export default function MyApp({
 }: MyAppProps) {
   const [isDarkMode, setIsDarkMode] = useIsDarkMode(isDarkModeCookie);
   const [queryClient] = useState(() => new QueryClient());
+
+  function defaultStringify<T>(val: T) {
+    if (typeof val === "string") return val;
+    return JSON.stringify(val);
+  }
 
   return (
     <>
@@ -51,16 +57,22 @@ export default function MyApp({
           gtag('config', 'G-9Y9725W18J');
         `}
       </Script>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
-            <div data-theme={isDarkMode ? "dracula" : "emerald"}>
-              <Component {...pageProps} />
-            </div>
-          </ThemeContext.Provider>
-        </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <SearchParamStateProvider
+        options={{
+          stringify: defaultStringify,
+        }}
+      >
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+              <div data-theme={isDarkMode ? "dracula" : "emerald"}>
+                <Component {...pageProps} />
+              </div>
+            </ThemeContext.Provider>
+          </Hydrate>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </SearchParamStateProvider>
     </>
   );
 }
