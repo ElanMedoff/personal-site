@@ -22,6 +22,7 @@ import { BsSearch as SearchIcon } from "react-icons/bs";
 import Header from "components/root/Header";
 import { useSearchParamState } from "use-search-param-state";
 import { z } from "zod";
+import { isProd } from "utils/envHelpers";
 
 export default function Blog({ allMetadata, serverSideURL }: Props) {
   const allCollections = Array.from(
@@ -29,7 +30,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
       allMetadata
         .map(({ collection }) => collection?.name)
         .filter(
-          (value: string | undefined): value is string => value != undefined
+          (value: string | undefined): value is string => value !== undefined
         )
     )
   );
@@ -46,14 +47,16 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
         if (unparsed === "") return [];
         return unparsed.split("_");
       },
-      stringify: (val) => val.join("_"),
       validate: (unvalidatedTags) => {
         if (!Array.isArray(unvalidatedTags)) throw new Error();
+        if (unvalidatedTags.length === 0) return unvalidatedTags;
 
         const badTag = unvalidatedTags.find((tag) => !allTags.includes(tag));
         if (badTag) throw new Error();
         return unvalidatedTags;
       },
+      stringify: (val) => val.join("_"),
+      isEmptySearchParam: (searchParamVal) => searchParamVal.length === 0,
     }
   );
   const [filterMethod, setFilterMethod] = useSearchParamState<
@@ -147,6 +150,8 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
   const title = "elanmed.dev | blog";
   const description =
     "Check out 15+ blog posts on everything from React to NeoVim to comics!";
+
+  console.log(isProd());
 
   return (
     <>
@@ -288,9 +293,6 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
 
 interface Props {
   allMetadata: Metadata[];
-  initialTags?: string;
-  initialMethod?: "union" | "intersection";
-  initialSearch?: string;
   serverSideURL: string;
 }
 
@@ -300,9 +302,6 @@ export function getServerSideProps(ctx: NextPageContext) {
 
   return {
     props: {
-      initialSearch: ctx.query.search ?? null,
-      initialTags: ctx.query.tags ?? null,
-      initialMethod: ctx.query.method ?? null,
       allMetadata: fetchAllMetadata(),
       serverSideURL,
     },

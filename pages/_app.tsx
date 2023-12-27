@@ -34,11 +34,6 @@ export default function MyApp({
   const [isDarkMode, setIsDarkMode] = useIsDarkMode(isDarkModeCookie);
   const [queryClient] = useState(() => new QueryClient());
 
-  function defaultStringify<T>(val: T) {
-    if (typeof val === "string") return val;
-    return JSON.stringify(val);
-  }
-
   return (
     <>
       <Head>
@@ -63,7 +58,7 @@ export default function MyApp({
       </Script>
       <SearchParamStateProvider
         options={{
-          stringify: defaultStringify,
+          deleteEmptySearchParam: true,
         }}
       >
         <QueryClientProvider client={queryClient}>

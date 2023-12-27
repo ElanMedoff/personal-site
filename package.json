@@ -43,7 +43,7 @@
     "swiper": "^8.3.2",
     "tailwind-merge": "^1.6.0",
     "ts-node": "^10.9.1",
-    "use-search-param-state": "^1.0.0",
+    "use-search-param-state": "^1.2.0",
     "uuid": "^9.0.0",
     "zod": "^3.22.4"
   },
