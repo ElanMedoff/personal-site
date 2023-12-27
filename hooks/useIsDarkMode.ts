@@ -8,6 +8,7 @@ export default function useIsDarkMode(serverSideCookie: boolean) {
     setCookie("isDarkMode", isDarkMode, {
       httpOnly: false,
       maxAge: 60 * 60 * 24 * 365,
+      sameSite: true,
     });
   }, [isDarkMode]);
 
