@@ -107,7 +107,7 @@ function fetchslugs() {
   });
 
   return allMetadata
-    .filter((post) => (isProd() ? post.isPublished : post))
+    .filter((post) => post.isPublished)
     .map((metadata) => metadata.slug);
 }
 
