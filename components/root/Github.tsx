@@ -93,7 +93,10 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
             className="rounded-full text-xs italic underline"
             data-atropos-offset={0}
           >
-            last updated: {new Date(pushed_at).toLocaleDateString()}
+            last updated:{" "}
+            {new Date(pushed_at).toLocaleDateString("en-US", {
+              timeZone: "America/New_York",
+            })}
           </p>
           <div data-atropos-offset={1}>
             <div className="text-2xl font-semibold mb-2">{name}</div>
