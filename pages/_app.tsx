@@ -13,6 +13,7 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SearchParamStateProvider } from "use-search-param-state";
+import { ErrorBoundary } from "react-error-boundary";
 
 export const ThemeContext = createContext<{
   isDarkMode: boolean;
@@ -56,22 +57,24 @@ export default function MyApp({
           gtag('config', 'G-9Y9725W18J');
         `}
       </Script>
-      <SearchParamStateProvider
-        options={{
-          deleteEmptySearchParam: true,
-        }}
-      >
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
-              <div data-theme={isDarkMode ? "dracula" : "emerald"}>
-                <Component {...pageProps} />
-              </div>
-            </ThemeContext.Provider>
-          </Hydrate>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </SearchParamStateProvider>
+      <ErrorBoundary onError={(e) => console.log(e)} fallback={null}>
+        <SearchParamStateProvider
+          options={{
+            deleteEmptySearchParam: true,
+          }}
+        >
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+                <div data-theme={isDarkMode ? "dracula" : "emerald"}>
+                  <Component {...pageProps} />
+                </div>
+              </ThemeContext.Provider>
+            </Hydrate>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </SearchParamStateProvider>
+      </ErrorBoundary>
     </>
   );
 }

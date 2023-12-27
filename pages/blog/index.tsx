@@ -151,8 +151,6 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
   const description =
     "Check out 15+ blog posts on everything from React to NeoVim to comics!";
 
-  console.log(isProd());
-
   return (
     <>
       <Head>
