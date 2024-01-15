@@ -19,11 +19,11 @@ function SwiperWrapper({
 }) {
   // TODO: why doesn't this work well with next's Image?
   return (
-    <motion.article {...onScrollChildProps}>
+    <article>
       <div className="border-2 border-neutral p-3 py-6 pr-7 rounded">
         <h3
           className={tm(
-            "uppercase font-bold text-2xl mb-3 ml-6 underline decoration-primary decoration-4 underline-offset-4"
+            "uppercase font-bold text-4xl mb-3 ml-6 underline decoration-primary decoration-8 underline-offset-4"
           )}
         >
           {title}
@@ -41,7 +41,7 @@ function SwiperWrapper({
           autoplay={autoplay}
         />
       </div>
-    </motion.article>
+    </article>
   );
 }
 
@@ -54,8 +54,7 @@ export default function Favorites({
 
   return (
     <div className="mb-5 flex flex-col gap-10">
-      <motion.section
-        {...onScrollContainerProps}
+      <section
         className={tm(
           "flex justify-center flex-wrap items-center",
           "gap-10 md:gap-20"
@@ -64,7 +63,7 @@ export default function Favorites({
         <SwiperWrapper paths={moviePaths} dir="movies" title="movies" />
         <SwiperWrapper paths={bookPaths} dir="books" title="books" />
         <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
-      </motion.section>
+      </section>
     </div>
   );
 }

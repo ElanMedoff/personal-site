@@ -2,7 +2,6 @@ import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
-import { isProd } from "./envHelpers";
 
 export interface Collection {
   name: string;
