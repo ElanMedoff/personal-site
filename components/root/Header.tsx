@@ -69,7 +69,7 @@ export default function Header({
           <Link href="/">
             <span>
               <span className="text-base-content">
-                elan
+                e<span className="hidden sm:inline">lan</span>
                 <span className="text-primary sm:text-base-content">med</span>
               </span>
               <span className="hidden sm:inline text-primary">.dev</span>
@@ -92,7 +92,7 @@ export default function Header({
           }}
           className="sm:hidden pr-4"
         />
-        <div className="items-center justify-around gap-5 hidden sm:flex pr-4">
+        <div className="items-center justify-around hidden sm:flex">
           <span className="cursor-pointer select-none hover:text-primary">
             <Link href="/bonus">bonus</Link>
           </span>
