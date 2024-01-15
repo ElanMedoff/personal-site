@@ -11,7 +11,7 @@
     "resume:start": "APP_ENV=screenshot next start",
     "resume:dev": "APP_ENV=screenshot next dev",
     "resume:screenshot": "playwright test utils/resumeHelpers/resume.spec.ts",
-    "generateSitemap": "ts-node utils/sitemapHelpers.ts",
+    "generateSitemap": "node utils/sitemapHelpers.js",
     "push": "git push origin master",
     "deploy": "git push server"
   },
@@ -42,7 +42,6 @@
     "slugify": "^1.6.5",
     "swiper": "^8.3.2",
     "tailwind-merge": "^1.6.0",
-    "ts-node": "^10.9.1",
     "use-search-param-state": "^1.2.0",
     "uuid": "^9.0.0",
     "zod": "^3.22.4"

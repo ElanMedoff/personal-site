@@ -25,9 +25,9 @@ export interface Post {
   metadata: Metadata;
 }
 
-const postsDirectory = join(process.cwd(), "posts");
+export const postsDirectory = join(process.cwd(), "posts");
 
-function fetchAllPaths() {
+export function fetchAllPaths() {
   const paths = readdirSync(postsDirectory);
   return paths.filter((path) => path !== ".DS_Store");
 }
@@ -102,7 +102,6 @@ function fetchslugs() {
   const allMetadata = paths.map((path) => {
     const rawPost = readFileSync(join(postsDirectory, path)).toString();
     const { data } = matter(rawPost);
-
     return data as any as Metadata;
   });
 
