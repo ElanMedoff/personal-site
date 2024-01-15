@@ -93,7 +93,7 @@ export function fetchAllMetadata(): Metadata[] {
       const { data: metadata } = matter(rawPost);
       return metadata as Metadata;
     })
-    .filter((post) => post.isPublished);
+    .filter((post) => (isProd() ? post.isPublished : true));
 }
 
 function fetchslugs() {
@@ -107,7 +107,7 @@ function fetchslugs() {
   });
 
   return allMetadata
-    .filter((post) => post.isPublished)
+    .filter((post) => (isProd() ? post.isPublished : true))
     .map((metadata) => metadata.slug);
 }
 
