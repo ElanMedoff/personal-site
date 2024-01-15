@@ -22,7 +22,8 @@ export default function About({
   repos,
   allMetadata,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const description = "Mostly a blog, partly a personal website. Welcome!";
+  const description =
+    "I'm Elan Medoff, a software engineer specializing in web and fullstack development. Welcome to my blog!";
   const title = "elanmed.dev";
 
   return (
