@@ -37,9 +37,7 @@ test.describe("root", async () => {
     await newPage.bringToFront();
   });
 
-  test("has favorites", async ({ page }) => {
-    await expect(page.getByText("bonus: a few favorites")).toBeVisible();
-    await expect(page.getByText("movies")).toBeVisible();
-    await expect(page.getByText("books")).toBeVisible();
+  test("has npm packages", async ({ page }) => {
+    await expect(page.getByText("npm packages")).toBeVisible();
   });
 });

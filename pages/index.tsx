@@ -1,7 +1,4 @@
-import { fetchPublicImages } from "utils/publicHelpers";
-import { twMerge as tm } from "tailwind-merge";
 import Profile from "components/root/Profile";
-import Favorites from "components/root/Favorites";
 import Github from "components/root/Github";
 import { fetchGithubRepos, Repo } from "utils/githubHelpers";
 import RecentPosts from "components/root/RecentPosts";
@@ -12,19 +9,24 @@ import Footer from "components/reusable/Footer";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import Header from "components/root/Header";
+import WideContent from "components/root/WideContent";
 
 function Section({ children }: { children: ReactNode }) {
   return <div className="w-full">{children}</div>;
 }
 
 export default function About({
-  paths,
   repos,
   allMetadata,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const description =
     "I'm Elan Medoff, a software engineer specializing in web and fullstack development. Welcome to my blog!";
   const title = "elanmed.dev";
+
+  const isNpmRepo = (name: string) =>
+    name === "use-search-param" || name === "use-search-param-state";
+  const npmRepos = repos.filter(({ name }) => isNpmRepo(name));
+  const restRepose = repos.filter(({ name }) => !isNpmRepo(name));
 
   return (
     <>
@@ -37,34 +39,28 @@ export default function About({
         <meta property="og:image" content="https://elanmed.dev/og.jpg" />
       </Head>
       <Header />
-      <div
-        className={tm(
-          "flex flex-col items-center xl:border-x-2 xl:border-neutral max-w-[1500px] m-auto overflow-hidden",
-          "gap-8 sm:gap-16 md:gap-48 pt-10 lg:pt-20"
-        )}
-      >
+      <WideContent>
         <Profile />
+        <Section>
+          <Banner primary="npm packages" />
+          <Github repos={npmRepos} />
+        </Section>
         <Section>
           <Banner primary="recent blog posts" />
           <RecentPosts allMetadata={allMetadata} />
         </Section>
         <Section>
           <Banner primary="github projects" reverse />
-          <Github repos={repos} />
-        </Section>
-        <Section>
-          <Banner primary="bonus: a few favorites" />
-          <Favorites paths={paths} />
+          <Github repos={restRepose} />
         </Section>
         <div />
-      </div>
+      </WideContent>
       <Footer />
     </>
   );
 }
 
 interface Props {
-  paths: { comicPaths: string[]; bookPaths: string[]; moviePaths: string[] };
   repos: Repo[];
   allMetadata: Metadata[];
 }
@@ -72,11 +68,6 @@ interface Props {
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   return {
     props: {
-      paths: {
-        moviePaths: fetchPublicImages("movies"),
-        bookPaths: fetchPublicImages("books"),
-        comicPaths: fetchPublicImages("comics"),
-      },
       repos: await fetchGithubRepos(),
       allMetadata: fetchAllMetadata(),
     },
