@@ -1,4 +1,4 @@
-import { isProd } from "utils/envHelpers";
+import { isProd } from "utils/env";
 
 const featuresMap = {
   resume: { dev: true, prod: true },

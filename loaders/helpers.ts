@@ -1,4 +1,4 @@
-import { isProd } from "utils/envHelpers";
+import { isProd } from "utils/env";
 
 export const generateUrlPrefix = () => {
   // necessary to fetch on the server

@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
-import { getClientId, isProd } from "utils/envHelpers";
-import { ApiResponse } from "utils/apiHelpers/types";
-import { withMiddlware } from "utils/middlewareHelpers";
+import { getClientId, isProd } from "utils/env";
+import { ApiResponse } from "utils/api/types";
+import { withMiddlware } from "utils/middleware";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { onlyLoggedOutUsers } from "middleware/onlyLoggedOutUsers";

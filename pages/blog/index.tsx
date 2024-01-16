@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { twMerge as tm } from "tailwind-merge";
 import { useEffect, useRef } from "react";
-import { fetchAllMetadata, Metadata } from "utils/postHelpers";
+import { fetchAllMetadata, Metadata } from "utils/post";
 import { Content } from "components/blog/Content";
 import { motion, useAnimationControls } from "framer-motion";
 import { Footer } from "components/reusable/Footer";

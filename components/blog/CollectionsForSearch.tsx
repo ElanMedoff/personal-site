@@ -1,5 +1,5 @@
 import fuzzysort from "fuzzysort";
-import { Metadata } from "utils/postHelpers";
+import { Metadata } from "utils/post";
 import { Collection } from "components/blog/Collection";
 import {
   getPostsByCollection,

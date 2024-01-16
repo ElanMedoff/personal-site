@@ -1,5 +1,5 @@
-import { prisma } from "utils/prismaHelpers";
-import { ApiHelperResponse } from "utils/apiHelpers/types";
+import { prisma } from "utils/prisma";
+import { ApiHelperResponse } from "utils/api/types";
 import { Upvote, Session } from "@prisma/client";
 
 export async function maybeGetFirstUpvote({

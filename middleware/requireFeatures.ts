@@ -1,5 +1,5 @@
-import { Feature, isFeatureEnabled } from "utils/featureHelpers";
-import { Middleware } from "utils/middlewareHelpers";
+import { Feature, isFeatureEnabled } from "utils/feature";
+import { Middleware } from "utils/middleware";
 
 export const requireFeatures = (requiredFeatures: Feature[]): Middleware => {
   return async function (_, res, next) {

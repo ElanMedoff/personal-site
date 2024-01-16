@@ -1,7 +1,7 @@
 import { Header } from "components/root/Header";
 import { twMerge as tm } from "tailwind-merge";
 import { GetServerSideProps } from "next";
-import { fetchPublicImages } from "utils/publicHelpers";
+import { fetchPublicImages } from "utils/public";
 import { Favorites } from "components/root/Favorites";
 import { Footer } from "components/reusable/Footer";
 import { borderClassNames } from "pages";

@@ -1,5 +1,5 @@
 import { UserPayload } from "pages/api/user";
-import { ApiResponse } from "utils/apiHelpers/types";
+import { ApiResponse } from "utils/api/types";
 import { generateUrlPrefix } from "./helpers";
 
 export async function userLoader(getServerSidePropsCookie?: string) {

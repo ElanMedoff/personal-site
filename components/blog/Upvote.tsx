@@ -1,12 +1,12 @@
-import { hasUpvotedLoader } from "loaders/hasUpvotedLoader";
-import { upvoteCountLoader } from "loaders/upvoteCountLoader";
-import { upvoteLoader } from "loaders/upvoteLoader";
-import { userLoader } from "loaders/userLoader";
+import { hasUpvotedLoader } from "loaders/hasUpvoted";
+import { upvoteCountLoader } from "loaders/upvoteCount";
+import { upvoteLoader } from "loaders/upvote";
+import { userLoader } from "loaders/user";
 import { useRouter } from "next/router";
 import { BsArrowUpCircleFill as ArrowIcon } from "react-icons/bs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { twMerge as tm } from "tailwind-merge";
-import { transitionProperties } from "utils/styleHelpers";
+import { transitionProperties } from "utils/style";
 import { generateQueryKey } from "loaders/helpers";
 
 export function Upvote() {

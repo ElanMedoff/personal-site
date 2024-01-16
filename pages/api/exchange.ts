@@ -1,14 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getClientId, getClientSecret, isProd } from "utils/envHelpers";
+import { getClientId, getClientSecret, isProd } from "utils/env";
 import { Octokit } from "@octokit/core";
-import { ApiResponse } from "utils/apiHelpers/types";
+import { ApiResponse } from "utils/api/types";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { allowMethods } from "middleware/allowMethods";
-import { withMiddlware } from "utils/middlewareHelpers";
+import { withMiddlware } from "utils/middleware";
 import { onlyLoggedOutUsers } from "middleware/onlyLoggedOutUsers";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
-import createSession from "utils/apiHelpers/createSession";
-import deleteSessionsByUsername from "utils/apiHelpers/deleteSessionsByUsername";
+import createSession from "utils/api/createSession";
+import deleteSessionsByUsername from "utils/api/deleteSessionsByUsername";
 
 async function handler(
   req: NextApiRequest,

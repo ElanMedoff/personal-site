@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { ApiResponse } from "utils/apiHelpers/types";
-import { withMiddlware } from "utils/middlewareHelpers";
+import { ApiResponse } from "utils/api/types";
+import { withMiddlware } from "utils/middleware";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
-import { isSlugValid } from "utils/postHelpers";
-import { getUpvotes } from "utils/apiHelpers/getUpvotes";
+import { isSlugValid } from "utils/post";
+import { getUpvotes } from "utils/api/getUpvotes";
 import { generateUrlPrefix } from "loaders/helpers";
 
 export interface UpvoteCountPayload {

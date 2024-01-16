@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { exchangeLoader } from "loaders/exchangeLoader";
+import { exchangeLoader } from "loaders/exchange";
 import { generateQueryKey } from "loaders/helpers";
 
 export function useOAuthExchange() {

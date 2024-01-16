@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Metadata } from "utils/postHelpers";
+import { Metadata } from "utils/post";
 import { PostCard } from "components/blog/PostCard";
 import { getPostsWoCollection, orderPosts } from "components/blog/helpers";
 

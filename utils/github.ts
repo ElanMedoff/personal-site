@@ -1,4 +1,4 @@
-import { readCache, updateCache } from "utils/cacheHelpers";
+import { readCache, updateCache } from "utils/cache";
 
 interface UnpatchedRepo {
   name: string;

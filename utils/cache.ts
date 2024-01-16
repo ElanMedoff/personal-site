@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
-import { Repo } from "utils/githubHelpers";
+import { Repo } from "utils/github";
 
 const path = join(process.cwd(), "cache/data.json");
 

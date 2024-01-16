@@ -4,10 +4,10 @@ import Spinner from "react-spinners/ClipLoader";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { twMerge as tm } from "tailwind-merge";
-import { transitionProperties } from "utils/styleHelpers";
-import { userLoader } from "loaders/userLoader";
-import { logoutLoader } from "loaders/logoutLoader";
-import { loginLoader } from "loaders/loginLoader";
+import { transitionProperties } from "utils/style";
+import { userLoader } from "loaders/user";
+import { logoutLoader } from "loaders/logout";
+import { loginLoader } from "loaders/login";
 import { useOAuthExchange } from "hooks/useOAuthExchange";
 import { generateQueryKey, generateUrlPrefix } from "loaders/helpers";
 

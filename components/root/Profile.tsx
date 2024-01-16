@@ -8,10 +8,10 @@ import { motion, useAnimationControls, useInView } from "framer-motion";
 import { Skeleton } from "components/root/Skeleton";
 import { Anchor } from "components/reusable/Anchor";
 import { useIsMobile } from "hooks/useIsMobile";
-import { generateOnScrollProps } from "utils/framerHelpers";
+import { generateOnScrollProps } from "utils/framer";
 
 import "atropos/css";
-import { createClassNameWrapper } from "utils/styleHelpers";
+import { createClassNameWrapper } from "utils/style";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);

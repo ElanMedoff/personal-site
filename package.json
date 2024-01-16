@@ -10,8 +10,8 @@
     "test": "playwright test e2e/",
     "resume:start": "APP_ENV=screenshot next start",
     "resume:dev": "APP_ENV=screenshot next dev",
-    "resume:screenshot": "playwright test utils/resumeHelpers/resume.spec.ts",
-    "generateSitemap": "node utils/sitemapHelpers.js",
+    "resume:screenshot": "playwright test utils/resume/resume.spec.ts",
+    "generateSitemap": "node utils/sitemap.js",
     "push": "git push origin master",
     "deploy": "git push server"
   },

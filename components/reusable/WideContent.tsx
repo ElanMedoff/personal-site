@@ -1,4 +1,4 @@
-import { createClassNameWrapper } from "utils/styleHelpers";
+import { createClassNameWrapper } from "utils/style";
 import { twMerge as tm } from "tailwind-merge";
 
 export const WideContent = createClassNameWrapper(

@@ -1,5 +1,5 @@
 import { HasUpvotedPayload } from "pages/api/hasUpvoted";
-import { ApiResponse } from "utils/apiHelpers/types";
+import { ApiResponse } from "utils/api/types";
 import { generateUrlPrefix } from "./helpers";
 
 export async function hasUpvotedLoader(

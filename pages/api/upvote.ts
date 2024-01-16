@@ -1,15 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { ApiResponse } from "utils/apiHelpers/types";
-import { withMiddlware } from "utils/middlewareHelpers";
+import { ApiResponse } from "utils/api/types";
+import { withMiddlware } from "utils/middleware";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { onlyLoggedInUsers } from "middleware/onlyLoggedInUsers";
-import { isSlugValid } from "utils/postHelpers";
-import { maybeGetSession } from "utils/apiHelpers/maybeGetSession";
-import { getUpvotes } from "utils/apiHelpers/getUpvotes";
-import deleteUpvote from "utils/apiHelpers/deleteUpvote";
-import upsertPost from "utils/apiHelpers/upsertPost";
-import { maybeGetFirstUpvote } from "utils/apiHelpers/maybeGetFirstUpvote";
+import { isSlugValid } from "utils/post";
+import { maybeGetSession } from "utils/api/maybeGetSession";
+import { getUpvotes } from "utils/api/getUpvotes";
+import deleteUpvote from "utils/api/deleteUpvote";
+import upsertPost from "utils/api/upsertPost";
+import { maybeGetFirstUpvote } from "utils/api/maybeGetFirstUpvote";
 import { generateUrlPrefix } from "loaders/helpers";
 
 export interface UpvotePayload {

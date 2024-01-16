@@ -1,5 +1,5 @@
 import { LoginPayload } from "pages/api/login";
-import { ApiResponse } from "utils/apiHelpers/types";
+import { ApiResponse } from "utils/api/types";
 import { generateUrlPrefix } from "./helpers";
 
 export async function loginLoader() {

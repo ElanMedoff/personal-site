@@ -1,8 +1,8 @@
 import { Session, User } from "@prisma/client";
 import { getCookie } from "cookies-next";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ApiHelperResponse } from "utils/apiHelpers/types";
-import { prisma } from "utils/prismaHelpers";
+import { ApiHelperResponse } from "utils/api/types";
+import { prisma } from "utils/prisma";
 
 export async function maybeGetSession({
   req,

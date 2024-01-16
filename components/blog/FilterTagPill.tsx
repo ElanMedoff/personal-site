@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { twMerge as tm } from "tailwind-merge";
-import { transitionProperties } from "utils/styleHelpers";
+import { transitionProperties } from "utils/style";
 
 export function FilterTagPill({
   className,

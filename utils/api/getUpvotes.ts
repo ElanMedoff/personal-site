@@ -1,5 +1,5 @@
-import { prisma } from "utils/prismaHelpers";
-import { ApiHelperResponse } from "utils/apiHelpers/types";
+import { prisma } from "utils/prisma";
+import { ApiHelperResponse } from "utils/api/types";
 
 export async function getUpvotes({
   slug,

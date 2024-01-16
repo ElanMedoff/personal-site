@@ -1,5 +1,5 @@
-import { Middleware } from "utils/middlewareHelpers";
-import { prisma } from "utils/prismaHelpers";
+import { Middleware } from "utils/middleware";
+import { prisma } from "utils/prisma";
 
 export const deleteExpiredSessions: Middleware = async (_, res, next) => {
   try {

@@ -1,9 +1,9 @@
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { NextApiRequest, NextApiResponse } from "next";
-import { maybeGetSession } from "utils/apiHelpers/maybeGetSession";
-import { ApiResponse } from "utils/apiHelpers/types";
-import { withMiddlware } from "utils/middlewareHelpers";
+import { maybeGetSession } from "utils/api/maybeGetSession";
+import { ApiResponse } from "utils/api/types";
+import { withMiddlware } from "utils/middleware";
 
 export type UserPayload = {
   user: {

@@ -4,14 +4,14 @@ import styles from "styles/icons.module.scss";
 import { twMerge as tm } from "tailwind-merge";
 import { Content } from "components/blog/Content";
 import { Fragment, ReactNode, useEffect } from "react";
-import { isFeatureEnabled } from "utils/featureHelpers";
+import { isFeatureEnabled } from "utils/feature";
 import { useRouter } from "next/router";
 import {
   BsPrinter as PrinterIcon,
   BsFillCheckCircleFill as CheckIcon,
 } from "react-icons/bs";
 import { generateUrlPrefix } from "loaders/helpers";
-import { transitionProperties } from "utils/styleHelpers";
+import { transitionProperties } from "utils/style";
 import { Header } from "components/root/Header";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 

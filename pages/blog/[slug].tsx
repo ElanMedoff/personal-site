@@ -1,11 +1,6 @@
 import * as ReactDOMServer from "react-dom/server";
 import Head from "next/head";
-import {
-  fetchPostBySlug,
-  Post,
-  Metadata,
-  isSlugValid,
-} from "utils/postHelpers";
+import { fetchPostBySlug, Post, Metadata, isSlugValid } from "utils/post";
 import { PostCard } from "components/blog/PostCard";
 import { MDXRemote } from "next-mdx-remote";
 import { Content } from "components/blog/Content";
@@ -19,9 +14,9 @@ import { components, msToReadingTime } from "components/blog/helpers";
 import { LoginLogout } from "components/blog/LoginLogout";
 import { Upvote } from "components/blog/Upvote";
 import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
-import { hasUpvotedLoader } from "loaders/hasUpvotedLoader";
-import { userLoader } from "loaders/userLoader";
-import { upvoteCountLoader } from "loaders/upvoteCountLoader";
+import { hasUpvotedLoader } from "loaders/hasUpvoted";
+import { userLoader } from "loaders/user";
+import { upvoteCountLoader } from "loaders/upvoteCount";
 import { Header } from "components/root/Header";
 import { generateQueryKey } from "loaders/helpers";
 

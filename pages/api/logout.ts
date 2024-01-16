@@ -2,11 +2,11 @@ import { setCookie } from "cookies-next";
 import { allowMethods } from "middleware/allowMethods";
 import { deleteExpiredSessions } from "middleware/deleteExpiredSessions";
 import { NextApiRequest, NextApiResponse } from "next";
-import deleteSessionById from "utils/apiHelpers/deleteSessionById";
-import { maybeGetSession } from "utils/apiHelpers/maybeGetSession";
-import { ApiResponse } from "utils/apiHelpers/types";
-import { isProd } from "utils/envHelpers";
-import { withMiddlware } from "utils/middlewareHelpers";
+import deleteSessionById from "utils/api/deleteSessionById";
+import { maybeGetSession } from "utils/api/maybeGetSession";
+import { ApiResponse } from "utils/api/types";
+import { isProd } from "utils/env";
+import { withMiddlware } from "utils/middleware";
 
 async function handler(
   req: NextApiRequest,

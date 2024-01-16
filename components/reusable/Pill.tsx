@@ -1,4 +1,4 @@
-import { createClassNameWrapper } from "utils/styleHelpers";
+import { createClassNameWrapper } from "utils/style";
 
 export const Pill = createClassNameWrapper(
   "Pill",

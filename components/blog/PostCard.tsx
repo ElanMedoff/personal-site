@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { twMerge as tm } from "tailwind-merge";
-import { Metadata } from "utils/postHelpers";
+import { Metadata } from "utils/post";
 import { postWrapperClassNames } from "components/root/RecentPosts";
 import { PillContainer } from "components/reusable/PillContainer";
 import { Pill } from "components/reusable/Pill";

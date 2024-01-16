@@ -1,4 +1,4 @@
-import { Collection, Metadata } from "utils/postHelpers";
+import { Collection, Metadata } from "utils/post";
 import { Code } from "components/reusable/Code";
 import { Info } from "components/reusable/Info";
 import { MyLink } from "components/reusable/MyLink";

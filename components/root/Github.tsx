@@ -1,15 +1,12 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { twMerge as tm } from "tailwind-merge";
-import { Repo } from "utils/githubHelpers";
+import { Repo } from "utils/github";
 import AtroposBorder from "components/reusable/atropos/AtroposBorder";
 import Atropos from "atropos/react";
 import { motion, useAnimationControls, useInView } from "framer-motion";
 import { useIsMobile } from "hooks/useIsMobile";
-import {
-  onScrollChildProps,
-  onScrollContainerProps,
-} from "utils/framerHelpers";
+import { onScrollChildProps, onScrollContainerProps } from "utils/framer";
 import { collectionContainerClassNames } from "pages";
 import { PillContainer } from "components/reusable/PillContainer";
 

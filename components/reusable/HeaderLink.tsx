@@ -3,7 +3,7 @@ import { twMerge as tm } from "tailwind-merge";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 import { Dialog } from "components/reusable/Dialog";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import { transitionProperties } from "utils/styleHelpers";
+import { transitionProperties } from "utils/style";
 import { useRouter } from "next/router";
 import { HTMLProps, useState } from "react";
 

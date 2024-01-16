@@ -1,5 +1,5 @@
 import { twMerge as tm } from "tailwind-merge";
-import { Metadata } from "utils/postHelpers";
+import { Metadata } from "utils/post";
 import { PostCard } from "components/blog/PostCard";
 import { SwiperCards } from "components/reusable/SwiperCards";
 

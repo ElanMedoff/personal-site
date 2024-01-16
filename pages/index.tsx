@@ -1,14 +1,14 @@
 import Head from "next/head";
 import { Profile } from "components/root/Profile";
 import { Github } from "components/root/Github";
-import { fetchGithubRepos, Repo } from "utils/githubHelpers";
+import { fetchGithubRepos, Repo } from "utils/github";
 import { RecentPosts } from "components/root/RecentPosts";
-import { fetchAllMetadata, Metadata } from "utils/postHelpers";
+import { fetchAllMetadata, Metadata } from "utils/post";
 import { Banner } from "components/root/Banner";
 import { Footer } from "components/reusable/Footer";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Header } from "components/root/Header";
-import { createClassNameWrapper } from "utils/styleHelpers";
+import { createClassNameWrapper } from "utils/style";
 import { WideContent } from "components/reusable/WideContent";
 
 const Section = createClassNameWrapper("Section", "div", "w-full");

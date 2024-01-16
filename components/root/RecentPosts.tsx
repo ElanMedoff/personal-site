@@ -4,12 +4,9 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { collectionContainerClassNames } from "pages";
 import { twMerge as tm } from "tailwind-merge";
-import {
-  onScrollChildProps,
-  onScrollContainerProps,
-} from "utils/framerHelpers";
-import { Metadata } from "utils/postHelpers";
-import { transitionProperties } from "utils/styleHelpers";
+import { onScrollChildProps, onScrollContainerProps } from "utils/framer";
+import { Metadata } from "utils/post";
+import { transitionProperties } from "utils/style";
 
 export const postWrapperClassNames = tm(
   "cursor-pointer rounded-2xl bg-base-100 p-8",

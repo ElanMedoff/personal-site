@@ -1,5 +1,5 @@
-import { maybeGetSession } from "utils/apiHelpers/maybeGetSession";
-import { Middleware } from "utils/middlewareHelpers";
+import { maybeGetSession } from "utils/api/maybeGetSession";
+import { Middleware } from "utils/middleware";
 
 export const onlyLoggedOutUsers: Middleware = async (req, res, next) => {
   const maybeSession = await maybeGetSession({ req, res });

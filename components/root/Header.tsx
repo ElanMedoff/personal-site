@@ -1,10 +1,7 @@
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
-import {
-  createClassNameWrapper,
-  transitionProperties,
-} from "utils/styleHelpers";
+import { createClassNameWrapper, transitionProperties } from "utils/style";
 import { Switch } from "components/reusable/Switch";
 import { ThemeContext } from "pages/_app";
 import getConfig from "next/config";

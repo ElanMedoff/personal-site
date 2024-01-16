@@ -1,4 +1,4 @@
-import { Middleware } from "utils/middlewareHelpers";
+import { Middleware } from "utils/middleware";
 
 export const allowMethods = (allowedMethods: string[]): Middleware => {
   return async function (req, res, next) {
