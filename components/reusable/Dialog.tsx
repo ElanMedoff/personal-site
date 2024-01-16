@@ -1,13 +1,7 @@
 import { ReactNode } from "react";
 import { twMerge as tm } from "tailwind-merge";
 
-export default function Dialog({
-  id,
-  children,
-}: {
-  id: string;
-  children: ReactNode;
-}) {
+export function Dialog({ id, children }: { id: string; children: ReactNode }) {
   return (
     <>
       <input type="checkbox" id={id} className="modal-toggle" />

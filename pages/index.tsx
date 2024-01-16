@@ -1,19 +1,22 @@
-import Profile from "components/root/Profile";
-import Github from "components/root/Github";
-import { fetchGithubRepos, Repo } from "utils/githubHelpers";
-import RecentPosts from "components/root/RecentPosts";
-import { fetchAllMetadata, Metadata } from "utils/postHelpers";
-import Banner from "components/root/Banner";
-import { ReactNode } from "react";
-import Footer from "components/reusable/Footer";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import Header from "components/root/Header";
-import WideContent from "components/root/WideContent";
+import { Profile } from "components/root/Profile";
+import { Github } from "components/root/Github";
+import { fetchGithubRepos, Repo } from "utils/githubHelpers";
+import { RecentPosts } from "components/root/RecentPosts";
+import { fetchAllMetadata, Metadata } from "utils/postHelpers";
+import { Banner } from "components/root/Banner";
+import { Footer } from "components/reusable/Footer";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { Header } from "components/root/Header";
+import { createClassNameWrapper } from "utils/styleHelpers";
+import { WideContent } from "components/reusable/WideContent";
 
-function Section({ children }: { children: ReactNode }) {
-  return <div className="w-full">{children}</div>;
-}
+const Section = createClassNameWrapper("Section", "div", "w-full");
+
+export const collectionContainerClassNames =
+  "flex flex-wrap justify-center gap-5 sm:gap-10 px-5";
+export const borderClassNames =
+  "uppercase border-b-[15px] sm:border-b-[35px] border-primary";
 
 export default function About({
   repos,
@@ -33,7 +36,6 @@ export default function About({
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} key="desc" />
-
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content="https://elanmed.dev/og.jpg" />

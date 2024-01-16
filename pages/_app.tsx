@@ -1,9 +1,9 @@
-import { setCookie, getCookie } from "cookies-next";
-import App, { AppContext, AppProps } from "next/app";
 import "styles/globals.css";
+import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";
-import useIsDarkMode from "hooks/useIsDarkMode";
+import { setCookie, getCookie } from "cookies-next";
+import { useIsDarkMode } from "hooks/useIsDarkMode";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 import {
   DehydratedState,

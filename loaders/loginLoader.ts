@@ -2,7 +2,7 @@ import { LoginPayload } from "pages/api/login";
 import { ApiResponse } from "utils/apiHelpers/types";
 import { generateUrlPrefix } from "./helpers";
 
-export default async function loginLoader() {
+export async function loginLoader() {
   const response = await fetch(`${generateUrlPrefix()}/api/login`);
   const data: ApiResponse<LoginPayload> = await response.json();
 

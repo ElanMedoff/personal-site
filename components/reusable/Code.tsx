@@ -5,19 +5,13 @@ import { useContext } from "react";
 import github from "prism-react-renderer/themes/github";
 import { ThemeContext } from "pages/_app";
 
-// @ts-ignore
+// @ts-expect-error necessary to set up prism
 (typeof global !== "undefined" ? global : window).Prism = Prism;
 require("prismjs/components/prism-vim");
 require("prismjs/components/prism-lua");
 require("prismjs/components/prism-bash");
 
-export default function Code({
-  code,
-  language,
-}: {
-  code: string;
-  language: Language;
-}) {
+export function Code({ code, language }: { code: string; language: Language }) {
   const { isDarkMode } = useContext(ThemeContext);
 
   return (

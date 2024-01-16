@@ -2,7 +2,7 @@ import React from "react";
 import { twMerge as tm } from "tailwind-merge";
 import { BsSun as SunIcon, BsMoon as MoonIcon } from "react-icons/bs";
 
-export default function Switch({
+export function Switch({
   onToggle,
   isOn,
   className,

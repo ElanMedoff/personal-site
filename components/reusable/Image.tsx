@@ -1,7 +1,7 @@
 import { twMerge as tm } from "tailwind-merge";
 import NextImage from "next/image";
 
-export default function Image({
+export function Image({
   src,
   width,
   height,

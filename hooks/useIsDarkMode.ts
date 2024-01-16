@@ -1,7 +1,7 @@
 import { setCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 
-export default function useIsDarkMode(serverSideCookie: boolean) {
+export function useIsDarkMode(serverSideCookie: boolean) {
   const [isDarkMode, setIsDarkMode] = useState(serverSideCookie);
 
   useEffect(() => {

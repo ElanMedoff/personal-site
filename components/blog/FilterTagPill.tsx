@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { twMerge as tm } from "tailwind-merge";
 import { transitionProperties } from "utils/styleHelpers";
 
-export default function Pill({
+export function FilterTagPill({
   className,
   children,
   onClick,
@@ -10,7 +10,7 @@ export default function Pill({
 }: {
   className?: string;
   children: ReactNode;
-  onClick: (args: any) => void;
+  onClick: () => void;
   selected?: boolean;
 }) {
   return (

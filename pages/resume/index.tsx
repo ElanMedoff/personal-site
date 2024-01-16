@@ -1,18 +1,18 @@
-import { twMerge as tm } from "tailwind-merge";
-import Content from "components/blog/Content";
 import Head from "next/head";
+import getConfig from "next/config";
+import styles from "styles/icons.module.scss";
+import { twMerge as tm } from "tailwind-merge";
+import { Content } from "components/blog/Content";
 import { Fragment, ReactNode, useEffect } from "react";
 import { isFeatureEnabled } from "utils/featureHelpers";
 import { useRouter } from "next/router";
-import styles from "styles/icons.module.scss";
 import {
   BsPrinter as PrinterIcon,
   BsFillCheckCircleFill as CheckIcon,
 } from "react-icons/bs";
 import { generateUrlPrefix } from "loaders/helpers";
 import { transitionProperties } from "utils/styleHelpers";
-import getConfig from "next/config";
-import Header from "components/root/Header";
+import { Header } from "components/root/Header";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 
 const { publicRuntimeConfig } = getConfig();

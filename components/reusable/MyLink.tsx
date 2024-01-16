@@ -3,7 +3,7 @@ import { anchorStyles } from "components/reusable/Anchor";
 import { twMerge as tm } from "tailwind-merge";
 import { ReactNode } from "react";
 
-export default function MyLink(
+export function MyLink(
   props: LinkProps & { className?: string; children: ReactNode }
 ) {
   return (

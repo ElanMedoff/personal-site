@@ -1,5 +1,5 @@
-import Footer from "components/reusable/Footer";
-import MyLink from "components/reusable/Link";
+import { Footer } from "components/reusable/Footer";
+import { MyLink } from "components/reusable/MyLink";
 
 export default function Custom500() {
   return (

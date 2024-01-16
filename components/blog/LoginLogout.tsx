@@ -1,17 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import styles from "styles/icons.module.scss";
+import Spinner from "react-spinners/ClipLoader";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { twMerge as tm } from "tailwind-merge";
 import { transitionProperties } from "utils/styleHelpers";
-import userLoader from "loaders/userLoader";
-import logoutLoader from "loaders/logoutLoader";
-import loginLoader from "loaders/loginLoader";
-import Spinner from "react-spinners/ClipLoader";
-import useOAuthExchange from "hooks/useOAuthExchange";
+import { userLoader } from "loaders/userLoader";
+import { logoutLoader } from "loaders/logoutLoader";
+import { loginLoader } from "loaders/loginLoader";
+import { useOAuthExchange } from "hooks/useOAuthExchange";
 import { generateQueryKey, generateUrlPrefix } from "loaders/helpers";
 
-export default function LoginLogout() {
+export function LoginLogout() {
   const { isFetching } = useOAuthExchange();
   const router = useRouter();
   const slug = router.query.slug as string;
@@ -67,14 +67,7 @@ export default function LoginLogout() {
         >
           <span className={tm(styles.github, "mr-8")} />
           <span className={user ? "text-warning-content" : ""}>
-            {user ? (
-              <p>logout</p>
-            ) : (
-              <p>
-                login
-                <span className="hidden md:inline"> with github</span>
-              </p>
-            )}
+            {user ? <p>logout</p> : <p>login with github</p>}
           </span>
         </button>
       </div>

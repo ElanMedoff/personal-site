@@ -1,5 +1,5 @@
 import { twMerge as tm } from "tailwind-merge";
-import SwiperCards from "components/reusable/SwiperCards";
+import { SwiperCards } from "components/reusable/SwiperCards";
 import {
   onScrollChildProps,
   onScrollContainerProps,
@@ -19,20 +19,20 @@ function SwiperWrapper({
 }) {
   return (
     <motion.article {...onScrollChildProps}>
-      <div className="border-2 border-neutral p-3 py-6 pr-7 rounded">
-        <h3 className={tm("uppercase font-bold text-4xl mb-3 ml-6")}>
+      <div className="border-2 border-neutral py-6 pl-3 pr-12 rounded">
+        <h3 className={tm("uppercase font-bold text-4xl mb-3 ml-3")}>
           {title}
         </h3>
         <SwiperCards
           slides={paths.map((path, index) => {
             return (
-              <div key={index} className="p-1  bg-neutral">
+              <div key={index} className="p-1 bg-neutral">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={`/${dir}/${path}`} alt={dir} />
               </div>
             );
           })}
-          className="max-w-[200px] md:max-w-[300px] mx-6"
+          className="max-w-[200px] md:max-w-[300px]"
           autoplay={autoplay}
         />
       </div>
@@ -40,7 +40,7 @@ function SwiperWrapper({
   );
 }
 
-export default function Favorites({
+export function Favorites({
   paths,
 }: {
   paths: { comicPaths: string[]; bookPaths: string[]; moviePaths: string[] };

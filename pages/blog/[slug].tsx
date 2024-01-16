@@ -1,14 +1,14 @@
 import * as ReactDOMServer from "react-dom/server";
+import Head from "next/head";
 import {
   fetchPostBySlug,
   Post,
   Metadata,
   isSlugValid,
 } from "utils/postHelpers";
-import BlogCard from "components/blog/BlogCard";
+import { PostCard } from "components/blog/PostCard";
 import { MDXRemote } from "next-mdx-remote";
-import Content from "components/blog/Content";
-import Head from "next/head";
+import { Content } from "components/blog/Content";
 import { useEffect, useMemo } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { convert } from "html-to-text";
@@ -16,13 +16,13 @@ import { count } from "@wordpress/wordcount";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { components, msToReadingTime } from "components/blog/helpers";
-import LoginLogout from "components/blog/LoginLogout";
-import Upvote from "components/blog/Upvote";
+import { LoginLogout } from "components/blog/LoginLogout";
+import { Upvote } from "components/blog/Upvote";
 import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
-import hasUpvotedLoader from "loaders/hasUpvotedLoader";
-import userLoader from "loaders/userLoader";
-import upvoteCountLoader from "loaders/upvoteCountLoader";
-import Header from "components/root/Header";
+import { hasUpvotedLoader } from "loaders/hasUpvotedLoader";
+import { userLoader } from "loaders/userLoader";
+import { upvoteCountLoader } from "loaders/upvoteCountLoader";
+import { Header } from "components/root/Header";
 import { generateQueryKey } from "loaders/helpers";
 
 export default function PostPage({
@@ -56,6 +56,8 @@ export default function PostPage({
       <MDXRemote
         compiledSource={post.content}
         components={memoizedComponents}
+        scope={undefined}
+        frontmatter={undefined}
       />
     );
     const asPlainText = convert(asString);
@@ -73,7 +75,6 @@ export default function PostPage({
       <Head>
         <title>{title}</title>
         <meta name="description" content={post.metadata.abstract} key="desc" />
-
         <meta property="og:title" content={title} />
         <meta property="og:description" content={post.metadata.abstract} />
         <meta property="og:image" content="https://elanmed.dev/og.jpg" />
@@ -81,9 +82,9 @@ export default function PostPage({
       <Header />
       <Content>
         <section className="md:text-justify">
-          <div className="flex flex-col-reverse [@media(min-width:500px)]:flex-row justify-between items-start gap-6 mb-8">
+          <div className="flex flex-col-reverse sm:flex-row justify-between items-start gap-6 mb-12">
             <div>
-              <p className="pb-2 text-sm underline underline-offset-4 w-max min-w-[20px]">
+              <p className="pb-2 text-sm underline underline-offset-4">
                 last updated: {post.metadata.lastUpdated}
               </p>
               <p className="text-sm italic">{formattedReadingTime} read</p>
@@ -95,12 +96,14 @@ export default function PostPage({
             components={{
               ...components,
             }}
+            scope={undefined}
+            frontmatter={undefined}
           />
         </section>
         <div className="w-1/2 divider" />
         <section>
           <p className="mb-3 text-sm italic">you might also like:</p>
-          <BlogCard metadata={relatedPostMetadata} />
+          <PostCard metadata={relatedPostMetadata} />
         </section>
       </Content>
       <motion.div

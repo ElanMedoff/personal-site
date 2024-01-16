@@ -1,13 +1,13 @@
 import slugify from "slugify";
 import { twMerge as tm } from "tailwind-merge";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
-import Dialog from "components/reusable/Dialog";
-import useLocalStorage from "hooks/useLocalStorage";
+import { Dialog } from "components/reusable/Dialog";
+import { useLocalStorage } from "hooks/useLocalStorage";
 import { transitionProperties } from "utils/styleHelpers";
 import { useRouter } from "next/router";
 import { HTMLProps, useState } from "react";
 
-export default function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
+export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
   const children = props.children as string;
   const [checked, setChecked] = useState(false);
   const [showDialog, setShowDialog] = useLocalStorage(

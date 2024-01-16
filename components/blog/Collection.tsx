@@ -1,9 +1,9 @@
 import { twMerge as tm } from "tailwind-merge";
 import { Metadata } from "utils/postHelpers";
-import BlogCard from "components/blog/BlogCard";
-import SwiperCards from "components/reusable/SwiperCards";
+import { PostCard } from "components/blog/PostCard";
+import { SwiperCards } from "components/reusable/SwiperCards";
 
-export default function CollectionOfPosts({
+export function Collection({
   formattedTitles,
   posts,
   selectedTags,
@@ -16,7 +16,7 @@ export default function CollectionOfPosts({
     <SwiperCards
       rounded
       slides={posts.map((metadata, index) => (
-        <BlogCard
+        <PostCard
           metadata={metadata}
           key={index}
           className="border-primary"

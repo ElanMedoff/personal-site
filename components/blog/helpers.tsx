@@ -1,10 +1,10 @@
 import { Collection, Metadata } from "utils/postHelpers";
-import Code from "components/reusable/Code";
-import Info from "components/reusable/Info";
-import Link from "components/reusable/Link";
-import Image from "components/reusable/Image";
+import { Code } from "components/reusable/Code";
+import { Info } from "components/reusable/Info";
+import { MyLink } from "components/reusable/MyLink";
+import { Image } from "components/reusable/Image";
 import { anchorStyles } from "components/reusable/Anchor";
-import HeaderLink from "components/reusable/HeaderLink";
+import { HeaderLink } from "components/reusable/HeaderLink";
 import { HTMLAttributes } from "react";
 
 export const orderPosts = (
@@ -44,7 +44,7 @@ export const components = {
   Image,
   Code,
   Info,
-  Link,
+  Link: MyLink,
   a: (props: HTMLAttributes<HTMLAnchorElement>) => (
     <a {...props} className={anchorStyles} />
   ),

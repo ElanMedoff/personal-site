@@ -1,5 +1,8 @@
+import { Pill } from "components/reusable/Pill";
+import { PillContainer } from "components/reusable/PillContainer";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { collectionContainerClassNames } from "pages";
 import { twMerge as tm } from "tailwind-merge";
 import {
   onScrollChildProps,
@@ -8,15 +11,20 @@ import {
 import { Metadata } from "utils/postHelpers";
 import { transitionProperties } from "utils/styleHelpers";
 
-function Post({ post }: { post: Metadata }) {
+export const postWrapperClassNames = tm(
+  "cursor-pointer rounded-2xl bg-base-100 p-8",
+  "flex flex-col gap-6",
+  "border border-transparent hover:border-primary"
+);
+
+function RecentPostCard({ post }: { post: Metadata }) {
   return (
     <Link href={`/blog/${post.slug}`}>
       <div
         className={tm(
-          "cursor-pointer rounded-2xl px-9 py-6 bg-base-100 h-72 sm:h-60",
-          "flex flex-col justify-between",
+          postWrapperClassNames,
+          "min-h-[250px]",
           "shadow-lg hover:shadow-2xl",
-          "border hover:border-primary",
           "w-[300px] sm:w-[500px]",
           "hover:scale-105"
         )}
@@ -26,35 +34,22 @@ function Post({ post }: { post: Metadata }) {
           transitionDuration: "200ms",
         }}
       >
+        <h2 className="font-semibold sm:text-xl">{post.title}</h2>
         <div>
-          <h2 className="mb-2 sm:mb-5 font-semibold sm:text-xl">
-            {post.title}
-          </h2>
-          <p className="mb-2 text-xs italic">{post.lastUpdated}</p>
-          <p className="mb-2 text-xs">{post.abstract}</p>
+          <p className="text-xs italic mb-1">{post.lastUpdated}</p>
+          <p className="text-xs">{post.abstract}</p>
         </div>
-        <div className="flex gap-1 flex-wrap">
+        <PillContainer>
           {post.tags.map((tag, index) => (
-            <span
-              key={index}
-              className={tm(
-                "px-4 py-1 text-xs rounded-full border border-neutral inline-block"
-              )}
-            >
-              {tag}
-            </span>
+            <Pill key={index}>{tag}</Pill>
           ))}
-        </div>
+        </PillContainer>
       </div>
     </Link>
   );
 }
 
-export default function RecentPosts({
-  allMetadata,
-}: {
-  allMetadata: Metadata[];
-}) {
+export function RecentPosts({ allMetadata }: { allMetadata: Metadata[] }) {
   const topPosts = allMetadata
     .sort(
       (a, b) =>
@@ -63,22 +58,15 @@ export default function RecentPosts({
     .slice(0, 4);
 
   return (
-    <motion.div
-      className="px-5 flex flex-col gap-20"
+    <motion.ul
+      className={collectionContainerClassNames}
       {...onScrollContainerProps}
     >
-      <ul
-        className={tm(
-          "flex justify-center flex-wrap items-center",
-          "gap-5 md:gap-10"
-        )}
-      >
-        {topPosts.map((post, index) => (
-          <motion.li {...onScrollChildProps} key={index}>
-            <Post post={post} />
-          </motion.li>
-        ))}
-      </ul>
-    </motion.div>
+      {topPosts.map((post, index) => (
+        <motion.li {...onScrollChildProps} key={index}>
+          <RecentPostCard post={post} />
+        </motion.li>
+      ))}
+    </motion.ul>
   );
 }

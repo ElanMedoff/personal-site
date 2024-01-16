@@ -2,7 +2,7 @@ import { UserPayload } from "pages/api/user";
 import { ApiResponse } from "utils/apiHelpers/types";
 import { generateUrlPrefix } from "./helpers";
 
-export default async function userLoader(getServerSidePropsCookie?: string) {
+export async function userLoader(getServerSidePropsCookie?: string) {
   const headers = new Headers();
   if (getServerSidePropsCookie) {
     headers.append("Cookie", `sessionId=${getServerSidePropsCookie}`);

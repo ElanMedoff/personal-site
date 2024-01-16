@@ -2,7 +2,7 @@ import { UpvotePayload } from "pages/api/upvote";
 import { ApiResponse } from "utils/apiHelpers/types";
 import { generateUrlPrefix } from "./helpers";
 
-export default async function upvoteLoader(slug: string) {
+export async function upvoteLoader(slug: string) {
   const response = await fetch(
     `${generateUrlPrefix()}/api/upvote?slug=${slug}`,
     {

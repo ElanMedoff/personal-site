@@ -1,23 +1,25 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { twMerge as tm } from "tailwind-merge";
 import { Repo } from "utils/githubHelpers";
 import AtroposBorder from "components/reusable/atropos/AtroposBorder";
 import Atropos from "atropos/react";
 import { motion, useAnimationControls, useInView } from "framer-motion";
-import useIsMobile from "hooks/useIsMobile";
+import { useIsMobile } from "hooks/useIsMobile";
 import {
   onScrollChildProps,
   onScrollContainerProps,
 } from "utils/framerHelpers";
-import Image from "next/image";
+import { collectionContainerClassNames } from "pages";
+import { PillContainer } from "components/reusable/PillContainer";
 
-const CardWrapper = ({
+function CardWrapper({
   children,
   isMobile,
 }: {
   children: ReactNode;
   isMobile: boolean;
-}) => {
+}) {
   if (isMobile) {
     return <>{children}</>;
   }
@@ -40,9 +42,9 @@ const CardWrapper = ({
       {children}
     </Atropos>
   );
-};
+}
 
-const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
+function RepoCard({ repo, index }: { repo: Repo; index: number }) {
   const [hasHovered, setHasHovered] = useState(false);
   const isMobile = useIsMobile();
   const controls = useAnimationControls();
@@ -85,24 +87,21 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
       <CardWrapper isMobile={isMobile}>
         <article
           className={tm(
-            "min-h-[300px] bg-base-100 text-base-content px-6 py-8 flex flex-col gap-6 border-2 border-neutral",
+            "min-h-[300px] bg-base-100 text-base-content p-8 flex flex-col gap-6 border-2 border-neutral",
             "w-[300px] sm:w-[400px]"
           )}
         >
-          <p
-            className="rounded-full text-xs italic underline"
-            data-atropos-offset={0}
-          >
+          <p className="text-xs italic underline" data-atropos-offset={0}>
             last updated:{" "}
             {new Date(pushed_at).toLocaleDateString("en-US", {
               timeZone: "America/New_York",
             })}
           </p>
           <div data-atropos-offset={1}>
-            <div className="text-2xl font-semibold mb-2">{name}</div>
+            <div className="text-2xl font-semibold mb-3">{name}</div>
             <p className="italic text-xs">{description}</p>
           </div>
-          <ul className="flex flex-wrap gap-3" data-atropos-offset={4}>
+          <PillContainer data-atropos-offset={4}>
             {Object.keys(language_info).map((language, index) => (
               <li
                 className="flex gap-1 text-sm rounded-full px-3 py-1 border border-neutral"
@@ -119,18 +118,18 @@ const RepoCard = ({ repo, index }: { repo: Repo; index: number }) => {
                 {language}
               </li>
             ))}
-          </ul>
+          </PillContainer>
         </article>
       </CardWrapper>
     </motion.div>
   );
-};
+}
 
-export default function Github({ repos }: { repos: Repo[] }) {
+export function Github({ repos }: { repos: Repo[] }) {
   return (
     <motion.ul
       {...onScrollContainerProps}
-      className="flex flex-wrap gap-10 justify-center max-w-[1500px] px-5 m-auto"
+      className={collectionContainerClassNames}
     >
       {repos.slice(0, 6).map((repo, index) => (
         <motion.li {...onScrollChildProps} key={index}>

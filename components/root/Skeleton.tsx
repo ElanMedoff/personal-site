@@ -14,11 +14,7 @@ interface HeightProps extends SharedProps {
   square?: never;
 }
 
-export default function Skeleton({
-  width,
-  height,
-  square,
-}: SquareProps | HeightProps) {
+export function Skeleton({ width, height, square }: SquareProps | HeightProps) {
   return (
     <div
       className={styles.container}

@@ -1,7 +1,7 @@
-import hasUpvotedLoader from "loaders/hasUpvotedLoader";
-import upvoteCountLoader from "loaders/upvoteCountLoader";
-import upvoteLoader from "loaders/upvoteLoader";
-import userLoader from "loaders/userLoader";
+import { hasUpvotedLoader } from "loaders/hasUpvotedLoader";
+import { upvoteCountLoader } from "loaders/upvoteCountLoader";
+import { upvoteLoader } from "loaders/upvoteLoader";
+import { userLoader } from "loaders/userLoader";
 import { useRouter } from "next/router";
 import { BsArrowUpCircleFill as ArrowIcon } from "react-icons/bs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -9,7 +9,7 @@ import { twMerge as tm } from "tailwind-merge";
 import { transitionProperties } from "utils/styleHelpers";
 import { generateQueryKey } from "loaders/helpers";
 
-export default function Upvote() {
+export function Upvote() {
   const router = useRouter();
   const slug = router.query.slug as string;
 

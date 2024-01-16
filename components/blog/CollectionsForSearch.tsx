@@ -1,12 +1,12 @@
 import fuzzysort from "fuzzysort";
 import { Metadata } from "utils/postHelpers";
-import Collection from "components/blog/Collection";
+import { Collection } from "components/blog/Collection";
 import {
   getPostsByCollection,
   getPostsWCollection,
 } from "components/blog/helpers";
 
-export default function CollectionsForSearch({
+export function CollectionsForSearch({
   allMetadata,
   inputValue,
   allCollections,

@@ -1,7 +1,7 @@
 import { ApiResponse } from "utils/apiHelpers/types";
 import { generateUrlPrefix } from "./helpers";
 
-export default async function logoutLoader() {
+export async function logoutLoader() {
   const response = await fetch(`${generateUrlPrefix()}/api/logout`);
   const data: ApiResponse<null> = await response.json();
 

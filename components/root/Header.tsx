@@ -1,19 +1,18 @@
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
-import { transitionProperties } from "utils/styleHelpers";
-import Switch from "components/reusable/Switch";
+import {
+  createClassNameWrapper,
+  transitionProperties,
+} from "utils/styleHelpers";
+import { Switch } from "components/reusable/Switch";
 import { ThemeContext } from "pages/_app";
 import getConfig from "next/config";
 
 const { publicRuntimeConfig } = getConfig();
 const { APP_ENV } = publicRuntimeConfig;
 
-export default function Header({
-  hideOnScroll = true,
-}: {
-  hideOnScroll?: boolean;
-}) {
+export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
   const [scrollDir, setScrollDir] = useState<"down" | "up">("up");
 
@@ -64,7 +63,7 @@ export default function Header({
         transitionProperty: "top",
       }}
     >
-      <div className="flex items-center justify-around sm:justify-between w-full pl-4 gap-4">
+      <div className="flex items-center justify-around sm:justify-between w-full px-4 gap-6">
         <h3 className={tm("text-lg md:text-2xl", "font-bold cursor-pointer")}>
           <Link href="/">
             <span>
@@ -76,41 +75,30 @@ export default function Header({
             </span>
           </Link>
         </h3>
-        <span className="cursor-pointer select-none hover:text-primary sm:hidden">
-          <Link href="/bonus">bonus</Link>
-        </span>
-        <span className="cursor-pointer select-none hover:text-primary sm:hidden">
-          <Link href="/resume">resumé</Link>
-        </span>
-        <span className="cursor-pointer select-none hover:text-primary sm:hidden">
-          <Link href="/blog">blog</Link>
-        </span>
+        <div className="flex justify-between gap-4 sm:ml-auto">
+          <HeaderLink>
+            <Link href="/bonus">bonus</Link>
+          </HeaderLink>
+          <HeaderLink>
+            <Link href="/resume">resumé</Link>
+          </HeaderLink>
+          <HeaderLink>
+            <Link href="/blog">blog</Link>
+          </HeaderLink>
+        </div>
         <Switch
           isOn={isDarkMode}
           onToggle={() => {
             setIsDarkMode?.((prev) => !prev);
           }}
-          className="sm:hidden pr-4"
         />
-        <div className="items-center justify-around hidden sm:flex">
-          <span className="cursor-pointer select-none hover:text-primary">
-            <Link href="/bonus">bonus</Link>
-          </span>
-          <span className="cursor-pointer select-none hover:text-primary">
-            <Link href="/resume">resumé</Link>
-          </span>
-          <span className="cursor-pointer select-none hover:text-primary">
-            <Link href="/blog">blog</Link>
-          </span>
-          <div className="divider divider-horizontal mx-0" />
-          <Switch
-            isOn={isDarkMode}
-            onToggle={() => {
-              setIsDarkMode?.((prev) => !prev);
-            }}
-          />
-        </div>
       </div>
     </nav>
   );
 }
+
+const HeaderLink = createClassNameWrapper(
+  "HeaderLink",
+  "span",
+  "cursor-pointer select-none hover:text-primary"
+);

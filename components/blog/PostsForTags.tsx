@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Metadata } from "utils/postHelpers";
-import BlogCard from "components/blog/BlogCard";
+import { PostCard } from "components/blog/PostCard";
 import { getPostsWoCollection, orderPosts } from "components/blog/helpers";
 
-export default function PostsWoCollectionForTags({
+export function PostsWoCollectionForTags({
   filteredPostsByTags,
   selectedTags,
 }: {
@@ -20,7 +20,7 @@ export default function PostsWoCollectionForTags({
       {orderedPostsWoCollection.map((metadata, index) => (
         <AnimatePresence key={index}>
           <motion.li layout="position">
-            <BlogCard metadata={metadata} selectedTags={selectedTags} />
+            <PostCard metadata={metadata} selectedTags={selectedTags} />
           </motion.li>
         </AnimatePresence>
       ))}

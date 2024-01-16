@@ -4,7 +4,7 @@ import { transitionProperties } from "utils/styleHelpers";
 
 const anchorStyles = "underline underline-offset-2 hover:underline-offset-4";
 
-export default function Anchor({
+export function Anchor({
   href,
   children,
   className,

@@ -1,4 +1,4 @@
-export default function AtroposImage({
+export function AtroposImage({
   src,
   alt,
   offset,

@@ -14,6 +14,6 @@ export type Endpoint =
   | "upvoteCount"
   | "user";
 
-export const generateQueryKey = (endpoint: Endpoint, params: any[]) => {
+export const generateQueryKey = (endpoint: Endpoint, params: unknown[]) => {
   return [endpoint, ...params];
 };

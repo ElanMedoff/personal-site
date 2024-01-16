@@ -19,7 +19,6 @@
     "@octokit/core": "^4.1.0",
     "@prisma/client": "^4.10.1",
     "@tanstack/react-query": "^4.24.6",
-    "@tanstack/react-query-devtools": "^4.24.6",
     "@types/prismjs": "^1.26.0",
     "@wordpress/wordcount": "^3.20.0",
     "atropos": "^1.0.2",
@@ -47,6 +46,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^4.24.6",
     "@playwright/test": "^1.29.2",
     "@types/html-to-text": "^8.1.1",
     "@types/node": "18.0.6",
@@ -54,6 +54,8 @@
     "@types/react-dom": "^18.0.6",
     "@types/uuid": "^8.3.4",
     "@types/wordpress__wordcount": "^2.4.2",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
     "autoprefixer": "^10.4.7",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.2",

@@ -48,11 +48,14 @@ export async function fetchPostBySlug(
   const relatedPaths = allMetadata
     .filter((metadata) => {
       if (metadata.slug === slugToFetch) return false;
-      return metadata.tags.filter((tag) => data?.tags.includes(tag)).length > 0;
+      return (
+        metadata.tags.filter((tag) => (data?.tags as string[]).includes(tag))
+          .length > 0
+      );
     })
     .map((metadata) => `${metadata.slug}.mdx`);
 
-  const castMetadata = data as any as Metadata;
+  const castMetadata = data as unknown as Metadata;
 
   let relatedPath: string;
   if (castMetadata.collection) {

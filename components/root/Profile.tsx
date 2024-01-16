@@ -1,16 +1,17 @@
-import { twMerge as tm } from "tailwind-merge";
-import AtroposImage from "components/reusable/atropos/AtroposImage";
 import styles from "styles/icons.module.scss";
 import Atropos from "atropos/react";
+import AtroposBorder from "components/reusable/atropos/AtroposBorder";
+import { twMerge as tm } from "tailwind-merge";
+import { AtroposImage } from "components/reusable/atropos/AtroposImage";
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimationControls, useInView } from "framer-motion";
-import Skeleton from "components/root/Skeleton";
-import Anchor from "components/reusable/Anchor";
-import useIsMobile from "hooks/useIsMobile";
+import { Skeleton } from "components/root/Skeleton";
+import { Anchor } from "components/reusable/Anchor";
+import { useIsMobile } from "hooks/useIsMobile";
 import { generateOnScrollProps } from "utils/framerHelpers";
-import AtroposBorder from "components/reusable/atropos/AtroposBorder";
 
 import "atropos/css";
+import { createClassNameWrapper } from "utils/styleHelpers";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);
@@ -19,7 +20,13 @@ const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   return objectURL;
 };
 
-export default function Profile() {
+const Title = createClassNameWrapper(
+  "Title",
+  "h1",
+  "text-6xl font-bold sm:text-8xl uppercase"
+);
+
+export function Profile() {
   const isMobile = useIsMobile();
   const [loading, setLoading] = useState(true);
   const [srcs, setSrcs] = useState({
@@ -137,9 +144,7 @@ export default function Profile() {
 
   return (
     <div
-      className={tm(
-        "flex flex-row flex-wrap-reverse gap-12 max-w-7xl px-10 pt-10"
-      )}
+      className={tm("flex flex-row flex-wrap-reverse gap-12 max-w-7xl px-10")}
     >
       <div
         className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}
@@ -149,35 +154,37 @@ export default function Profile() {
       </div>
       <motion.div
         {...generateOnScrollProps}
-        className="flex-1 min-w-auto sm:min-w-[400px]"
+        className="flex-1 min-w-auto sm:min-w-[400px] flex flex-col gap-6"
       >
-        <h1 className="text-6xl font-bold sm:text-8xl uppercase">hey</h1>
-        <h1 className="text-6xl font-bold sm:text-8xl uppercase">there,</h1>
-        <p className="mt-6 text-lg">
+        <div>
+          <Title>hey</Title>
+          <Title>there,</Title>
+        </div>
+        <p className="text-lg">
           I&apos;m{" "}
           <span className="font-semibold underline underline-offset-4 decoration-primary decoration-4">
             Elan Medoff
           </span>
           , a software engineer specializing in web and fullstack development.
         </p>
-        <p className="mt-6">
+        <p>
           These days, I&apos;m especially interested in authentication on the
           web, the (re)emergence of server-side rendering and all the new
           approaches to it, and tinkering with my (Neo)Vim config.
         </p>
-        <p className="mt-6">
+        <p>
           I currently work at{" "}
           <Anchor href="https://www.wealthfront.com/">Wealthfront</Anchor> as a
           web engineer!
         </p>
-        <div className="flex mt-4 gap-4">
+        <div className="flex gap-3">
           <a className={styles.github} href="https://github.com/ElanMedoff" />
           <a
             className={styles.linkedin}
             href="https://www.linkedin.com/in/elan-medoff/"
           />
           <a className={styles.gmail} href="mailto:info@elanmed.dev" />
-          <span className="text-xs flex items-end ml-[-10px]">
+          <span className="text-xs flex items-end">
             <span className="text-primary">[</span>
             mailto
             <span className="text-primary">]</span>

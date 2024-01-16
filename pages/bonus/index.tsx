@@ -1,21 +1,22 @@
-import Header from "components/root/Header";
+import { Header } from "components/root/Header";
 import { twMerge as tm } from "tailwind-merge";
 import { GetServerSideProps } from "next";
 import { fetchPublicImages } from "utils/publicHelpers";
-import Favorites from "components/root/Favorites";
-import Footer from "components/reusable/Footer";
-import WideContent from "components/root/WideContent";
+import { Favorites } from "components/root/Favorites";
+import { Footer } from "components/reusable/Footer";
+import { borderClassNames } from "pages";
+import { WideContent } from "components/reusable/WideContent";
 
 export default function Bonus({ paths }: Props) {
   return (
     <>
       <Header />
       <WideContent>
-        <section className="w-full pt-10 mb-20">
+        <section className="w-full">
           <div className="flex flex-col gap-2 mb-14">
             <h1
               className={tm(
-                "text-6xl md:text-7xl lg:text-8xl",
+                "text-4xl sm:text-6xl md:text-7xl",
                 "uppercase font-bold",
                 "text-left pl-5 sm:pl-20"
               )}
@@ -24,9 +25,8 @@ export default function Bonus({ paths }: Props) {
             </h1>
             <p
               className={tm(
-                "text-2xl md:text-4xl",
-                "uppercase border-b-[15px] sm:border-b-[30px] border-primary",
-                "text-left pl-5 sm:pl-20"
+                "text-xl md:text-4xl text-left pl-5 sm:pl-20",
+                borderClassNames
               )}
             >
               A few of my favorites

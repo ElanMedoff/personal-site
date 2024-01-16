@@ -1,10 +1,10 @@
-import { AnimatePresence, motion } from "framer-motion";
 import fuzzysort from "fuzzysort";
+import { AnimatePresence, motion } from "framer-motion";
 import { Metadata } from "utils/postHelpers";
-import BlogCard from "components/blog/BlogCard";
+import { PostCard } from "components/blog/PostCard";
 import { getPostsWoCollection } from "components/blog/helpers";
 
-export default function PostsWoCollectionForSearch({
+export function PostsWoCollectionForSearch({
   allMetadata,
   inputValue,
   selectedTags,
@@ -35,7 +35,7 @@ export default function PostsWoCollectionForSearch({
         return (
           <AnimatePresence key={index}>
             <motion.li layout="position">
-              <BlogCard
+              <PostCard
                 metadata={metadata}
                 selectedTags={selectedTags}
                 formattedTitle={formattedTitle}

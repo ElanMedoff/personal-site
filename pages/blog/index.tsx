@@ -1,28 +1,27 @@
+import Head from "next/head";
 import { twMerge as tm } from "tailwind-merge";
 import { useEffect, useRef } from "react";
 import { fetchAllMetadata, Metadata } from "utils/postHelpers";
-import Content from "components/blog/Content";
-import Head from "next/head";
+import { Content } from "components/blog/Content";
 import { motion, useAnimationControls } from "framer-motion";
-import Footer from "components/reusable/Footer";
+import { Footer } from "components/reusable/Footer";
 import { NextPageContext } from "next";
 import fuzzysort from "fuzzysort";
-import PostsForSearch from "components/blog/PostsForSearch";
-import PostsForTags from "components/blog/PostsForTags";
+import { PostsWoCollectionForSearch as PostsForSearch } from "components/blog/PostsForSearch";
+import { PostsWoCollectionForTags as PostsForTags } from "components/blog/PostsForTags";
 import {
   getPostsByCollection,
   getPostsWCollection,
   getPostsWoCollection,
 } from "components/blog/helpers";
-import CollectionsForSearch from "components/blog/CollectionsForSearch";
-import CollectionsForTags from "components/blog/CollectionsForTags";
-import Pill from "components/blog/Pill";
-import useIsMobile from "hooks/useIsMobile";
+import { CollectionsForSearch } from "components/blog/CollectionsForSearch";
+import { CollectionsForTags } from "components/blog/CollectionsForTags";
+import { FilterTagPill } from "components/blog/FilterTagPill";
+import { useIsMobile } from "hooks/useIsMobile";
 import { BsSearch as SearchIcon } from "react-icons/bs";
-import Header from "components/root/Header";
+import { Header } from "components/root/Header";
 import { useSearchParamState } from "use-search-param-state";
 import { z } from "zod";
-import { isProd } from "utils/envHelpers";
 
 export default function Blog({ allMetadata, serverSideURL }: Props) {
   const allCollections = Array.from(
@@ -156,7 +155,6 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} key="desc" />
-
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content="https://elanmed.dev/og.jpg" />
@@ -244,42 +242,42 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
             <div className="flex flex-col pl-3 gap-3">
               <ul className="flex flex-wrap gap-2">
                 {allTags.map((filter, index) => (
-                  <Pill
+                  <FilterTagPill
                     key={index}
                     selected={selectedTags.includes(filter)}
                     onClick={() => handleTagClick(filter)}
                   >
                     {filter}
-                  </Pill>
+                  </FilterTagPill>
                 ))}
               </ul>
               <div className="divider my-0" />
-              <Pill
+              <FilterTagPill
                 onClick={() => {
                   setSelectedTags([]);
                 }}
               >
                 reset all
-              </Pill>
+              </FilterTagPill>
             </div>
             <h2 className="m-3 mt-6 text-sm underline w-max">filter method</h2>
             <div className="flex flex-wrap pl-3 gap-2">
-              <Pill
+              <FilterTagPill
                 selected={filterMethod === "union"}
                 onClick={() => {
                   setFilterMethod("union");
                 }}
               >
                 union
-              </Pill>
-              <Pill
+              </FilterTagPill>
+              <FilterTagPill
                 selected={filterMethod === "intersection"}
                 onClick={() => {
                   setFilterMethod("intersection");
                 }}
               >
                 intersection
-              </Pill>
+              </FilterTagPill>
             </div>
           </section>
         </div>

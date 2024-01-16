@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function useLocalStorage<T>(key: string, defaultValue: T) {
+export function useLocalStorage<T>(key: string, defaultValue: T) {
   const [value, setValue] = useState<T>(defaultValue);
   const isFirstRender = useRef(true);
 

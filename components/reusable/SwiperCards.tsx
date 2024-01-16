@@ -6,7 +6,7 @@ import { EffectCards, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/effect-cards";
 
-export default function SwiperCards({
+export function SwiperCards({
   slides,
   className,
   autoplay,

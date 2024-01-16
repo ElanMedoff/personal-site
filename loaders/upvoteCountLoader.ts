@@ -2,7 +2,7 @@ import { UpvoteCountPayload } from "pages/api/upvoteCount";
 import { ApiResponse } from "utils/apiHelpers/types";
 import { generateUrlPrefix } from "./helpers";
 
-export default async function upvoteCountLoader(
+export async function upvoteCountLoader(
   slug: string,
   getServerSidePropsCookie?: string
 ) {

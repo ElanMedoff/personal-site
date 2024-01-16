@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { twMerge as tm } from "tailwind-merge";
 
-export default function Info({
+export function Info({
   children,
   className,
 }: {

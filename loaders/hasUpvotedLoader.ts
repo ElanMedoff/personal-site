@@ -2,7 +2,7 @@ import { HasUpvotedPayload } from "pages/api/hasUpvoted";
 import { ApiResponse } from "utils/apiHelpers/types";
 import { generateUrlPrefix } from "./helpers";
 
-export default async function hasUpvotedLoader(
+export async function hasUpvotedLoader(
   slug: string,
   getServerSidePropsCookie?: string
 ) {
