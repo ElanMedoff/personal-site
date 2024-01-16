@@ -13,6 +13,7 @@ export const generateOnScrollProps = {
       ...sharedVariants.show,
       transition: {
         delay: 0.2,
+        duration: 0.3,
       },
     },
   },
@@ -30,6 +31,7 @@ export const onScrollContainerProps = {
         delay: 0.2,
         staggerChildren: 0.3,
         when: "beforeChildren",
+        duration: 0.3,
       },
     },
   },
@@ -41,4 +43,5 @@ export const onScrollContainerProps = {
 export const onScrollChildProps = {
   variants: sharedVariants,
   viewport: { once: true },
+  transition: { duration: 0.3 },
 };
