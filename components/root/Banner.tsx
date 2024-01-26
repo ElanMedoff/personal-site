@@ -16,11 +16,11 @@ export function Banner({
       <motion.p
         {...generateOnScrollProps}
         className={tm(
-          "font-bold px-5 w-full",
+          "font-bold px-0 sm:px-5 w-full text-center",
           "text-4xl sm:text-6xl md:text-7xl lg:text-8xl",
           "mb-10 md:mb-20",
           borderClassNames,
-          reverse ? "text-right pr-5 sm:pr-10" : "text-left pr-5 sm:pl-10"
+          reverse ? "md:text-right pr-5 sm:pr-10" : "md:text-left pr-5 sm:pl-10"
         )}
       >
         {primary}

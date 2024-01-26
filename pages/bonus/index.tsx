@@ -12,7 +12,7 @@ export default function Bonus({ paths }: Props) {
     <>
       <Header />
       <WideContent>
-        <section className="w-full">
+        <section className="w-full min-h-[65vh]">
           <div className="flex flex-col gap-2 mb-14">
             <h1
               className={tm(
@@ -25,7 +25,7 @@ export default function Bonus({ paths }: Props) {
             </h1>
             <p
               className={tm(
-                "text-xl md:text-4xl text-left pl-5 sm:pl-20",
+                "text-2xl md:text-4xl text-left pl-5 sm:pl-20",
                 borderClassNames
               )}
             >

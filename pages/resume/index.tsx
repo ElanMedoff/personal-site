@@ -71,7 +71,7 @@ export default function PostPage() {
       </Head>
       <Header />
       <Content>
-        <div className="flex flex-col gap-8 md:mt-8">
+        <div className="flex flex-col gap-10 md:mt-10">
           <section>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4 md:gap-10 flex-wrap">
@@ -96,7 +96,6 @@ export default function PostPage() {
               </div>
               <div className="hidden lg:block">{renderPrinter()}</div>
             </div>
-            <div className="divider my-2" />
           </section>
           <Section>
             <SectionTitle>Skills</SectionTitle>
@@ -144,11 +143,17 @@ export default function PostPage() {
             <article>
               <SectionSubtitle
                 iconStyles={styles.wealthfront}
-                subtitle="Software Engineer (Wealthfront)"
+                title="Senior Software Engineer (Wealthfront)"
+                subtitle="Lead of the Web Engineering Platform"
                 timeframe="July 2021 - present"
               />
               <div className="divider my-2" />
               <ul className="list-disc ml-12">
+                <li>
+                  Oversaw quarterly web infrastructure goals by orchestrating
+                  the selection process and encouraging engineers to opt for
+                  impactful and feasible projects
+                </li>
                 <li>
                   Collaborated with a cross-functional team of engineers,
                   designers, and project managers to launch several flagship
@@ -161,29 +166,23 @@ export default function PostPage() {
                   data loading speed and reducing code complexity significantly
                 </li>
                 <li>
-                  Conducted technical interviews for prospective web engineers,
-                  assessing their coding and conceptual skills
-                </li>
-                <li>
-                  Participated in the web on-call rotation, troubleshooting and
-                  resolving various production issues and ensuring a
-                  high-quality user experience
+                  Conducted interviews for prospective engineers, assessing
+                  their coding and conceptual skills
                 </li>
               </ul>
             </article>
             <article>
               <SectionSubtitle
                 iconStyles={styles.wealthfront}
-                subtitle="Software Engineer Intern (Wealthfront)"
+                title="Software Engineer Intern (Wealthfront)"
                 timeframe="Summer 2020"
               />
               <div className="divider my-2" />
               <ul className="list-disc ml-12">
                 <li>
                   Renewed an older landing page with a sophisticated, page-long
-                  scrolling animation with several different stages,
-                  collaborating with designers to create a visually appealing
-                  and interactive experience
+                  scrolling animation, collaborating with designers to create a
+                  visually appealing and interactive experience
                 </li>
               </ul>
             </article>
@@ -193,16 +192,45 @@ export default function PostPage() {
             <article>
               <SectionSubtitle
                 iconStyles={styles.star}
-                subtitle="elanmed.dev"
+                title="use-search-param-state"
+                href="https://www.npmjs.com/package/use-search-param-state"
+              />
+              <div className="divider my-2" />
+              <ul className="list-disc ml-10">
+                <li>
+                  An NPM library to safely and effortlessly read / write to URL
+                  search params
+                </li>
+                <li>
+                  Includes a variety of options to sanitize, parse, and validate
+                  the search param, support server-side rendering, gracefully
+                  handle errors, automatically delete empty search params, and
+                  more
+                </li>
+                <li>
+                  For a lightweight, read-only interface, see{" "}
+                  <a
+                    href="https://www.npmjs.com/package/use-search-param"
+                    className="cursor-pointer underline"
+                  >
+                    use-search-param
+                  </a>
+                </li>
+              </ul>
+            </article>
+            <article>
+              <SectionSubtitle
+                iconStyles={styles.star}
+                title="elanmed.dev"
                 href="https://elanmed.dev/"
               />
               <div className="divider my-2" />
               <ul className="list-disc ml-10">
                 <li>
-                  A personal tech blog with 15+ articles on various topics such
-                  as programming with React, Next.js, and Typescript,
-                  customizing NeoVim into a fully-fledge IDE, and setting up
-                  continuous integration
+                  A personal tech blog with 15+ articles on topics such as
+                  programming with React, Next.js, and Typescript, customizing
+                  NeoVim into a fully-fledged IDE, and setting up continuous
+                  integration
                 </li>
                 <li>
                   Includes OAuth with Github (manually implemented), server-side
@@ -210,43 +238,21 @@ export default function PostPage() {
                   URLs with automatic scrolling, and more
                 </li>
                 <li>
-                  Built with Next.js, Typescript, Tailwindcss, Prisma, React
+                  Built with Next.js, Typescript, Tailwind CSS, Prisma, React
                   Query, Framer Motion, and Playwright
-                </li>
-              </ul>
-            </article>
-            <article>
-              <SectionSubtitle
-                iconStyles={styles.star}
-                subtitle="guacarina"
-                href="https://guacarina.com/scales"
-              />
-              <div className="divider my-2" />
-              <ul className="list-disc ml-10">
-                <li>
-                  Created an ocarina educational site with a focus on practicing
-                  ocarina scales; included features such as a built-in
-                  metronome, shareable URLs to resume page-state, and more
-                </li>
-                <li>
-                  Built with Next.js v13, Typescript, Tailwindcss, and Reach UI
-                  as the main technologies
                 </li>
               </ul>
             </article>
           </Section>
           <Section>
             <SectionTitle>Education</SectionTitle>
-            <article>
+            <article className="mb-10">
               <SectionSubtitle
                 iconStyles={styles.hopkins}
-                subtitle="Johns Hopkins University"
+                title="Johns Hopkins University"
+                subtitle="Bachelor's degree in Computer Science (3.83)"
                 timeframe="2017 - 2021"
               />
-              <div className="divider my-2" />
-              <ul className="ml-10">
-                <li>Bachelor&apos;s degree in Computer Science (3.83)</li>
-              </ul>
             </article>
           </Section>
         </div>
@@ -316,21 +322,23 @@ function SkillsByLevel({
 }
 
 function Section({ children }: { children: ReactNode }) {
-  return <section className="flex flex-col gap-6">{children}</section>;
+  return <section className="flex flex-col gap-8">{children}</section>;
 }
 function SectionTitle({ children }: { children: ReactNode }) {
   return <h2 className="text-3xl font-semibold">{children}</h2>;
 }
 function SectionSubtitle({
   iconStyles,
-  subtitle,
+  title,
   timeframe,
   href,
+  subtitle,
 }: {
   iconStyles: string;
-  subtitle: string;
+  title: string;
   timeframe?: string;
   href?: string;
+  subtitle?: string;
 }) {
   return (
     <div className="flex items-start">
@@ -338,7 +346,7 @@ function SectionSubtitle({
       {href ? (
         <a href={href} className="ml-3">
           <div className="cursor-pointer flex items-end group">
-            <h3 className="text-lg md:text-2xl underline mr-2">{subtitle}</h3>
+            <h3 className="text-lg md:text-2xl underline mr-2">{title}</h3>
             <span
               className={tm(
                 "rounded-full p-1 border border-transparent",
@@ -355,7 +363,10 @@ function SectionSubtitle({
           </div>
         </a>
       ) : (
-        <h3 className="text-lg md:text-2xl ml-3">{subtitle}</h3>
+        <div className="flex flex-col ml-3 gap-1">
+          <h3 className="text-lg md:text-2xl">{title}</h3>
+          <p className="text-md">{subtitle}</p>
+        </div>
       )}
       <span className="hidden md:block md:text-sm ml-auto">{timeframe}</span>
     </div>

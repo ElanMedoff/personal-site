@@ -17,7 +17,9 @@ function SwiperWrapper({
   return (
     <motion.article {...onScrollChildProps}>
       <div className="border-2 border-neutral py-6 pl-3 pr-12 rounded">
-        <h3 className={tm("uppercase font-bold text-4xl mb-3 ml-3")}>
+        <h3
+          className={tm("uppercase font-bold text-2xl md:text-4xl mb-3 ml-3")}
+        >
           {title}
         </h3>
         <SwiperCards
