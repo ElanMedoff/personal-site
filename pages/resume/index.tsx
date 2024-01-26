@@ -71,7 +71,12 @@ export default function PostPage() {
       </Head>
       <Header />
       <Content>
-        <div className="flex flex-col gap-10 md:mt-10">
+        <div
+          className={tm(
+            "flex flex-col gap-10",
+            APP_ENV === "screenshot" ? "md:mt-10" : ""
+          )}
+        >
           <section>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4 md:gap-10 flex-wrap">
