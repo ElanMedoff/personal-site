@@ -50,7 +50,7 @@ export const components = {
   ),
   code: (props: HTMLAttributes<HTMLPreElement>) => (
     <code
-      className="bg-info text-info-content rounded-md px-2 text-sm"
+      className="bg-secondary text-secondary-content rounded-md px-2 py-[2px] text-sm"
       {...props}
     />
   ),
