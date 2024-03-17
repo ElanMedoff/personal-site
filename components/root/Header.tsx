@@ -1,16 +1,16 @@
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { twMerge as tm } from "tailwind-merge";
 import { createClassNameWrapper, transitionProperties } from "utils/style";
 import { Switch } from "components/reusable/Switch";
-import { ThemeContext } from "pages/_app";
+import { useDarkMode } from "pages/_app";
 import getConfig from "next/config";
 
 const { publicRuntimeConfig } = getConfig();
 const { APP_ENV } = publicRuntimeConfig;
 
 export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
-  const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
+  const [isDarkMode, setIsDarkMode] = useDarkMode();
   const [scrollDir, setScrollDir] = useState<"down" | "up">("up");
 
   // https://stackoverflow.com/a/62497293

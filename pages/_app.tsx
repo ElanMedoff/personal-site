@@ -2,9 +2,14 @@ import "styles/globals.css";
 import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";
-import { setCookie, getCookie } from "cookies-next";
-import { useIsDarkMode } from "hooks/useIsDarkMode";
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   DehydratedState,
   Hydrate,
@@ -13,25 +18,55 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SearchParamStateProvider } from "use-search-param-state";
+import * as cookie from "cookie";
 
-export const ThemeContext = createContext<{
+const ONE_YEAR = 60 * 60 * 24 * 365;
+
+interface Theme {
   isDarkMode: boolean;
-  setIsDarkMode: null | Dispatch<SetStateAction<boolean>>;
-}>({ isDarkMode: false, setIsDarkMode: null });
+  setIsDarkMode: null | Dispatch<SetStateAction<boolean | null>>;
+}
 
-type MyAppProps = Pick<
-  AppProps<{ dehydratedState: DehydratedState }>,
-  "Component" | "pageProps"
-> & {
-  isDarkModeCookie: boolean;
+export const ThemeContext = createContext<Theme>({
+  isDarkMode: false,
+  setIsDarkMode: null,
+});
+
+export function useDarkMode() {
+  const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
+  return [
+    isDarkMode,
+    setIsDarkMode as Dispatch<SetStateAction<boolean>>,
+  ] as const;
+}
+
+type AppOwnProps = {
+  isDarkModeCookie: boolean | null;
 };
-
 export default function MyApp({
   Component,
   pageProps,
   isDarkModeCookie,
-}: MyAppProps) {
-  const [isDarkMode, setIsDarkMode] = useIsDarkMode(isDarkModeCookie);
+}: AppProps<{ dehydratedState: DehydratedState }> & AppOwnProps) {
+  const [isDarkMode, setIsDarkMode] = useState(isDarkModeCookie);
+
+  useEffect(() => {
+    if (isDarkMode === null) {
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+      document.cookie = cookie.serialize("isDarkMode", String(media.matches), {
+        httpOnly: false,
+        maxAge: ONE_YEAR,
+      });
+      return;
+    }
+
+    document.cookie = cookie.serialize("isDarkMode", String(isDarkMode), {
+      httpOnly: false,
+      maxAge: ONE_YEAR,
+    });
+  }, [isDarkMode, isDarkModeCookie]);
+
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -63,7 +98,12 @@ export default function MyApp({
       >
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
-            <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+            <ThemeContext.Provider
+              value={{
+                isDarkMode: isDarkMode ?? false,
+                setIsDarkMode,
+              }}
+            >
               <div data-theme={isDarkMode ? "dracula" : "emerald"}>
                 <Component {...pageProps} />
               </div>
@@ -76,27 +116,29 @@ export default function MyApp({
   );
 }
 
-MyApp.getInitialProps = async (context: AppContext) => {
-  const ctx = await App.getInitialProps(context);
+MyApp.getInitialProps = async (context: AppContext): Promise<AppOwnProps> => {
+  const pageProps = await App.getInitialProps(context);
   const { req, res } = context.ctx;
+  if (!req || !res) {
+    return {
+      ...pageProps,
+      isDarkModeCookie: null,
+    };
+  }
 
-  const isDarkModeCookie = getCookie("isDarkMode", { req, res }) as
-    | boolean
+  const isDarkModeCookie = cookie.parse(req.headers.cookie || "").isDarkMode as
+    | string
     | undefined;
 
   if (isDarkModeCookie === undefined) {
-    setCookie("isDarkMode", false, {
-      req,
-      res,
-      httpOnly: false,
-      maxAge: 60 * 60 * 24 * 365,
-      sameSite: true,
-    });
-    return { ...ctx, isDarkModeCookie: false };
+    return {
+      ...pageProps,
+      isDarkModeCookie: null,
+    };
   }
 
   return {
-    ...ctx,
-    isDarkModeCookie,
+    ...pageProps,
+    isDarkModeCookie: isDarkModeCookie === "true",
   };
 };

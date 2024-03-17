@@ -22,6 +22,7 @@
     "@types/prismjs": "^1.26.0",
     "@wordpress/wordcount": "^3.20.0",
     "atropos": "^1.0.2",
+    "cookie": "^0.6.0",
     "cookies-next": "^2.1.1",
     "daisyui": "^2.19.0",
     "framer-motion": "^7.5.1",
@@ -46,8 +47,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@tanstack/react-query-devtools": "^4.24.6",
     "@playwright/test": "^1.29.2",
+    "@tanstack/react-query-devtools": "^4.24.6",
     "@types/html-to-text": "^8.1.1",
     "@types/node": "18.0.6",
     "@types/react": "18.0.15",

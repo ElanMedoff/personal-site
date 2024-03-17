@@ -1,4 +1,5 @@
 import { Session, User } from "@prisma/client";
+// TODO: remove cookies-next
 import { getCookie } from "cookies-next";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ApiHelperResponse } from "utils/api/types";
@@ -7,11 +8,9 @@ import { prisma } from "utils/prisma";
 export async function maybeGetSession({
   req,
   res,
-  src,
 }: {
   req: NextApiRequest;
   res: NextApiResponse;
-  src?: string;
 }): Promise<ApiHelperResponse<{ session: (Session & { user: User }) | null }>> {
   const sessionId = getCookie("sessionId", { req, res }) as string | undefined;
 

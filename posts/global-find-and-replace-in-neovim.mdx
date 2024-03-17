@@ -18,7 +18,7 @@ Of all the VSCode features I've re-implemented in Neovim, none have given me as 
 
 Find your first-pass results with [fzf-lua](https://github.com/ibhagwan/fzf-lua)/[telescope](https://github.com/nvim-telescope/telescope.nvim), populate them into the quickfix list, narrow it down with [bqf](https://github.com/kevinhwang91/nvim-bqf), and replace all instances by executing `cdo s/find/replace` with a custom user command to accept arguments for `find` and `replace`.
 
-## Search With fzf
+## Search with fzf
 
 fzf is an awesome command line utility for fuzzy finding just about anything (seriously, anything). In our case, we'll be using the `fzf-lua` package for Neovim, and focusing on just one specific command: `grep`
 
@@ -98,7 +98,7 @@ Back to our example, let's mark all the instances where we remap an fzf command.
 
 <Image src="/blog/bqf-initial.png" width={2000} height={1149} />
 
-## Narrow Down With bqf
+## Narrow Down with bqf
 
 The second plugin we'll use is [bqf](https://github.com/kevinhwang91/nvim-bqf), an awesome utility for the quickfix list. I won't dive into all the details, but some of the highlights are:
 
@@ -123,7 +123,7 @@ nnoremap gq :cclose<cr>
 
 Between creating lists, fuzzy searching within a list, and repeating, you should have enough tools to narrow down your search to a final, single list. This brings us to the final section: replacing.
 
-## Replace With cdo
+## Replace with cdo
 
 The key to this last step is the native Neovim `cdo` command. If we enter the command `:help cdo` in Neovim, we learn the following info:
 
