@@ -4,6 +4,7 @@ import { Metadata } from "utils/post";
 import { postWrapperClassNames } from "components/root/RecentPosts";
 import { PillContainer } from "components/reusable/PillContainer";
 import { Pill } from "components/reusable/Pill";
+import Spacing from "components/reusable/Spacing";
 
 export function PostCard({
   metadata,
@@ -21,30 +22,32 @@ export function PostCard({
       <div
         className={tm(postWrapperClassNames, "max-w-[500px] gap-4", className)}
       >
-        <h2 className="font-semibold">
-          {formattedTitle ? (
-            <span dangerouslySetInnerHTML={{ __html: formattedTitle }} />
-          ) : (
-            metadata.title
-          )}
-        </h2>
-        <div>
-          <p className="text-xs italic mb-1">{metadata.lastUpdated}</p>
-          <p className="text-xs">{metadata.abstract}</p>
-        </div>
-        <PillContainer>
-          {metadata.tags.map((tag, index) => (
-            <Pill
-              key={index}
-              className={tm(
-                (selectedTags ?? []).includes(tag) &&
-                  "bg-secondary text-secondary-content"
-              )}
-            >
-              {tag}
-            </Pill>
-          ))}
-        </PillContainer>
+        <Spacing vertical md>
+          <h2 className="font-semibold">
+            {formattedTitle ? (
+              <span dangerouslySetInnerHTML={{ __html: formattedTitle }} />
+            ) : (
+              metadata.title
+            )}
+          </h2>
+          <div>
+            <p className="text-xs italic mb-1">{metadata.lastUpdated}</p>
+            <p className="text-xs">{metadata.abstract}</p>
+          </div>
+          <PillContainer>
+            {metadata.tags.map((tag, index) => (
+              <Pill
+                key={index}
+                className={tm(
+                  (selectedTags ?? []).includes(tag) &&
+                    "bg-secondary text-secondary-content"
+                )}
+              >
+                {tag}
+              </Pill>
+            ))}
+          </PillContainer>
+        </Spacing>
       </div>
     </Link>
   );

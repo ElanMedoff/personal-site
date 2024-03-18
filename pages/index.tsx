@@ -18,7 +18,7 @@ export const collectionContainerClassNames =
 export const borderClassNames =
   "uppercase border-b-[15px] sm:border-b-[35px] border-primary";
 
-export default function About({
+export default function Root({
   repos,
   allMetadata,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {

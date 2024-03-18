@@ -9,9 +9,9 @@ import { Skeleton } from "components/root/Skeleton";
 import { Anchor } from "components/reusable/Anchor";
 import { useIsMobile } from "hooks/useIsMobile";
 import { generateOnScrollProps } from "utils/framer";
-
-import "atropos/css";
 import { createClassNameWrapper } from "utils/style";
+import Spacing from "components/reusable/Spacing";
+import "atropos/css";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);
@@ -143,16 +143,14 @@ export function Profile() {
   };
 
   return (
-    <div
-      className={tm("flex flex-row flex-wrap-reverse gap-12 max-w-7xl px-10")}
-    >
-      <div
+    <Spacing xl horizontal className={tm("flex-wrap-reverse max-w-7xl px-10")}>
+      <section
         className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}
         ref={refContainer}
       >
         {loading ? renderLoading() : renderAtropos()}
-      </div>
-      <motion.div
+      </section>
+      <motion.section
         {...generateOnScrollProps}
         className="flex-1 min-w-auto sm:min-w-[400px] flex flex-col gap-6"
       >
@@ -177,7 +175,7 @@ export function Profile() {
           <Anchor href="https://www.wealthfront.com/">Wealthfront</Anchor> as a
           web engineer!
         </p>
-        <div className="flex gap-3">
+        <Spacing horizontal sm>
           <a className={styles.github} href="https://github.com/ElanMedoff" />
           <a
             className={styles.linkedin}
@@ -189,8 +187,8 @@ export function Profile() {
             mailto
             <span className="text-primary">]</span>
           </span>
-        </div>
-      </motion.div>
-    </div>
+        </Spacing>
+      </motion.section>
+    </Spacing>
   );
 }

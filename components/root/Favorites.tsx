@@ -2,6 +2,7 @@ import { twMerge as tm } from "tailwind-merge";
 import { SwiperCards } from "components/reusable/SwiperCards";
 import { onScrollChildProps, onScrollContainerProps } from "utils/framer";
 import { motion } from "framer-motion";
+import Spacing from "components/reusable/Spacing";
 
 function SwiperWrapper({
   paths,
@@ -47,7 +48,7 @@ export function Favorites({
   const { comicPaths, bookPaths, moviePaths } = paths;
 
   return (
-    <div className="mb-5 flex flex-col gap-10">
+    <Spacing vertical lg className="mb-5">
       <motion.section
         {...onScrollContainerProps}
         className={tm(
@@ -59,6 +60,6 @@ export function Favorites({
         <SwiperWrapper paths={bookPaths} dir="books" title="books" />
         <SwiperWrapper paths={comicPaths} dir="comics" title="comics" />
       </motion.section>
-    </div>
+    </Spacing>
   );
 }

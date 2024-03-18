@@ -22,6 +22,7 @@ import { BsSearch as SearchIcon } from "react-icons/bs";
 import { Header } from "components/root/Header";
 import { useSearchParamState } from "use-search-param-state";
 import { z } from "zod";
+import Spacing from "components/reusable/Spacing";
 
 export default function Blog({ allMetadata, serverSideURL }: Props) {
   const allCollections = Array.from(
@@ -193,7 +194,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
             ) : null}
             <div className="mb-10">
               {shouldRenderCollectionsTitle() ? (
-                <h2 className="pl-3 text-2xl underline mb-3">collections</h2>
+                <h2 className="pl-8 text-2xl underline mb-3">collections</h2>
               ) : null}
               <div className="ml-[-10px]">
                 <ul>
@@ -216,7 +217,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
             </div>
             <div>
               {shouldRenderBlogTitle() ? (
-                <h1 className="pl-3 text-2xl underline mb-3">blog posts</h1>
+                <h1 className="pl-8 text-2xl underline mb-3">blog posts</h1>
               ) : null}
               <ul>
                 {inputValue ? (
@@ -239,17 +240,19 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
             data-testid="sidebar"
           >
             <h2 className="m-3 text-lg underline w-max">tags</h2>
-            <div className="flex flex-col pl-3 gap-3">
-              <ul className="flex flex-wrap gap-2">
-                {allTags.map((filter, index) => (
-                  <FilterTagPill
-                    key={index}
-                    selected={selectedTags.includes(filter)}
-                    onClick={() => handleTagClick(filter)}
-                  >
-                    {filter}
-                  </FilterTagPill>
-                ))}
+            <Spacing vertical sm className="pl-3">
+              <ul>
+                <Spacing horizontal sm className="flex-wrap">
+                  {allTags.map((filter, index) => (
+                    <FilterTagPill
+                      key={index}
+                      selected={selectedTags.includes(filter)}
+                      onClick={() => handleTagClick(filter)}
+                    >
+                      {filter}
+                    </FilterTagPill>
+                  ))}
+                </Spacing>
               </ul>
               <div className="divider my-0" />
               <FilterTagPill
@@ -259,9 +262,9 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
               >
                 reset all
               </FilterTagPill>
-            </div>
+            </Spacing>
             <h2 className="m-3 mt-6 text-sm underline w-max">filter method</h2>
-            <div className="flex flex-wrap pl-3 gap-2">
+            <Spacing horizontal sm className="pl-3">
               <FilterTagPill
                 selected={filterMethod === "union"}
                 onClick={() => {
@@ -278,7 +281,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
               >
                 intersection
               </FilterTagPill>
-            </div>
+            </Spacing>
           </section>
         </div>
       </Content>

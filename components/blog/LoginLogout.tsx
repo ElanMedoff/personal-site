@@ -52,25 +52,23 @@ export function LoginLogout() {
 
   return (
     <div className="relative">
-      <div className="flex flex-col gap-4">
-        <button
-          className={tm(
-            "border-2 border-neutral px-2 py-2 rounded-lg flex items-center shadow-2xl text-sm",
-            "hover:scale-95 active:scale-90",
-            user && "bg-warning"
-          )}
-          onClick={user ? handleLogoutClick : handleLoginClick}
-          style={{
-            ...transitionProperties,
-            transitionProperty: "transform",
-          }}
-        >
-          <span className={tm(styles.github, "mr-8")} />
-          <span className={user ? "text-warning-content" : ""}>
-            {user ? <p>logout</p> : <p>login with github</p>}
-          </span>
-        </button>
-      </div>
+      <button
+        className={tm(
+          "border-2 border-neutral px-2 py-2 rounded-lg flex items-center shadow-2xl text-sm",
+          "hover:scale-95 active:scale-90",
+          user && "bg-warning"
+        )}
+        onClick={user ? handleLogoutClick : handleLoginClick}
+        style={{
+          ...transitionProperties,
+          transitionProperty: "transform",
+        }}
+      >
+        <span className={tm(styles.github, "mr-8")} />
+        <span className={user ? "text-warning-content" : ""}>
+          {user ? <p>logout</p> : <p>login with github</p>}
+        </span>
+      </button>
       {isLoading ? (
         <div
           className={tm(

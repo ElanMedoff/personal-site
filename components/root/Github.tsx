@@ -9,6 +9,7 @@ import { useIsMobile } from "hooks/useIsMobile";
 import { onScrollChildProps, onScrollContainerProps } from "utils/framer";
 import { collectionContainerClassNames } from "pages";
 import { PillContainer } from "components/reusable/PillContainer";
+import Spacing from "components/reusable/Spacing";
 
 function CardWrapper({
   children,
@@ -84,38 +85,42 @@ function RepoCard({ repo, index }: { repo: Repo; index: number }) {
       <CardWrapper isMobile={isMobile}>
         <article
           className={tm(
-            "min-h-[300px] bg-base-100 text-base-content p-8 flex flex-col gap-6 border-2 border-neutral",
+            "min-h-[300px] bg-base-100 text-base-content p-8 border-2 border-neutral",
             "w-[300px] sm:w-[400px]"
           )}
         >
-          <p className="text-xs italic underline" data-atropos-offset={0}>
-            last updated:{" "}
-            {new Date(pushed_at).toLocaleDateString("en-US", {
-              timeZone: "America/New_York",
-            })}
-          </p>
-          <div data-atropos-offset={1}>
-            <div className="text-2xl font-semibold mb-3">{name}</div>
-            <p className="italic text-xs">{description}</p>
-          </div>
-          <PillContainer data-atropos-offset={4}>
-            {Object.keys(language_info).map((language, index) => (
-              <li
-                className="flex gap-1 text-sm rounded-full px-3 py-1 border border-neutral"
-                key={index}
-              >
-                <Image
-                  src={`/languageIcons/${language
-                    .toLowerCase()
-                    .replaceAll(" ", "")}.svg`}
-                  width={18}
-                  height={18}
-                  alt={language}
-                />
-                {language}
-              </li>
-            ))}
-          </PillContainer>
+          <Spacing vertical md>
+            <p className="text-xs italic underline" data-atropos-offset={0}>
+              last updated:{" "}
+              {new Date(pushed_at).toLocaleDateString("en-US", {
+                timeZone: "America/New_York",
+              })}
+            </p>
+            <Spacing vertical sm data-atropos-offset={1}>
+              <div className="text-2xl font-semibold">{name}</div>
+              <p className="italic text-xs">{description}</p>
+            </Spacing>
+            <PillContainer data-atropos-offset={4}>
+              {Object.keys(language_info).map((language, index) => (
+                <article
+                  key={index}
+                  className="text-sm rounded-full px-3 py-1 border border-neutral"
+                >
+                  <Spacing horizontal xs>
+                    <Image
+                      src={`/languageIcons/${language
+                        .toLowerCase()
+                        .replaceAll(" ", "")}.svg`}
+                      width={18}
+                      height={18}
+                      alt={language}
+                    />
+                    {language}
+                  </Spacing>
+                </article>
+              ))}
+            </PillContainer>
+          </Spacing>
         </article>
       </CardWrapper>
     </motion.div>

@@ -14,6 +14,7 @@ import { generateUrlPrefix } from "loaders/helpers";
 import { transitionProperties } from "utils/style";
 import { Header } from "components/root/Header";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
+import Spacing from "components/reusable/Spacing";
 
 const { publicRuntimeConfig } = getConfig();
 const { APP_ENV } = publicRuntimeConfig;
@@ -71,11 +72,10 @@ export default function PostPage() {
       </Head>
       <Header />
       <Content>
-        <div
-          className={tm(
-            "flex flex-col gap-10",
-            APP_ENV === "screenshot" ? "md:mt-10" : ""
-          )}
+        <Spacing
+          vertical
+          lg
+          className={APP_ENV === "screenshot" ? "md:mt-10" : ""}
         >
           <section>
             <div className="flex items-center justify-between">
@@ -260,7 +260,7 @@ export default function PostPage() {
               />
             </article>
           </Section>
-        </div>
+        </Spacing>
       </Content>
     </>
   );
@@ -308,26 +308,32 @@ function SkillsByLevel({
           );
         })}
       </div>
-      <ul className="flex flex-wrap gap-1">
-        {skills.map((skill, index) => (
-          <Fragment key={index}>
-            <li
-              className={tm(
-                "border-neutral border inline-block rounded-full px-3 text-sm ml-1 min-w-max",
-                ...skillCategorytoColor[skill.category]
-              )}
-            >
-              {skill.name}
-            </li>
-          </Fragment>
-        ))}
+      <ul>
+        <Spacing horizontal xs className="flex-wrap">
+          {skills.map((skill, index) => (
+            <Fragment key={index}>
+              <li
+                className={tm(
+                  "border-neutral border inline-block rounded-full px-3 text-sm ml-1 min-w-max",
+                  ...skillCategorytoColor[skill.category]
+                )}
+              >
+                {skill.name}
+              </li>
+            </Fragment>
+          ))}
+        </Spacing>
       </ul>
     </div>
   );
 }
 
 function Section({ children }: { children: ReactNode }) {
-  return <section className="flex flex-col gap-8">{children}</section>;
+  return (
+    <Spacing vertical lg>
+      {children}
+    </Spacing>
+  );
 }
 function SectionTitle({ children }: { children: ReactNode }) {
   return <h2 className="text-3xl font-semibold">{children}</h2>;
@@ -368,10 +374,10 @@ function SectionSubtitle({
           </div>
         </a>
       ) : (
-        <div className="flex flex-col ml-3 gap-1">
+        <Spacing vertical xs className="ml-3">
           <h3 className="text-lg md:text-2xl">{title}</h3>
           <p className="text-md">{subtitle}</p>
-        </div>
+        </Spacing>
       )}
       <span className="hidden md:block md:text-sm ml-auto">{timeframe}</span>
     </div>
