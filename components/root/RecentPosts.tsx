@@ -1,6 +1,5 @@
 import { Pill } from "components/reusable/Pill";
 import { PillContainer } from "components/reusable/PillContainer";
-import Spacing from "components/reusable/Spacing";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { collectionContainerClassNames } from "pages";
@@ -11,6 +10,7 @@ import { transitionProperties } from "utils/style";
 
 export const postWrapperClassNames = tm(
   "cursor-pointer rounded-2xl bg-base-100 p-8",
+  "flex flex-col gap-6",
   "border border-transparent hover:border-primary"
 );
 
@@ -31,18 +31,16 @@ function RecentPostCard({ post }: { post: Metadata }) {
           transitionDuration: "200ms",
         }}
       >
-        <Spacing vertical md>
-          <h2 className="font-semibold sm:text-xl">{post.title}</h2>
-          <div>
-            <p className="text-xs italic mb-1">{post.lastUpdated}</p>
-            <p className="text-xs">{post.abstract}</p>
-          </div>
-          <PillContainer>
-            {post.tags.map((tag, index) => (
-              <Pill key={index}>{tag}</Pill>
-            ))}
-          </PillContainer>
-        </Spacing>
+        <h2 className="font-semibold sm:text-xl">{post.title}</h2>
+        <div>
+          <p className="text-xs italic mb-1">{post.lastUpdated}</p>
+          <p className="text-xs">{post.abstract}</p>
+        </div>
+        <PillContainer>
+          {post.tags.map((tag, index) => (
+            <Pill key={index}>{tag}</Pill>
+          ))}
+        </PillContainer>
       </div>
     </Link>
   );

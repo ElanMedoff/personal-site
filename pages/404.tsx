@@ -1,10 +1,9 @@
 import { Footer } from "components/reusable/Footer";
 import { MyLink } from "components/reusable/MyLink";
-import Spacing from "components/reusable/Spacing";
 
 export default function Custom404() {
   return (
-    <Spacing vertical xs className="h-screen text-center">
+    <div className="flex flex-col h-screen text-center">
       <p className="text-left p-4 text-3xl">
         <span className="text-base-content">elanmed</span>
         <span className="hidden sm:inline text-primary">.dev</span>
@@ -16,6 +15,6 @@ export default function Custom404() {
       <div className="mt-auto">
         <Footer />
       </div>
-    </Spacing>
+    </div>
   );
 }

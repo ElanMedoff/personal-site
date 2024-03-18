@@ -6,7 +6,6 @@ import { Favorites } from "components/root/Favorites";
 import { Footer } from "components/reusable/Footer";
 import { borderClassNames } from "pages";
 import { WideContent } from "components/reusable/WideContent";
-import Spacing from "components/reusable/Spacing";
 
 export default function Bonus({ paths }: Props) {
   return (
@@ -14,7 +13,7 @@ export default function Bonus({ paths }: Props) {
       <Header />
       <WideContent>
         <section className="w-full min-h-[65vh]">
-          <Spacing vertical sm className="mb-14">
+          <div className="flex flex-col gap-2 mb-14">
             <h1
               className={tm(
                 "text-4xl sm:text-6xl md:text-7xl",
@@ -32,7 +31,7 @@ export default function Bonus({ paths }: Props) {
             >
               A few of my favorites
             </p>
-          </Spacing>
+          </div>
           <Favorites paths={paths} />
         </section>
       </WideContent>

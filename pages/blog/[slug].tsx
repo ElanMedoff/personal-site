@@ -19,7 +19,6 @@ import { userLoader } from "loaders/user";
 import { upvoteCountLoader } from "loaders/upvoteCount";
 import { Header } from "components/root/Header";
 import { generateQueryKey } from "loaders/helpers";
-import Spacing from "components/reusable/Spacing";
 
 export default function PostPage({
   post,
@@ -78,11 +77,7 @@ export default function PostPage({
       <Header />
       <Content>
         <section className="md:text-justify">
-          <Spacing
-            vertical
-            md
-            className="flex-col-reverse sm:flex-row justify-between items-start mb-12"
-          >
+          <div className="flex flex-col-reverse sm:flex-row justify-between items-start gap-6 mb-12">
             <div>
               <p className="pb-2 text-sm underline underline-offset-4">
                 last updated: {post.metadata.lastUpdated}
@@ -90,7 +85,7 @@ export default function PostPage({
               <p className="text-sm italic">{formattedReadingTime} read</p>
             </div>
             <LoginLogout />
-          </Spacing>
+          </div>
           <MDXRemote
             compiledSource={post.content}
             components={{
