@@ -6,6 +6,7 @@ import { useLocalStorage } from "hooks/useLocalStorage";
 import { transitionProperties } from "utils/style";
 import { useRouter } from "next/router";
 import { HTMLProps, useState } from "react";
+import Spacing from "./Spacing";
 
 export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
   const children = props.children as string;
@@ -28,14 +29,17 @@ export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
 
   return (
     <>
-      <label
+      <button
         className="group"
         onClick={async () => {
-          if (showDialog) return;
+          if (showDialog) {
+            // @ts-expect-error -- TODO: figure out types for showModal
+            document.getElementById(slugify(children)).showModal();
+            return;
+          }
           await copyToClipboard();
         }}
         data-locationhash={slug}
-        htmlFor={showDialog ? slugify(children) : undefined}
       >
         <h1
           className={tm(
@@ -57,12 +61,9 @@ export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
         >
           <LinkIcon size={20} className="inline-block" />
         </span>
-      </label>
+      </button>
       <Dialog id={slugify(children)}>
-        <div
-          className="flex flex-col gap-6 sm:gap-8"
-          data-testid={`copy-url-dialog-${slug}`}
-        >
+        <Spacing vertical md data-testid={`copy-url-dialog-${slug}`}>
           <h2 className="text-xl sm:text-4xl font-bold">Heads up -</h2>
           <p>
             If you disable this pop-up in the future, clicking on a header will
@@ -72,43 +73,45 @@ export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
             It&apos;s a fancy URL that&apos;ll scroll to this section when the
             page loads!
           </p>
-
-          <label
-            className={tm(
-              "btn btn-active text-xl lowercase font-light",
-              "hover:scale-[98%] active:scale-95"
-            )}
-            htmlFor={slugify(children)}
-            onClick={async () => {
-              await copyToClipboard();
-            }}
-            data-testid="copy-button"
-          >
-            Copy
-          </label>
-          <div
-            className="flex gap-4 items-center"
-            onClick={() => {
-              setChecked((p) => !p);
-              setShowDialog((p) => !p);
-            }}
-          >
+          <Spacing vertical xl>
+            <form method="dialog">
+              <button
+                className={tm(
+                  "btn btn-active text-xl lowercase font-light w-full",
+                  "hover:scale-[98%] active:scale-95"
+                )}
+                onClick={async () => {
+                  await copyToClipboard();
+                }}
+                data-testid="copy-button"
+              >
+                Copy
+              </button>
+            </form>
             <div
-              className={tm(
-                "w-6 h-6 border-2 border-primary rounded-md",
-                "hover:scale-90",
-                checked && "bg-primary"
-              )}
-              style={{
-                ...transitionProperties,
-                transitionProperty: "background-color",
+              className="flex gap-4 items-center"
+              onClick={() => {
+                setChecked((p) => !p);
+                setShowDialog((p) => !p);
               }}
-            />
-            <p className="text-sm select-none" data-testid="disable-button">
-              disable this pop-up in the future
-            </p>
-          </div>
-        </div>
+            >
+              <div
+                className={tm(
+                  "w-6 h-6 border-2 border-primary rounded-md",
+                  "hover:scale-90",
+                  checked && "bg-primary"
+                )}
+                style={{
+                  ...transitionProperties,
+                  transitionProperty: "background-color",
+                }}
+              />
+              <p className="text-sm select-none" data-testid="disable-button">
+                disable this pop-up in the future
+              </p>
+            </div>
+          </Spacing>
+        </Spacing>
       </Dialog>
     </>
   );

@@ -1,24 +1,19 @@
 import { ReactNode } from "react";
-import { twMerge as tm } from "tailwind-merge";
 
 export function Dialog({ id, children }: { id: string; children: ReactNode }) {
   return (
-    <>
-      <input type="checkbox" id={id} className="modal-toggle" />
-      <label
-        htmlFor={id}
-        className="modal modal-bottom sm:modal-middle cursor-pointer"
-      >
-        <label
-          className={tm(
-            "modal-box relative border-4 border-content",
-            "py-8 sm:py-12 px-6 sm:px-8",
-            "border-b-0 sm:border-b-4"
-          )}
-        >
-          {children}
-        </label>
-      </label>
-    </>
+    <dialog id={id} className="modal">
+      <div className="modal-box border-6 border-neutral p-10">
+        <form method="dialog">
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>
+        </form>
+        {children}
+      </div>
+      <form method="dialog" className="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
   );
 }

@@ -23,11 +23,12 @@ function RecentPostCard({ post }: { post: Metadata }) {
           "min-h-[250px]",
           "shadow-lg hover:shadow-2xl",
           "w-[300px] sm:w-[500px]",
-          "hover:scale-105"
+          "hover:scale-105",
+          "border-neutral"
         )}
         style={{
           ...transitionProperties,
-          transitionProperty: "transform, border-color, box-shadow",
+          transitionProperty: "transform, box-shadow",
           transitionDuration: "200ms",
         }}
       >
