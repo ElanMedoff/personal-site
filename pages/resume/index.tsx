@@ -14,6 +14,7 @@ import { generateUrlPrefix } from "loaders/helpers";
 import { createClassNameWrapper, transitionProperties } from "utils/style";
 import { Header } from "components/root/Header";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
+import Image from "next/image";
 
 const { publicRuntimeConfig } = getConfig();
 const { APP_ENV } = publicRuntimeConfig;
@@ -79,7 +80,15 @@ export default function PostPage() {
         >
           <section>
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4 md:gap-10 flex-wrap">
+              <div className="flex items-center gap-4 md:gap-8 flex-wrap">
+                <div className="relative h-20 w-20 rounded-full border-4 border-primary overflow-hidden">
+                  <Image
+                    alt="static image"
+                    src="/profile/profile.png"
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
                 <h1 className="text-4xl md:text-5xl font-bold">Elan Medoff</h1>
                 <div className="flex gap-4 items-center">
                   <a

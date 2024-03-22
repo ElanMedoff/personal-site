@@ -2,6 +2,7 @@ import { twMerge as tm } from "tailwind-merge";
 import { SwiperCards } from "components/reusable/SwiperCards";
 import { onScrollChildProps, onScrollContainerProps } from "utils/framer";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 function SwiperWrapper({
   paths,
@@ -25,9 +26,15 @@ function SwiperWrapper({
         <SwiperCards
           slides={paths.map((path, index) => {
             return (
-              <div key={index} className="p-1 bg-neutral">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/${dir}/${path}`} alt={dir} />
+              <div key={index} className="p-1 -mb-[7px] bg-neutral">
+                <div key={index} className="">
+                  <Image
+                    src={`/${dir}/${path}`}
+                    alt={dir}
+                    width={460}
+                    height={690}
+                  />
+                </div>
               </div>
             );
           })}
