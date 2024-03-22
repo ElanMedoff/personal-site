@@ -58,10 +58,15 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
       isEmptySearchParam: (searchParamVal) => searchParamVal.length === 0,
     }
   );
-  const [filterMethod, setFilterMethod] = useSearchParamState("method", "", {
-    serverSideURL,
-    validate: z.union([z.literal("union"), z.literal("intersection")]).parse,
-  });
+  // TODO: buggy
+  const [filterMethod, setFilterMethod] = useSearchParamState(
+    "method",
+    "union",
+    {
+      serverSideURL,
+      validate: z.union([z.literal("union"), z.literal("intersection")]).parse,
+    }
+  );
   const [inputValue, setInputValue] = useSearchParamState("search", "", {
     serverSideURL,
     validate: z.coerce.string().parse,
@@ -103,7 +108,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
             selectedTags.includes(tag)
           ).length;
 
-          return filterMethod === "union" || filterMethod === ""
+          return filterMethod === "union"
             ? numOverlappingTags > 0
             : numOverlappingTags === selectedTags.length;
         })
@@ -261,7 +266,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
             <h2 className="m-3 mt-6 text-sm underline w-max">filter method</h2>
             <div className="flex flex-wrap pl-3 gap-2">
               <FilterTagPill
-                selected={filterMethod === "union" || filterMethod === ""}
+                selected={filterMethod === "union"}
                 onClick={() => {
                   setFilterMethod("union");
                 }}
