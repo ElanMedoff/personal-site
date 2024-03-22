@@ -29,6 +29,8 @@ module.exports = {
           "base-200": "#F2F2F2",
           "base-300": "#E5E6E6",
           "base-content": "#1f2937",
+          // custom
+          primary: "#3fb0ba",
         },
         dark: {
           // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -38,9 +40,11 @@ module.exports = {
           accent: "#eeaf3a",
           // custom
           secondary: "#eb89ad",
-          neutral: "#4a5869",
           info: "#0392ce",
           accent: "#e29913",
+          primary: "#3fb0ba",
+          "base-content": "#bcc1cc",
+          "neutral-content": "#bcc1cc",
         },
       },
     ],

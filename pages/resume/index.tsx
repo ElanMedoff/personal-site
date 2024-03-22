@@ -11,7 +11,7 @@ import {
   BsFillCheckCircleFill as CheckIcon,
 } from "react-icons/bs";
 import { generateUrlPrefix } from "loaders/helpers";
-import { transitionProperties } from "utils/style";
+import { createClassNameWrapper, transitionProperties } from "utils/style";
 import { Header } from "components/root/Header";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 
@@ -73,7 +73,7 @@ export default function PostPage() {
       <Content>
         <div
           className={tm(
-            "flex flex-col gap-10",
+            "flex flex-col gap-8",
             APP_ENV === "screenshot" ? "md:mt-10" : ""
           )}
         >
@@ -108,38 +108,33 @@ export default function PostPage() {
               <SkillsByLevel
                 experience="high"
                 skills={[
-                  { name: "Typescript", category: "language" },
-                  { name: "Javascript", category: "language" },
-                  { name: "HTML", category: "language" },
-                  { name: "CSS", category: "language" },
-                  { name: "React", category: "framework" },
-                  { name: "Next.js / Next.js V13", category: "framework" },
-                  { name: "React Query", category: "library" },
-                  { name: "Redux", category: "library" },
-                  { name: "Node.js", category: "skill" },
-                  { name: "Deno", category: "skill" },
+                  "Typescript",
+                  "Javascript",
+                  "HTML",
+                  "CSS",
+                  "React",
+                  "Next.js / Next.js V13",
+                  "React Query",
+                  "Redux",
+                  "Node.js",
+                  "Deno",
                 ]}
               />
               <SkillsByLevel
                 experience="medium"
                 skills={[
-                  { name: "Bash", category: "language" },
-                  { name: "Lua", category: "language" },
-                  { name: "Redux Toolkit", category: "library" },
-                  { name: "MongoDB", category: "library" },
-                  { name: "Prisma", category: "library" },
-                  { name: "Git", category: "skill" },
-                  { name: "OAuth", category: "skill" },
+                  "Bash",
+                  "Lua",
+                  "Redux Toolkit",
+                  "MongoDB",
+                  "Prisma",
+                  "Git",
+                  "OAuth",
                 ]}
               />
               <SkillsByLevel
                 experience="low"
-                skills={[
-                  { name: "Java", category: "language" },
-                  { name: "Python", category: "language" },
-                  { name: "OCaml", category: "language" },
-                  { name: "Ruby on Rails", category: "framework" },
-                ]}
+                skills={["Java", "Python", "OCaml", "Ruby on Rails"]}
               />
             </div>
           </Section>
@@ -148,11 +143,27 @@ export default function PostPage() {
             <article>
               <SectionSubtitle
                 iconStyles={styles.wealthfront}
-                title="Senior Software Engineer (Wealthfront)"
-                subtitle="Lead of the Web Engineering Platform"
-                timeframe="July 2021 - present"
+                headers={[
+                  {
+                    title: "Senior Software Engineer (Wealthfront)",
+                    timeframe: "January 2024 - present",
+                    subtitle: "Lead of the Web Engineering Platform",
+                  },
+                  {
+                    title: "Software Engineer",
+                    timeframe: "January 2023 - December 2023",
+                  },
+                  {
+                    title: "Junior Software Engineer",
+                    timeframe: "July 2021 - December 2022",
+                  },
+                  {
+                    title: "Software Engineer Intern",
+                    timeframe: "Summer 2020",
+                  },
+                ]}
               />
-              <div className="divider my-2" />
+              <div className="divider mb-2 mt-1" />
               <ul className="list-disc ml-12">
                 <li>
                   Oversaw quarterly web infrastructure goals by orchestrating
@@ -162,7 +173,8 @@ export default function PostPage() {
                 <li>
                   Collaborated with a cross-functional team of engineers,
                   designers, and project managers to launch several flagship
-                  investment products
+                  investment products; acted as the engineering lead for several
+                  product initiatives
                 </li>
                 <li>
                   Standardized data fetching patterns in the web codebase with
@@ -171,23 +183,13 @@ export default function PostPage() {
                   data loading speed and reducing code complexity significantly
                 </li>
                 <li>
+                  Participated in the web on-call rotation, troubleshooting and
+                  resolving various production issues and ensuring a
+                  high-quality user experience
+                </li>
+                <li>
                   Conducted interviews for prospective engineers, assessing
                   their coding and conceptual skills
-                </li>
-              </ul>
-            </article>
-            <article>
-              <SectionSubtitle
-                iconStyles={styles.wealthfront}
-                title="Software Engineer Intern (Wealthfront)"
-                timeframe="Summer 2020"
-              />
-              <div className="divider my-2" />
-              <ul className="list-disc ml-12">
-                <li>
-                  Renewed an older landing page with a sophisticated, page-long
-                  scrolling animation, collaborating with designers to create a
-                  visually appealing and interactive experience
                 </li>
               </ul>
             </article>
@@ -197,10 +199,14 @@ export default function PostPage() {
             <article>
               <SectionSubtitle
                 iconStyles={styles.star}
-                title="use-search-param-state"
-                href="https://www.npmjs.com/package/use-search-param-state"
+                headers={[
+                  {
+                    title: "use-search-param-state",
+                    href: "https://www.npmjs.com/package/use-search-param-state",
+                  },
+                ]}
               />
-              <div className="divider my-2" />
+              <div className="divider mb-2 -mt-2" />
               <ul className="list-disc ml-10">
                 <li>
                   An NPM library to safely and effortlessly read / write to URL
@@ -226,10 +232,11 @@ export default function PostPage() {
             <article>
               <SectionSubtitle
                 iconStyles={styles.star}
-                title="elanmed.dev"
-                href="https://elanmed.dev/"
+                headers={[
+                  { title: "elanmed.dev", href: "https://elanmed.dev/" },
+                ]}
               />
-              <div className="divider my-2" />
+              <div className="divider mb-2 -mt-2" />
               <ul className="list-disc ml-10">
                 <li>
                   A personal tech blog with 15+ articles on topics such as
@@ -254,9 +261,13 @@ export default function PostPage() {
             <article className="mb-10">
               <SectionSubtitle
                 iconStyles={styles.hopkins}
-                title="Johns Hopkins University"
-                subtitle="Bachelor's degree in Computer Science (3.83)"
-                timeframe="2017 - 2021"
+                headers={[
+                  {
+                    title: "Johns Hopkins University",
+                    subtitle: "Bachelor's degree in Computer Science (3.83)",
+                    timeframe: "2017 - 2021",
+                  },
+                ]}
               />
             </article>
           </Section>
@@ -266,27 +277,23 @@ export default function PostPage() {
   );
 }
 
-interface Skill {
-  name: string;
-  category: "language" | "framework" | "library" | "skill";
-}
-
 const monochromeStyles =
   APP_ENV === "screenshot" ? ["bg-base-100", "text-base-content"] : [];
 
-const skillCategorytoColor: Record<Skill["category"], string[]> = {
-  framework: ["bg-base-300", "text-base-content", ...monochromeStyles],
-  language: ["bg-info", "text-info-content", ...monochromeStyles],
-  library: ["bg-primary", "text-primary-content", ...monochromeStyles],
-  skill: ["bg-accent", "text-accent-content", ...monochromeStyles],
+type Experience = "high" | "medium" | "low";
+
+const skillCategorytoColor: Record<Experience, string[]> = {
+  high: ["bg-secondary", "text-secondary-content", ...monochromeStyles],
+  medium: ["bg-accent", "text-accent-content", ...monochromeStyles],
+  low: ["bg-primary", "text-primary-content", ...monochromeStyles],
 };
 
 function SkillsByLevel({
   experience,
   skills,
 }: {
-  experience: "high" | "medium" | "low";
-  skills: Skill[];
+  experience: Experience;
+  skills: string[];
 }) {
   return (
     <div className="flex items-center gap-4">
@@ -299,12 +306,7 @@ function SkillsByLevel({
             : Array(1)
         ).map((_, index) => {
           return (
-            <CheckIcon
-              key={index}
-              size={30}
-              className={tm("flex-shrink-0")}
-              color="bg-green-200"
-            />
+            <CheckIcon key={index} size={30} className={tm("flex-shrink-0")} />
           );
         })}
       </div>
@@ -314,10 +316,10 @@ function SkillsByLevel({
             <li
               className={tm(
                 "border-neutral border inline-block rounded-full px-3 text-sm ml-1 min-w-max",
-                ...skillCategorytoColor[skill.category]
+                ...skillCategorytoColor[experience]
               )}
             >
-              {skill.name}
+              {skill}
             </li>
           </Fragment>
         ))}
@@ -327,53 +329,96 @@ function SkillsByLevel({
 }
 
 function Section({ children }: { children: ReactNode }) {
-  return <section className="flex flex-col gap-8">{children}</section>;
+  return <section className="flex flex-col gap-6">{children}</section>;
 }
 function SectionTitle({ children }: { children: ReactNode }) {
   return <h2 className="text-3xl font-semibold">{children}</h2>;
 }
+
+interface Header {
+  title: string;
+  subtitle?: string;
+  href?: string;
+  timeframe?: string;
+}
+
 function SectionSubtitle({
   iconStyles,
-  title,
-  timeframe,
-  href,
-  subtitle,
+  headers,
 }: {
-  iconStyles: string;
-  title: string;
-  timeframe?: string;
-  href?: string;
-  subtitle?: string;
+  iconStyles?: string;
+  headers: Header[];
 }) {
   return (
     <div className="flex items-start">
-      <a className={tm(iconStyles, "shrink-0")} />
-      {href ? (
-        <a href={href} className="ml-3">
-          <div className="cursor-pointer flex items-end group">
-            <h3 className="text-lg md:text-2xl underline mr-2">{title}</h3>
-            <span
-              className={tm(
-                "rounded-full p-1 border border-transparent",
-                "group-hover:border-neutral",
-                "group-active:scale-[90%]"
-              )}
-              style={{
-                ...transitionProperties,
-                transitionProperty: "transform",
-              }}
-            >
-              <LinkIcon size={20} />
-            </span>
-          </div>
-        </a>
-      ) : (
-        <div className="flex flex-col ml-3 gap-1">
-          <h3 className="text-lg md:text-2xl">{title}</h3>
-          <p className="text-md">{subtitle}</p>
-        </div>
-      )}
-      <span className="hidden md:block md:text-sm ml-auto">{timeframe}</span>
+      {iconStyles && <a className={tm(iconStyles, "shrink-0")} />}
+      <div className="flex flex-col w-full">
+        {headers.map(({ title, href, subtitle, timeframe }, index) => {
+          if (href) {
+            return (
+              <HeaderWrapper key={index} index={index}>
+                <a href={href} className="ml-3">
+                  <div className="cursor-pointer flex items-end group">
+                    <h3 className="text-lg md:text-2xl underline mr-2">
+                      {title}
+                    </h3>
+                    <span
+                      className={tm(
+                        "rounded-full p-1 border border-transparent",
+                        "group-hover:border-neutral",
+                        "group-active:scale-[90%]"
+                      )}
+                      style={{
+                        ...transitionProperties,
+                        transitionProperty: "transform",
+                      }}
+                    >
+                      <LinkIcon size={20} />
+                    </span>
+                  </div>
+                </a>
+                <Timeframe>{timeframe}</Timeframe>
+              </HeaderWrapper>
+            );
+          }
+          return (
+            <HeaderWrapper key={index} index={index}>
+              <div className="flex flex-col ml-3 gap-1">
+                <h3
+                  className={tm(
+                    "text-lg md:text-2xl",
+                    index === 0 ? "" : "text-md md:text-lg"
+                  )}
+                >
+                  {title}
+                </h3>
+                <p className="text-md md:text-lg underline underline-offset-2">
+                  {subtitle}
+                </p>
+              </div>
+              <Timeframe>{timeframe}</Timeframe>
+            </HeaderWrapper>
+          );
+        })}
+      </div>
     </div>
+  );
+}
+
+const Timeframe = createClassNameWrapper(
+  "Timeframe",
+  "div",
+  "hidden md:block md:text-sm ml-auto"
+);
+
+function HeaderWrapper({
+  index,
+  children,
+}: {
+  index: number;
+  children: ReactNode;
+}) {
+  return (
+    <div className={tm("flex", index === 0 ? "mb-4" : "")}>{children}</div>
   );
 }

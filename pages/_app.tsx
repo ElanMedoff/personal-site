@@ -19,6 +19,7 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SearchParamStateProvider } from "use-search-param-state";
 import * as cookie from "cookie";
+import { useRouter } from "next/router";
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
@@ -68,6 +69,7 @@ export default function MyApp({
   }, [isDarkMode, isDarkModeCookie]);
 
   const [queryClient] = useState(() => new QueryClient());
+  const router = useRouter();
 
   return (
     <>
@@ -94,6 +96,9 @@ export default function MyApp({
       <SearchParamStateProvider
         options={{
           deleteEmptySearchParam: true,
+          pushState: (href) => {
+            router.push(href, undefined, { shallow: true });
+          },
         }}
       >
         <QueryClientProvider client={queryClient}>
