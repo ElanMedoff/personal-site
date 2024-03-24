@@ -81,16 +81,14 @@ export default function PostPage() {
           <section>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4 md:gap-8 flex-wrap">
-                {APP_ENV !== "screenshot" && (
-                  <div className="relative h-20 w-20 rounded-full border-4 border-primary overflow-hidden">
-                    <Image
-                      alt="static image"
-                      src="/profile/profile.png"
-                      layout="fill"
-                      objectFit="cover"
-                    />
-                  </div>
-                )}
+                <div className="relative h-20 w-20 rounded-full border-4 border-primary overflow-hidden">
+                  <Image
+                    alt="resume profile image"
+                    src="/profile/profile.png"
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
                 <h1 className="text-4xl md:text-5xl font-bold">Elan Medoff</h1>
                 <div className="flex gap-4 items-center">
                   <a
