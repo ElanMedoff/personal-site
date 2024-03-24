@@ -17,9 +17,9 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { SearchParamStateProvider } from "use-search-param-state";
 import * as cookie from "cookie";
 import { useRouter } from "next/router";
+import { SearchParamStateProvider } from "use-search-param-state";
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
 

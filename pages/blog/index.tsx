@@ -20,8 +20,8 @@ import { FilterTagPill } from "components/blog/FilterTagPill";
 import { useIsMobile } from "hooks/useIsMobile";
 import { BsSearch as SearchIcon } from "react-icons/bs";
 import { Header } from "components/root/Header";
-import { useSearchParamState } from "use-search-param-state";
 import { z } from "zod";
+import { useSearchParamState } from "use-search-param-state";
 
 export default function Blog({ allMetadata, serverSideURL }: Props) {
   const allCollections = Array.from(
@@ -58,7 +58,6 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
       isEmptySearchParam: (searchParamVal) => searchParamVal.length === 0,
     }
   );
-  // TODO: buggy
   const [filterMethod, setFilterMethod] = useSearchParamState(
     "method",
     "union",
