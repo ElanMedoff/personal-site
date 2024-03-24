@@ -75,13 +75,13 @@ export default function PostPage() {
         <div
           className={tm(
             "flex flex-col gap-8",
-            APP_ENV === "screenshot" ? "md:mt-10" : ""
+            APP_ENV === "screenshot" ? "md:mt-8" : ""
           )}
         >
           <section>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4 md:gap-8 flex-wrap">
-                <div className="relative h-20 w-20 rounded-full border-4 border-primary overflow-hidden">
+                <div className="relative h-24 w-24 rounded-full border-4 border-primary overflow-hidden">
                   <Image
                     alt="resume profile image"
                     src="/profile/profile.png"
@@ -183,7 +183,7 @@ export default function PostPage() {
                   Collaborated with a cross-functional team of engineers,
                   designers, and project managers to launch several flagship
                   investment products; acted as the engineering lead for several
-                  product initiatives
+                  initiatives
                 </li>
                 <li>
                   Standardized data fetching patterns in the web codebase with
