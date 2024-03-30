@@ -58,6 +58,7 @@ export default function MyApp({
       document.cookie = cookie.serialize("isDarkMode", String(media.matches), {
         httpOnly: false,
         maxAge: ONE_YEAR,
+        domain: "/",
       });
       return;
     }
@@ -65,6 +66,7 @@ export default function MyApp({
     document.cookie = cookie.serialize("isDarkMode", String(isDarkMode), {
       httpOnly: false,
       maxAge: ONE_YEAR,
+      domain: "/",
     });
   }, [isDarkMode, isDarkModeCookie]);
 

@@ -66,6 +66,7 @@ export default function MyApp({
     document.cookie = cookie.serialize("isDarkMode", String(isDarkMode), {
       httpOnly: false,
       maxAge: ONE_YEAR,
+      domain: "/",
     });
   }, [isDarkMode]);
 
@@ -97,6 +98,7 @@ MyApp.getInitialProps = async (
       cookie.serialize("isDarkMode", String(false), {
         httpOnly: false,
         maxAge: ONE_YEAR,
+        domain: "/",
       })
     );
     return {
@@ -231,6 +233,7 @@ export default function MyApp({
     document.cookie = cookie.serialize("isDarkMode", String(isDarkMode), {
       httpOnly: false,
       maxAge: ONE_YEAR,
+      domain: "/",
     });
   }, [isDarkMode]);
 
@@ -262,6 +265,7 @@ MyApp.getInitialProps = async (
       cookie.serialize("isDarkMode", String(false), {
         httpOnly: false,
         maxAge: ONE_YEAR,
+        domain: "/",
       })
     );
     return {
@@ -321,6 +325,7 @@ export function useDarkMode() {
     document.cookie = cookie.serialize("isDarkMode", String(isDarkMode), {
       httpOnly: false,
       maxAge: ONE_YEAR,
+      domain: "/",
     });
   }, [isDarkMode]);
 
@@ -356,6 +361,7 @@ export const getServerSideProps = (async ({ req, res }) => {
       cookie.serialize("isDarkMode", String(false), {
         httpOnly: false,
         maxAge: ONE_YEAR,
+        domain: "/",
       })
     );
     return {
@@ -419,6 +425,7 @@ export default function MyApp({
       document.cookie = cookie.serialize("isDarkMode", String(media.matches), {
         httpOnly: false,
         maxAge: ONE_YEAR,
+        domain: "/",
       });
       // don't call setIsDarkMode or you might have a flash!
       return;
@@ -427,6 +434,7 @@ export default function MyApp({
     document.cookie = cookie.serialize("isDarkMode", String(isDarkMode), {
       httpOnly: false,
       maxAge: ONE_YEAR,
+      domain: "/",
     });
   }, [isDarkMode, isDarkModeCookie]);
 
