@@ -122,11 +122,12 @@ export default function PostPage() {
                   "HTML",
                   "CSS",
                   "React",
-                  "Next.js / Next.js V13",
+                  "Next.js /pages",
+                  "Next.js /app",
                   "React Query",
                   "Redux",
                   "Node.js",
-                  "Deno",
+                  "Git",
                 ]}
               />
               <SkillsByLevel
@@ -137,8 +138,8 @@ export default function PostPage() {
                   "Redux Toolkit",
                   "MongoDB",
                   "Prisma",
-                  "Git",
                   "OAuth",
+                  "Deno",
                 ]}
               />
               <SkillsByLevel
@@ -187,7 +188,7 @@ export default function PostPage() {
                 </li>
                 <li>
                   Standardized data fetching patterns in the web codebase with
-                  React Query and number of custom utilities and wrappers; led
+                  React Query and a number of custom utilities and wrappers; led
                   the migration to adopt these new tools, improving perceived
                   data loading speed and reducing code complexity significantly
                 </li>
