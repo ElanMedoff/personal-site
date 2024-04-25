@@ -168,7 +168,7 @@ export function Profile() {
           , a software engineer specializing in web and fullstack development.
         </p>
         <p>
-          These days, I&apos;m especially interested in authentication on the
+          These days, I&apos;m especially interested in data fetching on the
           web, the (re)emergence of server-side rendering and all the new
           approaches to it, and tinkering with my (Neo)Vim config.
         </p>
