@@ -169,8 +169,8 @@ export function Profile() {
         </p>
         <p>
           These days, I&apos;m especially interested in data fetching on the
-          web, the (re)emergence of server-side rendering and all the new
-          approaches to it, and tinkering with my (Neo)Vim config.
+          web, all the new approaches to server-side rendering, and tinkering
+          with my (Neo)Vim config.
         </p>
         <p>
           I currently work at{" "}

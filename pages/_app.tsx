@@ -55,15 +55,19 @@ export default function MyApp({
     if (isDarkMode === null) {
       const media = window.matchMedia("(prefers-color-scheme: dark)");
 
-      document.cookie = cookie.serialize("isDarkMode", String(media.matches), {
-        httpOnly: false,
-        maxAge: ONE_YEAR,
-        path: "/",
-      });
+      document.cookie = cookie.serialize(
+        "isDarkMode_0",
+        String(media.matches),
+        {
+          httpOnly: false,
+          maxAge: ONE_YEAR,
+          path: "/",
+        }
+      );
       return;
     }
 
-    document.cookie = cookie.serialize("isDarkMode", String(isDarkMode), {
+    document.cookie = cookie.serialize("isDarkMode_0", String(isDarkMode), {
       httpOnly: false,
       maxAge: ONE_YEAR,
       path: "/",
@@ -133,9 +137,8 @@ MyApp.getInitialProps = async (context: AppContext): Promise<AppOwnProps> => {
     };
   }
 
-  const isDarkModeCookie = cookie.parse(req.headers.cookie || "").isDarkMode as
-    | string
-    | undefined;
+  const isDarkModeCookie = cookie.parse(req.headers.cookie || "")
+    .isDarkMode_0 as string | undefined;
 
   if (isDarkModeCookie === undefined) {
     return {
