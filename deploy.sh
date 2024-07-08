@@ -26,18 +26,6 @@ else
 fi
 pm2 delete e2e 
 
-kill -9 $(lsof -ti:3000)
-pm2 start "npm run resume:start" --name resume
-cecho "generating resume ..." 4
-if npm run resume:screenshot; then
-  cecho "generated resume" 2
-else
-  cecho "generating resume failed, aborting" 1
-  pm2 delete resume 
-  exit
-fi
-pm2 delete resume 
-
 cecho "generating sitemap ..." 4
 npm run generateSitemap
 cecho "generated sitemap" 2
