@@ -1,0 +1,460 @@
+---
+title: "Revamping Data Fetching Patterns on the Web Platform at Wealthfront"
+abstract: "Using React Query to find a hybrid between global and local data fetching"
+lastUpdated: "August 5, 2024"
+slug: revamping-data-fetching-patterns-at-wealthfront
+tags:
+  - software eng
+  - react
+  - typescript
+collection: null
+isPublished: true
+---
+
+# Revamping Data Fetching Patterns on the Web Platform at Wealthfront
+
+<Info>
+This article was originally posted on the Wealthfront Engineering [blog](https://eng.wealthfront.com/2024/08/01/revamping-data-fetching-patterns-on-the-web-platform/) 
+under the title 'Revamping Data Fetching Patterns on the Web Platform'
+</Info>
+
+Client-side data fetching is an essential part of the web app at Wealthfront. 
+
+Traditionally, we fetched data from the Wealthfront API globally: we’d load all the data necessary for the entire page and store 
+it in global state for components on the page to pull from. Crucially, the bulk of this data fetching logic was performed with 
+Redux, outside any React component. This approach worked great in the era of class components, since it would have been difficult 
+to reuse any data-fetching logic that was performed in a component itself – think of the clunkiness associated with 
+higher-order components ([HOCs](https://legacy.reactjs.org/docs/higher-order-components.html)) and 
+[render-props](https://legacy.reactjs.org/docs/render-props.html). That being said, this approach had several disadvantages: 
+working with Redux was boilerplate-heavy, our load-time was as fast as our slowest endpoint, and we encountered intermittent 
+issues with stale data. We were looking for a better way to fetch data at Wealthfront, and React hooks gave us that opportunity.
+
+React version 16.8 introduced hooks, and sharing logic between components became a breeze. Custom hooks took the place of HOCs and 
+render-props, and we saw the opportunity to address some of the disadvantages of global data fetching. Instead of managing fetch calls
+outside React with Redux, we began to fetch from within the React tree itself. With primitives like `useState` and `useEffect`, we created
+a simple custom hook that could be used to fetch whatever data a given component required from the Wealthfront API. Fittingly, we called
+the custom hook `useApi`. `useApi` greatly simplified our data fetching patterns, but had many disadvantages of its own: duplicate network
+requests, additional null checking in components, and more loading and error states for the developer to handle. 
+
+To address these issues, we decided to take a step back and re-examine our data fetching patterns as part of a larger infrastructure
+initiative. It had been some time since we last reviewed data fetching solutions in the React community, and we were interested in
+new developments. We were looking for a hybrid approach between global and local data fetching, and React Query turned out to be a great option. 
+
+We’ve since adopted React Query into the Wealthfront code base, iterated on the library with a number of Wealthfront-specific wrappers, 
+created helper utilities to simplify loading and error states, and migrated nearly every call to the Wealthfront API to our new tools. 
+Let’s walk through the process!
+
+## Fetching Globally and Fetching Locally
+
+But first, some background on global and local data fetching.
+
+Global data fetching loads all relevant data from the server at the root of the component tree and renders a single loading state while
+pending. Similarly, if any data fails to load, it triggers a single error state. The data is recorded in a global store, and child 
+components of the root simply pull from this store to access the data they require. Global data fetching presents an interesting set of
+pros and cons:
+
+Pros: 
+- The developer only needs to handle a single loading and error state.
+- The developer can assume the fetched data is already loaded in deeply-nested children and avoid null checks – assuming the parent 
+component prevents the children from rendering if a network request fails. 
+
+Cons:
+- The content on the page is effectively locked behind a loading state until the slowest endpoint is loaded.
+- A single fetching failure will trigger an error state for the entire page, even sections which don’t use any data from that particular
+remote source. 
+- Global data fetching requires a global store to hold the data: at Wealthfront we use Redux, and setting up Redux actions and selectors
+for each new remote source can be tedious. 
+- Populating the global store once on-load can lead to stale data if a child component pulls the data after some delay.
+- In large apps, it can be difficult to conceptually connect globally fetched data to the child component that uses it. Similarly, it can
+be difficult to determine if a remote data call can be safely removed when a feature that uses the data is deleted.
+
+To address these disadvantages, we began to use local data fetching. As mentioned earlier, there’s a similar set of tradeoffs:
+
+Pros:
+
+- By fetching data in the component where it’s used, each component only waits for its own data to load before it can render its content. 
+- A fetching failure only triggers an error state for the component that requires data from that particular remote source.
+- A simpler mental model for the developer, since the data fetching is in the same component as the data rendering. Similarly, when removing
+a feature, it’s easy to remove any associated data fetching.
+- Data is fetched when it’s needed, preventing stale data.
+
+Cons:
+- Each component needs to handle its own loading and error state.
+- Because loading and error states are handled locally, null checks are necessary locally as well.
+
+There’s also another category of problems with local data fetching: request duplication. There’s no simple way to deduplicate requests
+coming from multiple components loading data from the same remote source simultaneously.
+
+When looking to improve our data fetching patterns, we sought to embrace the pros and address the cons of each data fetching paradigm as much as possible.
+
+In other words, we were looking for a solution which would:
+
+1. Support both global and local data fetching
+2. When fetching locally, deduplicate simultaneous requests
+3. When fetching locally, minimize null checks and simplify loading and error states
+4. When fetching globally, avoid boilerplate associated with a global store
+5. When fetching globally, revalidate data when it’s pulled from the global store by a child component
+
+We wanted the benefits of local data fetching when fetching data globally, and the benefits of global data fetching when fetching data 
+locally. React Query gave us the best of both worlds.
+
+## Introducing React Query
+
+> Note: The code snippets below that use React Query are based on version 4.0
+
+[React Query](https://tanstack.com/query/latest) (also called Tanstack Query) is a modern data fetching library which provides a great set 
+of primitives for managing data from a remote source on the client. The core of React Query is a global store called a query client that’s 
+managed behind-the-scenes. 
+
+With React Query, you pass an asynchronous function, in our case a call to the Wealthfront API, and any data that’s returned from the function
+is automatically stored in the query client. If another component uses React Query to load the same data, it will pull the cached response from
+the query client and prevent a loading state. However, in the background React Query will revalidate the data (i.e. load the remote data again).
+If the data is changed by the revalidation, React Query will re-render the component with the latest updates. This caching strategy is known as
+stale-while-revalidate, and it’s a great approach to prevent unnecessary loading states while ensuring the user sees up-to-date data.
+
+Out of the box, React Query will also deduplicate simultaneous requests to the same data source, retry failed fetching calls, revalidate data 
+on tab-focus and [more](https://tanstack.com/query/latest/docs/framework/react/comparison).
+
+## Building on useQuery for local data fetching
+
+`useQuery` is the most basic utility for fetching data with React Query. It has a simple interface, and can be used like the following:
+
+<Code language="tsx" code={`
+// https://tanstack.com/query/v4/docs/framework/react/overview
+const { data, isLoading, isError } = useQuery({
+  queryKey: ['repoData'],
+  queryFn: () => {
+   return fetch('https://api.github.com/repos/TanStack/query').then((res) => res.json()) 
+  },
+});
+`} />
+
+By default, `useQuery` expects two required fields passed to its object parameter: `queryFn` and `queryKey`. `queryFn` is the asynchronous function 
+we call to return our data, and `queryKey` is an array that’s used to uniquely identify the data returned from the `queryFn`. In exchange for these
+inputs, `useQuery` will return `isLoading` and `isError` flags, the data returned from the `queryFn`, and 
+[many other values](https://tanstack.com/query/v4/docs/framework/react/reference/useQuery). 
+
+For local data fetching, `useQuery` provides everything we need! We can render local loading and error states based on the `isLoading` and `isError` flags, 
+and process the fetched data as we’d like. 
+
+However, there’s a bit of additional work we can do to simplify `useQuery` invocations. At Wealthfront, we use an in-house SDK to interact with our API 
+instead of calling `fetch` directly, something like the following:
+
+<Code language="tsx" code={`
+interface User {
+  name: string;
+}
+
+const api = {
+  getUser: (userId: number) => {
+    return new Promise<User>((resolve) => {
+      resolve({
+        name: 'Elan',
+      });
+    });
+  },
+};
+
+const user = await api.getUser(userId)
+`} />
+
+To integrate React Query with our API, we created a wrapper around `useQuery` called `useApiQuery`. `useApiQuery` accepts an API endpoint’s name, the 
+parameters it expects, and all of `useQuery`’s options: 
+
+<Code language="tsx" code={`
+// simplified
+function useApiQuery(endpointName, params, options) {
+  const { onError, ...restOptions } = options ?? {};
+
+  return useQuery({
+    queryKey: [endpointName, ...params],
+    queryFn: () => {
+      return api[endpointName].apply(null, params);
+    },
+    onError: (e) => {
+      alertErrorMonitoring(e);
+      onError?.(e);
+    },
+    ...restOptions,
+  });
+}
+`} />
+
+As a result, `useApiQuery` is much simpler to use than `useQuery`:
+
+<Code language="tsx" code={`
+const { data: queryData } = useQuery({
+  queryKey: ['getUser', userId],
+  queryFn: () => api.getUser(userId),
+  onError: (e) => {
+    alertErrorMonitoring(e);
+  },
+});
+
+// vs
+
+const { data: apiQueryData } = useApiQuery('getUser', [userId]);
+`} />
+
+With this implementation, `useApiQuery` improves the ergonomics of calling `useQuery`, but at the cost of strong type safety: `queryData` is correctly 
+typed as the return type of `api.getUser`, but `apiQueryData` is typed as `unknown`!
+
+We can add stronger type safety with a few generics:
+
+<Code language="tsx" code={`
+interface User {
+  name: string;
+}
+
+// the fake API SDK from earlier
+const api = {
+  getUser: (userId: number) => {
+    return new Promise<User>((resolve) => {
+      resolve({
+        name: 'Elan',
+      });
+    });
+  },
+};
+
+type Api = typeof api;
+type ApiEndpointName = keyof Api;
+type ApiResponse<EndpointName extends ApiEndpointName> = Awaited<ReturnType<Api[EndpointName]>>;
+type ApiParams<EndpointName extends ApiEndpointName> = Parameters<Api[EndpointName]>;
+
+function useApiQuery<EndpointName extends ApiEndpointName>(
+  endpointName: EndpointName,
+  params: ApiParams<EndpointName>,
+  options?: UseQueryOptions<ApiResponse<EndpointName>>
+) {
+  const { onError, ...restOptions } = options ?? {};
+
+  return useQuery({
+    queryKey: [endpointName, ...params],
+    queryFn: (): Promise<ApiResponse<EndpointName>> => {
+      return api[endpointName].apply(null, params);
+    },
+    onError: (error) => {
+      alertErrorMonitoring(error);
+      onError?.(error);
+    },
+    ...restOptions,
+  });
+}
+`} />
+
+With this implementation, the `data` return field from `useApiQuery` is strongly typed based on the `endpointName` and `params` parameters. 
+
+## Iterating on useApiQuery for global data fetching
+
+Since React Query stores its data in the query client – effectively a global store – it’s also a great fit for global data fetching. 
+We can simply call `useApiQuery` in the root component and handle our single loading and error state there as well. In a child component, 
+we can also call `useApiQuery`, but this invocation will pull cached data from the query client. In the background, React Query will revalidate 
+the endpoint, ensuring it’s up-to-date. 
+
+One advantage of global data fetching discussed earlier is the ability to prevent null checks in child components which pull data from the 
+global store. However, the semantics for pulling cached data from the query client are identical to those of fetching data in the root: 
+calling `useApiQuery`. How can we differentiate these two situations for the developer, so they know when to assume the data is populated, 
+and when to handle a loading and error state?
+
+We decided to address the issue by adding a new option to `useApiQuery`: `prefetched`. When the developer passes `prefetched` as `true`, it 
+serves as an indication to others that the data has already been fetched in a parent component, and that the child can access the data 
+without handling a loading or error state. 
+
+The `prefetched` flag can also indicate to Typescript that the return type from `useApiQuery` should be non-nullable. With a few more generics, 
+we can type the `data` return field accordingly when `prefetched` is passed as `true`:
+
+
+<Code language="tsx" code={`
+type UseApiQueryOptions<EndpointName extends ApiEndpointName, Prefetched extends boolean | undefined> = UseQueryOptions<
+  ApiResponse<EndpointName>
+> & {
+  prefetched?: Prefetched;
+};
+
+type UseApiQueryData<EndpointName extends ApiEndpointName, Prefetched extends boolean | undefined> = Prefetched extends true
+  ? ApiResponse<EndpointName>
+  : ApiResponse<EndpointName> | undefined;
+
+function useApiQuery<EndpointName extends ApiEndpointName, Prefetched extends boolean | undefined>(
+  endpointName: EndpointName,
+  params: ApiParams<EndpointName>,
+  options?: UseApiQueryOptions<EndpointName, Prefetched>
+) {
+  const { onError, ...restOptions } = options ?? {};
+
+  const { data: data, ...restQuery } = useQuery({
+    queryKey: [endpointName, ...params],
+    queryFn: async (): Promise<ApiResponse<EndpointName>> => {
+      return api[endpointName].apply(null, params);
+    },
+    onError: (error) => {
+      alertErrorMonitoring(error);
+      onError?.(error);
+    },
+    cacheTime: Infinity,
+    ...restOptions,
+  });
+
+  return {
+    data: data as UseApiQueryData<EndpointName, Prefetched>,
+    ...restQuery,
+  };
+}
+
+const { data } = useApiQuery('getUser', [123]);
+     // ^ User | undefined
+const { data } = useApiQuery('getUser', [123], { prefetched: true });
+     // ^ User
+`} />
+
+This works great to communicate to other developers that a `useApiQuery` invocation doesn’t need to handle its own loading or error states – 
+a parent has already taken care of that. There’s just one more nuance to consider: the `cacheTime` option. 
+
+A child component that invokes `useApiQuery` with the `prefetched` option expects that the data it uses is always populated in the query client. 
+This generally works great, since a `useApiQuery` hook with `prefetched` should be in a component which, by definition, has a parent that fetches 
+the same data. However, with a default `cacheTime` of 5 minutes, there’s a danger that the cache will be cleared after a period of inactivity. 
+With an empty cache, a component with `prefetched` will have no data to pull. Since the component also explicitly doesn’t handle a loading state, 
+it’ll presumably throw an error when a property on the data is accessed. Thankfully, the solution is simple: set the `cacheTime` option to `Infinity`, 
+and avoid clearing the cache during periods of inactivity.
+
+After iterating on `useQuery`, we wrote similar abstractions for `useMutation`, `useQueries`, and other common utilities from React Query. Next, 
+we moved on to simplify our patterns to render loading and error states.
+
+## Simplifying Loading and Error States
+
+As a reminder, our wish-list for a data fetching library was the following:
+
+1. Support both global and local data fetching
+2. When fetching locally, deduplicate simultaneous requests
+3. When fetching locally, minimize null checks and simplify loading and error states
+4. When fetching globally, avoid boilerplate associated with a global store
+5. When fetching globally, revalidate data when it’s pulled from the global store by a child component
+
+React Query handles all of these either out-of-the-box or with some minor adjustments – with one exception: #3, minimize null checks and simplify loading 
+and error states. This makes sense, since React Query handles fetching, not rendering. We decided to tackle this problem ourselves, using the `isLoading` 
+and `isError` flags that React Query provides easy access to. After a few iterations, the solution we came up with was `AsyncStatus`.
+
+<Code language="tsx" code={`
+// simplified
+export function AsyncStatus({ 
+  children, 
+  customErrorState, 
+  isError, 
+  isLoading, 
+  loadingState 
+}) {
+  if (isLoading) {
+    return loadingState;
+  }
+  if (isError) {
+    return customErrorState ?? <Error />;
+  }
+  return children();
+}
+`} />
+
+`AsyncStatus` automatically renders a loading state when loading, an error state when errored, and calls the `children` function otherwise. Calling `children` as a 
+function is an important nuance: if `children` is a function that’s only called when the data is successfully fetched, the developer can assume the data 
+is non-null inside the `children` function! This significantly reduces null checks in components:
+
+<Code language="tsx" code={`
+function Component() {
+  const { data, isLoading, isError } = useApiQuery('getUser', [userId]);
+
+  function renderContent() {
+    // can assume data is populated in this function!
+  }
+
+  return (
+    <AsyncStatus 
+       isLoading={isLoading} 
+       isError={isError} 
+       loadingState={<Spinner />}
+    >
+      {renderContent}
+    </AsyncStatus>
+  );
+}
+`} />
+
+The actual implementation of `AsyncStatus` includes several other features omitted here for brevity: a minimum loading state duration, and opacity/height 
+animations between the loading state and the rendered content.
+
+`AsyncStatus` works great, but it requires a bit of boilerplate. We decided to experiment with a more high-level component that combines `AsyncStatus` and 
+`useApiQuery`: `FetchApiQuery`.
+
+<Code language="tsx" code={`
+<FetchApiQuery 
+  endpointName="getUser" 
+  params={[userId]} 
+  loadingState={<Spinner />}
+>
+  {({ data }) => {
+    // data is populated in this function!
+  }}
+</FetchApiQuery>
+`} />
+
+`FetchApiQuery` accepts the same parameters as `useApiQuery` and `AsyncStatus`, but behind the scenes it’ll automatically call `useApiQuery` and 
+pass along any relevant props to `AsyncStatus`. Finally, `FetchApiQuery` will call its children prop with the return value of `useApiQuery`, 
+giving the developer easy access to the fetched data.
+
+## Looking to the future: React Suspense
+
+Although still experimental, React Suspense promises to address many of the same issues as `AsyncStatus`. For example, our `AsyncStatus` demo from above:
+
+<Code language="tsx" code={`
+function Component() {
+  const { data, isLoading, isError } = useApiQuery('getUser', [userId]);
+
+  function renderContent() {
+    // can assume data is populated in this function!
+  }
+
+  return (
+    <AsyncStatus 
+       isLoading={isLoading} 
+       isError={isError} 
+       loadingState={<Spinner />}
+    >
+      {renderContent}
+    </AsyncStatus>
+  );
+}
+`} />
+
+Could be converted to the following with React Suspense:
+
+<Code language="tsx" code={`
+function Component() {
+  const { data, isLoading, isError } = useApiQuery('getUser', [userId], { suspense: true });
+
+  // can assume data is populated at the top level!
+
+  return /* ... */
+}
+
+function Wrapper() {
+  return (
+    <ErrorBoundary fallback={<Error />}>
+      <Suspense fallback={<Spinner />}>
+        <Component />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+`} />
+
+`Suspense` handles the loading state, `ErrorBoundary` handles the error state, and by suspending any rendering while fetching, no null checks are necessary!
+
+When React Suspense is properly stable, we’ll investigate making the transition.
+
+## Conclusion
+
+Data fetching solutions have come a long way since we first adopted client-side data fetching at Wealthfront. 
+
+By integrating React Query into our data fetching patterns, we’ve improved the developer experience significantly. We introduced standardized utilities 
+for fetching globally and locally and added reusable components to handle loading and error states – all with strict type safety in mind. The user experience
+has improved as well. Users see fewer loading states with React Query’s caching and are always presented with the most up-to-date version of their data thanks
+to behind-the-scenes data revalidation. It’s a great win for the Web Platform, our developers, and our users alike.
