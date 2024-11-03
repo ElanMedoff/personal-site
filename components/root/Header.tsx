@@ -94,8 +94,4 @@ export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
   );
 }
 
-const HeaderLink = createClassNameWrapper(
-  "HeaderLink",
-  "span",
-  "cursor-pointer select-none hover:text-primary"
-);
+const HeaderLink = createClassNameWrapper("HeaderLink", "span", "cursor-pointer select-none hover:text-primary");

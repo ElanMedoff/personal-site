@@ -15,6 +15,7 @@ export const postWrapperClassNames = tm(
 );
 
 function RecentPostCard({ post }: { post: Metadata }) {
+  console.log(post.tags);
   return (
     <Link href={`/blog/${post.slug}`}>
       <div
@@ -49,17 +50,11 @@ function RecentPostCard({ post }: { post: Metadata }) {
 
 export function RecentPosts({ allMetadata }: { allMetadata: Metadata[] }) {
   const topPosts = allMetadata
-    .sort(
-      (a, b) =>
-        new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
-    )
+    .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime())
     .slice(0, 4);
 
   return (
-    <motion.ul
-      className={collectionContainerClassNames}
-      {...onScrollContainerProps}
-    >
+    <motion.ul className={collectionContainerClassNames} {...onScrollContainerProps}>
       {topPosts.map((post, index) => (
         <motion.li {...onScrollChildProps} key={index}>
           <RecentPostCard post={post} />

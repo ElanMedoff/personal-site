@@ -29,7 +29,8 @@ export function Collection({
         "[@media(min-width:450px)]:max-w-[400px]",
         "xl:max-w-[500px]",
         "overflow-hidden sm:overflow-visible",
-        "px-8 sm:p-0"
+        "px-8 sm:p-0",
+        "overflow-hidden"
       )}
     />
   );

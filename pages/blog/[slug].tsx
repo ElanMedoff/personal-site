@@ -4,7 +4,7 @@ import { fetchPostBySlug, Post, Metadata, isSlugValid } from "utils/post";
 import { PostCard } from "components/blog/PostCard";
 import { MDXRemote } from "next-mdx-remote";
 import { Content } from "components/blog/Content";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { convert } from "html-to-text";
 import { count } from "@wordpress/wordcount";
@@ -30,20 +30,6 @@ export default function PostPage({
     damping: 30,
     restDelta: 0.001,
   });
-
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (!hash) return;
-    const header = document.querySelector(
-      `[data-locationhash=${hash.slice(1)}]`
-    );
-
-    if (!header) return;
-    const { y } = header.getBoundingClientRect();
-    if (!y || document.documentElement.scrollTop !== 0) return;
-
-    window.scrollTo({ top: y - 24, behavior: "smooth" });
-  }, []);
 
   const memoizedComponents = useMemo(() => components, []);
   const wordCount = useMemo(() => {
@@ -79,21 +65,12 @@ export default function PostPage({
         <section className="md:text-justify">
           <div className="flex flex-col-reverse sm:flex-row justify-between items-start gap-6 mb-12">
             <div>
-              <p className="pb-2 text-sm underline underline-offset-4">
-                last updated: {post.metadata.lastUpdated}
-              </p>
+              <p className="pb-2 text-sm underline underline-offset-4">last updated: {post.metadata.lastUpdated}</p>
               <p className="text-sm italic">{formattedReadingTime} read</p>
             </div>
             <LoginLogout />
           </div>
-          <MDXRemote
-            compiledSource={post.content}
-            components={{
-              ...components,
-            }}
-            scope={undefined}
-            frontmatter={undefined}
-          />
+          <MDXRemote compiledSource={post.content} components={components} scope={undefined} frontmatter={undefined} />
         </section>
         <div className="w-1/2 divider" />
         <section>
@@ -101,10 +78,7 @@ export default function PostPage({
           <PostCard metadata={relatedPostMetadata} />
         </section>
       </Content>
-      <motion.div
-        className="fixed bottom-0 left-0 right-0 h-3 bg-primary"
-        style={{ scaleX, transformOrigin: "0%" }}
-      />
+      <motion.div className="fixed bottom-0 left-0 right-0 h-3 bg-primary" style={{ scaleX, transformOrigin: "0%" }} />
       <Upvote />
     </>
   );
@@ -120,9 +94,7 @@ interface Props {
   dehydratedState: DehydratedState;
 }
 
-export const getServerSideProps: GetServerSideProps<Props, Params> = async (
-  context
-) => {
+export const getServerSideProps: GetServerSideProps<Props, Params> = async (context) => {
   const { slug } = context.params!;
   if (!isSlugValid(slug)) {
     return {
@@ -137,9 +109,7 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async (
 
   const getServerSidePropsCookie = context.req.cookies.sessionId;
 
-  await queryClient.prefetchQuery(generateQueryKey("user", []), () =>
-    userLoader(getServerSidePropsCookie)
-  );
+  await queryClient.prefetchQuery(generateQueryKey("user", []), () => userLoader(getServerSidePropsCookie));
   await queryClient.prefetchQuery(generateQueryKey("hasUpvoted", [slug]), () =>
     hasUpvotedLoader(slug, getServerSidePropsCookie)
   );

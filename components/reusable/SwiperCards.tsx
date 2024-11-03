@@ -1,15 +1,15 @@
+import "swiper/css";
+import "swiper/css/effect-cards";
 import { twMerge as tm } from "tailwind-merge";
 import React, { ReactNode } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCards, Autoplay } from "swiper";
-
-import "swiper/css";
-import "swiper/css/effect-cards";
+import { EffectCards } from "swiper";
+import { useHasRendered } from "hooks/useHasRendered";
+import { VisuallyHidden } from "./VisuallyHidden";
 
 export function SwiperCards({
   slides,
   className,
-  autoplay,
   rounded,
 }: {
   slides: ReactNode[];
@@ -17,26 +17,21 @@ export function SwiperCards({
   autoplay?: boolean;
   rounded?: boolean;
 }) {
-  return (
-    <Swiper
-      effect={"cards"}
-      grabCursor={true}
-      modules={[Autoplay, EffectCards]}
-      autoplay={
-        autoplay
-          ? {
-              delay: 1500,
-              disableOnInteraction: true,
-            }
-          : undefined
-      }
-      className={tm("ml-2 w-full mr-2", className)}
-    >
+  const hasRendered = useHasRendered();
+  if (!hasRendered) return <div className="h-[700px]" />;
+
+  const children = (
+    <Swiper effect="cards" grabCursor={true} modules={[EffectCards]} className={tm("ml-2 w-full mr-2", className)}>
       {slides.map((slide, index) => (
-        <SwiperSlide key={index} className={rounded ? "rounded-2xl" : ""}>
+        <SwiperSlide key={index} className={tm(rounded ? "rounded-2xl" : "", "overflow-hidden")}>
           {slide}
         </SwiperSlide>
       ))}
     </Swiper>
   );
+
+  // issues rendering the EffectCards module on the server
+  // render as visually hidden on the server so it's still discoverable by bots, but won't mess up the first render
+  if (hasRendered) return <>{children}</>;
+  return <VisuallyHidden>{children}</VisuallyHidden>;
 }
