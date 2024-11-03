@@ -1,8 +1,8 @@
-import { twMerge as tm } from "tailwind-merge";
 import React, { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { generateOnScrollProps } from "utils/framer";
 import { borderClassNames } from "pages";
+import { cn } from "utils/style";
 
 export function Banner({
   primary,
@@ -15,7 +15,7 @@ export function Banner({
     <div className="w-full mb-5">
       <motion.p
         {...generateOnScrollProps}
-        className={tm(
+        className={cn(
           "font-bold px-0 sm:px-5 w-full text-center",
           "text-4xl sm:text-6xl md:text-7xl lg:text-8xl",
           "mb-10 md:mb-20",

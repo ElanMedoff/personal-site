@@ -19,6 +19,7 @@
     "@types/prismjs": "^1.26.0",
     "@wordpress/wordcount": "^3.20.0",
     "atropos": "^1.0.2",
+    "clsx": "^2.1.1",
     "cookie": "^0.6.0",
     "cookies-next": "^2.1.1",
     "daisyui": "^4.7.3",

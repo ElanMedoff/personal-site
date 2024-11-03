@@ -1,5 +1,5 @@
-import { twMerge as tm } from "tailwind-merge";
 import NextImage from "next/image";
+import { cn } from "utils/style";
 
 export function Image({
   src,
@@ -14,7 +14,7 @@ export function Image({
 }) {
   return (
     <div
-      className={tm(
+      className={cn(
         "m-auto w-[95%]",
         size === "small" && "sm:w-1/2",
         size === "medium" && "sm:w-3/4"

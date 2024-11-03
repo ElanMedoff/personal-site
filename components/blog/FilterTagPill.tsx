@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
-import { twMerge as tm } from "tailwind-merge";
-import { transitionProperties } from "utils/style";
+import { cn, transitionProperties } from "utils/style";
 
 export function FilterTagPill({
   className,
@@ -15,7 +14,7 @@ export function FilterTagPill({
 }) {
   return (
     <span
-      className={tm(
+      className={cn(
         "cursor-pointer select-none rounded-full px-4 py-1 h-max w-max text-xs bg-base-200 border border-neutral",
         "hover:scale-95 active:scale-90",
         selected && "bg-secondary hover:bg-secondary text-secondary-content",

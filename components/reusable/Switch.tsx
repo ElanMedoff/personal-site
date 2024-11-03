@@ -1,6 +1,6 @@
 import React from "react";
-import { twMerge as tm } from "tailwind-merge";
 import { BsSun as SunIcon, BsMoon as MoonIcon } from "react-icons/bs";
+import { cn } from "utils/style";
 
 export function Switch({
   onToggle,
@@ -13,7 +13,7 @@ export function Switch({
 }) {
   return (
     <label
-      className={tm("swap swap-rotate", isOn ? "swap-active" : "", className)}
+      className={cn("swap swap-rotate", isOn ? "swap-active" : "", className)}
       onClick={onToggle}
     >
       <SunIcon size={25} className="swap-on" />

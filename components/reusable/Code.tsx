@@ -1,9 +1,9 @@
-import { twMerge as tm } from "tailwind-merge";
 import React from "react";
 import Highlight, { defaultProps, Language, Prism } from "prism-react-renderer";
 import { useContext } from "react";
 import github from "prism-react-renderer/themes/github";
 import { ThemeContext } from "pages/_app";
+import { cn } from "utils/style";
 
 // @ts-expect-error necessary to set up prism
 (typeof global !== "undefined" ? global : window).Prism = Prism;
@@ -24,7 +24,7 @@ export function Code({ code, language }: { code: string; language: Language }) {
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre
-          className={tm(
+          className={cn(
             "px-6 py-1 rounded-xl overflow-x-auto my-6",
             isDarkMode ? "bg-[#dadbe3]" : "bg-base-200",
             className

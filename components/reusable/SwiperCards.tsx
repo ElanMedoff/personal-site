@@ -1,11 +1,11 @@
 import "swiper/css";
 import "swiper/css/effect-cards";
-import { twMerge as tm } from "tailwind-merge";
 import React, { ReactNode } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper";
 import { useHasRendered } from "hooks/useHasRendered";
 import { VisuallyHidden } from "./VisuallyHidden";
+import { cn } from "utils/style";
 
 export function SwiperCards({
   slides,
@@ -21,9 +21,17 @@ export function SwiperCards({
   if (!hasRendered) return <div className="h-[700px]" />;
 
   const children = (
-    <Swiper effect="cards" grabCursor={true} modules={[EffectCards]} className={tm("ml-2 w-full mr-2", className)}>
+    <Swiper
+      effect="cards"
+      grabCursor={true}
+      modules={[EffectCards]}
+      className={cn("ml-2 w-full mr-2", className)}
+    >
       {slides.map((slide, index) => (
-        <SwiperSlide key={index} className={tm(rounded ? "rounded-2xl" : "", "overflow-hidden")}>
+        <SwiperSlide
+          key={index}
+          className={cn(rounded ? "rounded-2xl" : "", "overflow-hidden")}
+        >
           {slide}
         </SwiperSlide>
       ))}

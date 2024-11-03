@@ -5,8 +5,7 @@ import { userLoader } from "loaders/user";
 import { useRouter } from "next/router";
 import { BsArrowUpCircleFill as ArrowIcon } from "react-icons/bs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { twMerge as tm } from "tailwind-merge";
-import { transitionProperties } from "utils/style";
+import { cn, transitionProperties } from "utils/style";
 import { generateQueryKey } from "loaders/helpers";
 
 export function Upvote() {
@@ -51,13 +50,13 @@ export function Upvote() {
 
   return (
     <div
-      className={tm(
+      className={cn(
         "fixed bottom-5 left-3",
         "[@media(min-width:1405px)]:top-[200px] [@media(min-width:1405px)]:right-10 [@media(min-width:1405px)]:bottom-[unset] [@media(min-width:1405px)]:left-[unset]"
       )}
     >
       <div
-        className={tm(
+        className={cn(
           "flex [@media(min-width:1405px)]:flex-col items-center gap-1",
           "border-primary border-4 bg-base-100 p-1 rounded-xl",
           "[@media(min-width:1405px)]:border-none",
@@ -69,7 +68,7 @@ export function Upvote() {
         <p className="hidden [@media(min-width:1405px)]:block">upvote</p>
         <ArrowIcon
           size={70}
-          className={tm(
+          className={cn(
             disabled
               ? "text-base-content"
               : "hover:scale-95 active:scale-[85%]",

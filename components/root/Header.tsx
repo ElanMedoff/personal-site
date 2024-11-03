@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { twMerge as tm } from "tailwind-merge";
-import { createClassNameWrapper, transitionProperties } from "utils/style";
+import { cn, createClassNameWrapper, transitionProperties } from "utils/style";
 import { Switch } from "components/reusable/Switch";
 import { useDarkMode } from "pages/_app";
 import getConfig from "next/config";
@@ -51,7 +50,7 @@ export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
 
   return (
     <nav
-      className={tm(
+      className={cn(
         "fixed left-0 z-10 py-3 border-b-2 border-neutral bg-base-100 w-full",
         scrollDir === "up" ? "top-0" : "top-[-100px]"
       )}
@@ -61,7 +60,7 @@ export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
       }}
     >
       <div className="flex items-center justify-around sm:justify-between w-full px-4 gap-6">
-        <h3 className={tm("text-lg md:text-2xl", "font-bold cursor-pointer")}>
+        <h3 className={cn("text-lg md:text-2xl", "font-bold cursor-pointer")}>
           <Link href="/">
             <span>
               <span className="text-base-content">
@@ -94,4 +93,8 @@ export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
   );
 }
 
-const HeaderLink = createClassNameWrapper("HeaderLink", "span", "cursor-pointer select-none hover:text-primary");
+const HeaderLink = createClassNameWrapper(
+  "HeaderLink",
+  "span",
+  "cursor-pointer select-none hover:text-primary"
+);

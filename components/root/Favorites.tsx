@@ -1,8 +1,8 @@
-import { twMerge as tm } from "tailwind-merge";
 import { SwiperCards } from "components/reusable/SwiperCards";
 import { onScrollChildProps, onScrollContainerProps } from "utils/framer";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { cn } from "utils/style";
 
 function SwiperWrapper({
   paths,
@@ -19,7 +19,7 @@ function SwiperWrapper({
     <motion.article {...onScrollChildProps}>
       <div className="border-2 border-neutral py-6 pl-3 pr-12 rounded">
         <h3
-          className={tm("uppercase font-bold text-2xl md:text-4xl mb-3 ml-3")}
+          className={cn("uppercase font-bold text-2xl md:text-4xl mb-3 ml-3")}
         >
           {title}
         </h3>
@@ -57,7 +57,7 @@ export function Favorites({
     <div className="mb-5 flex flex-col gap-10">
       <motion.section
         {...onScrollContainerProps}
-        className={tm(
+        className={cn(
           "flex justify-center flex-wrap items-center",
           "gap-10 md:gap-20"
         )}

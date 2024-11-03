@@ -13,16 +13,24 @@ import { WideContent } from "components/reusable/WideContent";
 
 const Section = createClassNameWrapper("Section", "div", "w-full");
 
-export const collectionContainerClassNames = "flex flex-wrap justify-center gap-5 sm:gap-10 px-5";
-export const borderClassNames = "uppercase border-b-[15px] sm:border-b-[35px] border-primary";
+export const collectionContainerClassNames =
+  "flex flex-wrap justify-center gap-5 sm:gap-10 px-5";
+export const borderClassNames =
+  "uppercase border-b-[15px] sm:border-b-[35px] border-primary";
 
-export default function About({ repos, allMetadata }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log({ allMetadata });
+export default function About({
+  repos,
+  allMetadata,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const description =
     "I'm Elan Medoff, a software engineer specializing in web and fullstack development. Welcome to my blog!";
   const title = "elanmed.dev";
 
-  const npmRepoNames = ["use-search-param", "use-search-param-state", "use-stable-reference"];
+  const npmRepoNames = [
+    "use-search-param",
+    "use-search-param-state",
+    "use-stable-reference",
+  ];
   const npmRepos = repos.filter(({ name }) => npmRepoNames.includes(name));
   const restRepose = repos.filter(({ name }) => !npmRepoNames.includes(name));
 

@@ -1,12 +1,14 @@
 import Link, { LinkProps } from "next/link";
 import { anchorStyles } from "components/reusable/Anchor";
-import { twMerge as tm } from "tailwind-merge";
 import { ReactNode } from "react";
+import { cn } from "utils/style";
 
-export function MyLink(props: LinkProps & { className?: string; children: ReactNode }) {
+export function MyLink(
+  props: LinkProps & { className?: string; children: ReactNode }
+) {
   return (
     <Link {...props} passHref>
-      <a className={tm(anchorStyles, props.className)}>{props.children}</a>
+      <a className={cn(anchorStyles, props.className)}>{props.children}</a>
     </Link>
   );
 }

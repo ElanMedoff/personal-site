@@ -1,7 +1,7 @@
-import { twMerge as tm } from "tailwind-merge";
 import { Metadata } from "utils/post";
 import { PostCard } from "components/blog/PostCard";
 import { SwiperCards } from "components/reusable/SwiperCards";
+import { cn } from "utils/style";
 
 export function Collection({
   formattedTitles,
@@ -24,7 +24,7 @@ export function Collection({
           formattedTitle={formattedTitles?.[index]}
         />
       ))}
-      className={tm(
+      className={cn(
         "xs:max-w-[300px]",
         "[@media(min-width:450px)]:max-w-[400px]",
         "xl:max-w-[500px]",

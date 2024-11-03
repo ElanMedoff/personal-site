@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { twMerge as tm } from "tailwind-merge";
+import { cn } from "utils/style";
 
 export function Info({
   children,
@@ -10,7 +10,7 @@ export function Info({
 }) {
   return (
     <div
-      className={tm(
+      className={cn(
         "rounded-2xl bg-info text-info-content px-6 py-1 my-6",
         className
       )}

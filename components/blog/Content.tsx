@@ -1,6 +1,6 @@
 import getConfig from "next/config";
 import { ReactNode } from "react";
-import { twMerge as tm } from "tailwind-merge";
+import { cn } from "utils/style";
 
 const { publicRuntimeConfig } = getConfig();
 const { APP_ENV } = publicRuntimeConfig;
@@ -8,7 +8,7 @@ const { APP_ENV } = publicRuntimeConfig;
 export function Content({ children }: { children: ReactNode }) {
   return (
     <div
-      className={tm(
+      className={cn(
         "min-h-screen w-full max-w-6xl m-auto bg-base-100 border-neutral",
         APP_ENV === "screenshot"
           ? "pt-6"

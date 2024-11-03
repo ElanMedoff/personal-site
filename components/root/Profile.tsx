@@ -12,6 +12,9 @@ import { generateOnScrollProps } from "utils/framer";
 
 import "atropos/css";
 import { createClassNameWrapper } from "utils/style";
+import { Copy } from "components/reusable/Copy";
+import Spacing from "components/reusable/Spacing";
+import { Inset } from "components/reusable/Inset";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);
@@ -143,54 +146,60 @@ export function Profile() {
   };
 
   return (
-    <div
-      className={tm("flex flex-row flex-wrap-reverse gap-12 max-w-7xl px-10")}
-    >
-      <div
-        className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}
-        ref={refContainer}
-      >
-        {loading ? renderLoading() : renderAtropos()}
-      </div>
-      <motion.div
-        {...generateOnScrollProps}
-        className="flex-1 min-w-auto sm:min-w-[400px] flex flex-col gap-6"
-      >
-        <div>
-          <Title>hey</Title>
-          <Title>there,</Title>
+    <Inset horizontal="lg">
+      <Spacing horizontal wrap="wrap-reverse" xl className={tm("max-w-7xl")}>
+        <div
+          className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}
+          ref={refContainer}
+        >
+          {loading ? renderLoading() : renderAtropos()}
         </div>
-        <p className="text-lg">
-          I&apos;m{" "}
-          <span className="font-semibold underline underline-offset-4 decoration-primary decoration-4">
-            Elan Medoff
-          </span>
-          , a software engineer specializing in web and fullstack development.
-        </p>
-        <p>
-          These days, I&apos;m especially interested in data fetching on the
-          web, all the new approaches to server-side rendering, and tinkering
-          with my (Neo)Vim config.
-        </p>
-        <p>
-          I currently work at{" "}
-          <Anchor href="https://www.wealthfront.com/">Wealthfront</Anchor> as a
-          web engineer!
-        </p>
-        <div className="flex gap-3">
-          <a className={styles.github} href="https://github.com/ElanMedoff" />
-          <a
-            className={styles.linkedin}
-            href="https://www.linkedin.com/in/elan-medoff/"
-          />
-          <a className={styles.gmail} href="mailto:info@elanmed.dev" />
-          <span className="text-xs flex items-end">
-            <span className="text-primary">[</span>
-            mailto
-            <span className="text-primary">]</span>
-          </span>
-        </div>
-      </motion.div>
-    </div>
+        <motion.div
+          {...generateOnScrollProps}
+          className="flex-1 min-w-auto sm:min-w-[400px] flex flex-col gap-6"
+        >
+          <div>
+            <Title>hey</Title>
+            <Title>there,</Title>
+          </div>
+          <div>
+            I&apos;m{" "}
+            <Copy
+              base
+              as="span"
+              className="font-semibold underline underline-offset-4 decoration-primary decoration-4"
+            >
+              Elan Medoff
+            </Copy>
+            , a software engineer specializing in web and fullstack development.
+          </div>
+          <p>
+            These days, I&apos;m especially interested in data fetching on the
+            web, all the new approaches to server-side rendering, and tinkering
+            with my (Neo)Vim config.
+          </p>
+          <p>
+            I currently work at{" "}
+            <Anchor href="https://www.wealthfront.com/">Wealthfront</Anchor> as
+            a web engineer!
+          </p>
+          <Spacing horizontal sm>
+            <a className={styles.github} href="https://github.com/ElanMedoff" />
+            <a
+              className={styles.linkedin}
+              href="https://www.linkedin.com/in/elan-medoff/"
+            />
+            <a className={styles.gmail} href="mailto:info@elanmed.dev" />
+            <Spacing horizontal xs items="end">
+              <Copy subtext>
+                <span className="text-primary">[</span>
+                <span>mailto</span>
+                <span className="text-primary">]</span>
+              </Copy>
+            </Spacing>
+          </Spacing>
+        </motion.div>
+      </Spacing>
+    </Inset>
   );
 }

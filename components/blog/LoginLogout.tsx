@@ -3,8 +3,7 @@ import styles from "styles/icons.module.scss";
 import Spinner from "react-spinners/ClipLoader";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { twMerge as tm } from "tailwind-merge";
-import { transitionProperties } from "utils/style";
+import { cn, transitionProperties } from "utils/style";
 import { userLoader } from "loaders/user";
 import { logoutLoader } from "loaders/logout";
 import { loginLoader } from "loaders/login";
@@ -54,7 +53,7 @@ export function LoginLogout() {
     <div className="relative">
       <div className="flex flex-col gap-4">
         <button
-          className={tm(
+          className={cn(
             "border-2 border-neutral px-2 py-2 rounded-lg flex items-center shadow-2xl text-sm",
             "hover:scale-95 active:scale-90",
             user && "bg-warning"
@@ -65,7 +64,7 @@ export function LoginLogout() {
             transitionProperty: "transform",
           }}
         >
-          <span className={tm(styles.github, "mr-8")} />
+          <span className={cn(styles.github, "mr-8")} />
           <span className={user ? "text-warning-content" : ""}>
             {user ? <p>logout</p> : <p>login with github</p>}
           </span>
@@ -73,7 +72,7 @@ export function LoginLogout() {
       </div>
       {isLoading ? (
         <div
-          className={tm(
+          className={cn(
             "absolute top-0 right-0",
             "w-full flex justify-center items-center h-full rounded-lg",
             "bg-warning bg-opacity-70"

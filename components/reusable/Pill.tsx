@@ -1,7 +1,17 @@
-import { createClassNameWrapper } from "utils/style";
+import { cn, WrapperProps } from "utils/style";
+import { Inset } from "./Inset";
+import { Copy } from "components/reusable/Copy";
 
-export const Pill = createClassNameWrapper(
-  "Pill",
-  "span",
-  "text-xs rounded-full px-3 py-1 border border-neutral"
-);
+export function Pill({ children, className }: WrapperProps) {
+  return (
+    <Copy as="div" subtext>
+      <Inset
+        horizontal="sm"
+        vertical="xs"
+        className={cn("border border-neutral rounded-full", className)}
+      >
+        {children}
+      </Inset>
+    </Copy>
+  );
+}
