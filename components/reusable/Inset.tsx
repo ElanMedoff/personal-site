@@ -12,6 +12,7 @@ interface Props extends WrapperProps {
 // can't dynamically construct classnames with tailwind :/
 
 const horizontalToSpacing: Record<Size, string> = {
+  none: "px-0",
   xs: "px-1",
   sm: "px-3",
   md: "px-6",
@@ -20,6 +21,7 @@ const horizontalToSpacing: Record<Size, string> = {
 };
 
 const verticalToSpacing: Record<Size, string> = {
+  none: "py-0",
   xs: "py-1",
   sm: "py-3",
   md: "py-6",
@@ -28,6 +30,7 @@ const verticalToSpacing: Record<Size, string> = {
 };
 
 const rightToSpacing: Record<Size, string> = {
+  none: "pr-0",
   xs: "pr-1",
   sm: "pr-3",
   md: "pr-6",
@@ -36,6 +39,7 @@ const rightToSpacing: Record<Size, string> = {
 };
 
 const leftToSpacing: Record<Size, string> = {
+  none: "pl-0",
   xs: "pl-1",
   sm: "pl-3",
   md: "pl-6",
@@ -44,6 +48,7 @@ const leftToSpacing: Record<Size, string> = {
 };
 
 const topToSpacing: Record<Size, string> = {
+  none: "pt-0",
   xs: "pt-1",
   sm: "pt-3",
   md: "pt-6",
@@ -52,6 +57,7 @@ const topToSpacing: Record<Size, string> = {
 };
 
 const bottomToSpacing: Record<Size, string> = {
+  none: "pb-0",
   xs: "pb-1",
   sm: "pb-3",
   md: "pb-6",
