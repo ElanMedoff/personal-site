@@ -40,7 +40,7 @@ If you want to skip to the solution, click <Link href="/blog/conditional-props-u
 ## First Attempt: Generics
 
 If you're like me, you may reach for generics more often than necessary. And although you'd think something 
-as magical as generics would be a good fit to conditionally type component props, it actually comes with a number of 
+fancy like generics would be a good fit to conditionally type component props, it actually comes with a number of 
 unfortunate trade-offs - let's take a look.
 
 First, let's construct a union of our account types: `TAccountType`:
@@ -198,12 +198,12 @@ function Component<TAccountTypeGeneric extends TAccountType>(
 `} />
 
 From the point of view of the component author, there's little typesafety gained by all our generic shenanigans. 
-However, its worth noting that the _consumer_ does in fact get the typesafety we were originally looking for. 
+However, it's worth noting that the _consumer_ does in fact get the typesafety we were originally looking for. 
 
 When rendering `Component`:
 - `sharedProp` and `accountType` are required props
-- `userId` is required if `accountType` is `user`, not permiited otherwise
-- `adminId` is required if `accountType` is `admin`, not permiited otherwise
+- `userId` is required if `accountType` is `user`, not permitted otherwise
+- `adminId` is required if `accountType` is `admin`, not permitted otherwise
 - at least one of `userId` and `adminId` must be passed, but not both
 
 <Code
