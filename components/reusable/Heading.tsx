@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { cn, Expand, OneOfUnion, WrapperProps } from "utils/style";
+import {ReactNode} from "react";
+import {cn, Expand, OneOfUnion, WrapperProps} from "utils/style";
 
 type Props = Expand<WrapperProps & BaseProps & OneOfVariant>;
 interface BaseProps {
@@ -38,7 +38,6 @@ export function Heading({
     sm: "text-xl",
     base: "text-2xl font-semibold",
     lg: "text-4xl font-semibold",
-    // lg: "text-4xl sm:text-6xl md:text-7xl lg:text-8xl",
   };
   const Tag = props.lg ? "h1" : props.base ? "h2" : "h3";
 
