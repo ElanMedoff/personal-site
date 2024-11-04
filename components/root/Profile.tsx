@@ -1,7 +1,6 @@
 import styles from "styles/icons.module.scss";
 import Atropos from "atropos/react";
 import AtroposBorder from "components/reusable/atropos/AtroposBorder";
-import { twMerge as tm } from "tailwind-merge";
 import { AtroposImage } from "components/reusable/atropos/AtroposImage";
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimationControls, useInView } from "framer-motion";
@@ -11,7 +10,7 @@ import { useIsMobile } from "hooks/useIsMobile";
 import { generateOnScrollProps } from "utils/framer";
 
 import "atropos/css";
-import { createClassNameWrapper } from "utils/style";
+import { cn, createClassNameWrapper } from "utils/style";
 import { Copy } from "components/design-system/Copy";
 import Spacing from "components/design-system/Spacing";
 import { Inset } from "components/design-system/Inset";
@@ -147,9 +146,9 @@ export function Profile() {
 
   return (
     <Inset horizontal="lg" vertical="md">
-      <Spacing horizontal wrap="wrap-reverse" xl className={tm("max-w-7xl")}>
+      <Spacing horizontal wrap="wrap-reverse" xl className={cn("max-w-7xl")}>
         <div
-          className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}
+          className={cn("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}
           ref={refContainer}
         >
           {loading ? renderLoading() : renderAtropos()}

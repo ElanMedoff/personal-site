@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { twMerge as tm } from "tailwind-merge";
 import { Metadata } from "utils/post";
 import { postWrapperClassNames } from "components/root/RecentPosts";
 import { PillContainer } from "components/reusable/PillContainer";
 import { Pill } from "components/reusable/Pill";
+import { cn } from "utils/style";
 
 export function PostCard({
   metadata,
@@ -19,7 +19,7 @@ export function PostCard({
   return (
     <Link href={`/blog/${metadata.slug}`}>
       <div
-        className={tm(postWrapperClassNames, "max-w-[500px] gap-4", className)}
+        className={cn(postWrapperClassNames, "max-w-[500px] gap-4", className)}
       >
         <h2 className="font-semibold">
           {formattedTitle ? (
@@ -36,7 +36,7 @@ export function PostCard({
           {metadata.tags.map((tag, index) => (
             <Pill
               key={index}
-              className={tm(
+              className={cn(
                 (selectedTags ?? []).includes(tag) &&
                   "bg-secondary text-secondary-content"
               )}

@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { twMerge as tm } from "tailwind-merge";
 import { Repo } from "utils/github";
 import AtroposBorder from "components/reusable/atropos/AtroposBorder";
 import Atropos from "atropos/react";
@@ -13,7 +12,7 @@ import { Copy } from "components/design-system/Copy";
 import { Heading } from "components/design-system/Heading";
 import Spacing from "components/design-system/Spacing";
 import { Inset } from "components/design-system/Inset";
-import { WrapperProps } from "utils/style";
+import { cn, WrapperProps } from "utils/style";
 
 function CardWrapper({
   children,
@@ -134,7 +133,7 @@ function Card(props: WrapperProps & { isMobile: boolean }) {
       <Inset
         horizontal="lg"
         vertical="md"
-        className={tm(
+        className={cn(
           "min-h-[350px]",
           "w-[300px] sm:w-[400px]",
           "bg-base-100 text-base-content border-2 border-neutral" // weird background when hovering
