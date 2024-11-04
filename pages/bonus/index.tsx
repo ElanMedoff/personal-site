@@ -2,11 +2,13 @@ import Head from "next/head";
 import { Header } from "components/root/Header";
 import { GetServerSideProps } from "next";
 import { fetchPublicImages } from "utils/public";
-import { Favorites } from "components/root/Favorites";
+import { Favorites } from "components/bonus/Favorites";
 import { Footer } from "components/reusable/Footer";
-import { borderClassNames } from "pages";
 import { WideContent } from "components/reusable/WideContent";
-import { cn } from "utils/style";
+import { Heading } from "components/design-system/Heading";
+import Spacing from "components/design-system/Spacing";
+import { Inset } from "components/design-system/Inset";
+import { BannerText, BannerBorder } from "components/reusable/Banner";
 
 export default function Bonus({ paths }: Props) {
   const title = "elanmed.dev | Bonus";
@@ -22,26 +24,18 @@ export default function Bonus({ paths }: Props) {
       </Head>
       <Header />
       <WideContent>
-        <section className="w-full min-h-[75vh]">
-          <div className="flex flex-col gap-2 mb-14">
-            <h1
-              className={cn(
-                "text-4xl sm:text-6xl md:text-7xl",
-                "uppercase font-bold",
-                "text-left pl-5 sm:pl-20"
-              )}
-            >
-              Bonus:
-            </h1>
-            <p
-              className={cn(
-                "text-2xl md:text-4xl text-left pl-5 sm:pl-20",
-                borderClassNames
-              )}
-            >
-              A few of my favorites
-            </p>
-          </div>
+        <section className="w-full">
+          <Inset bottom="xl" horizontal="none">
+            <Spacing vertical sm>
+              <BannerText>Bonus:</BannerText>
+              <Inset vertical="md" horizontal="xl">
+                <Heading lg className="font-normal">
+                  A few of my favorites
+                </Heading>
+              </Inset>
+            </Spacing>
+            <BannerBorder />
+          </Inset>
           <Favorites paths={paths} />
         </section>
       </WideContent>

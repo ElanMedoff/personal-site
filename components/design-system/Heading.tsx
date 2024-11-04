@@ -1,5 +1,5 @@
-import {ReactNode} from "react";
-import {cn, Expand, OneOfUnion, WrapperProps} from "utils/style";
+import { ReactNode } from "react";
+import { cn, Expand, OneOfUnion, WrapperProps } from "utils/style";
 
 type Props = Expand<WrapperProps & BaseProps & OneOfVariant>;
 interface BaseProps {
@@ -9,7 +9,7 @@ interface BaseProps {
   underline?: boolean;
 }
 
-export const variants = ["sm", "base", "lg"] as const;
+export const variants = ["sm", "base", "lg", "xl"] as const;
 type Variant = (typeof variants)[number];
 type OneOfVariant = OneOfUnion<Variant>;
 
@@ -36,8 +36,9 @@ export function Heading({
 
   const variantToSize: Record<Variant, string> = {
     sm: "text-xl",
-    base: "text-2xl font-semibold",
-    lg: "text-4xl font-semibold",
+    base: "text-xl sm:text-2xl font-semibold",
+    lg: "text-3xl sm:text-4xl font-semibold",
+    xl: "text-4xl sm:text-5xl font-semibold",
   };
   const Tag = props.lg ? "h1" : props.base ? "h2" : "h3";
 

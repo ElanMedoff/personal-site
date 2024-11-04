@@ -1,9 +1,7 @@
 import Head from "next/head";
 import styles from "styles/icons.module.scss";
 import { Content } from "components/blog/Content";
-import { Fragment, ReactNode, useEffect } from "react";
-import { isFeatureEnabled } from "utils/feature";
-import { useRouter } from "next/router";
+import { Fragment, ReactNode } from "react";
 import {
   BsPrinter as PrinterIcon,
   BsFillCheckCircleFill as CheckIcon,
@@ -13,24 +11,11 @@ import { cn, createClassNameWrapper, transitionProperties } from "utils/style";
 import { Header } from "components/root/Header";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 import Image from "next/image";
-import Spacing from "components/reusable/Spacing";
-import { Copy } from "components/reusable/Copy";
-import { Heading } from "components/reusable/Heading";
+import Spacing from "components/design-system/Spacing";
+import { Copy } from "components/design-system/Copy";
+import { Heading } from "components/design-system/Heading";
 
 export default function PostPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isFeatureEnabled("resume")) {
-      router.push("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (!isFeatureEnabled("resume")) {
-    return null;
-  }
-
   const handleClick = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
     e.preventDefault();
     // open in background tab
@@ -78,7 +63,7 @@ export default function PostPage() {
                     objectFit="cover"
                   />
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold">Elan Medoff</h1>
+                <Heading xl>Elan Medoff</Heading>
                 <Spacing horizontal sm items="center">
                   <a
                     className={styles.github}

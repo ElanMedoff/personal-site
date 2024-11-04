@@ -1,8 +1,6 @@
 import { isProd } from "utils/env";
 
-const featuresMap = {
-  resume: { dev: true, prod: true },
-} as const;
+const featuresMap = {} as const;
 
 export type Feature = keyof typeof featuresMap;
 

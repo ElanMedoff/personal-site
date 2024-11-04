@@ -4,7 +4,7 @@ import { Dialog } from "components/reusable/Dialog";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { cn, transitionProperties } from "utils/style";
 import { HTMLProps, useState } from "react";
-import Spacing from "./Spacing";
+import Spacing from "components/design-system/Spacing";
 
 export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
   const children = props.children as string;

@@ -1,8 +1,8 @@
-import { Heading } from "components/reusable/Heading";
+import { Heading } from "components/design-system/Heading";
 import { Pill } from "components/reusable/Pill";
 import { PillContainer } from "components/reusable/PillContainer";
-import Spacing from "components/reusable/Spacing";
-import { Copy } from "components/reusable/Copy";
+import Spacing from "components/design-system/Spacing";
+import { Copy } from "components/design-system/Copy";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { collectionContainerClassNames } from "pages";

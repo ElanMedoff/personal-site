@@ -4,7 +4,7 @@ import { Github } from "components/root/Github";
 import { fetchGithubRepos, Repo } from "utils/github";
 import { RecentPosts } from "components/root/RecentPosts";
 import { fetchAllMetadata, Metadata } from "utils/post";
-import { Banner } from "components/root/Banner";
+import { BannerBorder, BannerText } from "components/reusable/Banner";
 import { Footer } from "components/reusable/Footer";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Header } from "components/root/Header";
@@ -15,8 +15,6 @@ const Section = createClassNameWrapper("Section", "div", "w-full");
 
 export const collectionContainerClassNames =
   "flex flex-wrap justify-center gap-5 sm:gap-10 px-5";
-export const borderClassNames =
-  "uppercase border-b-[15px] sm:border-b-[35px] border-primary";
 
 export default function About({
   repos,
@@ -47,15 +45,18 @@ export default function About({
       <WideContent>
         <Profile />
         <Section>
-          <Banner primary="npm packages" />
+          <BannerText>npm packages</BannerText>
+          <BannerBorder />
           <Github repos={npmRepos} />
         </Section>
         <Section>
-          <Banner primary="recent blog posts" />
+          <BannerText>recent blog posts</BannerText>
+          <BannerBorder />
           <RecentPosts allMetadata={allMetadata} />
         </Section>
         <Section>
-          <Banner primary="github projects" reverse />
+          <BannerText reverse>github projects</BannerText>
+          <BannerBorder />
           <Github repos={restRepose} />
         </Section>
         <div />

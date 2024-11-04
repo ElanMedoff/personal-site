@@ -7,6 +7,8 @@ import { BsArrowUpCircleFill as ArrowIcon } from "react-icons/bs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { cn, transitionProperties } from "utils/style";
 import { generateQueryKey } from "loaders/helpers";
+import { Copy } from "components/design-system/Copy";
+import Spacing from "components/design-system/Spacing";
 
 export function Upvote() {
   const router = useRouter();
@@ -14,6 +16,7 @@ export function Upvote() {
 
   const queryClient = useQueryClient();
 
+  // TODO: re-examine this now that I know more about react query
   const { data: hasUpvoted } = useQuery(
     generateQueryKey("hasUpvoted", [slug]),
     () => hasUpvotedLoader(slug),
@@ -51,21 +54,14 @@ export function Upvote() {
   return (
     <div
       className={cn(
-        "fixed bottom-5 left-3",
-        "[@media(min-width:1405px)]:top-[200px] [@media(min-width:1405px)]:right-10 [@media(min-width:1405px)]:bottom-[unset] [@media(min-width:1405px)]:left-[unset]"
+        "fixed top-[100px] right-10",
+        "hidden [@media(min-width:1405px)]:block",
+        disabled && "tooltip tooltip-warning tooltip-left"
       )}
+      data-tip="log in to upvote!"
     >
-      <div
-        className={cn(
-          "flex [@media(min-width:1405px)]:flex-col items-center gap-1",
-          "border-primary border-4 bg-base-100 p-1 rounded-xl",
-          "[@media(min-width:1405px)]:border-none",
-          disabled &&
-            "tooltip tooltip-warning tooltip-right [@media(min-width:1405px)]:tooltip-left"
-        )}
-        data-tip="log in to upvote!"
-      >
-        <p className="hidden [@media(min-width:1405px)]:block">upvote</p>
+      <Spacing vertical sm items="center">
+        <Copy base>upvote</Copy>
         <ArrowIcon
           size={70}
           className={cn(
@@ -83,8 +79,8 @@ export function Upvote() {
             upvote();
           }}
         />
-        <p className="p-2 text-lg">{upvoteCount}</p>
-      </div>
+        <Copy base>{upvoteCount}</Copy>
+      </Spacing>
     </div>
   );
 }

@@ -12,9 +12,9 @@ import { generateOnScrollProps } from "utils/framer";
 
 import "atropos/css";
 import { createClassNameWrapper } from "utils/style";
-import { Copy } from "components/reusable/Copy";
-import Spacing from "components/reusable/Spacing";
-import { Inset } from "components/reusable/Inset";
+import { Copy } from "components/design-system/Copy";
+import Spacing from "components/design-system/Spacing";
+import { Inset } from "components/design-system/Inset";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);
@@ -146,7 +146,7 @@ export function Profile() {
   };
 
   return (
-    <Inset horizontal="lg">
+    <Inset horizontal="lg" vertical="md">
       <Spacing horizontal wrap="wrap-reverse" xl className={tm("max-w-7xl")}>
         <div
           className={tm("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}

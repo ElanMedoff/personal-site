@@ -21,8 +21,11 @@ import { BsSearch as SearchIcon } from "react-icons/bs";
 import { Header } from "components/root/Header";
 import { z } from "zod";
 import { useSearchParamState } from "use-search-param-state";
-import { cn } from "utils/style";
-import { Copy } from "components/reusable/Copy";
+import { cn, WrapperProps } from "utils/style";
+import { Copy } from "components/design-system/Copy";
+import { Inset } from "components/design-system/Inset";
+import { Heading } from "components/design-system/Heading";
+import Spacing from "components/design-system/Spacing";
 
 export default function Blog({ allMetadata, serverSideURL }: Props) {
   const allCollections = Array.from(
@@ -114,7 +117,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
         })
       : allMetadata;
 
-  const shouldRenderCollectionsTitle = () => {
+  const hasCollections = () => {
     if (inputValue) {
       return (
         fuzzysort.go(
@@ -127,7 +130,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
     return getPostsByCollection(filteredPostsByTags, allCollections).length > 0;
   };
 
-  const shouldRenderBlogTitle = () => {
+  const hasPosts = () => {
     if (inputValue) {
       return (
         fuzzysort.go(
@@ -164,131 +167,157 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
       </Head>
       <Header hideOnScroll={false} />
       <Content>
-        <div className="flex gap-6 md:gap-16 flex-wrap-reverse md:flex-nowrap">
+        <div className="flex gap-9 md:gap-16 flex-wrap-reverse md:flex-nowrap">
           <section className="w-full md:w-1/2">
-            <motion.div animate={controls} className="relative mt-6 mb-10">
-              <input
-                ref={refInput}
-                type="text"
-                placeholder="fuzzy search"
-                className={cn(
-                  "max-w-sm w-full py-3 px-6 pl-12 border border-neutral rounded-xl bg-base-100",
-                  "focus:outline-none focus:outline-neutral"
-                )}
-                value={inputValue}
-                onFocus={() => controls.stop()}
-                onChange={(e) => {
-                  setSelectedTags([]);
-                  setFilterMethod("union");
-                  setInputValue(e.target.value);
-                }}
-              />
-              <SearchIcon
-                size={20}
-                className="inline-block absolute top-4 left-4"
-              />
-            </motion.div>
-            {!shouldRenderCollectionsTitle() && !shouldRenderBlogTitle() ? (
-              <div className="pl-3">
-                <h2 className="mb-3 text-2xl">no results!</h2>
-                <Copy base italic>
-                  try selecting a different combination
-                </Copy>
-              </div>
-            ) : null}
-            <div className="mb-10">
-              {shouldRenderCollectionsTitle() ? (
-                <h2 className="pl-3 text-2xl underline mb-3">collections</h2>
-              ) : null}
-              <div className="ml-[-10px]">
-                <ul>
-                  {inputValue ? (
-                    <CollectionsForSearch
-                      allCollections={allCollections}
-                      allMetadata={allMetadata}
-                      inputValue={inputValue}
-                      selectedTags={selectedTags}
-                    />
-                  ) : (
-                    <CollectionsForTags
-                      allCollections={allCollections}
-                      filteredPostsByTags={filteredPostsByTags}
-                      selectedTags={selectedTags}
-                    />
+            <Spacing vertical md>
+              <motion.div animate={controls} className="relative">
+                <input
+                  ref={refInput}
+                  type="text"
+                  placeholder="fuzzy search"
+                  className={cn(
+                    "max-w-sm w-full py-3 px-6 pl-12 border border-neutral rounded-xl bg-base-100",
+                    "focus:outline-none focus:outline-neutral"
                   )}
-                </ul>
-              </div>
-            </div>
-            <div>
-              {shouldRenderBlogTitle() ? (
-                <h1 className="pl-3 text-2xl underline mb-3">blog posts</h1>
+                  value={inputValue}
+                  onFocus={() => controls.stop()}
+                  onChange={(e) => {
+                    setSelectedTags([]);
+                    setFilterMethod("union");
+                    setInputValue(e.target.value);
+                  }}
+                />
+                <SearchIcon
+                  size={20}
+                  className="inline-block absolute top-4 left-4"
+                />
+              </motion.div>
+              {!hasCollections() && !hasPosts() ? (
+                <Inset left="sm">
+                  <Spacing vertical xs>
+                    <Heading base>no results!</Heading>
+                    <Copy base>try selecting a different combination</Copy>
+                  </Spacing>
+                </Inset>
               ) : null}
-              <ul>
-                {inputValue ? (
-                  <PostsForSearch
-                    allMetadata={allMetadata}
-                    inputValue={inputValue}
-                    selectedTags={selectedTags}
-                  />
-                ) : (
-                  <PostsForTags
-                    filteredPostsByTags={filteredPostsByTags}
-                    selectedTags={selectedTags}
-                  />
-                )}
-              </ul>
-            </div>
+              {hasCollections() ? (
+                <Spacing vertical md>
+                  {<Title>collections</Title>}
+                  <ul>
+                    {inputValue ? (
+                      <CollectionsForSearch
+                        allCollections={allCollections}
+                        allMetadata={allMetadata}
+                        inputValue={inputValue}
+                        selectedTags={selectedTags}
+                      />
+                    ) : (
+                      <CollectionsForTags
+                        allCollections={allCollections}
+                        filteredPostsByTags={filteredPostsByTags}
+                        selectedTags={selectedTags}
+                      />
+                    )}
+                  </ul>
+                </Spacing>
+              ) : null}
+              {hasPosts() ? (
+                <Spacing vertical md>
+                  <Title>blog posts</Title>
+                  <ul>
+                    {inputValue ? (
+                      <PostsForSearch
+                        allMetadata={allMetadata}
+                        inputValue={inputValue}
+                        selectedTags={selectedTags}
+                      />
+                    ) : (
+                      <PostsForTags
+                        filteredPostsByTags={filteredPostsByTags}
+                        selectedTags={selectedTags}
+                      />
+                    )}
+                  </ul>
+                </Spacing>
+              ) : null}
+            </Spacing>
           </section>
           <section
-            className="w-full md:w-1/2 self-start md:sticky md:top-16"
+            className="w-full md:w-1/2 self-start md:sticky md:top-20"
             data-testid="sidebar"
           >
-            <h2 className="m-3 text-lg underline w-max">tags</h2>
-            <div className="flex flex-col pl-3 gap-3">
-              <ul className="flex flex-wrap gap-2">
-                {allTags.map((filter, index) => (
+            <Spacing vertical xl>
+              <Spacing vertical sm>
+                <Subtitle>tags</Subtitle>
+                <Spacing vertical sm>
+                  <Spacing horizontal sm wrap="wrap">
+                    <ul className="flex flex-wrap gap-2">
+                      {allTags.map((filter, index) => (
+                        <FilterTagPill
+                          key={index}
+                          selected={selectedTags.includes(filter)}
+                          onClick={() => handleTagClick(filter)}
+                        >
+                          {filter}
+                        </FilterTagPill>
+                      ))}
+                    </ul>
+                  </Spacing>
+                  <div className="divider my-0" />
                   <FilterTagPill
-                    key={index}
-                    selected={selectedTags.includes(filter)}
-                    onClick={() => handleTagClick(filter)}
+                    onClick={() => {
+                      setSelectedTags([]);
+                    }}
                   >
-                    {filter}
+                    reset all
                   </FilterTagPill>
-                ))}
-              </ul>
-              <div className="divider my-0" />
-              <FilterTagPill
-                onClick={() => {
-                  setSelectedTags([]);
-                }}
-              >
-                reset all
-              </FilterTagPill>
-            </div>
-            <h2 className="m-3 mt-6 text-sm underline w-max">filter method</h2>
-            <div className="flex flex-wrap pl-3 gap-2">
-              <FilterTagPill
-                selected={filterMethod === "union"}
-                onClick={() => {
-                  setFilterMethod("union");
-                }}
-              >
-                union
-              </FilterTagPill>
-              <FilterTagPill
-                selected={filterMethod === "intersection"}
-                onClick={() => {
-                  setFilterMethod("intersection");
-                }}
-              >
-                intersection
-              </FilterTagPill>
-            </div>
+                </Spacing>
+              </Spacing>
+              <Spacing vertical sm>
+                <Subtitle>filter method</Subtitle>
+                <Spacing horizontal sm>
+                  <FilterTagPill
+                    selected={filterMethod === "union"}
+                    onClick={() => {
+                      setFilterMethod("union");
+                    }}
+                  >
+                    union
+                  </FilterTagPill>
+                  <FilterTagPill
+                    selected={filterMethod === "intersection"}
+                    onClick={() => {
+                      setFilterMethod("intersection");
+                    }}
+                  >
+                    intersection
+                  </FilterTagPill>
+                </Spacing>
+              </Spacing>
+            </Spacing>
           </section>
         </div>
       </Content>
       <Footer />
     </>
+  );
+}
+
+function Title(props: WrapperProps) {
+  return (
+    <Inset left="lg">
+      <Heading base underline>
+        {props.children}
+      </Heading>
+    </Inset>
+  );
+}
+
+function Subtitle(props: WrapperProps) {
+  return (
+    <Heading sm underline>
+      {props.children}
+    </Heading>
   );
 }
 

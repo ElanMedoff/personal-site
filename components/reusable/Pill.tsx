@@ -1,6 +1,6 @@
 import { cn, WrapperProps } from "utils/style";
-import { Inset } from "./Inset";
-import { Copy } from "components/reusable/Copy";
+import { Inset } from "components/design-system/Inset";
+import { Copy } from "components/design-system/Copy";
 
 export function Pill({ children, className }: WrapperProps) {
   return (

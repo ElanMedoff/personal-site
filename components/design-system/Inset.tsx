@@ -67,8 +67,8 @@ const bottomToSpacing: Record<Size, string> = {
 
 export function Inset({
   children,
-  horizontal = "md",
-  vertical = "md",
+  horizontal,
+  vertical,
   right,
   left,
   bottom,
@@ -79,8 +79,8 @@ export function Inset({
   return (
     <div
       className={cn(
-        horizontalToSpacing[horizontal],
-        verticalToSpacing[vertical],
+        horizontal && horizontalToSpacing[horizontal],
+        vertical && verticalToSpacing[vertical],
         right && rightToSpacing[right],
         left && leftToSpacing[left],
         top && topToSpacing[top],

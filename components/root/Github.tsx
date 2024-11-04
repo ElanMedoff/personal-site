@@ -9,10 +9,10 @@ import { useIsMobile } from "hooks/useIsMobile";
 import { onScrollChildProps, onScrollContainerProps } from "utils/framer";
 import { collectionContainerClassNames } from "pages";
 import { PillContainer } from "components/reusable/PillContainer";
-import { Copy } from "components/reusable/Copy";
-import { Heading } from "components/reusable/Heading";
-import Spacing from "components/reusable/Spacing";
-import { Inset } from "components/reusable/Inset";
+import { Copy } from "components/design-system/Copy";
+import { Heading } from "components/design-system/Heading";
+import Spacing from "components/design-system/Spacing";
+import { Inset } from "components/design-system/Inset";
 import { WrapperProps } from "utils/style";
 
 function CardWrapper({
@@ -133,6 +133,7 @@ function Card(props: WrapperProps & { isMobile: boolean }) {
     <CardWrapper isMobile={props.isMobile}>
       <Inset
         horizontal="lg"
+        vertical="md"
         className={tm(
           "min-h-[350px]",
           "w-[300px] sm:w-[400px]",
