@@ -100,7 +100,7 @@ type TUserProps = TProps<"user">;
 // type TUserProps = { sharedProp: boolean; accountType: "user"; } & { userId: number; }
 `} />
 
-Instead of manually passing in `TAccountTypeGeneric`, we can simplify our type function to _infer_ its value by specifying
+But instead of manually passing in `TAccountTypeGeneric`, we can simplify our type function to _infer_ its value by specifying
 the type of `accountType` as `TAccountTypeGeneric` instead of `TAccountType`.
 
 <Code
@@ -286,7 +286,7 @@ interface TUserProps extends SharedProps {
 type TProps = TAdminProps | TUserProps
 `} />
 
-This looks great, but if we type our component's `props` and `TProps`, how is typescript supposed to know which of the 
+This looks great, but if we type our component's `props` as `TProps`, how is typescript supposed to know which of the 
 two interfaces in our `TProps` union it should use? 
 
 The key is the `accountType` field. Since `accountType` is present
