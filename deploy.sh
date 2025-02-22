@@ -1,42 +1,47 @@
 #!/bin/bash
 
-function cecho(){
-    tput setaf $2;
-    echo $1;
-    tput sgr0;
-}
-
-cecho "building locally..." 4
+echo "building locally..."
 if npx next build; then
-  cecho "built locally" 2
+  echo "built locally"
 else
-  cecho "build failed, aborting" 1
+  echo "build failed, aborting"
   exit
 fi
 
-kill -9 $(lsof -ti:3000)
+if lsof -ti:3000 >/dev/null 2>&1; then
+  echo "Port 3000 already in use. Okay to close it? y/*"
+  read -r ANSWER
+  if [[ $ANSWER != "y" ]]; then
+    echo "exiting"
+    exit 1
+  fi
+
+  echo "killing port 3000"
+  kill -9 "$(lsof -ti:3000)"
+fi
+
 pm2 start "npm run start" --name e2e
-cecho "running e2es locally..." 4
+echo "running e2es locally..."
 if npm run test; then
-  cecho "ran e2es locally" 2
+  echo "ran e2es locally"
 else
-  cecho "e2e tests failed, aborting" 1
-  pm2 delete e2e 
+  echo "e2e tests failed, aborting"
+  pm2 delete e2e
   exit
 fi
-pm2 delete e2e 
+pm2 delete e2e
 
-cecho "generating sitemap ..." 4
+echo "generating sitemap ..."
 npm run generateSitemap
-cecho "generated sitemap" 2
+echo "generated sitemap"
 
-cecho "backing up..." 4
+echo "backing up..."
 rsync -av -e ssh --exclude="node_modules" --exclude=".next" --exclude="public" elan@147.182.190.69:/var/www/elanmed.dev ~/Desktop/personal-site-backups
 mv ~/Desktop/personal-site-backups/elanmed.dev ~/Desktop/personal-site-backups/"$(date +"%m:%d:%y_%H-%M-%S")"
-cecho "backed up" 2
+echo "backed up"
 
-cecho "input commit message >" 4
-read COMMIT
+echo "input commit message >"
+read -r COMMIT
 git add -A
 git commit -m "$COMMIT"
 npm run push
