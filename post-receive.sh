@@ -7,21 +7,23 @@ PM2=/home/elan/.nvm/versions/node/v16.16.0/bin/pm2
 DIR=/var/www/elanmed.dev
 
 # overwrite
-echo "" > $LOG
+echo "" >"$LOG"
 
-cd $DIR
-echo "running npm install..." >> $LOG
-$NPM install >> $LOG 2>&1
-echo "ran npm install" >> $LOG
+cd "$DIR" || exit
+{
+  echo "running npm install..."
+  $NPM install 2>&1
+  echo "ran npm install"
 
-echo "rebuilding..." >> $LOG
-$NPM run build >> $LOG 2>&1
-echo "rebuilt" >> $LOG
+  echo "rebuilding..."
+  $NPM run build 2>&1
+  echo "rebuilt"
 
-echo "migrating prisma..." >> $LOG
-$NPX prisma migrate deploy >> $LOG 2>&1
-echo "migrated prisma" > $LOG
+  echo "migrating prisma..."
+  $NPX prisma migrate deploy 2>&1
+  echo "migrated prisma"
 
-echo "restarting pm2 daemon..." >> $LOG
-$PM2 reload $ECO --only elanmed >> $LOG 2>&1
-echo "restarted pm2 daemon" >> $LOG
+  echo "restarting pm2 daemon..."
+  $PM2 reload "$ECO" --only elanmed 2>&1
+  echo "restarted pm2 daemon"
+} >>"$LOG"
