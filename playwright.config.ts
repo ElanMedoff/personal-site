@@ -12,5 +12,4 @@ export default defineConfig({
     },
     browserName: "chromium",
   },
-  fullyParallel: true,
 });

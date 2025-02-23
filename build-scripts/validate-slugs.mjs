@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "fs";
 import matter from "gray-matter";
 import { join } from "path";
 
-const postsDirectory = join(process.cwd(), "posts");
+const postsDirectory = join(process.cwd(), "src/posts");
 
 function validateSlugs() {
   const paths = readdirSync(postsDirectory);
