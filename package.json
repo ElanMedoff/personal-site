@@ -11,9 +11,10 @@
     "prod:visual-regression": "NEXT_PUBLIC_PLAYWRIGHT=true next start -p 3000",
     "test": "NEXT_PUBLIC_PLAYWRIGHT=true playwright test",
     "test:update-snapshots": "NEXT_PUBLIC_PLAYWRIGHT=true playwright test --update-snapshots",
-    "generateSitemap": "node utils/sitemap.js",
     "push": "git push origin master",
-    "deploy": "git push server"
+    "deploy": "git push server",
+    "generate-sitemap": "node build-scripts/generate-sitemap.mjs",
+    "validate-slugs": "node build-scripts/validate-slugs.mjs"
   },
   "dependencies": {
     "@octokit/core": "^4.1.0",

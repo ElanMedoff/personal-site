@@ -1,6 +1,6 @@
-const { readdirSync, readFileSync, writeFileSync } = require("fs");
-const matter = require("gray-matter");
-const { join } = require("path");
+import { readdirSync, readFileSync, writeFileSync } from "fs";
+import matter from "gray-matter";
+import { join } from "path";
 
 const postsDirectory = join(process.cwd(), "posts");
 
@@ -29,6 +29,7 @@ async function generateSiteMap() {
 <url><loc>https://elanmed.dev/</loc></url>
 <url><loc>https://elanmed.dev/resume</loc></url>
 <url><loc>https://elanmed.dev/blog</loc></url>
+<url><loc>https://elanmed.dev/bonus</loc></url>
 ${slugs
   .map((slug) => {
     return `<url><loc>${`https://elanmed.dev/blog/${slug}`}</loc></url>\n`;

@@ -33,8 +33,12 @@ fi
 pm2 delete "$PM2_NAME"
 
 echo "generating sitemap ..."
-npm run generateSitemap
+npm run generate-sitemap
 echo "generated sitemap"
+
+echo "validating slugs ..."
+npm run validate-slugs
+echo "validated slugs"
 
 if [[ -f "./backup.sh" ]]; then
   source ./backup.sh
