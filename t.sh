@@ -1,10 +1,7 @@
 #!/bin/bash
 
-echo "building locally..."
-if npx next build; then
-  echo "built locally"
-else
-  echo "build failed, aborting"
+if [[ $# -ne 2 ]]; then
+  echo "./t.sh --{update,compare} path/to/directory/or/file"
   exit 1
 fi
 
@@ -20,11 +17,21 @@ if lsof -ti:3001 >/dev/null 2>&1; then
   kill -9 "$(lsof -ti:3001)"
 fi
 
-PM2_NAME="playwright-test-suite"
+PM2_NAME="visual-regression-test-suite"
 pm2 start "npm run dev:visual-regression" --name "$PM2_NAME"
 echo "running playwright tests locally..."
 
-if npm run test src/tests/; then
+CMD=""
+case $1 in
+  --update)
+    CMD="npm run test:update-snapshots $2 $2"
+    ;;
+  --compare)
+    CMD="npm run test $2"
+    ;;
+esac
+
+if eval "$CMD"; then
   echo "playwright tests passed"
 else
   echo "playwright tests failed, aborting"
@@ -32,19 +39,3 @@ else
   exit
 fi
 pm2 delete "$PM2_NAME"
-
-echo "generating sitemap ..."
-npm run generate-sitemap
-echo "generated sitemap"
-
-echo "validating slugs ..."
-npm run validate-slugs
-echo "validated slugs"
-
-# if [[ -f "./backup.sh" ]]; then
-#   source ./backup.sh
-# fi
-
-# echo "deploying..."
-# npm run deploy
-# echo "deployed"
