@@ -38,8 +38,8 @@ export async function fetchGithubRepos() {
     (repo) => !repo.fork && !exceptions.includes(repo.name)
   );
 
-  let languageInfos: Record<string, number>[] = [];
-  for (let repo of filteredRepos) {
+  const languageInfos: Record<string, number>[] = [];
+  for (const repo of filteredRepos) {
     const response = await fetch(repo.languages_url);
     const languageInfo = await response.json();
     languageInfos.push(languageInfo);

@@ -105,7 +105,7 @@ export function fetchSlugs() {
   const allMetadata = paths.map((path) => {
     const rawPost = readFileSync(join(postsDirectory, path)).toString();
     const { data } = matter(rawPost);
-    return data as any as Metadata;
+    return data as unknown as Metadata;
   });
 
   return allMetadata

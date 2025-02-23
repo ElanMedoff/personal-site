@@ -6,7 +6,7 @@ export type Next = () => Promise<void>;
 
 export type Middleware<RequestT extends NextApiRequest = NextApiRequest> = (
   req: RequestT,
-  res: NextApiResponse<ApiResponse<any>>,
+  res: NextApiResponse<ApiResponse<unknown>>,
   next: Next
 ) => Promise<void>;
 
