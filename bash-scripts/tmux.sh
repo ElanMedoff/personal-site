@@ -1,9 +1,11 @@
 #!/bin/bash
 
+source "$(dirname "$0")"/helpers.sh
+
 if [[ "$TERM_PROGRAM" == "tmux" ]]
 then
-  echo "only run ps.sh outside a tmux session!" 
-  exit
+  cecho --mode=error "only run ps.sh outside a tmux session!" 
+  exit 1
 fi
 
 current_dir=$(pwd)

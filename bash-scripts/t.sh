@@ -1,25 +1,27 @@
 #!/bin/bash
 
+source "$(dirname "$0")"/helpers.sh
+
 if [[ $# -ne 2 ]]; then
-  echo "./t.sh --{update,compare} path/to/directory/or/file"
+  cecho --mode=info "./t.sh --{update,compare} path/to/directory/or/file"
   exit 1
 fi
 
 if lsof -ti:3001 >/dev/null 2>&1; then
-  echo "Port 3001 already in use. Okay to close it? y/*"
+  cecho --mode=query "Port 3001 already in use. Okay to close it? y/N"
   read -r ANSWER
   if [[ $ANSWER != "y" ]]; then
-    echo "exiting"
+    cecho --mode=error "exiting"
     exit 1
   fi
 
-  echo "killing port 3001"
+  cecho --mode=info "killing port 3001"
   kill -9 "$(lsof -ti:3001)"
 fi
 
 PM2_NAME="visual-regression-test-suite"
 pm2 start "npm run dev:visual-regression" --name "$PM2_NAME"
-echo "running playwright tests locally..."
+cecho --mode=info "running playwright tests locally..."
 
 CMD=""
 case $1 in
@@ -32,9 +34,9 @@ case $1 in
 esac
 
 if eval "$CMD"; then
-  echo "playwright tests passed"
+  cecho --mode=success "playwright tests passed"
 else
-  echo "playwright tests failed, aborting"
+  cecho --mode=error "playwright tests failed, aborting"
   pm2 delete "$PM2_NAME"
   exit
 fi
