@@ -25,9 +25,12 @@ I decided to use [Next.js](https://nextjs.org/) as my front-end framework becaus
 I looked into some other frameworks that specialize in SSG, but Next.js had the best combination of popularity – which goes hand-in-hand with online resources – and a good ratio of framework-specific quirks to features. In other words, for all the features you can access with Next.js, you have to learn very little framework boilerplate.
 
 <Info>
-__Update__: I've since converted all my pages to use server side rendering (SSR) to allow for a more seamless dark mode experience (i.e. without a white flash).
-See my article <Link href="/blog/dark-mode-server-side-approach">Dark Mode in Next.js Part 2: A Server-Side Approach</Link> for a deeper dive 
-into the perils of dark-mode. Thankfully, Next.js has great support for SSR as well, and I haven't yet regretted my choice in framework.
+  __Update__: I've since converted all my pages to use server side rendering
+  (SSR) to allow for a more seamless dark mode experience (i.e. without a white
+  flash). See my article [Dark Mode in Next.js Part 2: A Server-Side
+  Approach](/blog/dark-mode-server-side-approach) for a deeper dive into the
+  perils of dark-mode. Thankfully, Next.js has great support for SSR as well,
+  and I haven't yet regretted my choice in framework.
 </Info>
 
 ### Design
@@ -43,14 +46,14 @@ I write my blog posts in Markdown, which has an awesome syntax for writing, and 
 For the fancy 3D parallax image on the homepage, I use [Atropos](https://atroposjs.com/). The library is surprisingly minimal, and the documentation bare-bones, so I've had to reverse engineer a few of features I wanted from the examples on their site. This blog is [open source](https://github.com/ElanMedoff/personal-site), so maybe I can save you from doing the same!
 
 <Info>
-
-Check out the `AtroposBorder` [component](https://github.com/ElanMedoff/personal-site/blob/master/components/reusable/atropos/AtroposBorder.tsx) to recreate the 3D borders on the github cards on the <Link href="/">homepage</Link>.
-
+  Check out the `AtroposBorder`
+  [component](https://github.com/ElanMedoff/personal-site/blob/master/components/reusable/atropos/AtroposBorder.tsx)
+  to recreate the 3D borders on the github cards on the [homepage](/).
 </Info>
 
 ## Server
 
-On the server side of things, I use [Prisma](https://www.prisma.io/) as my database, Next.js's API routes, and [React Query](https://tanstack.com/query/v3/) to handle my data fetching. I do all of my fetching [server-side](https://tanstack.com/query/v3/docs/react/guides/ssr) to prevent any loading states, and I've been really happy with React Query's SSR capabilities. 
+On the server side of things, I use [Prisma](https://www.prisma.io/) as my database, Next.js's API routes, and [React Query](https://tanstack.com/query/v3/) to handle my data fetching. I do all of my fetching [server-side](https://tanstack.com/query/v3/docs/react/guides/ssr) to prevent any loading states, and I've been really happy with React Query's SSR capabilities.
 
 Fetching on the server is a bit of a trade off - the data fetching blocks the page from being sent to the user until it's completed, so the user sees a blank screen for longer than they would if I did my data fetching client-side. However, since my database and Next.js server are hosted on the same digital ocean droplet, the data fetching should be nearly instant. I think it's worth a slightly longer blank screen to prevent a loading skeleton + layout shift, but YMMV.
 
@@ -62,12 +65,12 @@ On the devops side of things, I host my blog on a [digital ocean](https://www.di
 
 To manage my production code, I use [this setup](https://toroid.org/git-website-howto) to push changes to the server with the command `git push server`. It's bare-bones, low-level, and awesome.
 
-For my basic continuous integration, I wrote a deploy script that builds the site locally to make sure everything's good, run a handful of end-to-end tests 
-with playwright, backup my database to my local machine, push to github, and push to the server. 
+For my basic continuous integration, I wrote a deploy script that builds the site locally to make sure everything's good, run a handful of end-to-end tests
+with playwright, backup my database to my local machine, push to github, and push to the server.
 
 I use [pm2](https://pm2.keymetrics.io/) to manage my Next.js server, and I restart the service automatically when new code is pushed – it took just a few lines added to the post-receive hook.
 
-Check out this other <Link href="/blog/third-party-narration-rarely-works">post</Link> I wrote on my minimal approach to continuous integration for more info!
+Check out this other [post](/blog/third-party-narration-rarely-works) I wrote on my minimal approach to continuous integration for more info!
 
 ## Bonus: Some of my Favorite Blog Posts
 

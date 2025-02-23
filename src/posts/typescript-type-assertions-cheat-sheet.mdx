@@ -16,95 +16,99 @@ Maybe you've heard that Typescript uses duck typing, a system where two types ar
 While duck typing is intuitive when it comes to providing a variable with a type annotation (i.e. using a `:` in `const user: User`), some of the finer rules around casting with the `as` keyword can be a bit trickier to remember.
 
 <Info>
-see the following typescript [playground](https://www.typescriptlang.org/play?#code/PTAEFpIKBUBUCeAHApqAhgO0wewC7p4CWOmAzjGJOFFEZnigE4Bm6AxmgKpnOgDeUUMJQBbdEQA2ALlBk8TegHMA3EOFEAJrMwBXUQCNmagL61YeABZEyoAO44mAawrtS80Lt5MAjLJ58ALwCoGISMqAARF7MAAJkRIwAdG6ikQA0oFqyPgBMAMygZpSgVii8GJKSoUxMjgCEUG7keJ7eAOqJlgAKdahMeAgA8iztdZhKiKh+oAFMoMH8oeJSstHe8YkoKThpmdlRefmRRU3urTFMnVYAogAeCui9OP2DM3MLIWGrUZebyakMlltKAjvsyAAZHBKJQoTQASUwsgUujQZmaHku10sAFkbAkJs9Xgh3t5PktvhF1nEEgDdid0ec2sxsfdHgBBTCaPFkAlKInMN7+MmLZbhNZ-WnbQHgqEwuGI5FMVGncxUaCwKZodC8wUkcj2LqgHAGABWKHYrUGqAosGoatAnIQxFEaAQOF0oHYWGZGFKyG12HwhH1mXdnu9mEqZBwvvQ-tQGF1A31ZxazKYuXJYp+1KY-2l9P2IKORSTs28DrZTHjSD6evKGCY2skiiUljwacxHS61ae9YGCCzospEo2Up2e2BOQKsuhsIRSNKyrR5bmDp5fNAdZeDds6GboBY9DQeBwOC7Fx7Vk3ygFg+HXxWVMlW0nDLXlZKt4moAA+lgmh-qEDw1tuA7EI2dhSNUbBSKUsapEgUgoI0GJXiyvagegnLcvid4QUO2ajr845vjKWSQvOCpLiiq46hWzAOoibi1BaVoBrYDiYAA5K0DjOKEXRMehGbYvegwjGMpCTAGj4Us+Y40uRRbTqAPFHDxZYMeuJT2rAWAIBgXKeJgTi4HYmB6dAl4JnC7JkE6siGZ8PGGTxtnWvZZBcGZFlLrofk4JZrmBeZwW8Q6kZejqrQuY4pnhSFDEuV5UBeZoDlOp+TEZQ5vlJVGOlfrASRlca8yGVYyjlvF8xhf5aFMpc+TCkET7iqRyl0lOBylmYLW1ZgCBQINDENRFtCiZcWXDcRildfmE4UTYcoLoqy4qiYQ0jdN3gOegHzBDNjlzcVTElAl9DGpgaCSCetmXAALPNnV5gW75zvKi5KltO05UwDr6WAWpJt4xDuIaVjgUQoiJEQABup6cdZNAlPIii-pkeiGHwmQAEJEEoiKtJkBjnpIKA+pkADKCCGDg1TY7oVTGZopmaCgx63ZoDoY8oUClgx-MTFAblkJoLBaQxONGIDUCE8TDAABRHAAlOWItKGLOqS9LtiKyTtB0ZrCgC+LevlnRtB0wzkjKxrwtm7+OsS1L5a2+Tki0HorNO5j2sW+7Mss97o1clzJ7s-75u68HtiBZz3Nwg6stMYbKvq+WaeA0LBtE0b6Urtn+hy4LBRWyuNv017Dsl7j8zl4UDGe4zPuh-XZd56Avth4nkc853THd-3ye85QGetEXKoMZPCsF5nBSO7Y5OM1TVlQK39vL6Ak+gPPSt4KrS8ezXbdQL35Zz5Px-5Dvve0KPUdXwvnY31n40R2Paqr5TPqb2fbe5Zf7r33ibFugD25+xXhTde09tS2AfuHJOz8GIgKwPA8sT8eZqi3vvS+EC7YALtnXEuVRH5f1QbYLexDa472wSnEoD8GHR0QaHC+HdP4oJwUAA) for live examples of everything covered in this article!
+  see the following typescript
+  [playground](https://www.typescriptlang.org/play?#code/PTAEFpIKBUBUCeAHApqAhgO0wewC7p4CWOmAzjGJOFFEZnigE4Bm6AxmgKpnOgDeUUMJQBbdEQA2ALlBk8TegHMA3EOFEAJrMwBXUQCNmagL61YeABZEyoAO44mAawrtS80Lt5MAjLJ58ALwCoGISMqAARF7MAAJkRIwAdG6ikQA0oFqyPgBMAMygZpSgVii8GJKSoUxMjgCEUG7keJ7eAOqJlgAKdahMeAgA8iztdZhKiKh+oAFMoMH8oeJSstHe8YkoKThpmdlRefmRRU3urTFMnVYAogAeCui9OP2DM3MLIWGrUZebyakMlltKAjvsyAAZHBKJQoTQASUwsgUujQZmaHku10sAFkbAkJs9Xgh3t5PktvhF1nEEgDdid0ec2sxsfdHgBBTCaPFkAlKInMN7+MmLZbhNZ-WnbQHgqEwuGI5FMVGncxUaCwKZodC8wUkcj2LqgHAGABWKHYrUGqAosGoatAnIQxFEaAQOF0oHYWGZGFKyG12HwhH1mXdnu9mEqZBwvvQ-tQGF1A31ZxazKYuXJYp+1KY-2l9P2IKORSTs28DrZTHjSD6evKGCY2skiiUljwacxHS61ae9YGCCzospEo2Up2e2BOQKsuhsIRSNKyrR5bmDp5fNAdZeDds6GboBY9DQeBwOC7Fx7Vk3ygFg+HXxWVMlW0nDLXlZKt4moAA+lgmh-qEDw1tuA7EI2dhSNUbBSKUsapEgUgoI0GJXiyvagegnLcvid4QUO2ajr845vjKWSQvOCpLiiq46hWzAOoibi1BaVoBrYDiYAA5K0DjOKEXRMehGbYvegwjGMpCTAGj4Us+Y40uRRbTqAPFHDxZYMeuJT2rAWAIBgXKeJgTi4HYmB6dAl4JnC7JkE6siGZ8PGGTxtnWvZZBcGZFlLrofk4JZrmBeZwW8Q6kZejqrQuY4pnhSFDEuV5UBeZoDlOp+TEZQ5vlJVGOlfrASRlca8yGVYyjlvF8xhf5aFMpc+TCkET7iqRyl0lOBylmYLW1ZgCBQINDENRFtCiZcWXDcRildfmE4UTYcoLoqy4qiYQ0jdN3gOegHzBDNjlzcVTElAl9DGpgaCSCetmXAALPNnV5gW75zvKi5KltO05UwDr6WAWpJt4xDuIaVjgUQoiJEQABup6cdZNAlPIii-pkeiGHwmQAEJEEoiKtJkBjnpIKA+pkADKCCGDg1TY7oVTGZopmaCgx63ZoDoY8oUClgx-MTFAblkJoLBaQxONGIDUCE8TDAABRHAAlOWItKGLOqS9LtiKyTtB0ZrCgC+LevlnRtB0wzkjKxrwtm7+OsS1L5a2+Tki0HorNO5j2sW+7Mss97o1clzJ7s-75u68HtiBZz3Nwg6stMYbKvq+WaeA0LBtE0b6Urtn+hy4LBRWyuNv017Dsl7j8zl4UDGe4zPuh-XZd56Avth4nkc853THd-3ye85QGetEXKoMZPCsF5nBSO7Y5OM1TVlQK39vL6Ak+gPPSt4KrS8ezXbdQL35Zz5Px-5Dvve0KPUdXwvnY31n40R2Paqr5TPqb2fbe5Zf7r33ibFugD25+xXhTde09tS2AfuHJOz8GIgKwPA8sT8eZqi3vvS+EC7YALtnXEuVRH5f1QbYLexDa472wSnEoD8GHR0QaHC+HdP4oJwUAA)
+  for live examples of everything covered in this article!
 </Info>
 
 For example, say we have the following type `User`, which we'll refer to throughout the article:
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 interface User {
-   email: string;
-   id: number;
+  email: string;
+  id: number;
 }
-`}
-/>
+```
 
 In order to annotate a variable with the type `User`, it must contain all the required properties, with all the expected types.
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 // this works
-const user: User = { email: "user@site.com", id: 123 }
+const user: User = { email: "user@site.com", id: 123 };
 
 // these all error!
-const userWithPropertyOfWrongType: User = { email: "user@site.com", id: "123" }
-const userWithExtraProperty: User = { email: "user@site.com", id: 123, isLoggedIn: true }
-const userWithMissingProperty: User = { email: "user@site.com" }
-const userWithExtraAndMissingProperty: User = { email: "user@site.com", isLoggedIn: true }
-`}
-/>
+const userWithPropertyOfWrongType: User = { email: "user@site.com", id: "123" };
+const userWithExtraProperty: User = {
+  email: "user@site.com",
+  id: 123,
+  isLoggedIn: true,
+};
+const userWithMissingProperty: User = { email: "user@site.com" };
+const userWithExtraAndMissingProperty: User = {
+  email: "user@site.com",
+  isLoggedIn: true,
+};
+```
 
 So far so good - direct type annotations are the strictest form of typesafety with little room for ambiguitity.
 Type _asssertions_, on the other hand (using the `as` keyword), provide a little more wiggle room.
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 // Anytime you can use a type annotation, you can also use a type assertion
-const user = { email: "user@site.com", id: 123 } as User
+const user = { email: "user@site.com", id: 123 } as User;
 
 // Extra properties are alright
-const userWithExtraProperty = { email: "user@site.com", id: 123, isLoggedIn: true } as User
+const userWithExtraProperty = {
+  email: "user@site.com",
+  id: 123,
+  isLoggedIn: true,
+} as User;
 
 // Missing properties are fine too
-const userWithMissingProperty = { email: "user@site.com" } as User
+const userWithMissingProperty = { email: "user@site.com" } as User;
 
 // Missing _and_ extra properties will fail to compile!
-const userWithExtraAndMissingProperty = { email: "user@site.com", isLoggedIn: true } as User
+const userWithExtraAndMissingProperty = {
+  email: "user@site.com",
+  isLoggedIn: true,
+} as User;
 
 // Incorrect types won't work either
-const userWithPropertyOfWrongType = { email: "user@site.com", id: '123' } as User
-`}
-/>
+const userWithPropertyOfWrongType = {
+  email: "user@site.com",
+  id: "123",
+} as User;
+```
 
 ## any and unknown
 
 There is a catch, however, and that has to do with the `any` and `unknown` types in Typescript. Interestingly enough, _any_ type can
 be cast as `any` or `unknown`, and `unknown` and `any` can be cast as any type!
 
-<Code
-  language="tsx"
-  code={`
-const typedAsAny: any = 'any'
-const typedAsUnknown: unknown = 'unknown'
+```tsx
+const typedAsAny: any = "any";
+const typedAsUnknown: unknown = "unknown";
 
 // can cast any or unknown as any type
-typedAsAny as User
-typedAsUnknown as User
+typedAsAny as User;
+typedAsUnknown as User;
 
 // ... or anything as any or unknown!
-const user: User = { email: "user@site.com", id: 123 }
-user as any
-user as unknown
-`}
-/>
+const user: User = { email: "user@site.com", id: 123 };
+user as any;
+user as unknown;
+```
 
 In practical terms, this means if you want to assert a variable as a given type, but you're unable to for one of the reasons discussed above,
 you can use chained type assertions to override the type checker:
 
-<Code
-  language="tsx"
-  code={`
-const userAsAny = { email: "user@site.com", isLoggedIn: true } as any
-const userAsaUser = userAsAny as User
+```tsx
+const userAsAny = { email: "user@site.com", isLoggedIn: true } as any;
+const userAsaUser = userAsAny as User;
 
 // or in one line
-const user = { email: "user@site.com", isLoggedIn: true } as any as User
-`}
-/>
+const user = { email: "user@site.com", isLoggedIn: true } as any as User;
+```
 
 The example above also applies for `unknown`
 

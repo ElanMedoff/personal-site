@@ -16,15 +16,24 @@ Over the years, I've found myself rereading
 ## Cross-Site Scripting (XSS)
 
 <Info>
-__tl;dr:__ (malicious) Mallory tricks (victim) Victor into executing a malicious script on his own browser.
+  __tl;dr:__ (malicious) Mallory tricks (victim) Victor into executing a
+  malicious script on his own browser.
 </Info>
 
 Cross-site scripting is a bit of a misnomer - as the tl;dr suggests, Mallory's malicious script is running in _Victor's_ browser, there's little about the attack that's cross-site! So how can Mallory trick victor into executing her script? The key is a part of the app that injects unsanitized content from unknown sources directly into the DOM. Let's take a look at two examples:
 
-<iframe src="https://codesandbox.io/embed/gifted-shape-473yzc" style={{width:"75%", height: 200, border: 0, borderRadius: 4, overflow:"hidden" }}
-   ></iframe>
+<iframe
+  src="https://codesandbox.io/embed/gifted-shape-473yzc"
+  style={{
+    width: "75%",
+    height: 200,
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+  }}
+></iframe>
 
-In the example above, we naively take the user input directly from the `input` element and insert it into the DOM by setting the `innerHTML` property of a given element. Without any sanitization, the browser interprets this input as it does any other text in our HTML file - as valid HTML. 
+In the example above, we naively take the user input directly from the `input` element and insert it into the DOM by setting the `innerHTML` property of a given element. Without any sanitization, the browser interprets this input as it does any other text in our HTML file - as valid HTML.
 
 To make the example more concrete, say the site determines the initial state of the input based on a url search param, `initialInput`, and Mallory sends Victor the following link:
 
@@ -36,35 +45,53 @@ Notice the `ininitialInput` search param has all those `%`'s - that's to make it
 
 1. First and foremost, escape any input from an untrusted source. This should include input the user directly interacts with, like an HTML `input` tag, as well as other forms of input like those found in the URL. If you're using a framework like `React`, any expression passed to `{}` will automatically be escaped and treated as plain text - not valid HTML for the browser to interpret.
 
-<iframe src="https://codesandbox.io/embed/naughty-waterfall-fs2c4c" style={{width:"75%", height: 200, border: 0, borderRadius: 4, overflow:"hidden" }}
-   ></iframe>
+<iframe
+  src="https://codesandbox.io/embed/naughty-waterfall-fs2c4c"
+  style={{
+    width: "75%",
+    height: 200,
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+  }}
+></iframe>
 
 <Info>
-The exception is when using `dangerouslySetInnerHTML`, which bypasses this escape mechanism and executes directly in the browser. Use sparingly!
+  The exception is when using `dangerouslySetInnerHTML`, which bypasses this
+  escape mechanism and executes directly in the browser. Use sparingly!
 </Info>
 
 2. Implement a [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP). A CSP protects your app in a few ways:
-  - Specifies a white-list of `src` domains in `script` tags to be allowed to run by the browser
-  - Prevents _any_ other `script` tags from executing at all - including `script` tags inserted like those in our first codesandbox
+
+- Specifies a white-list of `src` domains in `script` tags to be allowed to run by the browser
+- Prevents _any_ other `script` tags from executing at all - including `script` tags inserted like those in our first codesandbox
 
 I won't go into the syntax for the sake of brevity, but check out the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#examples_common_use_cases) for some example CSPs!
 
-### Non-script tag XSS attacks 
+### Non-script tag XSS attacks
 
 Although we've focused up until now on XSS attacks based around injecting and executing a `script` tag, there's a few other important XSS attacks to be aware of:
 
-1. Attacks through event handlers. In the following sandbox, we input a `img` with an invalid `src` property and an `onerror` event handler. When the `img` is inserted into the DOM and executed, the invalid `src` property will cause the `onerror` function to run, and just like that we have our XSS. 
+1. Attacks through event handlers. In the following sandbox, we input a `img` with an invalid `src` property and an `onerror` event handler. When the `img` is inserted into the DOM and executed, the invalid `src` property will cause the `onerror` function to run, and just like that we have our XSS.
 
-<iframe src="https://codesandbox.io/embed/img-onerror-xss-4m7f5z" style={{width:"75%", height: 200, border: 0, borderRadius: 4, overflow:"hidden" }}
-   ></iframe>
+<iframe
+  src="https://codesandbox.io/embed/img-onerror-xss-4m7f5z"
+  style={{
+    width: "75%",
+    height: 200,
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+  }}
+></iframe>
 In other words, escaping `script` tags is not enough!
 
-2. Attacks through bundled code. Our examples so far have all dealt with our victim, Victor, naively clicking a malicious link sent by Mallory. XSS attacks through bundled code, however, are due solely to the 
-
+2. Attacks through bundled code. Our examples so far have all dealt with our victim, Victor, naively clicking a malicious link sent by Mallory. XSS attacks through bundled code, however, are due solely to the
 
 ## Cross-Site Request Forgery (CSRF)
 
 ### tl;dr:
+
 Mallory tricks Victor into sending a network request with his own session credentials in his own browser.
 
-Cross-site scripting is a bit of a misnomer - 
+Cross-site scripting is a bit of a misnomer -

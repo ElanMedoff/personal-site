@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { cn, createClassNameWrapper, transitionProperties } from "src/utils/style";
+import {
+  cn,
+  createClassNameWrapper,
+  transitionProperties,
+} from "src/utils/style";
 import { Switch } from "src/components/reusable/Switch";
 import { useDarkMode } from "src/pages/_app";
 import getConfig from "next/config";

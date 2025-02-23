@@ -24,15 +24,15 @@ fzf is an awesome command line utility for fuzzy finding just about anything (se
 
 `grep` allows you to input a search term and narrow down the results "fuzzily" by filename. I use the following key remaps, but feel free to use your own:
 
-<Code language="vim" code={`
+```vim
 nnoremap <leader>zf <cmd>lua require('fzf-lua').grep()<cr>
-`} />
+```
 
 If you prefer to use [telescope](https://github.com/nvim-telescope/telescope.nvim), you can use the following remap:
 
-<Code language="vim" code={`
+```vim
 nnoremap <leader>zf <cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<cr>
-`} />
+```
 
 Once you trigger the command, you'll be greeted with a prompt to input your initial search term:
 
@@ -54,7 +54,7 @@ In our case, we negated any files with `packer` in the filepath. We can then exp
 
 For `telescope`, you need to do tweak the settings a bit:
 
-<Code language="lua" code={`
+```lua
 local telescope = require("telescope")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
@@ -90,7 +90,7 @@ telescope.setup({
     },
   },
 })
-`} />
+```
 
 This will allow you to mark a selection with `tab`/`shift-tab` and export the selections to the quickfix list with `enter`.
 
@@ -109,24 +109,24 @@ The second plugin we'll use is [bqf](https://github.com/kevinhwang91/nvim-bqf), 
 - scroll in the preview window with `ctrl-b` and `ctrl-f`
 
 <Info>
-Note that to use `zf`, you'll need to install [fzf.vim](https://github.com/junegunn/fzf.vim).
+  Note that to use `zf`, you'll need to install
+  [fzf.vim](https://github.com/junegunn/fzf.vim).
 </Info>
 
 I also use some bqf-agnostic quickfix list remaps that may be helpful:
 
-<Code language="vim" code={`
+```vim
 nnoremap gn :cnext<cr>
 nnoremap gp :cprevious<cr>
 nnoremap ge :copen<cr>
 nnoremap gq :cclose<cr>
-`} />
+```
 
 Between creating lists, fuzzy searching within a list, and repeating, you should have enough tools to narrow down your search to a final, single list. This brings us to the final section: replacing.
 
 ## Replace with cdo
 
 The key to this last step is the native Neovim `cdo` command. If we enter the command `:help cdo` in Neovim, we learn the following info:
-
 
 In practice, this means we need to narrow our search to a single quickfix list (i.e. with `zn` and `zf`) so we can replace its every instance.
 
@@ -142,7 +142,7 @@ Technically, you could stop here and you'd be good to go – just use the `:cdo 
 
 Our custom user command will accept two arguments, a `foo` and a `bar`, and execute a Neovim command that interpolates the values into a string of the form `:cdo s/foo/bar/` and saves each file. Let's look at the following code:
 
-<Code language="lua" code={`
+```lua
 vim.api.nvim_create_user_command("FindAndReplace", function(opts)
   vim.api.nvim_command(string.format("cdo s/%s/%s", opts.fargs[1], opts.fargs[2]))
   vim.api.nvim_command("cfdo update")
@@ -155,17 +155,16 @@ vim.api.nvim_set_keymap(
   ":FindAndReplace ",
   { noremap = true })
 )
-`} />
+```
 
 First, the `nargs = "*"` indicates that our user command can take any number of arguments. The arguments are passed through `opts.fargs` as entries in a dictionary. We can interpolate the values with `string.format` (remember that Lua is 1-indexed!), and execute the command with `nvim_command`. We run the `cfdo update` command to save each file in the quickfix list, and finally set a key-mapping.
 
 If you'd like to pass an argument with a space, just escape the white space like so:
 
-<Code language="vim" code={`
+```vim
 :FindAndReplace foo hello\\ there
-`} />
+```
 
 and the second argument will be passed as `hello there`.
 
 One last note: if you regret your find and replace, don't panic! You can easily undo your changes with `:cdo undo`.
-

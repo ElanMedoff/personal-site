@@ -18,7 +18,7 @@ Data fetching in React is a popular topic of blog posts, dev talks, and tutorial
 
 Take the following snippet:
 
-<Code language="tsx" code={`
+```tsx
 interface Data {
   price: number;
 }
@@ -41,11 +41,11 @@ function Parent() {
 
   return null;
 }
-`} />
+```
 
 Now consider a case where the `Parent` wants to render markup based on the data fetched with `getData`.
 
-<Code language="tsx" code={`
+```tsx
 function Parent() {
   const [data, setData] = useState<Data | null>(null);
 
@@ -55,17 +55,19 @@ function Parent() {
 
   return <>{data.price}</>;
 }
-`} />
+```
 
 Because a `useEffect` runs _after_ the render, there's at least one render (i.e. the first) where `data` is still its initial value, `null`. This means, one way or another, we have to account for a `null` instance of `data` – otherwise, React will crash when we try to access `(null).number`.
 
 <Info>
-I'd highly recommend checking out Dan Abramov's [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) if the mechanics of `useEffect` aren't so clear to you.
+  I'd highly recommend checking out Dan Abramov's [A Complete Guide to
+  useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) if the
+  mechanics of `useEffect` aren't so clear to you.
 </Info>
 
 One popular option is to perform inline null checking.
 
-<Code language="tsx" code={`
+```tsx
 function Parent() {
   const [data, setData] = useState<Data | null>(null);
 
@@ -75,13 +77,13 @@ function Parent() {
 
   return <>{data?.price}</>;
 }
-`} />
+```
 
 With optional chaining in place, when `data` is `null`, accessing `data?.price` will return `undefined` instead of throwing an error. This pattern takes advantage of the fact that, if an expression passed to a `{}` in React "resolves" to `null` or `undefined`, React will gracefully (i.e. without throwing an error) render nothing.
 
 Alternatively, we could return early and avoid our optional chaining altogether:
 
-<Code language="tsx" code={`
+```tsx
 function Parent() {
   const [data, setData] = useState<Data | null>(null);
 
@@ -93,11 +95,11 @@ function Parent() {
 
   return <>{data.price.toFixed(2)}</>;
 }
-`} />
+```
 
 Either solution works great when we're dealing with a single component, but once we introduce children into the mix, we encounter some deeper questions. Consider our original example, but with a new `FormatNumber` child.
 
-<Code language="tsx" code={`
+```tsx
 function Parent() {
   const [data, setData] = useState<Data | null>(null);
 
@@ -111,13 +113,13 @@ function Parent() {
 function FormatNumber({ num }: { num: number }) {
   return <>{num.toFixed(2)}</>;
 }
-`} />
+```
 
 Notice that this code will crash on the first render when `data?.price` resolves to `undefined`, and we pass `undefined` as `num` to `FormatNumber`.
 
 There are three possible fixes, two of which we already discussed:
 
-<Code language="tsx" code={`
+```tsx
 function Parent() {
   const [data, setData] = useState<Data | null>(null);
 
@@ -138,7 +140,7 @@ function FormatNumber({ num }: { num: number }) {
   if (typeof num !== "number") return;
   return <>{num.toFixed(2)}</>;
 }
-`} />
+```
 
 Now that we're dealing with two components, we have the option to null check in the parent _or_ in the child – option 1 and option 2 null check in parent, and option 3 null checks in the child. This leads us to a deeper, more interesting question on best-practices:
 
@@ -159,12 +161,12 @@ In contrast to a Parent-dependent child, a Parent-agnostic child expects no null
 
 In our example above, `FormatNumber` would have its own null checking, maybe something like:
 
-<Code language="tsx" code={`
+```tsx
 function FormatNumber({ num: number }) {
   if (typeof num !== "number") return;
   return <>{num.toFixed(2)}</>;
 }
-`} />
+```
 
 <Info>
 
@@ -192,7 +194,7 @@ When `strictNullChecks` is `true`, `null` and `undefined` have their own distinc
 
 With `strictNullChecks` enabled, let's go back to our example and try to perform inline null checking in the parent:
 
-<Code language="tsx" code={`
+```tsx
 function Parent() {
   const [data, setData] = useState<Data | null>(null);
 
@@ -212,7 +214,7 @@ function Parent() {
 function FormatNumber({ num: number }) {
   return <>{num.toFixed(2)}</>;
 }
-`} />
+```
 
 TypeScript now gives us a compile time error that `data?.id` may be `undefined`, and `FormatNumber`'s `num` prop can only be a `number`!
 

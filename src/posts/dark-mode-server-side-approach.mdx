@@ -15,11 +15,11 @@ isPublished: true
 
 # Implementing Dark Mode: A Server-Side Approach with Cookies
 
-Last <Link href="/blog/dark-mode-client-side-approach">article</Link>, we talked about a `useDarkMode` hook designed for client-only apps based on the  local storage and media query APIs. Unfortunately, the approach didn't scale with server-rendered content and introduced the potential for a flash between a light theme rendered on the server and a dark theme re-rendered on the client. So for apps that initially render their content on the server, how can we approach implementing a dark mode? The key is to shift away from client-only APIs like local storage and media queries to server-and-client APIs like cookies.
+Last [article](/blog/dark-mode-client-side-approach), we talked about a `useDarkMode` hook designed for client-only apps based on the local storage and media query APIs. Unfortunately, the approach didn't scale with server-rendered content and introduced the potential for a flash between a light theme rendered on the server and a dark theme re-rendered on the client. So for apps that initially render their content on the server, how can we approach implementing a dark mode? The key is to shift away from client-only APIs like local storage and media queries to server-and-client APIs like cookies.
 
 ## tl;dr
 
-<Code language="tsx" code={`
+```tsx
 // pages/_app.tsx
 import {
   createContext,
@@ -89,8 +89,9 @@ MyApp.getInitialProps = async (
     };
   }
 
-  const isDarkModeCookie = cookie.parse(req.headers.cookie || "")
-    .isDarkMode as string | undefined;
+  const isDarkModeCookie = cookie.parse(req.headers.cookie || "").isDarkMode as
+    | string
+    | undefined;
 
   if (isDarkModeCookie === undefined) {
     res.setHeader(
@@ -112,13 +113,13 @@ MyApp.getInitialProps = async (
     isDarkModeCookie: isDarkModeCookie === "true",
   };
 };
-`} />
+```
 
 ## Setting up Context
 
 First, as a bit of setup, we'll need to create a context so we can use `isDarkMode` and `setIsDarkMode` globally without passing the two through props.
 
-<Code language="tsx" code={`
+```tsx
 import { Dispatch, SetStateAction, createContext, useContext } from "react";
 
 interface Theme {
@@ -138,13 +139,13 @@ export function useDarkMode() {
     setIsDarkMode as Dispatch<SetStateAction<boolean>>,
   ] as const;
 }
-`} />
+```
 
-`useDarkMode` is a bit more ergonomic than `useContext`, and it also asserts that `setIsDarkMode` isn't `null` - which in practice, it never will be. 
+`useDarkMode` is a bit more ergonomic than `useContext`, and it also asserts that `setIsDarkMode` isn't `null` - which in practice, it never will be.
 
 While we _could_ wrap every page in the `pages` directory with a `<ThemeContext.Provider />`, it's more ergonomic to write a custom `pages/_app.tsx` to handle this for us.
 
-<Code language="tsx" code={`
+```tsx
 // pages/_app.tsx
 import {
   createContext,
@@ -189,10 +190,9 @@ export default function MyApp({
     </ThemeContext.Provider>
   );
 }
-`} />
+```
 
 Looks good!
-
 
 ## Avoiding the White Flash with Cookies
 
@@ -202,7 +202,7 @@ Our cookie-based approach will go something like the following: on request, the 
 
 Just a heads up: since we're in the custom `pages/_app.tsx`, we can't use `getServerSideProps`. However, we can use `getInitialProps`:
 
-<Code language="tsx" code={`
+```tsx
 // pages/_app.tsx
 import {
   createContext,
@@ -256,8 +256,9 @@ MyApp.getInitialProps = async (
     };
   }
 
-  const isDarkModeCookie = cookie.parse(req.headers.cookie || "")
-    .isDarkMode as string | undefined;
+  const isDarkModeCookie = cookie.parse(req.headers.cookie || "").isDarkMode as
+    | string
+    | undefined;
 
   if (isDarkModeCookie === undefined) {
     res.setHeader(
@@ -279,11 +280,12 @@ MyApp.getInitialProps = async (
     isDarkModeCookie: isDarkModeCookie === "true",
   };
 };
-`} />
+```
 
-Let's walk through the code. 
+Let's walk through the code.
+
 - First, we `await App.getInitialProps(context)` to get the props for the user's current page: `pageProps` - we'll need these for later when we merge the page's own props with our additional `isDarkModeCookie` prop.
-- Next, we grab `req` and `res` from `context.ctx` and check if they're defined. This is a crucial check: although `getInitialProps` runs on the server during the first page load, it'll also run on the _client_ during client-side navigations! Thankfully, though, since client-side state is preserved during client-side transitions, `isDarkModeCookie` is effectively ignored when `getInitialProps` runs on the client since the `isDarkMode` state is already initialized with the instance of `isDarkModeCookie` returned from the first call on the server. Strange, right? 
+- Next, we grab `req` and `res` from `context.ctx` and check if they're defined. This is a crucial check: although `getInitialProps` runs on the server during the first page load, it'll also run on the _client_ during client-side navigations! Thankfully, though, since client-side state is preserved during client-side transitions, `isDarkModeCookie` is effectively ignored when `getInitialProps` runs on the client since the `isDarkMode` state is already initialized with the instance of `isDarkModeCookie` returned from the first call on the server. Strange, right?
 - To set the cookie, we set the `Set-Cookie` header using the [cookie](https://www.npmjs.com/package/cookie) npm package. Although it's a little barebones, I decided to go with it since it has ~48 million (!) weekly downloads, and it gets the job done
 - `getInitialProps` returns the current page's props, along with `isDarkModeCookie`. In `MyApp`, we use `isDarkModeCookie` to initialize the `isDarkMode` state, and pass `isDarkMode` and `setIsDarkMode` down through context. In our app, we presumably use `useDarkMode` to access `isDarkMode`, and we render our app on the server with the preferred theme.
 - Finally, we set up a `useEffect` so when `setIsDarkMode` is called, the `isDarkMode` cookie is set accordingly.
@@ -292,7 +294,7 @@ If the idiosyncrasies of `getInitialProps` are too much for you, I'll quickly ou
 
 ## Alternate approach with getServerSideProps
 
-<Code language="tsx" code={`
+```tsx
 // i.e. pages/blog.tsx
 import {
   createContext,
@@ -377,7 +379,7 @@ export const getServerSideProps = (async ({ req, res }) => {
     },
   };
 }) satisfies GetServerSideProps<{ isDarkModeCookie: boolean }>;
-`} />
+```
 
 For most use-cases, this is where I'd stop. Our code will remember a theme preference across requests, and generate server-rendered HTML for the user without a flash of the default theme. However, there's one question left unanswered: what to do with a user's os-level theme preference.
 
@@ -385,7 +387,7 @@ For most use-cases, this is where I'd stop. Our code will remember a theme prefe
 
 Unfortunately, it's impossible to detect the user's os-level theme preference on the server for the first request: it's only accessible on the client through a media query. What we can do, however, is render the default theme on the first request, then set the os-level theme preference in the `isDarkMode` cookie so that all _subsequent_ requests use the correct theme. However, if the user manually changes their theme to be different than their os-level preference, we should respect that as well. Let's update our code from above:
 
-<Code language="tsx" code={`
+```tsx
 // pages/_app.tsx
 import {
   createContext,
@@ -478,7 +480,7 @@ MyApp.getInitialProps = async (
     isDarkModeCookie: isDarkModeCookie === "true",
   };
 };
-`} />
+```
 
 It's a bit more complicated! For our initial state, we use `isDarkModeCookie`, and update our state to accept `null` values.
 

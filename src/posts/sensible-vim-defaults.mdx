@@ -16,7 +16,7 @@ When setting up a remote server, it can be a pain to get your Vim config up and 
 
 Instead of a traditional article, I've decided to post the config itself with extra comments I added for clarity. Use it as a starting place for your own main config, or a minimal setup for a remote server – whatever works best.
 
-<Code language="vim" code={`
+```vim
 "~/.config/nvim/init.vim
 
 noremap <space> <nop>
@@ -147,7 +147,7 @@ augroup netrw_mapping
   autocmd!
   autocmd filetype netrw call NetrwMapping()
 augroup END
-`} />
+```
 
 ## Bonus: Bootstrap Script
 

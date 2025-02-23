@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "lint": "next lint",
+    "prettier": "prettier --write src/",
     "build": "next build",
     "dev": "next dev -p 3001",
     "dev:visual-regression": "NEXT_PUBLIC_PLAYWRIGHT=true next dev -p 3001",

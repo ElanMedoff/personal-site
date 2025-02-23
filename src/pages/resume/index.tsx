@@ -7,7 +7,11 @@ import {
   BsFillCheckCircleFill as CheckIcon,
 } from "react-icons/bs";
 import { generateUrlPrefix } from "src/loaders/helpers";
-import { cn, createClassNameWrapper, transitionProperties } from "src/utils/style";
+import {
+  cn,
+  createClassNameWrapper,
+  transitionProperties,
+} from "src/utils/style";
 import { Header } from "src/components/root/Header";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 import Image from "next/image";

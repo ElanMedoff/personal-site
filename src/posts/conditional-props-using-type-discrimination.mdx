@@ -14,20 +14,17 @@ isPublished: true
 
 When writing reusable components in React, you'll sometimes want to dynamically require certain props based on the value
 of another. For example, say we have a component with a prop `accountType`. If `accountType` is `"admin"`, we'll want to
-require the consumer to pass in an `adminId` prop, and if `accountType` is `"user"`, a `userId` prop. The most 
+require the consumer to pass in an `adminId` prop, and if `accountType` is `"user"`, a `userId` prop. The most
 straightforward implementation of an interface to represent our props would look something like the following:
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 interface TProps {
-    sharedProp: boolean;
-    accountType: 'user' | 'admin'
-    adminId?: number;
-    userId?: number;
+  sharedProp: boolean;
+  accountType: "user" | "admin";
+  adminId?: number;
+  userId?: number;
 }
-`}
-/>
+```
 
 Of course, there's nothing to prevent the consumer from passing neither `adminId` or `userId` - and nothing to prevent
 them from passing both! How can we define `TProps` to be a bit smarter?
@@ -35,9 +32,9 @@ them from passing both! How can we define `TProps` to be a bit smarter?
 > Note: although this post focuses on React component props, the same principles apply to a vanilla javascript function as well
 
 <Info>
-Skip to the solution <Link href="/blog/conditional-props-using-type-discrimination#second-attempt-type-discrimination">here</Link>!
+  Skip to the solution
+  [here](/blog/conditional-props-using-type-discrimination#second-attempt-type-discrimination)!
 </Info>
-
 
 ## First Attempt: Generics
 
@@ -46,82 +43,66 @@ problem. It's still interesting to explore, though, so let's take a look.
 
 First, let's construct a union of our account types: `TAccountType`:
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 type TAccountType = "admin" | "user";
-`}
-/>
+```
 
 And an interface of the props that we'll always require:
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 interface TProps {
   sharedProp: boolean;
   accountType: TAccountType;
 }
-`}
-/>
+```
 
 Next, let's conditionally intersect our props with either `{ adminId: number}` or `{ userId: number }` depending on the
 type of `TAccountTypeGeneric`:
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 type TProps<TAccountTypeGeneric extends TAccountType> = {
   sharedProp: boolean;
   accountType: TAccountType;
 } & (TAccountTypeGeneric extends "admin"
   ? { adminId: number }
   : { userId: number });
-`}
-/>
+```
 
 You can think of our type `TProps` as representing a type function - the "argument" is `TAccountTypeGeneric`, and the "return
-value" is the type we construct with our intersection. 
+value" is the type we construct with our intersection.
 
-First, we note that our `TAccountTypeGeneric` argument must be a type that extends `TAccountType`. Then we 
-specify that if the `TAccountTypeGeneric` argument extends `"admin"`, we'll intersect our shared props with 
-`{ adminId: number }`, else with `{ userId: number }`. `extends` is another way of saying "is a subset of" - which 
+First, we note that our `TAccountTypeGeneric` argument must be a type that extends `TAccountType`. Then we
+specify that if the `TAccountTypeGeneric` argument extends `"admin"`, we'll intersect our shared props with
+`{ adminId: number }`, else with `{ userId: number }`. `extends` is another way of saying "is a subset of" - which
 in our case just means "is equal to", since `"admin"` is a set of just one item.
 
 If we manually pass in the `TAccountTypeGeneric`, we can validate that our generics are working.
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 type TAdminProps = TProps<"admin">;
 // type TAdminProps = { sharedProp: boolean; accountType: "admin"; } & { adminId: number; }
 
 type TUserProps = TProps<"user">;
 // type TUserProps = { sharedProp: boolean; accountType: "user"; } & { userId: number; }
-`} />
+```
 
 But instead of manually passing in `TAccountTypeGeneric`, we can simplify our type function to _infer_ its value by specifying
 the type of `accountType` as `TAccountTypeGeneric` instead of `TAccountType`.
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 type TProps<TAccountTypeGeneric extends TAccountType> = {
   sharedProp: boolean;
   accountType: TAccountTypeGeneric;
 } & (TAccountTypeGeneric extends "admin"
   ? { adminId: number }
   : { userId: number });
-`}
-/>
+```
 
-This _looks_ like a great solution, but it doesn't work too well in practice. If we construct a component that takes in a 
-generic `TAccountTypeGeneric` and passes it along to `TProps`, we can see that typescript isn't able to narrow the type 
+This _looks_ like a great solution, but it doesn't work too well in practice. If we construct a component that takes in a
+generic `TAccountTypeGeneric` and passes it along to `TProps`, we can see that typescript isn't able to narrow the type
 of `props` based on the value of `props.accountType`.
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 function Component<TAccountTypeGeneric extends TAccountType>(
   props: TProps<TAccountTypeGeneric>
 ) {
@@ -129,7 +110,6 @@ function Component<TAccountTypeGeneric extends TAccountType>(
     props.adminId;
     // Property 'adminId' does not exist on type '{ sharedProp: boolean; accountType: TAccountTypeGeneric; } & ({ adminId: number; } | { userId: number; })'.
     //     Property 'adminId' does not exist on type '{ sharedProp: boolean; accountType: TAccountTypeGeneric; } & { userId: number; }'.
-
   } else {
     props.userId;
     // Property 'userId' does not exist on type '{ sharedProp: boolean; accountType: TAccountTypeGeneric; } & ({ adminId: number; } | { userId: number; })'.
@@ -138,16 +118,14 @@ function Component<TAccountTypeGeneric extends TAccountType>(
 
   return null;
 }
-`} />
+```
 
-Even though our `TProps` type conditionally intersects the shared props with an object of `adminId` or `userId` based 
+Even though our `TProps` type conditionally intersects the shared props with an object of `adminId` or `userId` based
 on `accountType`, typescript can't apply the same logic to our `if` check - it can't figure out that `TProps` should be
-`TProps<'admin'>` if `if (props.accountType === 'admin')` is `true`. There's a few ways to get around this. First, we can 
+`TProps<'admin'>` if `if (props.accountType === 'admin')` is `true`. There's a few ways to get around this. First, we can
 assert the type of `props` with a custom type guard:
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 function isAdminProps(props: TProps<TAccountType>): props is TProps<"admin"> {
   return props.accountType === "admin";
 }
@@ -162,144 +140,133 @@ function Component<TAccountTypeGeneric extends TAccountType>(
   if (isAdminProps(props)) {
     props.adminId; // No error!
   } else if (isUserProps(props)) {
-    props.userId;  // No error!
+    props.userId; // No error!
   }
   return null;
 }
-`} />
+```
 
 or manually assert the type of `props` with the `as` keyword:
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 function Component<TAccountTypeGeneric extends TAccountType>(
   props: TProps<TAccountTypeGeneric>
 ) {
   if (props.accountType === "admin") {
-    (props as TProps<'admin'>).adminId; // No error!
+    (props as TProps<"admin">).adminId; // No error!
   } else {
-    (props as TProps<'user'>).userId; // No error!
+    (props as TProps<"user">).userId; // No error!
   }
 
   return null;
 }
-`} />
+```
 
 But in that case, we don't need the `if` check at all!
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 function Component<TAccountTypeGeneric extends TAccountType>(
   props: TProps<TAccountTypeGeneric>
 ) {
-  (props as TProps<'admin'>).adminId; // No error!
-  (props as TProps<'user'>).userId; // No error!
+  (props as TProps<"admin">).adminId; // No error!
+  (props as TProps<"user">).userId; // No error!
 
   return null;
 }
-`} />
+```
 
-From the point of view of the component author, there's little typesafety gained by all our generic shenanigans. 
-However, it's worth noting that the _consumer_ does in fact benefit from the typesafety we were originally aiming for. 
+From the point of view of the component author, there's little typesafety gained by all our generic shenanigans.
+However, it's worth noting that the _consumer_ does in fact benefit from the typesafety we were originally aiming for.
 
 When rendering `Component`:
+
 - `sharedProp` and `accountType` are required props
 - `userId` is required if `accountType` is `user`, not permitted otherwise
 - `adminId` is required if `accountType` is `admin`, not permitted otherwise
 - at least one of `userId` and `adminId` must be passed, but not both
 
-<Code
-  language="tsx"
-  code={`
-<Component sharedProp accountType="admin" />
-{/* Property 'adminId' is missing in type '{ sharedProp: true; accountType: "admin"; }' but required in type '{ adminId: number; }'.typescript(2741) */}
+```tsx
+<Component sharedProp accountType="admin" />;
+// Property 'adminId' is missing in type '{ sharedProp: true; accountType: "admin"; }' but required in type '{ adminId: number; }'.typescript(2741)
 
-<Component sharedProp accountType="admin" userId={456} />
-{/* Type '{ sharedProp: true; accountType: "admin"; userId: number; }' is not assignable to type 'IntrinsicAttributes & { sharedProp: boolean; accountType: "admin"; } & { adminId: number; }'. */}
-{/* Property 'userId' does not exist on type 'IntrinsicAttributes & { sharedProp: boolean; accountType: "admin"; } & { adminId: number; }'.typescript(2322) */}
+<Component sharedProp accountType="admin" userId={456} />;
+// Type '{ sharedProp: true; accountType: "admin"; userId: number; }' is not assignable to type 'IntrinsicAttributes & { sharedProp: boolean; accountType: "admin"; } & { adminId: number; }'.
+// Property 'userId' does not exist on type 'IntrinsicAttributes & { sharedProp: boolean; accountType: "admin"; } & { adminId: number; }'.typescript(2322)
 
-<Component sharedProp accountType="admin" adminId={123} userId={456} />
-{/* Type '{ sharedProp: true; accountType: "admin"; adminId: number; userId: number; }' is not assignable to type 'IntrinsicAttributes & { sharedProp: boolean; accountType: "admin"; } & { adminId: number; }'. */}
-{/* Property 'userId' does not exist on type 'IntrinsicAttributes & { sharedProp: boolean; accountType: "admin"; } & { adminId: number; }'.typescript(2322) */}
+<Component sharedProp accountType="admin" adminId={123} userId={456} />;
+// Type '{ sharedProp: true; accountType: "admin"; adminId: number; userId: number; }' is not assignable to type 'IntrinsicAttributes & { sharedProp: boolean; accountType: "admin"; } & { adminId: number; }'.
+// Property 'userId' does not exist on type 'IntrinsicAttributes & { sharedProp: boolean; accountType: "admin"; } & { adminId: number; }'.typescript(2322)
 
-<Component sharedProp accountType="admin" adminId={123} />
-{/* No errors! */}
-`} />
+<Component sharedProp accountType="admin" adminId={123} />;
+// No errors!
+```
 
-So how can we maintain this typesafety for the consumer, but also gain a measure of typesafety for the component author 
+So how can we maintain this typesafety for the consumer, but also gain a measure of typesafety for the component author
 as well?
 
 ## Second Attempt: Type Discrimination
 
 Type discrimination turns out to be a far better solution. Let's start by creating two different variants of our props:
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 interface TAdminProps {
   sharedProp: boolean;
-  accountType: 'admin';
+  accountType: "admin";
   adminId: number;
-  userId?: never
+  userId?: never;
 }
 
 interface TUserProps {
   sharedProp: boolean;
-  accountType: 'user';
+  accountType: "user";
   adminId?: never;
-  userId: number
+  userId: number;
 }
 
-type TProps = TAdminProps | TUserProps
-`} />
+type TProps = TAdminProps | TUserProps;
+```
 
-In the code above, we specify `TAdminProps` as having an `accountType` of type `"admin"`, `adminId` of `number`, and 
+In the code above, we specify `TAdminProps` as having an `accountType` of type `"admin"`, `adminId` of `number`, and
 `userId` of `never`. `never` ensures that typescript will throw an error if we attempt to pass a `userId` prop if our
-component's props are typed as `TAdminProps` - and we make `userId` optional so we're not _required_ to pass it and 
-throw a TS error! We follow the same pattern for `TUserProps`, and construct `TProps` as a union of the two. 
+component's props are typed as `TAdminProps` - and we make `userId` optional so we're not _required_ to pass it and
+throw a TS error! We follow the same pattern for `TUserProps`, and construct `TProps` as a union of the two.
 
-If you have several shared props, you can create a `BaseProps` interface and update `TAdminProps` and `TUserProps` 
+If you have several shared props, you can create a `BaseProps` interface and update `TAdminProps` and `TUserProps`
 to extend it:
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 interface SharedProps {
   sharedProp: boolean;
   // other props here
 }
 
 interface TAdminProps extends SharedProps {
-  accountType: 'admin';
+  accountType: "admin";
   adminId: number;
-  userId?: never
+  userId?: never;
 }
 
 interface TUserProps extends SharedProps {
-  accountType: 'user';
+  accountType: "user";
   adminId?: never;
-  userId: number
+  userId: number;
 }
 
-type TProps = TAdminProps | TUserProps
-`} />
+type TProps = TAdminProps | TUserProps;
+```
 
-This looks great, but if we type our component's `props` as `TProps`, how is typescript supposed to know which of the 
-two interfaces in our `TProps` union it should use? 
+This looks great, but if we type our component's `props` as `TProps`, how is typescript supposed to know which of the
+two interfaces in our `TProps` union it should use?
 
 The key is the `accountType` field. Since `accountType` is present
-in both interfaces with different types (i.e. the literal string types `"admin"` and `"user"`), typescript is able to 
+in both interfaces with different types (i.e. the literal string types `"admin"` and `"user"`), typescript is able to
 determine the type of `props` by analyzing your code's control flow. If the value of `props.accountType`
-is determined by your code to be `"admin"`, typescript will narrow `props` from `TProps` down to `TAdminProps`, 
-otherwise to `TUserProps`. 
+is determined by your code to be `"admin"`, typescript will narrow `props` from `TProps` down to `TAdminProps`,
+otherwise to `TUserProps`.
 
 Let's try it out:
 
-<Code
-  language="tsx"
-  code={`
+```tsx
 function Component(props: TProps) {
   if (props.accountType === "admin") {
     props; // (parameter) props: TAdminProps
@@ -311,38 +278,37 @@ function Component(props: TProps) {
 
   return null;
 }
-`} />
+```
 
 <Info>
-If you're interested in more info, the typescript docs have some great
-[examples](https://www.typescriptlang.org/play/#example/discriminate-types) on using type discrimination
+  If you're interested in more info, the typescript docs have some great
+  [examples](https://www.typescriptlang.org/play/#example/discriminate-types) on
+  using type discrimination
 </Info>
 
-This solution is great because it provides typesafety for the component author to ensure they perform any necessary 
-checks before accessing a prop, and it requires that the consumer pass in different props based on the value of a 
+This solution is great because it provides typesafety for the component author to ensure they perform any necessary
+checks before accessing a prop, and it requires that the consumer pass in different props based on the value of a
 discriminator prop. The errors are a bit different from before, but the typesafety is just as good as our generic-based solution:
 
-<Code
-  language="tsx"
-  code={`
-<Component sharedProp accountType="admin" />
-{/* Type '{ sharedProp: true; accountType: "admin"; }' is not assignable to type 'IntrinsicAttributes & TProps'. */}
-{/* Property 'adminId' is missing in type '{ sharedProp: true; accountType: "admin"; }' but required in type 'TAdminProps'.typescript(2322) */}
+```tsx
+<Component sharedProp accountType="admin" />;
+// Type '{ sharedProp: true; accountType: "admin"; }' is not assignable to type 'IntrinsicAttributes & TProps'.
+// Property 'adminId' is missing in type '{ sharedProp: true; accountType: "admin"; }' but required in type 'TAdminProps'.typescript(2322)
 
-<Component sharedProp accountType="admin" userId={456} />
-{/* Type '{ sharedProp: true; accountType: "admin"; userId: number; }' is not assignable to type 'IntrinsicAttributes & TProps'. */}
-{/* Type '{ sharedProp: true; accountType: "admin"; userId: number; }' is not assignable to type 'TUserProps'. */}
-{/* Types of property 'accountType' are incompatible. */}
-{/* Type '"admin"' is not assignable to type '"user"'.typescript(2322) */}
+<Component sharedProp accountType="admin" userId={456} />;
+// Type '{ sharedProp: true; accountType: "admin"; userId: number; }' is not assignable to type 'IntrinsicAttributes & TProps'.
+// Type '{ sharedProp: true; accountType: "admin"; userId: number; }' is not assignable to type 'TUserProps'.
+// Types of property 'accountType' are incompatible.
+// Type '"admin"' is not assignable to type '"user"'.typescript(2322)
 
-<Component sharedProp accountType="admin" adminId={123} userId={456} />
-{/* Type '{ sharedProp: true; accountType: "admin"; adminId: number; userId: number; }' is not assignable to type 'IntrinsicAttributes & TProps'. */}
-{/* Type '{ sharedProp: true; accountType: "admin"; adminId: number; userId: number; }' is not assignable to type 'TUserProps'. */}
-{/* Types of property 'accountType' are incompatible. */}
-{/* Type '"admin"' is not assignable to type '"user"'.typescript(2322) */}
+<Component sharedProp accountType="admin" adminId={123} userId={456} />;
+// Type '{ sharedProp: true; accountType: "admin"; adminId: number; userId: number; }' is not assignable to type 'IntrinsicAttributes & TProps'.
+// Type '{ sharedProp: true; accountType: "admin"; adminId: number; userId: number; }' is not assignable to type 'TUserProps'.
+// Types of property 'accountType' are incompatible.
+// Type '"admin"' is not assignable to type '"user"'.typescript(2322)
 
-<Component sharedProp accountType="admin" adminId={123} />
-{/* No errors! */}
-`} />
+<Component sharedProp accountType="admin" adminId={123} />;
+// No errors!
+```
 
 Thanks for reading!
