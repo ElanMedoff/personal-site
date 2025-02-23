@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
-import { isProd } from "./env";
+import { isProd, isVisualRegressionTest } from "./env";
 
 export interface Collection {
   name: string;
@@ -99,7 +99,7 @@ export function fetchAllMetadata(): Metadata[] {
     .filter((post) => (isProd() ? post.isPublished : true));
 }
 
-function fetchslugs() {
+export function fetchSlugs() {
   const paths = fetchAllPaths();
 
   const allMetadata = paths.map((path) => {
@@ -109,10 +109,12 @@ function fetchslugs() {
   });
 
   return allMetadata
-    .filter((post) => (isProd() ? post.isPublished : true))
+    .filter((post) =>
+      isProd() || isVisualRegressionTest() ? post.isPublished : true
+    )
     .map((metadata) => metadata.slug);
 }
 
 export function isSlugValid(slug: string) {
-  return fetchslugs().includes(slug);
+  return fetchSlugs().includes(slug);
 }

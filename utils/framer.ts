@@ -1,12 +1,18 @@
-const sharedVariants = {
+import { isVisualRegressionTest } from "utils/env";
+
+export const createMotionProps = <Obj>(props: Obj) => {
+  return isVisualRegressionTest() ? ({} as Obj) : props;
+};
+
+const sharedVariants = createMotionProps({
   hidden: { opacity: 0, y: 25 },
   show: {
     opacity: 1,
     y: 0,
   },
-};
+});
 
-export const generateOnScrollProps = {
+export const generateOnScrollProps = createMotionProps({
   variants: {
     ...sharedVariants,
     show: {
@@ -20,9 +26,9 @@ export const generateOnScrollProps = {
   initial: "hidden",
   whileInView: "show",
   viewport: { once: true },
-};
+});
 
-export const onScrollContainerProps = {
+export const onScrollContainerProps = createMotionProps({
   variants: {
     ...sharedVariants,
     show: {
@@ -38,10 +44,10 @@ export const onScrollContainerProps = {
   initial: "hidden",
   whileInView: "show",
   viewport: { once: true },
-};
+});
 
-export const onScrollChildProps = {
+export const onScrollChildProps = createMotionProps({
   variants: sharedVariants,
   viewport: { once: true },
   transition: { duration: 0.3 },
-};
+});

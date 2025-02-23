@@ -14,6 +14,7 @@ import { cn, createClassNameWrapper } from "utils/style";
 import { Copy } from "components/design-system/Copy";
 import Spacing from "components/design-system/Spacing";
 import { Inset } from "components/design-system/Inset";
+import { isVisualRegressionTest } from "utils/env";
 
 const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   const response = await fetch(`/profile/${url}.png`);
@@ -69,7 +70,14 @@ export function Profile() {
   }, []);
 
   useEffect(() => {
-    if (loading || isMobile || hasHovered || !isInView) return;
+    if (
+      loading ||
+      isMobile ||
+      hasHovered ||
+      !isInView ||
+      isVisualRegressionTest()
+    )
+      return;
 
     controls.start({
       x: [null, 5, -5, 5, 0],

@@ -2,8 +2,8 @@ export const isProd = () => {
   return process.env.NODE_ENV === "production";
 };
 
-export const isTest = () => {
-  return process.env.NODE_ENV === "test";
+export const isVisualRegressionTest = () => {
+  return process.env.NEXT_PUBLIC_PLAYWRIGHT === "true";
 };
 
 export const getClientId = () => {

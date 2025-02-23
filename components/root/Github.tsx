@@ -13,6 +13,7 @@ import { Heading } from "components/design-system/Heading";
 import Spacing from "components/design-system/Spacing";
 import { Inset } from "components/design-system/Inset";
 import { cn, WrapperProps } from "utils/style";
+import { isVisualRegressionTest } from "utils/env";
 
 function CardWrapper({
   children,
@@ -53,7 +54,7 @@ function RepoCard({ repo, index }: { repo: Repo; index: number }) {
   const isInView = useInView(refContainer);
 
   useEffect(() => {
-    if (isMobile || hasHovered || !isInView) return;
+    if (isMobile || hasHovered || !isInView || isVisualRegressionTest()) return;
 
     controls.start({
       x: [null, 5, -5, 5, 0],

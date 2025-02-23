@@ -20,6 +20,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import * as cookie from "cookie";
 import { useRouter } from "next/router";
 import { SearchParamStateProvider } from "use-search-param-state";
+import { isProd, isVisualRegressionTest } from "utils/env";
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
@@ -120,7 +121,7 @@ export default function MyApp({
               </div>
             </ThemeContext.Provider>
           </Hydrate>
-          <ReactQueryDevtools initialIsOpen={false} />
+          {isProd() || isVisualRegressionTest() ? null : <ReactQueryDevtools />}
         </QueryClientProvider>
       </SearchParamStateProvider>
     </>

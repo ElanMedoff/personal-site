@@ -4,6 +4,7 @@ import { cn, createClassNameWrapper, transitionProperties } from "utils/style";
 import { Switch } from "components/reusable/Switch";
 import { useDarkMode } from "pages/_app";
 import getConfig from "next/config";
+import { isVisualRegressionTest } from "utils/env";
 
 const { publicRuntimeConfig } = getConfig();
 const { APP_ENV } = publicRuntimeConfig;
@@ -14,6 +15,7 @@ export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
 
   // https://stackoverflow.com/a/62497293
   useEffect(() => {
+    if (isVisualRegressionTest()) return;
     if (!hideOnScroll) return;
 
     const threshold = 20;

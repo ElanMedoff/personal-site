@@ -1,4 +1,5 @@
 import NextImage from "next/image";
+import { isVisualRegressionTest } from "utils/env";
 import { cn } from "utils/style";
 
 export function Image({
@@ -26,6 +27,7 @@ export function Image({
         width={width}
         height={height}
         layout="responsive"
+        loading={isVisualRegressionTest() ? "eager" : "lazy"}
       />
     </div>
   );

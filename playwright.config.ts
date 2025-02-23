@@ -1,13 +1,14 @@
-import type { PlaywrightTestConfig } from "@playwright/test";
-const config: PlaywrightTestConfig = {
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
   use: {
     headless: true,
-    baseURL: "http://localhost:3000",
+    baseURL: "http://localhost:3001",
     viewport: {
       height: 1000,
       width: 1200,
     },
     browserName: "chromium",
   },
-};
-export default config;
+  fullyParallel: true,
+});
