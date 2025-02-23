@@ -19,7 +19,7 @@ fi
 
 PM2_NAME="visual-regression-test-suite"
 pm2 start "npm run dev:visual-regression" --name "$PM2_NAME"
-echo "running e2es locally..."
+echo "running playwright tests locally..."
 
 CMD=""
 case $1 in
@@ -32,9 +32,9 @@ case $1 in
 esac
 
 if eval "$CMD"; then
-  echo "ran e2es locally"
+  echo "playwright tests passed"
 else
-  echo "e2e tests failed, aborting"
+  echo "playwright tests failed, aborting"
   pm2 delete "$PM2_NAME"
   exit
 fi

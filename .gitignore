@@ -6,3 +6,4 @@
 /cache/*
 !cache/.gitkeep
 /test-results
+backup.sh

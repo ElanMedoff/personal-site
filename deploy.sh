@@ -5,7 +5,7 @@ if npx next build; then
   echo "built locally"
 else
   echo "build failed, aborting"
-  exit
+  exit 1
 fi
 
 if lsof -ti:3000 >/dev/null 2>&1; then
@@ -20,29 +20,26 @@ if lsof -ti:3000 >/dev/null 2>&1; then
   kill -9 "$(lsof -ti:3000)"
 fi
 
-pm2 start "npm run start" --name e2e
-echo "running e2es locally..."
-if npm run test; then
-  echo "ran e2es locally"
+PM2_NAME="playwright-test-suite"
+pm2 start "npm run prod:visual-regression" --name "$PM2_NAME"
+echo "running playwright tests locally..."
+if NODE_ENV="production" npm run test tests/; then
+  echo "playwright tests passed"
 else
-  echo "e2e tests failed, aborting"
-  pm2 delete e2e
+  echo "playwright tests failed, aborting"
+  pm2 delete "$PM2_NAME"
   exit
 fi
-pm2 delete e2e
+pm2 delete "$PM2_NAME"
 
 echo "generating sitemap ..."
 npm run generateSitemap
 echo "generated sitemap"
 
-echo "backing up..."
-rsync -av -e ssh --exclude="node_modules" --exclude=".next" --exclude="public" elan@147.182.190.69:/var/www/elanmed.dev ~/Desktop/personal-site-backups
-mv ~/Desktop/personal-site-backups/elanmed.dev ~/Desktop/personal-site-backups/"$(date +"%m:%d:%y_%H-%M-%S")"
-echo "backed up"
+if [[ -f "./backup.sh" ]]; then
+  source ./backup.sh
+fi
 
-echo "input commit message >"
-read -r COMMIT
-git add -A
-git commit -m "$COMMIT"
-npm run push
+echo "deploying..."
 npm run deploy
+echo "deployed"
