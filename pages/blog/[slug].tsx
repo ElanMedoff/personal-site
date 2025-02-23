@@ -19,6 +19,7 @@ import { userLoader } from "loaders/user";
 import { upvoteCountLoader } from "loaders/upvoteCount";
 import { Header } from "components/root/Header";
 import { generateQueryKey } from "loaders/helpers";
+import { Footer } from "components/reusable/Footer";
 
 export default function PostPage({
   post,
@@ -65,12 +66,19 @@ export default function PostPage({
         <section className="md:text-justify">
           <div className="flex flex-col-reverse sm:flex-row justify-between items-start gap-6 mb-12">
             <div>
-              <p className="pb-2 text-sm underline underline-offset-4">last updated: {post.metadata.lastUpdated}</p>
+              <p className="pb-2 text-sm underline underline-offset-4">
+                last updated: {post.metadata.lastUpdated}
+              </p>
               <p className="text-sm italic">{formattedReadingTime} read</p>
             </div>
             <LoginLogout />
           </div>
-          <MDXRemote compiledSource={post.content} components={components} scope={undefined} frontmatter={undefined} />
+          <MDXRemote
+            compiledSource={post.content}
+            components={components}
+            scope={undefined}
+            frontmatter={undefined}
+          />
         </section>
         <div className="w-1/2 divider" />
         <section>
@@ -78,7 +86,11 @@ export default function PostPage({
           <PostCard metadata={relatedPostMetadata} />
         </section>
       </Content>
-      <motion.div className="fixed bottom-0 left-0 right-0 h-3 bg-primary" style={{ scaleX, transformOrigin: "0%" }} />
+      <Footer />
+      <motion.div
+        className="fixed bottom-0 left-0 right-0 h-3 bg-primary"
+        style={{ scaleX, transformOrigin: "0%" }}
+      />
       <Upvote />
     </>
   );
@@ -94,7 +106,9 @@ interface Props {
   dehydratedState: DehydratedState;
 }
 
-export const getServerSideProps: GetServerSideProps<Props, Params> = async (context) => {
+export const getServerSideProps: GetServerSideProps<Props, Params> = async (
+  context
+) => {
   const { slug } = context.params!;
   if (!isSlugValid(slug)) {
     return {
@@ -109,7 +123,9 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async (cont
 
   const getServerSidePropsCookie = context.req.cookies.sessionId;
 
-  await queryClient.prefetchQuery(generateQueryKey("user", []), () => userLoader(getServerSidePropsCookie));
+  await queryClient.prefetchQuery(generateQueryKey("user", []), () =>
+    userLoader(getServerSidePropsCookie)
+  );
   await queryClient.prefetchQuery(generateQueryKey("hasUpvoted", [slug]), () =>
     hasUpvotedLoader(slug, getServerSidePropsCookie)
   );
