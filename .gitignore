@@ -5,3 +5,4 @@
 /prisma/data.db
 /cache/*
 !cache/.gitkeep
+/test-results
