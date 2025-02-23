@@ -8,7 +8,7 @@ if [[ $# -ne 2 ]]; then
 fi
 
 if lsof -ti:3001 >/dev/null 2>&1; then
-  cecho --mode=query "Port 3001 already in use. Okay to close it? y/N"
+  cecho --mode=query "Port 3001 already in use. Okay to close it? (y/N)"
   read -r ANSWER
   if [[ $ANSWER != "y" ]]; then
     cecho --mode=error "exiting"

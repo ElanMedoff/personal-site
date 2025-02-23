@@ -2,6 +2,13 @@
 
 source "$(dirname "$0")"/helpers.sh
 
+cecho --mode=query "This script won't add any commits. Confirm you want to push the latest remote master to the server (y/N)"
+read -r ANSWER
+if [[ $ANSWER != "y" ]]; then
+  cecho --mode=error "exiting"
+  exit 1
+fi
+
 cecho --mode=info "building locally..."
 if npx next build; then
   cecho --mode=success "built locally"
@@ -11,7 +18,7 @@ else
 fi
 
 if lsof -ti:3001 >/dev/null 2>&1; then
-  cecho --mode=query "Port 3001 already in use. Okay to close it? y/*"
+  cecho --mode=query "Port 3001 already in use. Okay to close it? (y/N)"
   read -r ANSWER
   if [[ $ANSWER != "y" ]]; then
     cecho --mode=error "exiting"
