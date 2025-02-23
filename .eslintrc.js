@@ -1,9 +1,10 @@
 /* eslint-env node */
 module.exports = {
   extends: [
-    "prettier",
-    "next/core-web-vitals",
+    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "next",
+    "prettier",
   ],
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint"],
