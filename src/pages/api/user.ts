@@ -11,10 +11,7 @@ export type UserPayload = {
   } | null;
 };
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ApiResponse<UserPayload>>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse<UserPayload>>) {
   const maybeSession = await maybeGetSession({ req, res });
   if (maybeSession.type === "error") {
     const { status, json } = maybeSession;
@@ -30,8 +27,4 @@ async function handler(
     payload: { user: { username } },
   });
 }
-export default withMiddlware(
-  allowMethods(["GET"]),
-  deleteExpiredSessions,
-  handler
-);
+export default withMiddlware(allowMethods(["GET"]), deleteExpiredSessions, handler);

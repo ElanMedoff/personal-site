@@ -13,8 +13,7 @@ import { WideContent } from "src/components/reusable/WideContent";
 
 const Section = createClassNameWrapper("Section", "div", "w-full");
 
-export const collectionContainerClassNames =
-  "flex flex-wrap justify-center gap-5 sm:gap-10 px-5";
+export const collectionContainerClassNames = "flex flex-wrap justify-center gap-5 sm:gap-10 px-5";
 
 export default function About({
   repos,
@@ -24,11 +23,7 @@ export default function About({
     "I'm Elan Medoff, a software engineer specializing in web and fullstack development. Welcome to my blog!";
   const title = "elanmed.dev";
 
-  const npmRepoNames = [
-    "use-search-param",
-    "use-search-param-state",
-    "use-stable-reference",
-  ];
+  const npmRepoNames = ["use-search-param", "use-search-param-state", "use-stable-reference"];
   const npmRepos = repos.filter(({ name }) => npmRepoNames.includes(name));
   const restRepose = repos.filter(({ name }) => !npmRepoNames.includes(name));
 

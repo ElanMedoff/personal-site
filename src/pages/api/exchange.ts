@@ -10,17 +10,10 @@ import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import createSession from "src/utils/api/createSession";
 import deleteSessionsByUsername from "src/utils/api/deleteSessionsByUsername";
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ApiResponse<null>>
-) {
-  const cookieState = getCookie("state", { req, res, secure: isProd() }) as
-    | string
-    | undefined;
+async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse<null>>) {
+  const cookieState = getCookie("state", { req, res, secure: isProd() }) as string | undefined;
   if (!cookieState) {
-    return res
-      .status(401)
-      .json({ type: "error", errorMessage: "no state in cookie" });
+    return res.status(401).json({ type: "error", errorMessage: "no state in cookie" });
   }
 
   if (!req.headers.referer) {
@@ -30,9 +23,7 @@ async function handler(
   const refererUrl = new URL(req.headers.referer);
   const refererParams = new URLSearchParams(refererUrl.search);
   if (!refererParams.has("state")) {
-    return res
-      .status(401)
-      .json({ type: "error", errorMessage: "no state in url" });
+    return res.status(401).json({ type: "error", errorMessage: "no state in url" });
   }
 
   const urlState = refererParams.get("state");
@@ -44,9 +35,7 @@ async function handler(
   }
 
   if (!refererParams.has("code")) {
-    return res
-      .status(401)
-      .json({ type: "error", errorMessage: "no code in url" });
+    return res.status(401).json({ type: "error", errorMessage: "no code in url" });
   }
 
   const clientId = getClientId();
@@ -58,7 +47,7 @@ async function handler(
   authorizationParams.append("code", refererParams.get("code")!);
 
   const authorizationUrl = new URL(
-    `https://github.com/login/oauth/access_token?${authorizationParams}`
+    `https://github.com/login/oauth/access_token?${authorizationParams}`,
   );
   const headers = new Headers();
   headers.append("Accept", "application/json");
@@ -104,9 +93,7 @@ async function handler(
     return res.status(status).json(json);
   }
 
-  const expiresAt = new Date(
-    new Date().getTime() + 1000 * 60 * (isProd() ? 60 * 12 : 10)
-  );
+  const expiresAt = new Date(new Date().getTime() + 1000 * 60 * (isProd() ? 60 * 12 : 10));
 
   const createdSession = await createSession({
     accessToken,
@@ -134,5 +121,5 @@ export default withMiddlware(
   allowMethods(["GET"]),
   onlyLoggedOutUsers,
   deleteExpiredSessions,
-  handler
+  handler,
 );

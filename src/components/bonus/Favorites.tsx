@@ -18,22 +18,13 @@ function SwiperWrapper({
   return (
     <motion.article {...onScrollChildProps}>
       <div className="border-2 border-neutral py-6 pl-3 pr-12 rounded">
-        <h3
-          className={cn("uppercase font-bold text-2xl md:text-4xl mb-3 ml-3")}
-        >
-          {title}
-        </h3>
+        <h3 className={cn("uppercase font-bold text-2xl md:text-4xl mb-3 ml-3")}>{title}</h3>
         <SwiperCards
           slides={paths.map((path, index) => {
             return (
               <div key={index} className="p-1 -mb-[7px] bg-neutral">
                 <div key={index} className="">
-                  <Image
-                    src={`/${dir}/${path}`}
-                    alt={dir}
-                    width={460}
-                    height={690}
-                  />
+                  <Image src={`/${dir}/${path}`} alt={dir} width={460} height={690} />
                 </div>
               </div>
             );
@@ -57,10 +48,7 @@ export function Favorites({
     <div className="mb-5 flex flex-col gap-10">
       <motion.section
         {...onScrollContainerProps}
-        className={cn(
-          "flex justify-center flex-wrap items-center",
-          "gap-10 md:gap-20"
-        )}
+        className={cn("flex justify-center flex-wrap items-center", "gap-10 md:gap-20")}
       >
         <SwiperWrapper paths={moviePaths} dir="movies" title="movies" />
         <SwiperWrapper paths={bookPaths} dir="books" title="books" />

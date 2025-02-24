@@ -18,7 +18,7 @@ export function Image({
       className={cn(
         "m-auto w-[95%]",
         size === "small" && "sm:w-1/2",
-        size === "medium" && "sm:w-3/4"
+        size === "medium" && "sm:w-3/4",
       )}
     >
       <NextImage

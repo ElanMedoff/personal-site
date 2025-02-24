@@ -8,10 +8,7 @@ import { ApiResponse } from "src/utils/api/types";
 import { isProd } from "src/utils/env";
 import { withMiddlware } from "src/utils/middleware";
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ApiResponse<null>>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse<null>>) {
   const maybeSession = await maybeGetSession({ req, res });
   if (maybeSession.type === "error") {
     const { status, json } = maybeSession;
@@ -33,8 +30,4 @@ async function handler(
   return res.status(200).json({ type: "success", payload: null });
 }
 
-export default withMiddlware(
-  allowMethods(["GET"]),
-  deleteExpiredSessions,
-  handler
-);
+export default withMiddlware(allowMethods(["GET"]), deleteExpiredSessions, handler);

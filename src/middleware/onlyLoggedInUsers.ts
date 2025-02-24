@@ -8,9 +8,7 @@ export const onlyLoggedInUsers: Middleware = async (req, res, next) => {
     return res.status(status).json(json);
   }
   if (!maybeSession.payload.session) {
-    return res
-      .status(401)
-      .json({ type: "error", errorMessage: "no session or no cookie" });
+    return res.status(401).json({ type: "error", errorMessage: "no session or no cookie" });
   }
   return next();
 };

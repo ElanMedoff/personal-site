@@ -1,6 +1,8 @@
 ---
 title: "Global Find and Replace in Neovim"
-abstract: "Stitching together the fzf, the quickfix list, cdo, and a custom lua function for an awesome find and replace in Neovim"
+abstract:
+  "Stitching together the fzf, the quickfix list, cdo, and a custom lua function for an awesome find
+  and replace in Neovim"
 lastUpdated: "November 08, 2022"
 slug: global-find-and-replace-in-neovim
 tags:
@@ -12,23 +14,36 @@ isPublished: true
 
 # Global Find and Replace in Neovim
 
-Of all the VSCode features I've re-implemented in Neovim, none have given me as much trouble as the global find and replace. In VSCode, the global-search ui is built into the sidebar with options to include/exclude files, and search by whole word, case sensitive, case insensitive, and any combination of the three. Once you've narrowed down your search, you can easily replace all instances in the same ui. For renaming across multiple files, it's a lifesaver. Luckily, with a bit of a work, and a little flexibility, we can get an analogous solution working in Neovim.
+Of all the VSCode features I've re-implemented in Neovim, none have given me as much trouble as the
+global find and replace. In VSCode, the global-search ui is built into the sidebar with options to
+include/exclude files, and search by whole word, case sensitive, case insensitive, and any
+combination of the three. Once you've narrowed down your search, you can easily replace all
+instances in the same ui. For renaming across multiple files, it's a lifesaver. Luckily, with a bit
+of a work, and a little flexibility, we can get an analogous solution working in Neovim.
 
 ## tl;dr
 
-Find your first-pass results with [fzf-lua](https://github.com/ibhagwan/fzf-lua)/[telescope](https://github.com/nvim-telescope/telescope.nvim), populate them into the quickfix list, narrow it down with [bqf](https://github.com/kevinhwang91/nvim-bqf), and replace all instances by executing `cdo s/find/replace` with a custom user command to accept arguments for `find` and `replace`.
+Find your first-pass results with
+[fzf-lua](https://github.com/ibhagwan/fzf-lua)/[telescope](https://github.com/nvim-telescope/telescope.nvim),
+populate them into the quickfix list, narrow it down with
+[bqf](https://github.com/kevinhwang91/nvim-bqf), and replace all instances by executing
+`cdo s/find/replace` with a custom user command to accept arguments for `find` and `replace`.
 
 ## Search with fzf
 
-fzf is an awesome command line utility for fuzzy finding just about anything (seriously, anything). In our case, we'll be using the `fzf-lua` package for Neovim, and focusing on just one specific command: `grep`
+fzf is an awesome command line utility for fuzzy finding just about anything (seriously, anything).
+In our case, we'll be using the `fzf-lua` package for Neovim, and focusing on just one specific
+command: `grep`
 
-`grep` allows you to input a search term and narrow down the results "fuzzily" by filename. I use the following key remaps, but feel free to use your own:
+`grep` allows you to input a search term and narrow down the results "fuzzily" by filename. I use
+the following key remaps, but feel free to use your own:
 
 ```vim
 nnoremap <leader>zf <cmd>lua require('fzf-lua').grep()<cr>
 ```
 
-If you prefer to use [telescope](https://github.com/nvim-telescope/telescope.nvim), you can use the following remap:
+If you prefer to use [telescope](https://github.com/nvim-telescope/telescope.nvim), you can use the
+following remap:
 
 ```vim
 nnoremap <leader>zf <cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<cr>
@@ -38,15 +53,19 @@ Once you trigger the command, you'll be greeted with a prompt to input your init
 
 <Image src="/blog/grep-for.png" size="small" width={818} height={160} />
 
-Enter the search term (in our case, let's look for the string `fzf`) and a window will appear with the filenames of every file containing your string.
+Enter the search term (in our case, let's look for the string `fzf`) and a window will appear with
+the filenames of every file containing your string.
 
 <Image src="/blog/fzf-initial.png" width={1890} height={1040} />
 
-You can then narrow down your results by inputting a part of the filename, or negating a filename if you begin with a shebang i.e. `!.md`. See the [fzf docs](https://github.com/junegunn/fzf#search-syntax) for more options.
+You can then narrow down your results by inputting a part of the filename, or negating a filename if
+you begin with a shebang i.e. `!.md`. See the
+[fzf docs](https://github.com/junegunn/fzf#search-syntax) for more options.
 
 <Image src="/blog/fzf-narrow.png" width={1890} height={1039} />
 
-In our case, we negated any files with `packer` in the filepath. We can then export a subset of the files to the quickfix list by marking a result with tab ...
+In our case, we negated any files with `packer` in the filepath. We can then export a subset of the
+files to the quickfix list by marking a result with tab ...
 
 <Image src="/blog/fzf-mark.png" width={1890} height={1039} />
 
@@ -92,15 +111,18 @@ telescope.setup({
 })
 ```
 
-This will allow you to mark a selection with `tab`/`shift-tab` and export the selections to the quickfix list with `enter`.
+This will allow you to mark a selection with `tab`/`shift-tab` and export the selections to the
+quickfix list with `enter`.
 
-Back to our example, let's mark all the instances where we remap an fzf command. This will populate the quickfix list, which should look something like the following:
+Back to our example, let's mark all the instances where we remap an fzf command. This will populate
+the quickfix list, which should look something like the following:
 
 <Image src="/blog/bqf-initial.png" width={2000} height={1149} />
 
 ## Narrow Down with bqf
 
-The second plugin we'll use is [bqf](https://github.com/kevinhwang91/nvim-bqf), an awesome utility for the quickfix list. I won't dive into all the details, but some of the highlights are:
+The second plugin we'll use is [bqf](https://github.com/kevinhwang91/nvim-bqf), an awesome utility
+for the quickfix list. I won't dive into all the details, but some of the highlights are:
 
 - create another list by marking an entry with tab and pressing `zn`.
 - navigate between lists with `>` and `<`
@@ -109,8 +131,7 @@ The second plugin we'll use is [bqf](https://github.com/kevinhwang91/nvim-bqf), 
 - scroll in the preview window with `ctrl-b` and `ctrl-f`
 
 <Info>
-  Note that to use `zf`, you'll need to install
-  [fzf.vim](https://github.com/junegunn/fzf.vim).
+  Note that to use `zf`, you'll need to install [fzf.vim](https://github.com/junegunn/fzf.vim).
 </Info>
 
 I also use some bqf-agnostic quickfix list remaps that may be helpful:
@@ -122,25 +143,41 @@ nnoremap ge :copen<cr>
 nnoremap gq :cclose<cr>
 ```
 
-Between creating lists, fuzzy searching within a list, and repeating, you should have enough tools to narrow down your search to a final, single list. This brings us to the final section: replacing.
+Between creating lists, fuzzy searching within a list, and repeating, you should have enough tools
+to narrow down your search to a final, single list. This brings us to the final section: replacing.
 
 ## Replace with cdo
 
-The key to this last step is the native Neovim `cdo` command. If we enter the command `:help cdo` in Neovim, we learn the following info:
+The key to this last step is the native Neovim `cdo` command. If we enter the command `:help cdo` in
+Neovim, we learn the following info:
 
-In practice, this means we need to narrow our search to a single quickfix list (i.e. with `zn` and `zf`) so we can replace its every instance.
+In practice, this means we need to narrow our search to a single quickfix list (i.e. with `zn` and
+`zf`) so we can replace its every instance.
 
-For the `cmd`, we'll be using the `substitute` command. Although there's a whole boatload of options we can use, the defaults are generally good enough: `s/foo/bar/` will replace a single instance of `foo` with `bar`.
+For the `cmd`, we'll be using the `substitute` command. Although there's a whole boatload of options
+we can use, the defaults are generally good enough: `s/foo/bar/` will replace a single instance of
+`foo` with `bar`.
 
-Some common `substitute` options include the `/g` flag (i.e. `s/foo/bar/g`) which replaces all the instances in the current line, the `%s` flag (i.e. `%s/foo/bar`) to replace all the instances in _all_ lines, the `/i` flag (i.e. `s/foo/bar/i`) for case-insensitive replacements, and the `/I` flag for case-sensitive. Check out this great [guide](https://vim.fandom.com/wiki/Search_and_replace) for more examples.
+Some common `substitute` options include the `/g` flag (i.e. `s/foo/bar/g`) which replaces all the
+instances in the current line, the `%s` flag (i.e. `%s/foo/bar`) to replace all the instances in
+_all_ lines, the `/i` flag (i.e. `s/foo/bar/i`) for case-insensitive replacements, and the `/I` flag
+for case-sensitive. Check out this great [guide](https://vim.fandom.com/wiki/Search_and_replace) for
+more examples.
 
-Luckily, since `cdo` applies its command argument to every instance in the quickfix list, we need neither the `/g` flag nor the `%s` flag – I'll leave it up to you to decide on the `/i` and `/I` flags.
+Luckily, since `cdo` applies its command argument to every instance in the quickfix list, we need
+neither the `/g` flag nor the `%s` flag – I'll leave it up to you to decide on the `/i` and `/I`
+flags.
 
 ## Custom User Command
 
-Technically, you could stop here and you'd be good to go – just use the `:cdo s/foo/bar/` command as above. If you're like me, however, this can feel a bit unweildy. What about creating a key remap to interpolate the `foo` and `bar`? While it's not possible for a Neovim remap to accept arguments, a user command can!
+Technically, you could stop here and you'd be good to go – just use the `:cdo s/foo/bar/` command as
+above. If you're like me, however, this can feel a bit unweildy. What about creating a key remap to
+interpolate the `foo` and `bar`? While it's not possible for a Neovim remap to accept arguments, a
+user command can!
 
-Our custom user command will accept two arguments, a `foo` and a `bar`, and execute a Neovim command that interpolates the values into a string of the form `:cdo s/foo/bar/` and saves each file. Let's look at the following code:
+Our custom user command will accept two arguments, a `foo` and a `bar`, and execute a Neovim command
+that interpolates the values into a string of the form `:cdo s/foo/bar/` and saves each file. Let's
+look at the following code:
 
 ```lua
 vim.api.nvim_create_user_command("FindAndReplace", function(opts)
@@ -157,7 +194,11 @@ vim.api.nvim_set_keymap(
 )
 ```
 
-First, the `nargs = "*"` indicates that our user command can take any number of arguments. The arguments are passed through `opts.fargs` as entries in a dictionary. We can interpolate the values with `string.format` (remember that Lua is 1-indexed!), and execute the command with `nvim_command`. We run the `cfdo update` command to save each file in the quickfix list, and finally set a key-mapping.
+First, the `nargs = "*"` indicates that our user command can take any number of arguments. The
+arguments are passed through `opts.fargs` as entries in a dictionary. We can interpolate the values
+with `string.format` (remember that Lua is 1-indexed!), and execute the command with `nvim_command`.
+We run the `cfdo update` command to save each file in the quickfix list, and finally set a
+key-mapping.
 
 If you'd like to pass an argument with a space, just escape the white space like so:
 
@@ -167,4 +208,5 @@ If you'd like to pass an argument with a space, just escape the white space like
 
 and the second argument will be passed as `hello there`.
 
-One last note: if you regret your find and replace, don't panic! You can easily undo your changes with `:cdo undo`.
+One last note: if you regret your find and replace, don't panic! You can easily undo your changes
+with `:cdo undo`.

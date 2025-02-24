@@ -31,7 +31,7 @@ export function Heading({
   }
   const variant = variants[0];
   const propsWithoutVariant = Object.fromEntries(
-    Object.entries(props).filter(([prop]) => !isVariant(prop))
+    Object.entries(props).filter(([prop]) => !isVariant(prop)),
   );
 
   const variantToSize: Record<Variant, string> = {
@@ -51,7 +51,7 @@ export function Heading({
           underline,
           "font-bold": bold,
         },
-        className
+        className,
       )}
       {...propsWithoutVariant}
     >

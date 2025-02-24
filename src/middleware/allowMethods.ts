@@ -6,8 +6,6 @@ export const allowMethods = (allowedMethods: string[]): Middleware => {
       return next();
     }
 
-    return res
-      .status(405)
-      .send({ type: "error", errorMessage: "method not allowed." });
+    return res.status(405).send({ type: "error", errorMessage: "method not allowed." });
   };
 };

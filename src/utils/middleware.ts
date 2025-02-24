@@ -7,7 +7,7 @@ export type Next = () => Promise<void>;
 export type Middleware<RequestT extends NextApiRequest = NextApiRequest> = (
   req: RequestT,
   res: NextApiResponse<ApiResponse<unknown>>,
-  next: Next
+  next: Next,
 ) => Promise<void>;
 
 export function withMiddlware<RequestT extends NextApiRequest>(
@@ -22,7 +22,7 @@ async function runMiddlewares<RequestT extends NextApiRequest>(
   req: RequestT,
   res: NextApiResponse,
   middlewares: Middleware<RequestT>[],
-  currentMiddlewareIndex: number
+  currentMiddlewareIndex: number,
 ) {
   if (res.headersSent) return;
 

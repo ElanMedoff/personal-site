@@ -3,13 +3,7 @@ import { motion } from "framer-motion";
 import { generateOnScrollProps } from "src/utils/framer";
 import { cn } from "src/utils/style";
 
-export function BannerText({
-  children,
-  reverse,
-}: {
-  children: ReactNode;
-  reverse?: boolean;
-}) {
+export function BannerText({ children, reverse }: { children: ReactNode; reverse?: boolean }) {
   return (
     <motion.p
       {...generateOnScrollProps}
@@ -18,7 +12,7 @@ export function BannerText({
         "px-0 sm:px-6",
         "font-bold  w-full text-center",
         "text-4xl sm:text-6xl lg:text-8xl",
-        reverse ? "md:text-right pr-6 sm:pr-12" : "md:text-left pr-6 sm:pl-12"
+        reverse ? "md:text-right pr-6 sm:pr-12" : "md:text-left pr-6 sm:pl-12",
       )}
     >
       {children}
@@ -27,7 +21,5 @@ export function BannerText({
 }
 
 export function BannerBorder() {
-  return (
-    <div className="border-b-[15px] sm:border-b-[35px] border-primary mb-10 md:mb-20" />
-  );
+  return <div className="border-b-[15px] sm:border-b-[35px] border-primary mb-10 md:mb-20" />;
 }

@@ -30,7 +30,7 @@ export function Collection({
         "xl:max-w-[500px]",
         "overflow-hidden sm:overflow-visible",
         "px-8 sm:p-0",
-        "overflow-hidden"
+        "overflow-hidden",
       )}
     />
   );

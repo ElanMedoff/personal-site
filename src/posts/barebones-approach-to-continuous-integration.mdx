@@ -13,37 +13,55 @@ isPublished: true
 
 # A Barebones Approach to Continuous Integration
 
-Of the many domains of software engineering, devops is one area I'm less familiar with. I don't have a particular interest in tinkering with linux or bash scripts, but since shipping my blog and a few hobby sites to the world, I've needed to pick up the basics in managing a deploy process. In fact, I'd say my general lack of expertise makes me a great person to write on the topic of minimalist CI setups - I know just enough to do what I need with nothing too fancy to hold me back. I've done a good deal of trial and error, and I think this is a great approach for small/medium sized projects.
+Of the many domains of software engineering, devops is one area I'm less familiar with. I don't have
+a particular interest in tinkering with linux or bash scripts, but since shipping my blog and a few
+hobby sites to the world, I've needed to pick up the basics in managing a deploy process. In fact,
+I'd say my general lack of expertise makes me a great person to write on the topic of minimalist CI
+setups - I know just enough to do what I need with nothing too fancy to hold me back. I've done a
+good deal of trial and error, and I think this is a great approach for small/medium sized projects.
 
-Just a final note: this setup is based on the deploy process for my blog, a Next.js app, but the fundamentals should apply to most projects.
+Just a final note: this setup is based on the deploy process for my blog, a Next.js app, but the
+fundamentals should apply to most projects.
 
 ## What is CI?
 
 According to [aws](https://aws.amazon.com/devops/continuous-integration/):
 
-> Continuous integration refers to the build and unit testing stages of the software release process. Every revision that is committed triggers an automated build and test. With continuous delivery, code changes are automatically built, tested, and prepared for a release to production.
+> Continuous integration refers to the build and unit testing stages of the software release
+> process. Every revision that is committed triggers an automated build and test. With continuous
+> delivery, code changes are automatically built, tested, and prepared for a release to production.
 
-To achieve a simplified version of this, we'll create a `deploy.sh` script to run our test suites locally, and on success, push our code to the server. In a `post-receive` hook on the server, we'll execute a `post-receive.sh` script committed to the repo to rebuild the site for production. Finally, we'll reload a pm2 daemon to run the Next.js server and make the updates accessible on the web.
+To achieve a simplified version of this, we'll create a `deploy.sh` script to run our test suites
+locally, and on success, push our code to the server. In a `post-receive` hook on the server, we'll
+execute a `post-receive.sh` script committed to the repo to rebuild the site for production.
+Finally, we'll reload a pm2 daemon to run the Next.js server and make the updates accessible on the
+web.
 
 <Info>
-  __Note__: Other approaches to CI frequently use a process that runs on a
-  _remote_ machine, like Github actions or a Jenkins setup. These are great
-  options for larger projects/companies, but in my opinion, a simple setup of
-  running your build and tests locally before pushing to production works just
-  fine.
+  __Note__: Other approaches to CI frequently use a process that runs on a _remote_ machine, like
+  Github actions or a Jenkins setup. These are great options for larger projects/companies, but in
+  my opinion, a simple setup of running your build and tests locally before pushing to production
+  works just fine.
 </Info>
 
 ## Pushing Changes to the Server with Git
 
 Let's start at the second half of our continuous integration: pushing any updates to the server.
 
-I won't write too much on this topic since I really just use the approach written in this [article](https://toroid.org/git-website-howto), but I will add that for whatever directory you create to check out the latest tree into (i.e `/var/www/www.example.org`) _make sure you set the correct permissions_! Git needs to be able to write to that directory, so you may need to use `chmod`.
+I won't write too much on this topic since I really just use the approach written in this
+[article](https://toroid.org/git-website-howto), but I will add that for whatever directory you
+create to check out the latest tree into (i.e `/var/www/www.example.org`) _make sure you set the
+correct permissions_! Git needs to be able to write to that directory, so you may need to use
+`chmod`.
 
-After reading through the article, you should be able to push new code to your server with something like `git push server`, which will in turn trigger a `post-receive` hook - more on that below.
+After reading through the article, you should be able to push new code to your server with something
+like `git push server`, which will in turn trigger a `post-receive` hook - more on that below.
 
 ## Post-receive.sh
 
-Like the article suggests, in my `post-receive` hook I check out the latest tree into my project folder, but I also added a line to execute a separate `post-receive.sh` script checked into the repo. See below:
+Like the article suggests, in my `post-receive` hook I check out the latest tree into my project
+folder, but I also added a line to execute a separate `post-receive.sh` script checked into the
+repo. See below:
 
 ```bash
 #!/bin/bash
@@ -51,7 +69,9 @@ GIT_WORK_TREE=/var/www/[your project] git checkout -f
 /bin/bash /var/www/[your project]/post-receive.sh
 ```
 
-I'm a big fan of this approach, since it allows me to do the bulk of my work in a script that I can manage locally. When I want to commit any changes, I just push it to the server like any other part of my app.
+I'm a big fan of this approach, since it allows me to do the bulk of my work in a script that I can
+manage locally. When I want to commit any changes, I just push it to the server like any other part
+of my app.
 
 In the `post-receive.sh` itself, I have:
 
@@ -79,19 +99,28 @@ $PM2 --name blog reload npm -- start >> $LOG 2>&1
 echo "restarted pm2 daemon" >> $LOG
 ```
 
-First, I define a whole bunch of variables because, as explained in this [stackoverflow post](https://stackoverflow.com/a/35420236), the `PATH` when a git hook runs isn't necessarily the same as when you ssh into a machine. I run `npm install`, since I don't check `node_modules` into the repo (and you shouldn't either!), and run `npm run build` to build Next.js for production. Finally, I reload the process running the Next.js server to use the updated code. To manage my processes, I use [pm2](https://pm2.keymetrics.io/). As a tl;dr, with the command:
+First, I define a whole bunch of variables because, as explained in this
+[stackoverflow post](https://stackoverflow.com/a/35420236), the `PATH` when a git hook runs isn't
+necessarily the same as when you ssh into a machine. I run `npm install`, since I don't check
+`node_modules` into the repo (and you shouldn't either!), and run `npm run build` to build Next.js
+for production. Finally, I reload the process running the Next.js server to use the updated code. To
+manage my processes, I use [pm2](https://pm2.keymetrics.io/). As a tl;dr, with the command:
 
 ```bash
 $PM2 --name blog reload npm -- start
 ```
 
-I'm telling pm2 to reload a process called `blog` by running the command `npm run start` - and if `blog` doesn't exist yet, `pm2` will create it for us.
+I'm telling pm2 to reload a process called `blog` by running the command `npm run start` - and if
+`blog` doesn't exist yet, `pm2` will create it for us.
 
-I write to a log file before and after every step, and redirect any errors from each step itself to `stdout` so they'll be recorded as well. To read from your log in real time, use `tail -f log.log`.
+I write to a log file before and after every step, and redirect any errors from each step itself to
+`stdout` so they'll be recorded as well. To read from your log in real time, use `tail -f log.log`.
 
 ## Deploy.sh
 
-That works great for the server, but to start everything off you'll need a local `deploy.sh` script to run when you're ready to push new code. This script builds Next.js for production locally to make sure nothing breaks when you run the same command on the server, and runs the e2es and unit tests.
+That works great for the server, but to start everything off you'll need a local `deploy.sh` script
+to run when you're ready to push new code. This script builds Next.js for production locally to make
+sure nothing breaks when you run the same command on the server, and runs the e2es and unit tests.
 
 ```bash
 #!/bin/bash
@@ -126,7 +155,8 @@ else
 fi
 ```
 
-If everything passes, you're ready to push to the server! You can either add the following code to the `deploy.sh` script:
+If everything passes, you're ready to push to the server! You can either add the following code to
+the `deploy.sh` script:
 
 ```bash
 echo "input commit message >"
@@ -139,7 +169,8 @@ git push server
 
 or move to a separate script entirely.
 
-This setup works great for small projects with just a single branch (master), but for more complex apps, consider adding a step where you do something like:
+This setup works great for small projects with just a single branch (master), but for more complex
+apps, consider adding a step where you do something like:
 
 ```bash
 git checkout master
@@ -147,10 +178,14 @@ git pull origin master
 git merge [branch name]
 ```
 
-The key is to merge into master _before_ running your build and tests, so you can have confidence in the code you'd like to push to the server.
+The key is to merge into master _before_ running your build and tests, so you can have confidence in
+the code you'd like to push to the server.
 
-That's about it! A few daemons, a handful of bash scripts, and you have a simple yet effective CI for your next side project.
+That's about it! A few daemons, a handful of bash scripts, and you have a simple yet effective CI
+for your next side project.
 
 ## Bonus: Learn Bash in 15 Minutes
 
-Learning Bash is an underrated skill, and just investing [15 minutes](https://learnxinyminutes.com/docs/bash/) can improve your scripting productivity dramatically.
+Learning Bash is an underrated skill, and just investing
+[15 minutes](https://learnxinyminutes.com/docs/bash/) can improve your scripting productivity
+dramatically.

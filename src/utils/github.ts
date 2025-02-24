@@ -35,7 +35,7 @@ export async function fetchGithubRepos() {
     "starter-dot-files",
   ];
   const filteredRepos = (Array.isArray(repos) ? repos : []).filter(
-    (repo) => !repo.fork && !exceptions.includes(repo.name)
+    (repo) => !repo.fork && !exceptions.includes(repo.name),
   );
 
   const languageInfos: Record<string, number>[] = [];
@@ -52,9 +52,7 @@ export async function fetchGithubRepos() {
     };
   });
 
-  patchedRepos.sort(
-    (a, b) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime()
-  );
+  patchedRepos.sort((a, b) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime());
 
   updateCache("cachedRepos", {
     repos: patchedRepos,

@@ -18,9 +18,7 @@ export function PostCard({
 }) {
   return (
     <Link href={`/blog/${metadata.slug}`}>
-      <div
-        className={cn(postWrapperClassNames, "max-w-[500px] gap-4", className)}
-      >
+      <div className={cn(postWrapperClassNames, "max-w-[500px] gap-4", className)}>
         <h2 className="font-semibold">
           {formattedTitle ? (
             <span dangerouslySetInnerHTML={{ __html: formattedTitle }} />
@@ -37,8 +35,7 @@ export function PostCard({
             <Pill
               key={index}
               className={cn(
-                (selectedTags ?? []).includes(tag) &&
-                  "bg-secondary text-secondary-content"
+                (selectedTags ?? []).includes(tag) && "bg-secondary text-secondary-content",
               )}
             >
               {tag}

@@ -22,18 +22,12 @@ export function LoginLogout() {
   }, [router.asPath, isFetching]);
 
   const queryClient = useQueryClient();
-  const { data: user } = useQuery(generateQueryKey("user", []), () =>
-    userLoader()
-  );
-  const { mutate: login } = useMutation(
-    generateQueryKey("login", []),
-    loginLoader,
-    {
-      onSuccess: (authorizeUrl) => {
-        router.push(authorizeUrl);
-      },
-    }
-  );
+  const { data: user } = useQuery(generateQueryKey("user", []), () => userLoader());
+  const { mutate: login } = useMutation(generateQueryKey("login", []), loginLoader, {
+    onSuccess: (authorizeUrl) => {
+      router.push(authorizeUrl);
+    },
+  });
   const { mutate: logout } = useMutation(logoutLoader, {
     onSuccess: () => {
       queryClient.invalidateQueries(generateQueryKey("user", []));
@@ -56,7 +50,7 @@ export function LoginLogout() {
           className={cn(
             "border-2 border-neutral px-2 py-2 rounded-lg flex items-center shadow-2xl text-sm",
             "hover:scale-95 active:scale-90",
-            user && "bg-warning"
+            user && "bg-warning",
           )}
           onClick={user ? handleLogoutClick : handleLoginClick}
           style={{
@@ -75,14 +69,10 @@ export function LoginLogout() {
           className={cn(
             "absolute top-0 right-0",
             "w-full flex justify-center items-center h-full rounded-lg",
-            "bg-warning bg-opacity-70"
+            "bg-warning bg-opacity-70",
           )}
         >
-          <Spinner
-            color="hsl(var(--wac))"
-            loading={isLoading}
-            cssOverride={{ borderWidth: 3 }}
-          />
+          <Spinner color="hsl(var(--wac))" loading={isLoading} cssOverride={{ borderWidth: 3 }} />
         </div>
       ) : null}
     </div>

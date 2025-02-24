@@ -12,8 +12,10 @@ isPublished: true
 
 # A Cheat Sheet For Using Type Assertions in Typescript
 
-Maybe you've heard that Typescript uses duck typing, a system where two types are considered equivalent if they simply share the same structure.
-While duck typing is intuitive when it comes to providing a variable with a type annotation (i.e. using a `:` in `const user: User`), some of the finer rules around casting with the `as` keyword can be a bit trickier to remember.
+Maybe you've heard that Typescript uses duck typing, a system where two types are considered
+equivalent if they simply share the same structure. While duck typing is intuitive when it comes to
+providing a variable with a type annotation (i.e. using a `:` in `const user: User`), some of the
+finer rules around casting with the `as` keyword can be a bit trickier to remember.
 
 <Info>
   see the following typescript
@@ -30,7 +32,8 @@ interface User {
 }
 ```
 
-In order to annotate a variable with the type `User`, it must contain all the required properties, with all the expected types.
+In order to annotate a variable with the type `User`, it must contain all the required properties,
+with all the expected types.
 
 ```tsx
 // this works
@@ -50,8 +53,9 @@ const userWithExtraAndMissingProperty: User = {
 };
 ```
 
-So far so good - direct type annotations are the strictest form of typesafety with little room for ambiguitity.
-Type _asssertions_, on the other hand (using the `as` keyword), provide a little more wiggle room.
+So far so good - direct type annotations are the strictest form of typesafety with little room for
+ambiguitity. Type _asssertions_, on the other hand (using the `as` keyword), provide a little more
+wiggle room.
 
 ```tsx
 // Anytime you can use a type annotation, you can also use a type assertion
@@ -82,8 +86,9 @@ const userWithPropertyOfWrongType = {
 
 ## any and unknown
 
-There is a catch, however, and that has to do with the `any` and `unknown` types in Typescript. Interestingly enough, _any_ type can
-be cast as `any` or `unknown`, and `unknown` and `any` can be cast as any type!
+There is a catch, however, and that has to do with the `any` and `unknown` types in Typescript.
+Interestingly enough, _any_ type can be cast as `any` or `unknown`, and `unknown` and `any` can be
+cast as any type!
 
 ```tsx
 const typedAsAny: any = "any";
@@ -99,8 +104,9 @@ user as any;
 user as unknown;
 ```
 
-In practical terms, this means if you want to assert a variable as a given type, but you're unable to for one of the reasons discussed above,
-you can use chained type assertions to override the type checker:
+In practical terms, this means if you want to assert a variable as a given type, but you're unable
+to for one of the reasons discussed above, you can use chained type assertions to override the type
+checker:
 
 ```tsx
 const userAsAny = { email: "user@site.com", isLoggedIn: true } as any;
@@ -114,11 +120,12 @@ The example above also applies for `unknown`
 
 ## Bonus: Primitive types
 
-There are seven primitive types in Javascript - `string` , `number` , `BigInt` , `boolean` , `Symbol` , `null` and `undefined` -
-and _none_ of them can be cast to one another. Easy to remember!
+There are seven primitive types in Javascript - `string` , `number` , `BigInt` , `boolean` ,
+`Symbol` , `null` and `undefined` - and _none_ of them can be cast to one another. Easy to remember!
 
-However, when the `strictNullChecks` option is disabled in your `tsconfig`, `null` and `undefined` can instead be cast as any type,
-and any type can be cast as `null` or `undefined` - including complex types like objects!
+However, when the `strictNullChecks` option is disabled in your `tsconfig`, `null` and `undefined`
+can instead be cast as any type, and any type can be cast as `null` or `undefined` - including
+complex types like objects!
 
-That's it - a short article, but hopefully helpful in clearing a bit of a tricky area in the distinction between type annotations and
-type assertions. Thanks for reading!
+That's it - a short article, but hopefully helpful in clearing a bit of a tricky area in the
+distinction between type annotations and type assertions. Thanks for reading!

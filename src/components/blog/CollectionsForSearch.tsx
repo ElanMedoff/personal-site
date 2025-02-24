@@ -1,10 +1,7 @@
 import fuzzysort from "fuzzysort";
 import { Metadata } from "src/utils/post";
 import { Collection } from "src/components/blog/Collection";
-import {
-  getPostsByCollection,
-  getPostsWCollection,
-} from "src/components/blog/helpers";
+import { getPostsByCollection, getPostsWCollection } from "src/components/blog/helpers";
 
 export function CollectionsForSearch({
   allMetadata,
@@ -21,17 +18,14 @@ export function CollectionsForSearch({
 
   const fuzzyResults = fuzzysort.go(
     inputValue,
-    postsWCollection.map((post) => post.title)
+    postsWCollection.map((post) => post.title),
   );
 
   const hydratedResults = fuzzyResults.map((result) =>
-    postsWCollection.find((post) => post.title === result.target)
+    postsWCollection.find((post) => post.title === result.target),
   ) as Metadata[];
 
-  const postsByCollection = getPostsByCollection(
-    allMetadata,
-    allCollections
-  ).map((posts) => {
+  const postsByCollection = getPostsByCollection(allMetadata, allCollections).map((posts) => {
     return posts.filter((post) => {
       return hydratedResults.some((result) => {
         return result.title === post.title;
@@ -44,16 +38,14 @@ export function CollectionsForSearch({
       {postsByCollection.map((posts, index) => {
         const formattedTitles = posts.map((post) => {
           const hydratedResult = hydratedResults.find(
-            (result) => result.title === post.title
+            (result) => result.title === post.title,
           ) as Metadata;
 
           const formattedTitle =
             fuzzysort.highlight(
-              fuzzyResults.find(
-                (result) => result.target === hydratedResult.title
-              ),
+              fuzzyResults.find((result) => result.target === hydratedResult.title),
               "<span class='text-secondary underline'>",
-              "</span>"
+              "</span>",
             ) ?? undefined;
 
           return formattedTitle;

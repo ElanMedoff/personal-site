@@ -33,25 +33,19 @@ export function fetchAllPaths() {
 }
 
 export async function fetchPostBySlug(
-  slugToFetch: string
+  slugToFetch: string,
 ): Promise<{ post: Post; relatedPostMetadata: Metadata }> {
   const path = `${slugToFetch}.mdx`;
   const rawPost = readFileSync(join(postsDirectory, path)).toString();
-  const { compiledSource: content, frontmatter: data } = await serialize(
-    rawPost,
-    {
-      parseFrontmatter: true,
-    }
-  );
+  const { compiledSource: content, frontmatter: data } = await serialize(rawPost, {
+    parseFrontmatter: true,
+  });
 
   const allMetadata = fetchAllMetadata();
   const relatedPaths = allMetadata
     .filter((metadata) => {
       if (metadata.slug === slugToFetch) return false;
-      return (
-        metadata.tags.filter((tag) => (data?.tags as string[]).includes(tag))
-          .length > 0
-      );
+      return metadata.tags.filter((tag) => (data?.tags as string[]).includes(tag)).length > 0;
     })
     .map((metadata) => `${metadata.slug}.mdx`);
 
@@ -109,9 +103,7 @@ export function fetchSlugs() {
   });
 
   return allMetadata
-    .filter((post) =>
-      isProd() || isVisualRegressionTest() ? post.isPublished : true
-    )
+    .filter((post) => (isProd() || isVisualRegressionTest() ? post.isPublished : true))
     .map((metadata) => metadata.slug);
 }
 

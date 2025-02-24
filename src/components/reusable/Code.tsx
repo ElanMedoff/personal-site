@@ -15,19 +15,13 @@ export function Code({ code, language }: { code: string; language: Language }) {
   const { isDarkMode } = useContext(ThemeContext);
 
   return (
-    <Highlight
-      {...defaultProps}
-      code={code}
-      language={language}
-      theme={github}
-      Prism={Prism}
-    >
+    <Highlight {...defaultProps} code={code} language={language} theme={github} Prism={Prism}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre
           className={cn(
             "px-6 py-1 rounded-xl overflow-x-auto my-6",
             isDarkMode ? "bg-[#dadbe3]" : "bg-base-200",
-            className
+            className,
           )}
           style={style}
         >

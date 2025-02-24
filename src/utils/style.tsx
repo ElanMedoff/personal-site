@@ -4,9 +4,7 @@ import { clsx, type ClassValue } from "clsx";
 
 export type Expand<T> = T extends T ? { [K in keyof T]: T[K] } : never;
 export type OneOfUnion<Union extends string> = {
-  [Key in Union]: Expand<
-    { [_ in Key]: true } & Partial<Record<Exclude<Union, Key>, never>>
-  >;
+  [Key in Union]: Expand<{ [_ in Key]: true } & Partial<Record<Exclude<Union, Key>, never>>>;
 }[Union];
 export function isSize(size: string): size is Size {
   return sizes.includes(size as Size);
@@ -19,22 +17,9 @@ export const transitionProperties: CSSProperties = {
   transitionDuration: "150ms",
 };
 
-type HTMLTagName =
-  | "div"
-  | "p"
-  | "span"
-  | "article"
-  | "section"
-  | "ul"
-  | "h1"
-  | "h2"
-  | "h3";
+type HTMLTagName = "div" | "p" | "span" | "article" | "section" | "ul" | "h1" | "h2" | "h3";
 
-export function createClassNameWrapper(
-  name: string,
-  as: HTMLTagName,
-  wrapperClassName: string
-) {
+export function createClassNameWrapper(name: string, as: HTMLTagName, wrapperClassName: string) {
   const Tag = as;
   const Wrapper = ({
     children,

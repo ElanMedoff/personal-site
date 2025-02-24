@@ -1,11 +1,4 @@
-import {
-  cn,
-  Expand,
-  isSize,
-  OneOfUnion,
-  Size,
-  WrapperProps,
-} from "src/utils/style";
+import { cn, Expand, isSize, OneOfUnion, Size, WrapperProps } from "src/utils/style";
 
 type OneOfSize = OneOfUnion<Size>;
 type Direction = "horizontal" | "vertical";
@@ -18,14 +11,7 @@ interface RestProps {
 }
 type Props = Expand<OneOfSize & OneOfDirection & WrapperProps & RestProps>;
 
-type Justify =
-  | "start"
-  | "end"
-  | "center"
-  | "between"
-  | "around"
-  | "evenly"
-  | "stretch";
+type Justify = "start" | "end" | "center" | "between" | "around" | "evenly" | "stretch";
 
 type Wrap = "wrap" | "wrap-reverse";
 
@@ -79,7 +65,7 @@ export default function Spacing({
   }
   const size = sizes[0];
   const propsWithoutSize = Object.fromEntries(
-    Object.entries(props).filter(([prop]) => !isSize(prop))
+    Object.entries(props).filter(([prop]) => !isSize(prop)),
   );
 
   return (
@@ -91,7 +77,7 @@ export default function Spacing({
         items && itemsToClass[items],
         justify && justifyToClass[justify],
         wrap && wrapToClass[wrap],
-        className
+        className,
       )}
       {...propsWithoutSize}
     >

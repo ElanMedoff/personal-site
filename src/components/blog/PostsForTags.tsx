@@ -10,10 +10,7 @@ export function PostsWoCollectionForTags({
   filteredPostsByTags: Metadata[];
   selectedTags: string[];
 }) {
-  const orderedPostsWoCollection = orderPosts(
-    getPostsWoCollection(filteredPostsByTags),
-    "date"
-  );
+  const orderedPostsWoCollection = orderPosts(getPostsWoCollection(filteredPostsByTags), "date");
 
   return (
     <>

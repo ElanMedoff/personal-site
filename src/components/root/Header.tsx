@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {
-  cn,
-  createClassNameWrapper,
-  transitionProperties,
-} from "src/utils/style";
+import { cn, createClassNameWrapper, transitionProperties } from "src/utils/style";
 import { Switch } from "src/components/reusable/Switch";
 import { useDarkMode } from "src/pages/_app";
 import getConfig from "next/config";
@@ -58,7 +54,7 @@ export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
     <nav
       className={cn(
         "fixed left-0 z-10 py-3 border-b-2 border-neutral bg-base-100 w-full",
-        scrollDir === "up" ? "top-0" : "top-[-100px]"
+        scrollDir === "up" ? "top-0" : "top-[-100px]",
       )}
       style={{
         ...transitionProperties,
@@ -102,5 +98,5 @@ export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
 const HeaderLink = createClassNameWrapper(
   "HeaderLink",
   "span",
-  "cursor-pointer select-none hover:text-primary"
+  "cursor-pointer select-none hover:text-primary",
 );

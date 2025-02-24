@@ -13,7 +13,7 @@ import { cn, transitionProperties } from "src/utils/style";
 export const postWrapperClassNames = cn(
   "cursor-pointer rounded-2xl bg-base-100 p-8",
   "flex flex-col gap-6",
-  "border border-transparent hover:border-primary"
+  "border border-transparent hover:border-primary",
 );
 
 function RecentPostCard({ post }: { post: Metadata }) {
@@ -26,7 +26,7 @@ function RecentPostCard({ post }: { post: Metadata }) {
           "w-[300px] sm:w-[500px]",
           "border-neutral",
           "shadow-lg hover:shadow-2xl",
-          "hover:scale-105"
+          "hover:scale-105",
         )}
         style={{
           ...transitionProperties,
@@ -53,17 +53,11 @@ function RecentPostCard({ post }: { post: Metadata }) {
 
 export function RecentPosts({ allMetadata }: { allMetadata: Metadata[] }) {
   const topPosts = allMetadata
-    .sort(
-      (a, b) =>
-        new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
-    )
+    .sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime())
     .slice(0, 4);
 
   return (
-    <motion.ul
-      className={collectionContainerClassNames}
-      {...onScrollContainerProps}
-    >
+    <motion.ul className={collectionContainerClassNames} {...onScrollContainerProps}>
       {topPosts.map((post, index) => (
         <motion.li {...onScrollChildProps} key={index}>
           <RecentPostCard post={post} />

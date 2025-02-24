@@ -2,20 +2,8 @@ import "src/styles/globals.css";
 import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import {
-  DehydratedState,
-  Hydrate,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import * as cookie from "cookie";
 import { useRouter } from "next/router";
@@ -36,10 +24,7 @@ export const ThemeContext = createContext<Theme>({
 
 export function useDarkMode() {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
-  return [
-    isDarkMode,
-    setIsDarkMode as Dispatch<SetStateAction<boolean>>,
-  ] as const;
+  return [isDarkMode, setIsDarkMode as Dispatch<SetStateAction<boolean>>] as const;
 }
 
 type AppOwnProps = {
@@ -56,15 +41,11 @@ export default function MyApp({
     if (isDarkMode === null) {
       const media = window.matchMedia("(prefers-color-scheme: dark)");
 
-      document.cookie = cookie.serialize(
-        "isDarkMode_0",
-        String(media.matches),
-        {
-          httpOnly: false,
-          maxAge: ONE_YEAR,
-          path: "/",
-        }
-      );
+      document.cookie = cookie.serialize("isDarkMode_0", String(media.matches), {
+        httpOnly: false,
+        maxAge: ONE_YEAR,
+        path: "/",
+      });
       return;
     }
 
@@ -138,8 +119,9 @@ MyApp.getInitialProps = async (context: AppContext): Promise<AppOwnProps> => {
     };
   }
 
-  const isDarkModeCookie = cookie.parse(req.headers.cookie || "")
-    .isDarkMode_0 as string | undefined;
+  const isDarkModeCookie = cookie.parse(req.headers.cookie || "").isDarkMode_0 as
+    | string
+    | undefined;
 
   if (isDarkModeCookie === undefined) {
     return {

@@ -11,7 +11,5 @@ export const getClientId = () => {
 };
 
 export const getClientSecret = () => {
-  return isProd()
-    ? process.env.CLIENT_SECRET_PROD!
-    : process.env.CLIENT_SECRET_DEV!;
+  return isProd() ? process.env.CLIENT_SECRET_PROD! : process.env.CLIENT_SECRET_DEV!;
 };

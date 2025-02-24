@@ -17,26 +17,19 @@ export interface UpvotePayload {
   hasUpvoted: boolean;
 }
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ApiResponse<UpvotePayload>>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse<UpvotePayload>>) {
   if (!req.url) {
     return res.status(500).json({ type: "error", errorMessage: "no url" });
   }
   const url = new URL(`${generateUrlPrefix()}${req.url}`);
 
   if (!url.searchParams.has("slug")) {
-    return res
-      .status(500)
-      .json({ type: "error", errorMessage: "no post slug" });
+    return res.status(500).json({ type: "error", errorMessage: "no post slug" });
   }
 
   const slug = url.searchParams.get("slug")!;
   if (!isSlugValid(slug)) {
-    return res
-      .status(500)
-      .json({ type: "error", errorMessage: "slug is invalid" });
+    return res.status(500).json({ type: "error", errorMessage: "slug is invalid" });
   }
 
   const maybeSession = await maybeGetSession({ req, res });
@@ -45,9 +38,7 @@ async function handler(
     return res.status(status).json(json);
   }
   if (!maybeSession.payload.session) {
-    return res
-      .status(500)
-      .json({ type: "error", errorMessage: "no session or no cookie" });
+    return res.status(500).json({ type: "error", errorMessage: "no session or no cookie" });
   }
   const { userId } = maybeSession.payload.session;
 
@@ -103,5 +94,5 @@ export default withMiddlware(
   allowMethods(["POST"]),
   onlyLoggedInUsers,
   deleteExpiredSessions,
-  handler
+  handler,
 );

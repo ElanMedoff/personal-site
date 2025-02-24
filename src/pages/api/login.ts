@@ -12,10 +12,7 @@ export interface LoginPayload {
   authorizeUrl: string;
 }
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ApiResponse<LoginPayload>>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse<LoginPayload>>) {
   if (!req.headers.referer) {
     return res.status(401).json({ type: "error", errorMessage: "no referer" });
   }
@@ -34,9 +31,7 @@ async function handler(
   params.append("redirect_uri", req.headers.referer);
   params.append("scope", "read:user");
   params.append("state", state);
-  const authorizeUrl = new URL(
-    `https://github.com/login/oauth/authorize?${params}`
-  ).toString();
+  const authorizeUrl = new URL(`https://github.com/login/oauth/authorize?${params}`).toString();
   res.status(200).json({ type: "success", payload: { authorizeUrl } });
 }
 
@@ -44,5 +39,5 @@ export default withMiddlware(
   allowMethods(["GET"]),
   onlyLoggedOutUsers,
   deleteExpiredSessions,
-  handler
+  handler,
 );

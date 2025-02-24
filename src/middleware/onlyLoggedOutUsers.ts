@@ -10,7 +10,5 @@ export const onlyLoggedOutUsers: Middleware = async (req, res, next) => {
   if (!maybeSession.payload.session) {
     return next();
   }
-  return res
-    .status(400)
-    .json({ type: "error", errorMessage: "user already logged in" });
+  return res.status(400).json({ type: "error", errorMessage: "user already logged in" });
 };

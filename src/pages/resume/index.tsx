@@ -2,16 +2,9 @@ import Head from "next/head";
 import styles from "src/styles/icons.module.scss";
 import { Content } from "src/components/blog/Content";
 import { Fragment, ReactNode } from "react";
-import {
-  BsPrinter as PrinterIcon,
-  BsFillCheckCircleFill as CheckIcon,
-} from "react-icons/bs";
+import { BsPrinter as PrinterIcon, BsFillCheckCircleFill as CheckIcon } from "react-icons/bs";
 import { generateUrlPrefix } from "src/loaders/helpers";
-import {
-  cn,
-  createClassNameWrapper,
-  transitionProperties,
-} from "src/utils/style";
+import { cn, createClassNameWrapper, transitionProperties } from "src/utils/style";
 import { Header } from "src/components/root/Header";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
 import Image from "next/image";
@@ -69,14 +62,8 @@ export default function PostPage() {
                 </div>
                 <Heading xl>Elan Medoff</Heading>
                 <Spacing horizontal sm items="center">
-                  <a
-                    className={styles.github}
-                    href="https://github.com/ElanMedoff"
-                  />
-                  <a
-                    className={styles.linkedin}
-                    href="https://www.linkedin.com/in/elan-medoff/"
-                  />
+                  <a className={styles.github} href="https://github.com/ElanMedoff" />
+                  <a className={styles.linkedin} href="https://www.linkedin.com/in/elan-medoff/" />
                   <a className={styles.gmail} href="mailto:info@elanmed.dev" />
                   <Spacing horizontal xs items="end">
                     <Copy subtext>
@@ -113,15 +100,7 @@ export default function PostPage() {
               />
               <SkillsByLevel
                 experience="medium"
-                skills={[
-                  "Bash",
-                  "Lua",
-                  "Ruby",
-                  "Redux Toolkit",
-                  "MongoDB",
-                  "Prisma",
-                  "Jenkins",
-                ]}
+                skills={["Bash", "Lua", "Ruby", "Redux Toolkit", "MongoDB", "Prisma", "Jenkins"]}
               />
               <SkillsByLevel
                 experience="low"
@@ -157,53 +136,50 @@ export default function PostPage() {
               <div className="divider mb-2 mt-1" />
               <p>Oversaw quarterly web infrastructure initiatives</p>
               <Ul>
+                <li>Identified legacy patterns and oversaw projects for improvement</li>
                 <li>
-                  Identified legacy patterns and oversaw projects for
-                  improvement
-                </li>
-                <li>
-                  Emphasized improvements that were feasible, impactful, and had
-                  a clear migration path
+                  Emphasized improvements that were feasible, impactful, and had a clear migration
+                  path
                 </li>
               </Ul>
               <p>
-                Collaborated with a team of engineers, designers, and project
-                managers to develop investment products
+                Collaborated with a team of engineers, designers, and project managers to develop
+                investment products
               </p>
               <Ul>
                 <li>
-                  Led engineering work for investment initiatives, including
-                  stock movement, and redesigned marketing pages
+                  Led engineering work for investment initiatives, including stock movement, and
+                  redesigned marketing pages
                 </li>
                 <li>
-                  Developed other products including bond ETF portfolios, bond
-                  ladder strategies, and individual stock trading
+                  Developed other products including bond ETF portfolios, bond ladder strategies,
+                  and individual stock trading
                 </li>
               </Ul>
               <p>
-                Standardized data fetching patterns in the web codebase with
-                React Query and custom utilities
+                Standardized data fetching patterns in the web codebase with React Query and custom
+                utilities
               </p>
               <Ul>
                 <li>
-                  Improved the user experience with caching, retries on network
-                  errors, and background data revalidation
+                  Improved the user experience with caching, retries on network errors, and
+                  background data revalidation
                 </li>
                 <li>
-                  Reduced code complexity by automatically rendering loading /
-                  error indicators and minimizing null checks
+                  Reduced code complexity by automatically rendering loading / error indicators and
+                  minimizing null checks
                 </li>
               </Ul>
               <p>Participated in other web engineering responsibilities</p>
               <Ul>
                 <li>Led the weekly web platform meeting</li>
                 <li>
-                  Triaged, investigated, and resolved critical production issues
-                  as part of the on-call rotation
+                  Triaged, investigated, and resolved critical production issues as part of the
+                  on-call rotation
                 </li>
                 <li>
-                  Conducted interviews for prospective engineers, assessing
-                  their coding and conceptual skills
+                  Conducted interviews for prospective engineers, assessing their coding and
+                  conceptual skills
                 </li>
               </Ul>
             </article>
@@ -223,12 +199,12 @@ export default function PostPage() {
               <div className="divider mb-2 -mt-2" />
               <Ul>
                 <li>
-                  An open-source NPM library to seamlessly read and write URL
-                  search params as React state
+                  An open-source NPM library to seamlessly read and write URL search params as React
+                  state
                 </li>
                 <li>
-                  Includes options to sanitize, parse, and validate the search
-                  param. Also supports server-side rendering
+                  Includes options to sanitize, parse, and validate the search param. Also supports
+                  server-side rendering
                 </li>
               </Ul>
             </article>
@@ -245,8 +221,7 @@ export default function PostPage() {
               <div className="divider mb-2 -mt-2" />
               <Ul>
                 <li>
-                  An open-source NPM library to safely read initial state from
-                  URL search params
+                  An open-source NPM library to safely read initial state from URL search params
                 </li>
                 <li>
                   Similar configuration to{" "}
@@ -273,33 +248,30 @@ export default function PostPage() {
               <div className="divider mb-2 -mt-2" />
               <Ul>
                 <li>
-                  An open-source NPM library to access referentially stable,
-                  up-to-date versions of non-primitives in React
+                  An open-source NPM library to access referentially stable, up-to-date versions of
+                  non-primitives in React
                 </li>
               </Ul>
             </article>
             <article>
               <SectionSubtitle
                 iconStyles={styles.star}
-                headers={[
-                  { title: "elanmed.dev", href: "https://elanmed.dev/" },
-                ]}
+                headers={[{ title: "elanmed.dev", href: "https://elanmed.dev/" }]}
               />
               <div className="divider mb-2 -mt-2" />
               <Ul>
                 <li>
-                  A tech blog with 15+ articles. Includes topics such as:
-                  programming with React, Next.js, and Typescript, customizing
-                  NeoVim into a fully-fledged IDE, and setting up continuous
-                  integration
+                  A tech blog with 15+ articles. Includes topics such as: programming with React,
+                  Next.js, and Typescript, customizing NeoVim into a fully-fledged IDE, and setting
+                  up continuous integration
                 </li>
                 <li>
-                  Featured by several javascript newsletters, including Bytes,
-                  React Newsletter, and React Digest
+                  Featured by several javascript newsletters, including Bytes, React Newsletter, and
+                  React Digest
                 </li>
                 <li>
-                  Built with Next.js, Typescript, Tailwind, Prisma, React Query,
-                  Framer Motion, and Playwright
+                  Built with Next.js, Typescript, Tailwind, Prisma, React Query, Framer Motion, and
+                  Playwright
                 </li>
               </Ul>
             </article>
@@ -331,26 +303,14 @@ const skillCategorytoColor: Record<Experience, string[]> = {
   low: ["bg-primary", "text-primary-content"],
 };
 
-function SkillsByLevel({
-  experience,
-  skills,
-}: {
-  experience: Experience;
-  skills: string[];
-}) {
+function SkillsByLevel({ experience, skills }: { experience: Experience; skills: string[] }) {
   return (
     <div className="flex items-center gap-4">
       <div className="flex gap-1 w-[98px] justify-end flex-shrink-0">
         {Array.from(
-          experience === "high"
-            ? Array(3)
-            : experience === "medium"
-            ? Array(2)
-            : Array(1)
+          experience === "high" ? Array(3) : experience === "medium" ? Array(2) : Array(1),
         ).map((_, index) => {
-          return (
-            <CheckIcon key={index} size={30} className={cn("flex-shrink-0")} />
-          );
+          return <CheckIcon key={index} size={30} className={cn("flex-shrink-0")} />;
         })}
       </div>
       <ul className="flex flex-wrap gap-1">
@@ -359,7 +319,7 @@ function SkillsByLevel({
             <li
               className={cn(
                 "border-neutral border inline-block rounded-full px-3 text-sm ml-1 min-w-max",
-                ...skillCategorytoColor[experience]
+                ...skillCategorytoColor[experience],
               )}
             >
               {skill}
@@ -389,13 +349,7 @@ interface Header {
   timeframe?: string;
 }
 
-function SectionSubtitle({
-  iconStyles,
-  headers,
-}: {
-  iconStyles?: string;
-  headers: Header[];
-}) {
+function SectionSubtitle({ iconStyles, headers }: { iconStyles?: string; headers: Header[] }) {
   return (
     <Spacing horizontal sm items="start">
       {iconStyles && <a className={cn(iconStyles, "shrink-0")} />}
@@ -405,12 +359,7 @@ function SectionSubtitle({
             return (
               <HeaderWrapper key={index} index={index}>
                 <a href={href}>
-                  <Spacing
-                    horizontal
-                    xs
-                    items="end"
-                    className="cursor-pointer group"
-                  >
+                  <Spacing horizontal xs items="end" className="cursor-pointer group">
                     <Heading base underline className="font-normal">
                       {title}
                     </Heading>
@@ -418,7 +367,7 @@ function SectionSubtitle({
                       className={cn(
                         "rounded-full p-1 border border-transparent",
                         "group-hover:border-neutral",
-                        "group-active:scale-[90%]"
+                        "group-active:scale-[90%]",
                       )}
                       style={{
                         ...transitionProperties,
@@ -437,10 +386,7 @@ function SectionSubtitle({
           return (
             <HeaderWrapper key={index} index={index}>
               <Spacing vertical xs>
-                <Heading
-                  {...(index === 0 ? { base: true } : { sm: true })}
-                  className="font-normal"
-                >
+                <Heading {...(index === 0 ? { base: true } : { sm: true })} className="font-normal">
                   {title}
                 </Heading>
                 <Heading sm>{subtitle}</Heading>
@@ -454,22 +400,10 @@ function SectionSubtitle({
   );
 }
 
-const Timeframe = createClassNameWrapper(
-  "Timeframe",
-  "div",
-  "hidden md:block md:text-sm ml-auto"
-);
+const Timeframe = createClassNameWrapper("Timeframe", "div", "hidden md:block md:text-sm ml-auto");
 
 const Ul = createClassNameWrapper("Ul", "ul", "list-disc ml-12");
 
-function HeaderWrapper({
-  index,
-  children,
-}: {
-  index: number;
-  children: ReactNode;
-}) {
-  return (
-    <div className={cn("flex", index === 0 ? "mb-4" : "")}>{children}</div>
-  );
+function HeaderWrapper({ index, children }: { index: number; children: ReactNode }) {
+  return <div className={cn("flex", index === 0 ? "mb-4" : "")}>{children}</div>;
 }

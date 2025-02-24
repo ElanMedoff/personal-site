@@ -22,33 +22,25 @@ export function Upvote() {
     () => hasUpvotedLoader(slug),
     {
       staleTime: 5_000,
-    }
+    },
   );
-  const { data: user } = useQuery(
-    generateQueryKey("user", []),
-    () => userLoader(),
-    {
-      staleTime: 5_000,
-    }
-  );
+  const { data: user } = useQuery(generateQueryKey("user", []), () => userLoader(), {
+    staleTime: 5_000,
+  });
   const { data: upvoteCount } = useQuery(
     generateQueryKey("upvoteCount", [slug]),
     () => upvoteCountLoader(slug),
     {
       staleTime: 5_000,
-    }
+    },
   );
-  const { refetch: upvote } = useQuery(
-    ["upvote", slug],
-    () => upvoteLoader(slug),
-    {
-      enabled: false,
-      onSuccess: ({ hasUpvoted: newHasUpvoted, upvoteCount }) => {
-        queryClient.setQueryData(["upvoteCount", slug], upvoteCount);
-        queryClient.setQueryData(["hasUpvoted", slug], newHasUpvoted);
-      },
-    }
-  );
+  const { refetch: upvote } = useQuery(["upvote", slug], () => upvoteLoader(slug), {
+    enabled: false,
+    onSuccess: ({ hasUpvoted: newHasUpvoted, upvoteCount }) => {
+      queryClient.setQueryData(["upvoteCount", slug], upvoteCount);
+      queryClient.setQueryData(["hasUpvoted", slug], newHasUpvoted);
+    },
+  });
   const disabled = !user;
 
   return (
@@ -56,7 +48,7 @@ export function Upvote() {
       className={cn(
         "fixed top-[100px] right-10",
         "hidden [@media(min-width:1405px)]:block",
-        disabled && "tooltip tooltip-warning tooltip-left"
+        disabled && "tooltip tooltip-warning tooltip-left",
       )}
       data-tip="log in to upvote!"
     >
@@ -65,10 +57,8 @@ export function Upvote() {
         <ArrowIcon
           size={70}
           className={cn(
-            disabled
-              ? "text-base-content"
-              : "hover:scale-95 active:scale-[85%]",
-            hasUpvoted && "text-primary"
+            disabled ? "text-base-content" : "hover:scale-95 active:scale-[85%]",
+            hasUpvoted && "text-primary",
           )}
           style={{
             ...transitionProperties,

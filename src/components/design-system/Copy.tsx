@@ -33,7 +33,7 @@ export function Copy({
   }
   const variant = variants[0];
   const propsWithoutVariant = Object.fromEntries(
-    Object.entries(props).filter(([prop]) => !isVariant(prop))
+    Object.entries(props).filter(([prop]) => !isVariant(prop)),
   );
 
   const Tag = as;
@@ -51,7 +51,7 @@ export function Copy({
           "font-bold": bold,
           underline,
         },
-        className
+        className,
       )}
       {...propsWithoutVariant}
     >

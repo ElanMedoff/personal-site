@@ -7,9 +7,7 @@ export const requireFeatures = (requiredFeatures: Feature[]): Middleware => {
       return next();
     }
 
-    const disabledFeatures = requiredFeatures.filter(
-      (feature) => !isFeatureEnabled(feature)
-    );
+    const disabledFeatures = requiredFeatures.filter((feature) => !isFeatureEnabled(feature));
 
     return res.status(401).send({
       type: "error",

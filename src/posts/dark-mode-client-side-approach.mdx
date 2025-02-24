@@ -15,11 +15,19 @@ isPublished: true
 
 # Implementing Dark Mode: A Client-Side Approach
 
-Implementing a dark theme for a web app is a deceptively difficult task. As a dev, you need to manage everything from media queries to local storage to cookies - all with a clear understanding of which rendering patterns support which APIs. In this article and the next, we'll talk through two different approaches to consider when building a dark mode in your next project.
+Implementing a dark theme for a web app is a deceptively difficult task. As a dev, you need to
+manage everything from media queries to local storage to cookies - all with a clear understanding of
+which rendering patterns support which APIs. In this article and the next, we'll talk through two
+different approaches to consider when building a dark mode in your next project.
 
-First, we'll build a client-side implementation using media queries to access os-level preferences, and local storage to persist the chosen theme across reloads. The crux of this approach is to access our data _only_ on the client and render accordingly.
+First, we'll build a client-side implementation using media queries to access os-level preferences,
+and local storage to persist the chosen theme across reloads. The crux of this approach is to access
+our data _only_ on the client and render accordingly.
 
-In the [next article](/blog/dark-mode-server-side-approach), we'll take a server-side approach, using cookies to store a client's chosen theme while ignoring any os-level preferences. Finally, in the second article's <Link href="">Bonus section</Link>, we'll discuss a hybrid approach to account for os-level preferences using both cookies _and_ media queries.
+In the [next article](/blog/dark-mode-server-side-approach), we'll take a server-side approach,
+using cookies to store a client's chosen theme while ignoring any os-level preferences. Finally, in
+the second article's <Link href="">Bonus section</Link>, we'll discuss a hybrid approach to account
+for os-level preferences using both cookies _and_ media queries.
 
 With that introduction out of the way, let's get started!
 
@@ -90,19 +98,36 @@ export default function useDarkMode() {
 
 ## Nuances of the approach above
 
-There's a few interesting behaviors the `useDarkMode` hook above implements that are worth pointing out.
+There's a few interesting behaviors the `useDarkMode` hook above implements that are worth pointing
+out.
 
-First, it calculates the initial value of `isDarkMode` using a callback passed to `useState`. As explained in the updated [React docs](https://react.dev/reference/react/useState#parameters)
+First, it calculates the initial value of `isDarkMode` using a callback passed to `useState`. As
+explained in the updated [React docs](https://react.dev/reference/react/useState#parameters)
 
-> If you pass a `function` as initialState, it will be treated as an _initializer_ function. It should be pure, should take no arguments, and should return a value of any type. React will call your initializer function when initializing the component, and store its return value as the initial state. [...]
+> If you pass a `function` as initialState, it will be treated as an _initializer_ function. It
+> should be pure, should take no arguments, and should return a value of any type. React will call
+> your initializer function when initializing the component, and store its return value as the
+> initial state. [...]
 
-In our case, we want to determine the initial value of `isDarkMode` based on the value set in local storage or the result of the `"(prefers-color-scheme: dark)"` media query. We first check local storage because if the user manually sets a theme, we should respect it regardless of the os-level preference - but let's dive a bit deeper into this.
+In our case, we want to determine the initial value of `isDarkMode` based on the value set in local
+storage or the result of the `"(prefers-color-scheme: dark)"` media query. We first check local
+storage because if the user manually sets a theme, we should respect it regardless of the os-level
+preference - but let's dive a bit deeper into this.
 
-Notice that in the `useEffect`, we synchronize the `isDarkMode` local storage with the `isDarkMode` state whenever the latter changes. However, since a `useEffect` runs after the first render, this means that the local storage will immediately be set with the value returned by the `useState` callback. In other words, our local storage will be set even if our code _does not call `setIsDarkMode`_! Are there any negative implications to this behavior? Maybe: the first time a user visits the site, if they have no os-level theme preference (or have a preference which matches the default theme), we'll immediately set the local storage to the default theme. If the user later sets/changes their os-level preference and revisits the site, our hook won't check for it, since the local storage is already set.
+Notice that in the `useEffect`, we synchronize the `isDarkMode` local storage with the `isDarkMode`
+state whenever the latter changes. However, since a `useEffect` runs after the first render, this
+means that the local storage will immediately be set with the value returned by the `useState`
+callback. In other words, our local storage will be set even if our code _does not call
+`setIsDarkMode`_! Are there any negative implications to this behavior? Maybe: the first time a user
+visits the site, if they have no os-level theme preference (or have a preference which matches the
+default theme), we'll immediately set the local storage to the default theme. If the user later
+sets/changes their os-level preference and revisits the site, our hook won't check for it, since the
+local storage is already set.
 
 If you find this behavior undesirable, there's a few ways to prevent it.
 
-1. Avoid synchronizing local storage with React state in a `useEffect`. Instead, write a custom `setIsDarkMode` function to set the state and local storage in one pass.
+1. Avoid synchronizing local storage with React state in a `useEffect`. Instead, write a custom
+   `setIsDarkMode` function to set the state and local storage in one pass.
 
 ```tsx
 export default function useDarkMode() {
@@ -112,13 +137,12 @@ export default function useDarkMode() {
 
   const setIsDarkMode = useCallback(
     (valOrFunc: boolean | ((prevVal: boolean) => boolean)) => {
-      const nextVal =
-        typeof valOrFunc === "function" ? valOrFunc(isDarkMode) : valOrFunc;
+      const nextVal = typeof valOrFunc === "function" ? valOrFunc(isDarkMode) : valOrFunc;
 
       _setIsDarkMode(nextVal);
       window.localStorage.setItem(key, JSON.stringify(nextVal));
     },
-    [isDarkMode]
+    [isDarkMode],
   );
 
   return [isDarkMode, setIsDarkMode] as const;
@@ -146,19 +170,25 @@ export default function useDarkMode() {
 ```
 
 <Info>
-  Note that when wrapping your app with `<StrictMode />` in React 18, a
-  `useEffect` will run twice on-mount in development, effectively negating our
-  `isFirstRender` ref. Effects still only run once on-mount in production,
-  though!
+  Note that when wrapping your app with `<StrictMode />` in React 18, a `useEffect` will run twice
+  on-mount in development, effectively negating our `isFirstRender` ref. Effects still only run once
+  on-mount in production, though!
 </Info>
 
-I'll leave it up to the reader to decide if the simplicity of the original hook is worth the trade offs discussed.
+I'll leave it up to the reader to decide if the simplicity of the original hook is worth the trade
+offs discussed.
 
 ## Pitfalls of this approach on the server
 
-It's worth noting that our `useDarkMode` hook won't work as expected when rendered on the server, primarily because of the callback passed to `useState`. On the server, the rendering environment simply doesn't have access to the `window` object, and our hook will throw when we attempt to use the `localStorage` property on an `undefined` instance of `window`.
+It's worth noting that our `useDarkMode` hook won't work as expected when rendered on the server,
+primarily because of the callback passed to `useState`. On the server, the rendering environment
+simply doesn't have access to the `window` object, and our hook will throw when we attempt to use
+the `localStorage` property on an `undefined` instance of `window`.
 
-However, since a `useEffect` _only_ runs on the client, we would have no issues have accessing `window.localStorage` there - if only we didn't error-out on our initial render. Could we take advantage of the fact that `useEffect` only runs on the client and move the media query to the `useEffect` instead? We could, but that has its own trade offs:
+However, since a `useEffect` _only_ runs on the client, we would have no issues have accessing
+`window.localStorage` there - if only we didn't error-out on our initial render. Could we take
+advantage of the fact that `useEffect` only runs on the client and move the media query to the
+`useEffect` instead? We could, but that has its own trade offs:
 
 ```tsx
 import { useEffect, useState } from "react";
@@ -187,6 +217,12 @@ export default function useDarkMode() {
 }
 ```
 
-Something like the hook above successfully accesses client-only APIs like local storage and media queries only when they're accessible, but at a heavy cost: when the hook runs on the server, `isDarkMode` is initialized to `false`, and the HTML for the first render is built accordingly. Later, on the client, if the `setIsDarkMode` is called in the `useEffect` with `true`, you'll have a flash between the light theme of the initial content and the dark theme of the app after the page is re-rendered with the new theme. Tricky!
+Something like the hook above successfully accesses client-only APIs like local storage and media
+queries only when they're accessible, but at a heavy cost: when the hook runs on the server,
+`isDarkMode` is initialized to `false`, and the HTML for the first render is built accordingly.
+Later, on the client, if the `setIsDarkMode` is called in the `useEffect` with `true`, you'll have a
+flash between the light theme of the initial content and the dark theme of the app after the page is
+re-rendered with the new theme. Tricky!
 
-So how can we prevent the dreaded flash? Keep reading in [Implementing Dark Mode: A Server-Side Approach](/blog/dark-mode-server-side-approach).
+So how can we prevent the dreaded flash? Keep reading in
+[Implementing Dark Mode: A Server-Side Approach](/blog/dark-mode-server-side-approach).

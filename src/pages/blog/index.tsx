@@ -32,44 +32,32 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
     new Set(
       allMetadata
         .map(({ collection }) => collection?.name)
-        .filter(
-          (value: string | undefined): value is string => value !== undefined
-        )
-    )
+        .filter((value: string | undefined): value is string => value !== undefined),
+    ),
   );
-  const allTags = Array.from(
-    new Set(allMetadata.map(({ tags }) => tags).flat())
-  );
+  const allTags = Array.from(new Set(allMetadata.map(({ tags }) => tags).flat()));
 
-  const [selectedTags, setSelectedTags] = useSearchParamState<string[]>(
-    "tags",
-    [],
-    {
-      serverSideURL,
-      parse: (unparsed) => {
-        if (unparsed === "") return [];
-        return unparsed.split("_");
-      },
-      validate: (unvalidatedTags) => {
-        if (!Array.isArray(unvalidatedTags)) throw new Error();
-        if (unvalidatedTags.length === 0) return unvalidatedTags;
+  const [selectedTags, setSelectedTags] = useSearchParamState<string[]>("tags", [], {
+    serverSideURL,
+    parse: (unparsed) => {
+      if (unparsed === "") return [];
+      return unparsed.split("_");
+    },
+    validate: (unvalidatedTags) => {
+      if (!Array.isArray(unvalidatedTags)) throw new Error();
+      if (unvalidatedTags.length === 0) return unvalidatedTags;
 
-        const badTag = unvalidatedTags.find((tag) => !allTags.includes(tag));
-        if (badTag) throw new Error();
-        return unvalidatedTags;
-      },
-      stringify: (val) => val.join("_"),
-      isEmptySearchParam: (searchParamVal) => searchParamVal.length === 0,
-    }
-  );
-  const [filterMethod, setFilterMethod] = useSearchParamState(
-    "method",
-    "union",
-    {
-      serverSideURL,
-      validate: z.union([z.literal("union"), z.literal("intersection")]).parse,
-    }
-  );
+      const badTag = unvalidatedTags.find((tag) => !allTags.includes(tag));
+      if (badTag) throw new Error();
+      return unvalidatedTags;
+    },
+    stringify: (val) => val.join("_"),
+    isEmptySearchParam: (searchParamVal) => searchParamVal.length === 0,
+  });
+  const [filterMethod, setFilterMethod] = useSearchParamState("method", "union", {
+    serverSideURL,
+    validate: z.union([z.literal("union"), z.literal("intersection")]).parse,
+  });
   const [inputValue, setInputValue] = useSearchParamState("search", "", {
     serverSideURL,
     validate: z.coerce.string().parse,
@@ -108,7 +96,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
     selectedTags.length > 0
       ? allMetadata.filter((metadata) => {
           const numOverlappingTags = metadata.tags.filter((tag) =>
-            selectedTags.includes(tag)
+            selectedTags.includes(tag),
           ).length;
 
           return filterMethod === "union"
@@ -122,7 +110,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
       return (
         fuzzysort.go(
           inputValue,
-          getPostsWCollection(allMetadata).map((post) => post.title)
+          getPostsWCollection(allMetadata).map((post) => post.title),
         ).length > 0
       );
     }
@@ -135,7 +123,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
       return (
         fuzzysort.go(
           inputValue,
-          getPostsWoCollection(allMetadata).map((post) => post.title)
+          getPostsWoCollection(allMetadata).map((post) => post.title),
         ).length > 0
       );
     }
@@ -148,13 +136,12 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
     setSelectedTags((currTags) =>
       currTags.includes(filter)
         ? currTags.filter((prevFilter) => prevFilter !== filter)
-        : currTags.concat(filter)
+        : currTags.concat(filter),
     );
   };
 
   const title = "elanmed.dev | blog";
-  const description =
-    "Check out 15+ blog posts on everything from React to NeoVim to comics!";
+  const description = "Check out 15+ blog posts on everything from React to NeoVim to comics!";
 
   return (
     <>
@@ -177,7 +164,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
                   placeholder="fuzzy search"
                   className={cn(
                     "max-w-sm w-full py-3 px-6 pl-12 border border-neutral rounded-xl bg-base-100",
-                    "focus:outline-none focus:outline-neutral"
+                    "focus:outline-none focus:outline-neutral",
                   )}
                   value={inputValue}
                   onFocus={() => controls.stop()}
@@ -187,10 +174,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
                     setInputValue(e.target.value);
                   }}
                 />
-                <SearchIcon
-                  size={20}
-                  className="inline-block absolute top-4 left-4"
-                />
+                <SearchIcon size={20} className="inline-block absolute top-4 left-4" />
               </motion.div>
               {!hasCollections() && !hasPosts() ? (
                 <Inset left="sm">
@@ -242,10 +226,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
               ) : null}
             </Spacing>
           </section>
-          <section
-            className="w-full md:w-1/2 self-start md:sticky md:top-20"
-            data-testid="sidebar"
-          >
+          <section className="w-full md:w-1/2 self-start md:sticky md:top-20" data-testid="sidebar">
             <Spacing vertical xl>
               <Spacing vertical sm>
                 <Subtitle>tags</Subtitle>

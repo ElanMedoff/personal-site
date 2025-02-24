@@ -15,13 +15,7 @@ import { Inset } from "src/components/design-system/Inset";
 import { cn, WrapperProps } from "src/utils/style";
 import { isVisualRegressionTest } from "src/utils/env";
 
-function CardWrapper({
-  children,
-  isMobile,
-}: {
-  children: ReactNode;
-  isMobile: boolean;
-}) {
+function CardWrapper({ children, isMobile }: { children: ReactNode; isMobile: boolean }) {
   if (isMobile) {
     return <>{children}</>;
   }
@@ -111,9 +105,7 @@ function RepoCard({ repo, index }: { repo: Repo; index: number }) {
             >
               <Spacing horizontal xs key={index} items="center">
                 <Image
-                  src={`/languageIcons/${language
-                    .toLowerCase()
-                    .replaceAll(" ", "")}.svg`}
+                  src={`/languageIcons/${language.toLowerCase().replaceAll(" ", "")}.svg`}
                   width={20}
                   height={20}
                   alt={language}
@@ -137,7 +129,7 @@ function Card(props: WrapperProps & { isMobile: boolean }) {
         className={cn(
           "min-h-[350px]",
           "w-[300px] sm:w-[400px]",
-          "bg-base-100 text-base-content border-2 border-neutral" // weird background when hovering
+          "bg-base-100 text-base-content border-2 border-neutral", // weird background when hovering
         )}
       >
         <Spacing vertical md>
@@ -150,10 +142,7 @@ function Card(props: WrapperProps & { isMobile: boolean }) {
 
 export function Github({ repos }: { repos: Repo[] }) {
   return (
-    <motion.ul
-      {...onScrollContainerProps}
-      className={collectionContainerClassNames}
-    >
+    <motion.ul {...onScrollContainerProps} className={collectionContainerClassNames}>
       {repos.slice(0, 6).map((repo, index) => (
         <motion.li {...onScrollChildProps} key={index}>
           <RepoCard repo={repo} index={index} />

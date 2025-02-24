@@ -41,7 +41,7 @@ export default function PostPage({
         components={memoizedComponents}
         scope={undefined}
         frontmatter={undefined}
-      />
+      />,
     );
     const asPlainText = convert(asString);
 
@@ -84,9 +84,7 @@ export default function PostPage({
         <div className="w-1/2 divider" />
         <section>
           <p className="mb-3 text-sm italic">you might also like:</p>
-          {isVisualRegressionTest() ? null : (
-            <PostCard metadata={relatedPostMetadata} />
-          )}
+          {isVisualRegressionTest() ? null : <PostCard metadata={relatedPostMetadata} />}
         </section>
       </Content>
       <Footer />
@@ -109,9 +107,7 @@ interface Props {
   dehydratedState: DehydratedState;
 }
 
-export const getServerSideProps: GetServerSideProps<Props, Params> = async (
-  context
-) => {
+export const getServerSideProps: GetServerSideProps<Props, Params> = async (context) => {
   const { slug } = context.params!;
   if (!isSlugValid(slug)) {
     return {
@@ -127,13 +123,13 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async (
   const getServerSidePropsCookie = context.req.cookies.sessionId;
 
   await queryClient.prefetchQuery(generateQueryKey("user", []), () =>
-    userLoader(getServerSidePropsCookie)
+    userLoader(getServerSidePropsCookie),
   );
   await queryClient.prefetchQuery(generateQueryKey("hasUpvoted", [slug]), () =>
-    hasUpvotedLoader(slug, getServerSidePropsCookie)
+    hasUpvotedLoader(slug, getServerSidePropsCookie),
   );
   await queryClient.prefetchQuery(generateQueryKey("upvoteCount", [slug]), () =>
-    upvoteCountLoader(slug, getServerSidePropsCookie)
+    upvoteCountLoader(slug, getServerSidePropsCookie),
   );
 
   const { post, relatedPostMetadata } = await fetchPostBySlug(slug);

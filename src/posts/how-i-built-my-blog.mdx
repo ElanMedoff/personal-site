@@ -1,6 +1,7 @@
 ---
 title: "How I Built My Blog"
-abstract: "The stack I chose, or how I learned to stop worrying and love Next.js, mdx, prisma, and tailwind"
+abstract:
+  "The stack I chose, or how I learned to stop worrying and love Next.js, mdx, prisma, and tailwind"
 lastUpdated: "May 05, 2023"
 slug: how-i-built-my-blog
 tags:
@@ -14,36 +15,59 @@ isPublished: true
 
 # How I Built My Blog
 
-I'm a big fan of tech blogs. Compared to a video or dev talk, they're often shorter, more intentional, quicker to skim when needed, and when dealing with difficult content, easier to review and re-read. They're also fun to write – especially when most of your typing is coding. I've been wanting to write my own blog for some time now, and with a break in some of my other side-projects, I finally got around to it!
+I'm a big fan of tech blogs. Compared to a video or dev talk, they're often shorter, more
+intentional, quicker to skim when needed, and when dealing with difficult content, easier to review
+and re-read. They're also fun to write – especially when most of your typing is coding. I've been
+wanting to write my own blog for some time now, and with a break in some of my other side-projects,
+I finally got around to it!
 
-This post shouldn't function as a step-by-step tutorial, but rather a high-level overview of the tech stack I use along with a few of my thoughts.
+This post shouldn't function as a step-by-step tutorial, but rather a high-level overview of the
+tech stack I use along with a few of my thoughts.
 
 ## Client
 
-I decided to use [Next.js](https://nextjs.org/) as my front-end framework because of its optimization for static site generation. With SSG, every page is pre-rendered at build time and served to the user immediately. This is distinct from server side rendering, which renders the requested page at request-time. Since my blog renders the same content for every user, it makes a great use case for pre-rendering the site with SSG.
+I decided to use [Next.js](https://nextjs.org/) as my front-end framework because of its
+optimization for static site generation. With SSG, every page is pre-rendered at build time and
+served to the user immediately. This is distinct from server side rendering, which renders the
+requested page at request-time. Since my blog renders the same content for every user, it makes a
+great use case for pre-rendering the site with SSG.
 
-I looked into some other frameworks that specialize in SSG, but Next.js had the best combination of popularity – which goes hand-in-hand with online resources – and a good ratio of framework-specific quirks to features. In other words, for all the features you can access with Next.js, you have to learn very little framework boilerplate.
+I looked into some other frameworks that specialize in SSG, but Next.js had the best combination of
+popularity – which goes hand-in-hand with online resources – and a good ratio of framework-specific
+quirks to features. In other words, for all the features you can access with Next.js, you have to
+learn very little framework boilerplate.
 
 <Info>
-  __Update__: I've since converted all my pages to use server side rendering
-  (SSR) to allow for a more seamless dark mode experience (i.e. without a white
-  flash). See my article [Dark Mode in Next.js Part 2: A Server-Side
-  Approach](/blog/dark-mode-server-side-approach) for a deeper dive into the
-  perils of dark-mode. Thankfully, Next.js has great support for SSR as well,
-  and I haven't yet regretted my choice in framework.
+  __Update__: I've since converted all my pages to use server side rendering (SSR) to allow for a
+  more seamless dark mode experience (i.e. without a white flash). See my article [Dark Mode in
+  Next.js Part 2: A Server-Side Approach](/blog/dark-mode-server-side-approach) for a deeper dive
+  into the perils of dark-mode. Thankfully, Next.js has great support for SSR as well, and I haven't
+  yet regretted my choice in framework.
 </Info>
 
 ### Design
 
-I decided to use [tailwindcss](https://tailwindcss.com/) as my CSS "framework". I've experimented in the past with css-modules, plain scss, and [vanilla extract](https://vanilla-extract.style/), but I've found tailwind to be my favorite so far. Nothing can beat its dx.
+I decided to use [tailwindcss](https://tailwindcss.com/) as my CSS "framework". I've experimented in
+the past with css-modules, plain scss, and [vanilla extract](https://vanilla-extract.style/), but
+I've found tailwind to be my favorite so far. Nothing can beat its dx.
 
-Design isn't my strong suit, so I decided to go with [daisyui](https://daisyui.com/) as my component library. I mostly write my own components, but daisyui has some great color themes that I use (the theme for this site is `emerald`!) Daisyui also has great integration with tailwind, so I can use classes like `text-primary` instead of `text-gray-200`.
+Design isn't my strong suit, so I decided to go with [daisyui](https://daisyui.com/) as my component
+library. I mostly write my own components, but daisyui has some great color themes that I use (the
+theme for this site is `emerald`!) Daisyui also has great integration with tailwind, so I can use
+classes like `text-primary` instead of `text-gray-200`.
 
-I write my blog posts in Markdown, which has an awesome syntax for writing, and some really nice default styles. More specifically, I use [mdx](https://mdxjs.com/), which has support for JSX components. This may be a little overkill for my uses, but it makes it really seamless to use Next's `Link` component along with some of my own reusable components.
+I write my blog posts in Markdown, which has an awesome syntax for writing, and some really nice
+default styles. More specifically, I use [mdx](https://mdxjs.com/), which has support for JSX
+components. This may be a little overkill for my uses, but it makes it really seamless to use Next's
+`Link` component along with some of my own reusable components.
 
 ### Atropos
 
-For the fancy 3D parallax image on the homepage, I use [Atropos](https://atroposjs.com/). The library is surprisingly minimal, and the documentation bare-bones, so I've had to reverse engineer a few of features I wanted from the examples on their site. This blog is [open source](https://github.com/ElanMedoff/personal-site), so maybe I can save you from doing the same!
+For the fancy 3D parallax image on the homepage, I use [Atropos](https://atroposjs.com/). The
+library is surprisingly minimal, and the documentation bare-bones, so I've had to reverse engineer a
+few of features I wanted from the examples on their site. This blog is
+[open source](https://github.com/ElanMedoff/personal-site), so maybe I can save you from doing the
+same!
 
 <Info>
   Check out the `AtroposBorder`
@@ -53,24 +77,39 @@ For the fancy 3D parallax image on the homepage, I use [Atropos](https://atropos
 
 ## Server
 
-On the server side of things, I use [Prisma](https://www.prisma.io/) as my database, Next.js's API routes, and [React Query](https://tanstack.com/query/v3/) to handle my data fetching. I do all of my fetching [server-side](https://tanstack.com/query/v3/docs/react/guides/ssr) to prevent any loading states, and I've been really happy with React Query's SSR capabilities.
+On the server side of things, I use [Prisma](https://www.prisma.io/) as my database, Next.js's API
+routes, and [React Query](https://tanstack.com/query/v3/) to handle my data fetching. I do all of my
+fetching [server-side](https://tanstack.com/query/v3/docs/react/guides/ssr) to prevent any loading
+states, and I've been really happy with React Query's SSR capabilities.
 
-Fetching on the server is a bit of a trade off - the data fetching blocks the page from being sent to the user until it's completed, so the user sees a blank screen for longer than they would if I did my data fetching client-side. However, since my database and Next.js server are hosted on the same digital ocean droplet, the data fetching should be nearly instant. I think it's worth a slightly longer blank screen to prevent a loading skeleton + layout shift, but YMMV.
+Fetching on the server is a bit of a trade off - the data fetching blocks the page from being sent
+to the user until it's completed, so the user sees a blank screen for longer than they would if I
+did my data fetching client-side. However, since my database and Next.js server are hosted on the
+same digital ocean droplet, the data fetching should be nearly instant. I think it's worth a
+slightly longer blank screen to prevent a loading skeleton + layout shift, but YMMV.
 
-I implemented my OAuth authentication manually for the fun of it, since the only data I store is the user's public github username. To handle any sensitive user data, I'd probably use a battle-tested OAuth solution like [NextAuth](https://next-auth.js.org/) instead.
+I implemented my OAuth authentication manually for the fun of it, since the only data I store is the
+user's public github username. To handle any sensitive user data, I'd probably use a battle-tested
+OAuth solution like [NextAuth](https://next-auth.js.org/) instead.
 
 ## Devops
 
-On the devops side of things, I host my blog on a [digital ocean](https://www.digitalocean.com/) droplet – the cheapest one available. I use [nginx](https://www.nginx.com/) as a proxy for my Next.js server, and [certbot](https://certbot.eff.org/) to set up my ssl certificate.
+On the devops side of things, I host my blog on a [digital ocean](https://www.digitalocean.com/)
+droplet – the cheapest one available. I use [nginx](https://www.nginx.com/) as a proxy for my
+Next.js server, and [certbot](https://certbot.eff.org/) to set up my ssl certificate.
 
-To manage my production code, I use [this setup](https://toroid.org/git-website-howto) to push changes to the server with the command `git push server`. It's bare-bones, low-level, and awesome.
+To manage my production code, I use [this setup](https://toroid.org/git-website-howto) to push
+changes to the server with the command `git push server`. It's bare-bones, low-level, and awesome.
 
-For my basic continuous integration, I wrote a deploy script that builds the site locally to make sure everything's good, run a handful of end-to-end tests
-with playwright, backup my database to my local machine, push to github, and push to the server.
+For my basic continuous integration, I wrote a deploy script that builds the site locally to make
+sure everything's good, run a handful of end-to-end tests with playwright, backup my database to my
+local machine, push to github, and push to the server.
 
-I use [pm2](https://pm2.keymetrics.io/) to manage my Next.js server, and I restart the service automatically when new code is pushed – it took just a few lines added to the post-receive hook.
+I use [pm2](https://pm2.keymetrics.io/) to manage my Next.js server, and I restart the service
+automatically when new code is pushed – it took just a few lines added to the post-receive hook.
 
-Check out this other [post](/blog/third-party-narration-rarely-works) I wrote on my minimal approach to continuous integration for more info!
+Check out this other [post](/blog/third-party-narration-rarely-works) I wrote on my minimal approach
+to continuous integration for more info!
 
 ## Bonus: Some of my Favorite Blog Posts
 

@@ -23,11 +23,7 @@ const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
   return objectURL;
 };
 
-const Title = createClassNameWrapper(
-  "Title",
-  "h1",
-  "text-6xl font-bold sm:text-8xl uppercase"
-);
+const Title = createClassNameWrapper("Title", "h1", "text-6xl font-bold sm:text-8xl uppercase");
 
 export function Profile() {
   const isMobile = useIsMobile();
@@ -70,14 +66,7 @@ export function Profile() {
   }, []);
 
   useEffect(() => {
-    if (
-      loading ||
-      isMobile ||
-      hasHovered ||
-      !isInView ||
-      isVisualRegressionTest()
-    )
-      return;
+    if (loading || isMobile || hasHovered || !isInView || isVisualRegressionTest()) return;
 
     controls.start({
       x: [null, 5, -5, 5, 0],
@@ -155,10 +144,7 @@ export function Profile() {
   return (
     <Inset horizontal="lg" vertical="md">
       <Spacing horizontal wrap="wrap-reverse" xl className={cn("max-w-7xl")}>
-        <div
-          className={cn("min-w-[300px] max-w-[450px]", "flex-1 m-auto")}
-          ref={refContainer}
-        >
+        <div className={cn("min-w-[300px] max-w-[450px]", "flex-1 m-auto")} ref={refContainer}>
           {loading ? renderLoading() : renderAtropos()}
         </div>
         <motion.div
@@ -181,21 +167,16 @@ export function Profile() {
             , a software engineer specializing in web and fullstack development.
           </div>
           <p>
-            These days, I&apos;m especially interested in data fetching on the
-            web, all the new approaches to server-side rendering, and tinkering
-            with my (Neo)Vim config.
+            These days, I&apos;m especially interested in data fetching on the web, all the new
+            approaches to server-side rendering, and tinkering with my (Neo)Vim config.
           </p>
           <p>
-            I currently work at{" "}
-            <Anchor href="https://www.wealthfront.com/">Wealthfront</Anchor> as
+            I currently work at <Anchor href="https://www.wealthfront.com/">Wealthfront</Anchor> as
             a web engineer!
           </p>
           <Spacing horizontal sm>
             <a className={styles.github} href="https://github.com/ElanMedoff" />
-            <a
-              className={styles.linkedin}
-              href="https://www.linkedin.com/in/elan-medoff/"
-            />
+            <a className={styles.linkedin} href="https://www.linkedin.com/in/elan-medoff/" />
             <a className={styles.gmail} href="mailto:info@elanmed.dev" />
             <Spacing horizontal xs items="end">
               <Copy subtext>

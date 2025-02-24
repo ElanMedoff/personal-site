@@ -12,7 +12,10 @@ isPublished: true
 
 # Data Fetching in React: Parent-Agnostic vs Parent-Dependent Children
 
-Data fetching in React is a popular topic of blog posts, dev talks, and tutorials – and for good reason. Asynchronous data fetching introduces a whole collection of complexities to handle. I hope to contribute with a less-often discussed topic: the role of the children whose parent fetches data asynchronously, and to what extent the children should account for this behavior.
+Data fetching in React is a popular topic of blog posts, dev talks, and tutorials – and for good
+reason. Asynchronous data fetching introduces a whole collection of complexities to handle. I hope
+to contribute with a less-often discussed topic: the role of the children whose parent fetches data
+asynchronously, and to what extent the children should account for this behavior.
 
 ## Preamble: Basic Inline Null Checking
 
@@ -43,7 +46,8 @@ function Parent() {
 }
 ```
 
-Now consider a case where the `Parent` wants to render markup based on the data fetched with `getData`.
+Now consider a case where the `Parent` wants to render markup based on the data fetched with
+`getData`.
 
 ```tsx
 function Parent() {
@@ -57,12 +61,14 @@ function Parent() {
 }
 ```
 
-Because a `useEffect` runs _after_ the render, there's at least one render (i.e. the first) where `data` is still its initial value, `null`. This means, one way or another, we have to account for a `null` instance of `data` – otherwise, React will crash when we try to access `(null).number`.
+Because a `useEffect` runs _after_ the render, there's at least one render (i.e. the first) where
+`data` is still its initial value, `null`. This means, one way or another, we have to account for a
+`null` instance of `data` – otherwise, React will crash when we try to access `(null).number`.
 
 <Info>
   I'd highly recommend checking out Dan Abramov's [A Complete Guide to
-  useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) if the
-  mechanics of `useEffect` aren't so clear to you.
+  useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) if the mechanics of `useEffect`
+  aren't so clear to you.
 </Info>
 
 One popular option is to perform inline null checking.
@@ -79,7 +85,10 @@ function Parent() {
 }
 ```
 
-With optional chaining in place, when `data` is `null`, accessing `data?.price` will return `undefined` instead of throwing an error. This pattern takes advantage of the fact that, if an expression passed to a `{}` in React "resolves" to `null` or `undefined`, React will gracefully (i.e. without throwing an error) render nothing.
+With optional chaining in place, when `data` is `null`, accessing `data?.price` will return
+`undefined` instead of throwing an error. This pattern takes advantage of the fact that, if an
+expression passed to a `{}` in React "resolves" to `null` or `undefined`, React will gracefully
+(i.e. without throwing an error) render nothing.
 
 Alternatively, we could return early and avoid our optional chaining altogether:
 
@@ -97,7 +106,9 @@ function Parent() {
 }
 ```
 
-Either solution works great when we're dealing with a single component, but once we introduce children into the mix, we encounter some deeper questions. Consider our original example, but with a new `FormatNumber` child.
+Either solution works great when we're dealing with a single component, but once we introduce
+children into the mix, we encounter some deeper questions. Consider our original example, but with a
+new `FormatNumber` child.
 
 ```tsx
 function Parent() {
@@ -115,7 +126,8 @@ function FormatNumber({ num }: { num: number }) {
 }
 ```
 
-Notice that this code will crash on the first render when `data?.price` resolves to `undefined`, and we pass `undefined` as `num` to `FormatNumber`.
+Notice that this code will crash on the first render when `data?.price` resolves to `undefined`, and
+we pass `undefined` as `num` to `FormatNumber`.
 
 There are three possible fixes, two of which we already discussed:
 
@@ -142,22 +154,32 @@ function FormatNumber({ num }: { num: number }) {
 }
 ```
 
-Now that we're dealing with two components, we have the option to null check in the parent _or_ in the child – option 1 and option 2 null check in parent, and option 3 null checks in the child. This leads us to a deeper, more interesting question on best-practices:
+Now that we're dealing with two components, we have the option to null check in the parent _or_ in
+the child – option 1 and option 2 null check in parent, and option 3 null checks in the child. This
+leads us to a deeper, more interesting question on best-practices:
 
-**Who should be responsible for null checking?** The parent, or the child? This question is at the crux of this article. Let's explore both approaches through a differentiation I think helpful:
+**Who should be responsible for null checking?** The parent, or the child? This question is at the
+crux of this article. Let's explore both approaches through a differentiation I think helpful:
 
 ## Parent-Dependent Children
 
-A Parent-dependent child relies on its parent to do its null checking for them. It has no null checking of its own, and it expects its props to always be populated and of the correct type. Otherwise, it may throw.
+A Parent-dependent child relies on its parent to do its null checking for them. It has no null
+checking of its own, and it expects its props to always be populated and of the correct type.
+Otherwise, it may throw.
 
-In our example above, this would mean the `Parent` should return early, ensuring that when `FormatNumber` _is_ rendered, its `num` prop is always populated and a `number`.
-Alternatively, the `Parent` could perform inline null checking with a fallback value and achieve the same result.
+In our example above, this would mean the `Parent` should return early, ensuring that when
+`FormatNumber` _is_ rendered, its `num` prop is always populated and a `number`. Alternatively, the
+`Parent` could perform inline null checking with a fallback value and achieve the same result.
 
-It's worth noting that if the child's prop is a more complicated data structure, such as a series of nested objects, passing a fallback value like `?? 0` isn't always an option.
+It's worth noting that if the child's prop is a more complicated data structure, such as a series of
+nested objects, passing a fallback value like `?? 0` isn't always an option.
 
 ## Parent-Agnostic Children
 
-In contrast to a Parent-dependent child, a Parent-agnostic child expects no null checking from its parent. Maybe the parent will null check before rendering the child, maybe it won't - the Parent-agnostic child won't rely on either behavior. Instead, the Parent-agnostic child will perform its own null checking, gracefully handling every case on its own.
+In contrast to a Parent-dependent child, a Parent-agnostic child expects no null checking from its
+parent. Maybe the parent will null check before rendering the child, maybe it won't - the
+Parent-agnostic child won't rely on either behavior. Instead, the Parent-agnostic child will perform
+its own null checking, gracefully handling every case on its own.
 
 In our example above, `FormatNumber` would have its own null checking, maybe something like:
 
@@ -170,17 +192,27 @@ function FormatNumber({ num: number }) {
 
 <Info>
 
-**Note**: when null checking a number or string, a simple `if (!prop)` check is most likely _not_ what you want – it will return `false` with `0` or `""`!
+**Note**: when null checking a number or string, a simple `if (!prop)` check is most likely _not_
+what you want – it will return `false` with `0` or `""`!
 
 </Info>
 
 ## So Which is Best?
 
-I would argue that, in an ideal world, we would all write Parent-dependent children. The child shouldn't have to worry about being passed nullish (`null` or `undefined`) values: it clearly defines that it expects non-nullish props in its type! If you're consuming an api (i.e. a child component) in your parent, it should be _your_ responsibility to call that child with the props it expects.
+I would argue that, in an ideal world, we would all write Parent-dependent children. The child
+shouldn't have to worry about being passed nullish (`null` or `undefined`) values: it clearly
+defines that it expects non-nullish props in its type! If you're consuming an api (i.e. a child
+component) in your parent, it should be _your_ responsibility to call that child with the props it
+expects.
 
-Unfortunately, this approach isn't always feasible. In the same way we're taught to never trust, and always validate, user input, the author of a child component should never expect that the parent will call it correctly. Anything else would be much too optimistic.
+Unfortunately, this approach isn't always feasible. In the same way we're taught to never trust, and
+always validate, user input, the author of a child component should never expect that the parent
+will call it correctly. Anything else would be much too optimistic.
 
-But what if there was a way for the child to guarantee that the parent would pass it the correct props, without needing any extra code to verify the fact? It seems too good to be true, but that's exactly what we can do with [`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) enabled.
+But what if there was a way for the child to guarantee that the parent would pass it the correct
+props, without needing any extra code to verify the fact? It seems too good to be true, but that's
+exactly what we can do with
+[`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) enabled.
 
 ## Strict Null Checks
 
@@ -188,11 +220,13 @@ In the words of the TypeScript docs:
 
 <Info>
 
-When `strictNullChecks` is `true`, `null` and `undefined` have their own distinct types and you’ll get a type error if you try to use them where a concrete value is expected.
+When `strictNullChecks` is `true`, `null` and `undefined` have their own distinct types and you’ll
+get a type error if you try to use them where a concrete value is expected.
 
 </Info>
 
-With `strictNullChecks` enabled, let's go back to our example and try to perform inline null checking in the parent:
+With `strictNullChecks` enabled, let's go back to our example and try to perform inline null
+checking in the parent:
 
 ```tsx
 function Parent() {
@@ -216,20 +250,38 @@ function FormatNumber({ num: number }) {
 }
 ```
 
-TypeScript now gives us a compile time error that `data?.id` may be `undefined`, and `FormatNumber`'s `num` prop can only be a `number`!
+TypeScript now gives us a compile time error that `data?.id` may be `undefined`, and
+`FormatNumber`'s `num` prop can only be a `number`!
 
-To fix this error, we can either return early, or modify our inline null checking to use a fallback value.
+To fix this error, we can either return early, or modify our inline null checking to use a fallback
+value.
 
-It's important to note that, from the perspective of the parent, little has changed: you still have to return early or perform inline null checking. TypeScript won't save you any code, or advise you to choose one over the other. All of that's true.
+It's important to note that, from the perspective of the parent, little has changed: you still have
+to return early or perform inline null checking. TypeScript won't save you any code, or advise you
+to choose one over the other. All of that's true.
 
-But from the perspective of the child, this makes a _huge_ difference. With `strictNullChecks` enabled, the child can have the clean code of a Parent-dependent child (i.e. without any null checks of its own) with the safety guarantees of a Parent-agnostic child – if a parent tries to pass the child a prop not explicitly described in the child's type (like a nullish prop), TypeScript will throw an error!
+But from the perspective of the child, this makes a _huge_ difference. With `strictNullChecks`
+enabled, the child can have the clean code of a Parent-dependent child (i.e. without any null checks
+of its own) with the safety guarantees of a Parent-agnostic child – if a parent tries to pass the
+child a prop not explicitly described in the child's type (like a nullish prop), TypeScript will
+throw an error!
 
 ## When Strict Null Checks Aren't Available
 
-`strictNullChecks` are a great solution when your codebase in written in TypeScript, but for when you're working in JavaScript, or for one reason or another you have to keep `strictNullChecks` disabled, there are a few considerations I try to keep in mind when deciding between writing Parent-dependent and Parent-agnostic children.
+`strictNullChecks` are a great solution when your codebase in written in TypeScript, but for when
+you're working in JavaScript, or for one reason or another you have to keep `strictNullChecks`
+disabled, there are a few considerations I try to keep in mind when deciding between writing
+Parent-dependent and Parent-agnostic children.
 
-Is the child a general-purpose component designed to be used by multiple parents, or a one-off written for a single case? If the former, I tend to air on the side of writing Parent-agnostic children – as we discussed above, it's best not to rely on a consumer of your component null checking for you (whether that be yourself or someone else working on the codebase).
+Is the child a general-purpose component designed to be used by multiple parents, or a one-off
+written for a single case? If the former, I tend to air on the side of writing Parent-agnostic
+children – as we discussed above, it's best not to rely on a consumer of your component null
+checking for you (whether that be yourself or someone else working on the codebase).
 
-On the other hand, if the child is only used by a single parent, that may be a better case for writing a Parent-dependent child. The mental effort of remembering to pass non-nullish values to the child (either by returning early, or passing a fallback value when performing inline null checking), may be worth the code saved by making the child Parent-dependent.
+On the other hand, if the child is only used by a single parent, that may be a better case for
+writing a Parent-dependent child. The mental effort of remembering to pass non-nullish values to the
+child (either by returning early, or passing a fallback value when performing inline null checking),
+may be worth the code saved by making the child Parent-dependent.
 
-It's not ideal, but for situations where we have to rely on best practices instead of compile-time checks, all you can do is use your best judgment.
+It's not ideal, but for situations where we have to rely on best practices instead of compile-time
+checks, all you can do is use your best judgment.

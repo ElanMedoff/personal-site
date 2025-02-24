@@ -6,26 +6,20 @@ import { Image } from "src/components/reusable/Image";
 import { HeaderLink } from "src/components/reusable/HeaderLink";
 import { HTMLAttributes, isValidElement } from "react";
 
-export const orderPosts = (
-  posts: Metadata[],
-  method: "date" | "collection"
-) => {
+export const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) =>
     method === "date"
       ? new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
-      : (a.collection as Collection).order - (b.collection as Collection).order
+      : (a.collection as Collection).order - (b.collection as Collection).order,
   );
 };
 
-export const getPostsByCollection = (
-  posts: Metadata[],
-  allCollections: string[]
-) => {
+export const getPostsByCollection = (posts: Metadata[], allCollections: string[]) => {
   return allCollections
     .map((collectionName) => {
       return orderPosts(
         posts.filter((post) => post.collection?.name === collectionName),
-        "collection"
+        "collection",
       );
     })
     .filter((collection) => collection.length > 0);
@@ -61,29 +55,20 @@ export const components = {
     return (
       <Code
         code={"\n" + codeBlockProps.children}
-        language={codeBlockProps.className.substring(
-          codeBlockProps.className.indexOf("-") + 1
-        )}
+        language={codeBlockProps.className.substring(codeBlockProps.className.indexOf("-") + 1)}
       />
     );
   },
-  a: (props: HTMLAttributes<HTMLAnchorElement>) => (
-    <MyLink {...(props as MyLinkProps)} />
-  ),
+  a: (props: HTMLAttributes<HTMLAnchorElement>) => <MyLink {...(props as MyLinkProps)} />,
   code: (props: HTMLAttributes<HTMLPreElement>) => (
     <code
       className="bg-secondary text-secondary-content rounded-md px-2 py-[2px] text-sm"
       {...props}
     />
   ),
-  p: (props: HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="my-6" {...props} />
-  ),
+  p: (props: HTMLAttributes<HTMLParagraphElement>) => <p className="my-6" {...props} />,
   h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h1
-      className="text-2xl md:text-4xl font-bold my-2 text-center"
-      {...props}
-    />
+    <h1 className="text-2xl md:text-4xl font-bold my-2 text-center" {...props} />
   ),
   h2: HeaderLink,
   h3: (props: HTMLAttributes<HTMLHeadingElement>) => (
@@ -105,10 +90,7 @@ export const components = {
     <ul className="leading-7 list-disc pl-5 sm:pl-10" {...props} />
   ),
   blockquote: (props: HTMLAttributes<HTMLQuoteElement>) => (
-    <blockquote
-      className="border-l-4 border-l-base-300 pl-4 sm:mx-16 mx-4 text-sm"
-      {...props}
-    />
+    <blockquote className="border-l-4 border-l-base-300 pl-4 sm:mx-16 mx-4 text-sm" {...props} />
   ),
 };
 

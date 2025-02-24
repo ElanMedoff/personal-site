@@ -9,10 +9,7 @@ import Spacing from "src/components/design-system/Spacing";
 export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
   const children = props.children as string;
   const [checked, setChecked] = useState(false);
-  const [showDialog, setShowDialog] = useLocalStorage(
-    "header-link-show-dialog",
-    true
-  );
+  const [showDialog, setShowDialog] = useLocalStorage("header-link-show-dialog", true);
 
   const preProcessed = children.replace(/[^a-zA-Z\s]/g, "").toLowerCase();
   const hashSlug = slugify(preProcessed);
@@ -29,9 +26,7 @@ export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
         className="group relative"
         onClick={async () => {
           if (showDialog) {
-            (
-              document.getElementById(modalSlug) as HTMLDialogElement
-            ).showModal();
+            (document.getElementById(modalSlug) as HTMLDialogElement).showModal();
             return;
           }
           copyToClipboard();
@@ -41,7 +36,7 @@ export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
         <h1
           className={cn(
             "cursor-pointer font-bold my-3 text-left inline mr-3",
-            "text-xl md:text-2xl"
+            "text-xl md:text-2xl",
           )}
           {...props}
         />
@@ -49,7 +44,7 @@ export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
           className={cn(
             "inline-block border border-base-100 py-[1px] px-[3px] rounded-full cursor-pointer relative top-[-2px]",
             "group-hover:border-neutral",
-            "group-active:scale-[90%]"
+            "group-active:scale-[90%]",
           )}
           style={{
             ...transitionProperties,
@@ -63,19 +58,16 @@ export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
         <Spacing vertical md data-testid={`copy-url-dialog-${hashSlug}`}>
           <h2 className="text-xl sm:text-4xl font-bold">Heads up -</h2>
           <p>
-            If you disable this pop-up in the future, clicking on a header will
-            copy the link to your clipboard.
+            If you disable this pop-up in the future, clicking on a header will copy the link to
+            your clipboard.
           </p>
-          <p>
-            It&apos;s a fancy URL that&apos;ll scroll to this section when the
-            page loads!
-          </p>
+          <p>It&apos;s a fancy URL that&apos;ll scroll to this section when the page loads!</p>
           <Spacing vertical xl>
             <form method="dialog">
               <button
                 className={cn(
                   "btn btn-active text-xl lowercase font-light w-full",
-                  "hover:scale-[98%] active:scale-95"
+                  "hover:scale-[98%] active:scale-95",
                 )}
                 onClick={() => {
                   copyToClipboard();
@@ -96,7 +88,7 @@ export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
                 className={cn(
                   "w-6 h-6 border-2 border-primary rounded-md",
                   "hover:scale-90",
-                  checked && "bg-primary"
+                  checked && "bg-primary",
                 )}
                 style={{
                   ...transitionProperties,

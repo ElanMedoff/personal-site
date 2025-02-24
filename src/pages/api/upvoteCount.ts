@@ -11,26 +11,19 @@ export interface UpvoteCountPayload {
   upvoteCount: number;
 }
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ApiResponse<UpvoteCountPayload>>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse<UpvoteCountPayload>>) {
   if (!req.url) {
     return res.status(500).json({ type: "error", errorMessage: "no url" });
   }
   const url = new URL(`${generateUrlPrefix()}${req.url}`);
 
   if (!url.searchParams.has("slug")) {
-    return res
-      .status(500)
-      .json({ type: "error", errorMessage: "no post slug" });
+    return res.status(500).json({ type: "error", errorMessage: "no post slug" });
   }
 
   const slug = url.searchParams.get("slug")!;
   if (!isSlugValid(slug)) {
-    return res
-      .status(500)
-      .json({ type: "error", errorMessage: "slug is invalid" });
+    return res.status(500).json({ type: "error", errorMessage: "slug is invalid" });
   }
 
   const upvotes = await getUpvotes({ slug });
@@ -44,8 +37,4 @@ async function handler(
   });
 }
 
-export default withMiddlware(
-  allowMethods(["GET"]),
-  deleteExpiredSessions,
-  handler
-);
+export default withMiddlware(allowMethods(["GET"]), deleteExpiredSessions, handler);

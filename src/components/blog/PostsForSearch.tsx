@@ -16,11 +16,11 @@ export function PostsWoCollectionForSearch({
   const postsWoCollection = getPostsWoCollection(allMetadata);
   const fuzzyResults = fuzzysort.go(
     inputValue,
-    postsWoCollection.map((post) => post.title)
+    postsWoCollection.map((post) => post.title),
   );
 
   const filteredPostsBySearch = fuzzyResults.map((result) =>
-    postsWoCollection.find((post) => post.title === result.target)
+    postsWoCollection.find((post) => post.title === result.target),
   ) as Metadata[];
 
   return (
@@ -30,7 +30,7 @@ export function PostsWoCollectionForSearch({
           fuzzysort.highlight(
             fuzzyResults[index],
             "<span class='text-secondary underline'>",
-            "</span>"
+            "</span>",
           ) ?? undefined;
         return (
           <AnimatePresence key={index}>

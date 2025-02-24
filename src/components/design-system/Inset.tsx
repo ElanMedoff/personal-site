@@ -85,7 +85,7 @@ export function Inset({
         left && leftToSpacing[left],
         top && topToSpacing[top],
         bottom && bottomToSpacing[bottom],
-        className
+        className,
       )}
       {...rest}
     >

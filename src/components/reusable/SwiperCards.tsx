@@ -28,10 +28,7 @@ export function SwiperCards({
       className={cn("ml-2 w-full mr-2", className)}
     >
       {slides.map((slide, index) => (
-        <SwiperSlide
-          key={index}
-          className={cn(rounded ? "rounded-2xl" : "", "overflow-hidden")}
-        >
+        <SwiperSlide key={index} className={cn(rounded ? "rounded-2xl" : "", "overflow-hidden")}>
           {slide}
         </SwiperSlide>
       ))}
