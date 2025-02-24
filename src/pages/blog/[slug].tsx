@@ -108,7 +108,16 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps<Props, Params> = async (context) => {
-  const { slug } = context.params!;
+  if (!context.params) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/500",
+      },
+    };
+  }
+
+  const { slug } = context.params;
   if (!isSlugValid(slug)) {
     return {
       redirect: {

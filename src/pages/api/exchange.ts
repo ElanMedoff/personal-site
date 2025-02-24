@@ -44,7 +44,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse<nul
   const authorizationParams = new URLSearchParams();
   authorizationParams.append("client_id", clientId);
   authorizationParams.append("client_secret", clientSecret);
-  authorizationParams.append("code", refererParams.get("code")!);
+
+  const codeParam = refererParams.get("code");
+  if (codeParam) {
+    authorizationParams.append("code", codeParam);
+  }
 
   const authorizationUrl = new URL(
     `https://github.com/login/oauth/access_token?${authorizationParams}`,

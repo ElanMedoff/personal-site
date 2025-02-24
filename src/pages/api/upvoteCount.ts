@@ -21,7 +21,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse<Upv
     return res.status(500).json({ type: "error", errorMessage: "no post slug" });
   }
 
-  const slug = url.searchParams.get("slug")!;
+  const slug = url.searchParams.get("slug");
+  if (!slug) {
+    return res.status(500).json({ type: "error", errorMessage: "slug is not populated" });
+  }
   if (!isSlugValid(slug)) {
     return res.status(500).json({ type: "error", errorMessage: "slug is invalid" });
   }

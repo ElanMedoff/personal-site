@@ -54,18 +54,25 @@ export async function fetchPostBySlug(
   let relatedPath: string;
   if (castMetadata.collection) {
     const nonNullCollection = castMetadata.collection;
-    const collectionLength = allMetadata.filter(({ collection }) => {
+    const foundCollection = allMetadata.filter(({ collection }) => {
       return collection?.name === nonNullCollection.name;
-    })!.length;
+    });
+    if (!foundCollection) {
+      throw new Error("collection not found");
+    }
 
-    relatedPath =
-      allMetadata.find(({ collection }) => {
-        return (
-          collection?.name === nonNullCollection.name &&
-          // if last article in a collection, link to first
-          collection?.order === (nonNullCollection.order + 1) % collectionLength
-        );
-      })!.slug + ".mdx";
+    const relatedCollection = allMetadata.find(({ collection }) => {
+      return (
+        collection?.name === nonNullCollection.name &&
+        // if last article in a collection, link to first
+        collection?.order === (nonNullCollection.order + 1) % foundCollection.length
+      );
+    });
+
+    if (!relatedCollection) {
+      throw new Error("related collection not found");
+    }
+    relatedPath = relatedCollection.slug + ".mdx";
   } else {
     relatedPath = relatedPaths[Math.floor(Math.random() * relatedPaths.length)];
   }

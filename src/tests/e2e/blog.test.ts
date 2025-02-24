@@ -28,9 +28,9 @@ test.describe("blog", async () => {
 
     test("clicking a tag should filter the posts", async ({ page }) => {
       async function isHighlighted(text: string) {
-        return (await page.getByTestId("sidebar").getByText(text).getAttribute("class"))!.includes(
-          "bg-secondary",
-        );
+        const sideBarText = await page.getByTestId("sidebar").getByText(text).getAttribute("class");
+        if (!sideBarText) return false;
+        return sideBarText.includes("bg-secondary");
       }
 
       expect(await isHighlighted("union")).toBeTruthy();

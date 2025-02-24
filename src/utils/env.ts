@@ -7,9 +7,9 @@ export const isVisualRegressionTest = () => {
 };
 
 export const getClientId = () => {
-  return isProd() ? process.env.CLIENT_ID_PROD! : process.env.CLIENT_ID_DEV!;
+  return isProd() ? (process.env.CLIENT_ID_PROD ?? "") : (process.env.CLIENT_ID_DEV ?? "");
 };
 
 export const getClientSecret = () => {
-  return isProd() ? process.env.CLIENT_SECRET_PROD! : process.env.CLIENT_SECRET_DEV!;
+  return isProd() ? (process.env.CLIENT_SECRET_PROD ?? "") : (process.env.CLIENT_SECRET_DEV ?? "");
 };
