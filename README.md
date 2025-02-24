@@ -1,6 +1,6 @@
 # [elanmed.dev](https://elanmed.dev)
 
-Mostly a blog, partly a personal website.
+_Mostly a blog, partly a personal website._
 
 ### 📰 Features 15+ articles on topics such as:
 
