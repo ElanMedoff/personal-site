@@ -4,11 +4,14 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/strict",
-    "plugin:@typescript-eslint/stylistic",
+    "plugin:@typescript-eslint/stylistic-type-checked",
     "next",
     "prettier",
   ],
   parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: true,
+  },
   plugins: ["@typescript-eslint"],
   root: true,
 };

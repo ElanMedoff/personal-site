@@ -1,4 +1,4 @@
-import { Collection, Metadata } from "src/utils/post";
+import { Metadata } from "src/utils/post";
 import { Code } from "src/components/reusable/Code";
 import { Info } from "src/components/reusable/Info";
 import { MyLink, MyLinkProps } from "src/components/reusable/MyLink";
@@ -7,11 +7,14 @@ import { HeaderLink } from "src/components/reusable/HeaderLink";
 import { HTMLAttributes, isValidElement } from "react";
 
 export const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
-  return posts.sort((a, b) =>
-    method === "date"
+  return posts.sort((a, b) => {
+    if (!a.collection || !b.collection) {
+      throw new Error("one of the posts does not have a collection");
+    }
+    return method === "date"
       ? new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
-      : (a.collection as Collection).order - (b.collection as Collection).order,
-  );
+      : a.collection.order - b.collection.order;
+  });
 };
 
 export const getPostsByCollection = (posts: Metadata[], allCollections: string[]) => {

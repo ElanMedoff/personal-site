@@ -119,7 +119,7 @@ MyApp.getInitialProps = async (context: AppContext): Promise<AppOwnProps> => {
     };
   }
 
-  const isDarkModeCookie = cookie.parse(req.headers.cookie || "").isDarkMode_0 as
+  const isDarkModeCookie = cookie.parse(req.headers.cookie ?? "").isDarkMode_0 as
     | string
     | undefined;
 

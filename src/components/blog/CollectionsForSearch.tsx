@@ -37,9 +37,11 @@ export function CollectionsForSearch({
     <>
       {postsByCollection.map((posts, index) => {
         const formattedTitles = posts.map((post) => {
-          const hydratedResult = hydratedResults.find(
-            (result) => result.title === post.title,
-          ) as Metadata;
+          const hydratedResult = hydratedResults.find((result) => result.title === post.title);
+
+          if (!hydratedResult) {
+            throw new Error("no hydrated result found");
+          }
 
           const formattedTitle =
             fuzzysort.highlight(

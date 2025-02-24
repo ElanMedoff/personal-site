@@ -308,7 +308,7 @@ interface Props {
 }
 
 export function getServerSideProps(ctx: NextPageContext) {
-  const protocol = ctx.req?.headers["x-forwarded-proto"] || "http";
+  const protocol = ctx.req?.headers["x-forwarded-proto"] ?? "http";
   const serverSideURL = `${protocol}://${ctx.req?.headers.host}${ctx.req?.url}`;
 
   return {

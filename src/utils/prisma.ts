@@ -6,7 +6,7 @@ declare global {
 }
 
 export const prisma =
-  global.prisma ||
+  global.prisma ??
   new PrismaClient({
     log: ["warn", "info", "error"],
   });
