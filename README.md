@@ -10,14 +10,6 @@ _Mostly a blog, partly a personal website._
 - Customizing (neo)vim
 - My thoughts on comics
 
-### 🥞 Engineering stack
-
-- Next.js and Typescript
-- React Query for data fetching
-- Prisma as a database for sessions, post upvotes
-- Playwright for end-to-end, visual regression tests
-- Tailwindcss for styles, Framer Motion for animations
-
 ### 🚀 Engineering features
 
 - Visual regression tests for every page
@@ -28,3 +20,11 @@ _Mostly a blog, partly a personal website._
 - Manually impelemented OAuth
   <!-- - Jest tests (TODO) -->
   <!-- - Playwright tests to ensure no broken links (TODO) -->
+
+### 🥞 Engineering stack
+
+- Next.js and Typescript
+- React Query for data fetching
+- Prisma as a database for sessions, post upvotes
+- Playwright for end-to-end, visual regression tests
+- Tailwindcss for styles, Framer Motion for animations
