@@ -17,7 +17,6 @@ _Mostly a blog, partly a personal website._
 - Quality-of-life bash scripts to simplify test running, deployment
 - Pre-commit hooks that run linting, formatting
 - Build-time scripts to validate blog post metadata
-- Manually impelemented OAuth
   <!-- - Jest tests (TODO) -->
   <!-- - Playwright tests to ensure no broken links (TODO) -->
 
