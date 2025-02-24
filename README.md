@@ -2,14 +2,15 @@
 
 Mostly a blog, partly a personal website.
 
-- 15+ articles on topics such as:
+### 📰 Features 15+ articles on topics such as:
 
-  - React and Next.js
-  - advanced Typescript
-  - customizing (neo)vim
-  - continuous integration
+- Web development with React, Next.js
+- Advanced Typescript concepts
+- Continuous integration
+- Customizing (neo)vim
+- My thoughts on comics
 
-### Engineering stack
+### 🥞 Engineering stack
 
 - Next.js and Typescript
 - React Query for data fetching
@@ -17,7 +18,7 @@ Mostly a blog, partly a personal website.
 - Playwright for end-to-end, visual regression tests
 - Tailwindcss for styles, Framer Motion for animations
 
-### Engineering features
+### 🚀 Engineering features
 
 - Visual regression tests for every page
 - End-to-end tests for critical flows
