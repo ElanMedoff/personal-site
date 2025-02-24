@@ -5,11 +5,11 @@ import { maybeGetSession } from "src/utils/api/maybeGetSession";
 import { ApiResponse } from "src/utils/api/types";
 import { withMiddlware } from "src/utils/middleware";
 
-export type UserPayload = {
+export interface UserPayload {
   user: {
     username: string;
   } | null;
-};
+}
 
 async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse<UserPayload>>) {
   const maybeSession = await maybeGetSession({ req, res });

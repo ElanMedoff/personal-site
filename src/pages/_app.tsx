@@ -27,9 +27,9 @@ export function useDarkMode() {
   return [isDarkMode, setIsDarkMode as Dispatch<SetStateAction<boolean>>] as const;
 }
 
-type AppOwnProps = {
+interface AppOwnProps {
   isDarkModeCookie: boolean | null;
-};
+}
 export default function MyApp({
   Component,
   pageProps,

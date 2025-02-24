@@ -53,6 +53,7 @@
   "devDependencies": {
     "@playwright/test": "^1.50.1",
     "@tanstack/react-query-devtools": "^4.24.6",
+    "@types/eslint": "^9.6.1",
     "@types/html-to-text": "^8.1.1",
     "@types/node": "18.0.6",
     "@types/react": "18.0.15",

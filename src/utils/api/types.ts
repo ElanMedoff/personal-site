@@ -1,7 +1,7 @@
-type SuccessResponse<T> = {
+interface SuccessResponse<T> {
   type: "success";
   payload: T;
-};
+}
 interface ErrorResponse {
   type: "error";
   errorMessage: string;
