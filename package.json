@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "eslint": "eslint src/",
-    "prettier": "prettier --write src/",
+    "prettier": "prettier --log-level warn --write src/",
     "build": "next build",
     "dev": "next dev -p 3001",
     "dev:visual-regression": "NEXT_PUBLIC_PLAYWRIGHT=true next dev -p 3001",
