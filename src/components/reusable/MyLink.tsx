@@ -10,8 +10,8 @@ export type MyLinkProps = LinkProps & {
 
 export function MyLink(props: MyLinkProps) {
   return (
-    <Link {...props} passHref>
-      <a className={cn(anchorStyles, props.className)}>{props.children}</a>
+    <Link {...props} className={cn(anchorStyles, props.className)}>
+      {props.children}
     </Link>
   );
 }

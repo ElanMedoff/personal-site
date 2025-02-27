@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { Repo } from "src/utils/github";
 import AtroposBorder from "src/components/reusable/atropos/AtroposBorder";
 import Atropos from "atropos/react";

@@ -7,7 +7,7 @@ import { generateUrlPrefix } from "src/loaders/helpers";
 import { cn, createClassNameWrapper, transitionProperties } from "src/utils/style";
 import { Header } from "src/components/root/Header";
 import { BsLink45Deg as LinkIcon } from "react-icons/bs";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Spacing from "src/components/design-system/Spacing";
 import { Copy } from "src/components/design-system/Copy";
 import { Heading } from "src/components/design-system/Heading";

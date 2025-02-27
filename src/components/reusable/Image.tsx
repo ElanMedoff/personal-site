@@ -1,4 +1,4 @@
-import NextImage from "next/image";
+import NextImage from "next/legacy/image";
 import { isVisualRegressionTest } from "src/utils/env";
 import { cn } from "src/utils/style";
 
