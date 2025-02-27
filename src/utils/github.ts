@@ -1,22 +1,25 @@
 import { readCache, updateCache } from "src/utils/cache";
+import { z } from "zod";
 
-interface UnpatchedRepo {
-  name: string;
-  fork: boolean;
-  description: string;
-  owner: {
-    avatar_url: string;
-  };
-  created_at: Date;
-  pushed_at: Date;
-  clone_url: string;
-  languages_url: string;
-  html_url: string;
-}
+const unpatchedRepoSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  pushed_at: z.coerce.date(),
+  languages_url: z.string(),
+  html_url: z.string(),
+});
 
-export interface Repo extends UnpatchedRepo {
-  language_info: Record<string, number>;
-}
+const unpatchedReposSchema = z.array(unpatchedRepoSchema);
+
+const languageInfoSchema = z.record(z.string(), z.number());
+
+const patchedRepoSchema = z.intersection(
+  unpatchedRepoSchema,
+  z.object({
+    language_info: languageInfoSchema,
+  }),
+);
+export type Repo = z.infer<typeof patchedRepoSchema>;
 
 export async function fetchGithubRepos() {
   const cache = readCache();
@@ -27,30 +30,22 @@ export async function fetchGithubRepos() {
   }
 
   const response = await fetch("https://api.github.com/users/ElanMedoff/repos");
-  const repos: UnpatchedRepo[] = await response.json();
-  const exceptions = [
-    "comics-relational-full-stack-public",
-    "josh-css",
-    "deno-boiler",
-    "starter-dot-files",
-  ];
-  const filteredRepos = (Array.isArray(repos) ? repos : []).filter(
-    (repo) => !repo.fork && !exceptions.includes(repo.name),
-  );
+  const reposData = await response.json();
+  const repos = unpatchedReposSchema.parse(reposData);
 
-  const languageInfos: Record<string, number>[] = [];
-  for (const repo of filteredRepos) {
+  const patchedRepos: Repo[] = [];
+  for (const repo of repos) {
     const response = await fetch(repo.languages_url);
-    const languageInfo = await response.json();
-    languageInfos.push(languageInfo);
-  }
+    const languageInfoData = await response.json();
 
-  const patchedRepos: Repo[] = filteredRepos.map((repo, index) => {
-    return {
+    const languageInfo = languageInfoSchema.parse(languageInfoData);
+    const patchedRepo = {
       ...repo,
-      language_info: languageInfos[index],
+      language_info: languageInfo,
     };
-  });
+
+    patchedRepos.push(patchedRepoSchema.parse(patchedRepo));
+  }
 
   patchedRepos.sort((a, b) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime());
 

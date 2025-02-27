@@ -3,22 +3,26 @@ import { join } from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import { isProd, isVisualRegressionTest } from "./env";
+import { z } from "zod";
 
-export interface Collection {
-  name: string;
-  order: number;
-}
+export const collectionSchema = z.object({
+  name: z.string(),
+  order: z.number(),
+});
 
-export interface Metadata {
-  title: string;
-  abstract: string;
-  lastUpdated: string;
-  imagePath: string;
-  slug: string;
-  tags: string[];
-  collection: Collection | null;
-  isPublished: boolean;
-}
+export type Collection = z.infer<typeof collectionSchema>;
+
+export const metadataSchema = z.object({
+  title: z.string(),
+  abstract: z.string(),
+  lastUpdated: z.string(),
+  slug: z.string(),
+  tags: z.array(z.string()),
+  collection: z.union([collectionSchema, z.null()]),
+  isPublished: z.boolean(),
+});
+
+export type Metadata = z.infer<typeof metadataSchema>;
 
 export interface Post {
   content: string;
@@ -28,8 +32,7 @@ export interface Post {
 export const postsDirectory = join(process.cwd(), "src/posts");
 
 export function fetchAllPaths() {
-  const paths = readdirSync(postsDirectory);
-  return paths.filter((path) => path !== ".DS_Store");
+  return readdirSync(postsDirectory);
 }
 
 export async function fetchPostBySlug(
@@ -37,23 +40,22 @@ export async function fetchPostBySlug(
 ): Promise<{ post: Post; relatedPostMetadata: Metadata }> {
   const path = `${slugToFetch}.mdx`;
   const rawPost = readFileSync(join(postsDirectory, path)).toString();
-  const { compiledSource: content, frontmatter: data } = await serialize(rawPost, {
+  const parsedPost = await serialize(rawPost, {
     parseFrontmatter: true,
   });
+  const metadata = metadataSchema.parse(parsedPost.frontmatter);
 
   const allMetadata = fetchAllMetadata();
   const relatedPaths = allMetadata
     .filter((metadata) => {
       if (metadata.slug === slugToFetch) return false;
-      return metadata.tags.filter((tag) => (data?.tags as string[]).includes(tag)).length > 0;
+      return metadata.tags.filter((tag) => metadata.tags.includes(tag)).length > 0;
     })
     .map((metadata) => `${metadata.slug}.mdx`);
 
-  const castMetadata = data as unknown as Metadata;
-
   let relatedPath: string;
-  if (castMetadata.collection) {
-    const nonNullCollection = castMetadata.collection;
+  if (metadata.collection) {
+    const nonNullCollection = metadata.collection;
     const foundCollection = allMetadata.filter(({ collection }) => {
       return collection?.name === nonNullCollection.name;
     });
@@ -78,14 +80,15 @@ export async function fetchPostBySlug(
   }
 
   const rawRelatedPost = readFileSync(join(postsDirectory, relatedPath));
-  const { data: relatedData } = matter(rawRelatedPost);
+  const parsedRelatedPost = matter(rawRelatedPost);
+  const relatedPostMetadata = metadataSchema.parse(parsedRelatedPost.data);
 
   return {
     post: {
-      content,
-      metadata: castMetadata,
+      content: parsedPost.compiledSource,
+      metadata,
     },
-    relatedPostMetadata: { ...(relatedData as Metadata) },
+    relatedPostMetadata,
   };
 }
 
@@ -94,8 +97,8 @@ export function fetchAllMetadata(): Metadata[] {
   return paths
     .map((path) => {
       const rawPost = readFileSync(join(postsDirectory, path));
-      const { data: metadata } = matter(rawPost);
-      return metadata as Metadata;
+      const parsedPost = matter(rawPost);
+      return metadataSchema.parse(parsedPost.data);
     })
     .filter((post) => (isProd() ? post.isPublished : true));
 }
@@ -105,8 +108,8 @@ export function fetchSlugs() {
 
   const allMetadata = paths.map((path) => {
     const rawPost = readFileSync(join(postsDirectory, path)).toString();
-    const { data } = matter(rawPost);
-    return data as unknown as Metadata;
+    const parsedPost = matter(rawPost);
+    return metadataSchema.parse(parsedPost.data);
   });
 
   return allMetadata
