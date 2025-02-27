@@ -12,7 +12,7 @@ import Spacing from "src/components/design-system/Spacing";
 import { Copy } from "src/components/design-system/Copy";
 import { Heading } from "src/components/design-system/Heading";
 
-export default function PostPage() {
+export default function Resume() {
   const handleClick = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
     e.preventDefault();
     // open in background tab
