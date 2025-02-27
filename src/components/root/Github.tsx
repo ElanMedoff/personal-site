@@ -73,6 +73,7 @@ function RepoCard({ repo, index }: { repo: Repo; index: number }) {
 
   return (
     <motion.div
+      data-testid="root-github-repo-card"
       onClick={handleClick}
       className="cursor-pointer"
       animate={index === 0 ? controls : undefined}
