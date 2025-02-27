@@ -3,11 +3,7 @@ import { useEffect, useState } from "react";
 import { cn, createClassNameWrapper, transitionProperties } from "src/utils/style";
 import { Switch } from "src/components/reusable/Switch";
 import { useDarkMode } from "src/pages/_app";
-import getConfig from "next/config";
 import { isVisualRegressionTest } from "src/utils/env";
-
-const { publicRuntimeConfig } = getConfig();
-const { APP_ENV } = publicRuntimeConfig;
 
 export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
   const [isDarkMode, setIsDarkMode] = useDarkMode();
@@ -45,10 +41,6 @@ export function Header({ hideOnScroll = true }: { hideOnScroll?: boolean }) {
 
     return () => window.removeEventListener("scroll", onScroll);
   }, [hideOnScroll, scrollDir]);
-
-  if (APP_ENV === "screenshot") {
-    return null;
-  }
 
   return (
     <nav
