@@ -8,12 +8,16 @@ import { HTMLAttributes, isValidElement } from "react";
 
 export const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) => {
-    if (!a.collection || !b.collection) {
-      throw new Error("one of the posts does not have a collection");
+    if (method === "date") {
+      return new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime();
     }
-    return method === "date"
-      ? new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
-      : a.collection.order - b.collection.order;
+
+    if (!a.collection || !b.collection) {
+      throw new Error(
+        "one of the posts meant to be sorted by collection order does not have a collection",
+      );
+    }
+    return a.collection.order - b.collection.order;
   });
 };
 
