@@ -26,10 +26,10 @@ cecho --mode=info "running playwright tests locally..."
 CMD=""
 case $1 in
   --update)
-    CMD="npm run test:update-snapshots $2 $2"
+    CMD="npm run vr:update-snapshots $2 $2"
     ;;
   --compare)
-    CMD="npm run test $2"
+    CMD="npm run vr $2"
     ;;
 esac
 

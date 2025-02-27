@@ -33,7 +33,7 @@ PM2_NAME="playwright-test-suite"
 pm2 start "npm run dev:visual-regression" --name "$PM2_NAME"
 cecho --mode=info "running playwright tests locally..."
 
-if npm run test src/tests/; then
+if npm run vr src/tests/visual-regression; then
   cecho --mode=success "playwright tests passed"
 else
   cecho --mode=error "playwright tests failed, aborting"
