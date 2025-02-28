@@ -13,11 +13,10 @@ _Mostly a blog, partly a personal website._
 ### 🚀 Engineering features
 
 - Visual regression tests for every page
-- End-to-end tests for critical flows
+- Playwright unit tests for critical interactions
 - Quality-of-life bash scripts to simplify test running, deployment
 - Pre-commit hooks that run linting, formatting
 - Build-time scripts to validate blog post metadata
-  <!-- - Jest tests (TODO) -->
   <!-- - Playwright tests to ensure no broken links (TODO) -->
 
 ### 🥞 Engineering stack
