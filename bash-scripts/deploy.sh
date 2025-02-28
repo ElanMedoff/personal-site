@@ -9,6 +9,14 @@ if [[ $ANSWER != "y" ]]; then
   exit 1
 fi
 
+cecho --mode=info "running eslint ..."
+npm run lint
+cecho --mode=success "ran eslint"
+
+cecho --mode=info "running tsc ..."
+npm run types
+cecho --mode=success "ran tsc"
+
 cecho --mode=info "building locally..."
 if npx next build; then
   cecho --mode=success "built locally"
