@@ -7,3 +7,4 @@
 !cache/.gitkeep
 /test-results
 backup.sh
+tsconfig.tsbuildinfo
