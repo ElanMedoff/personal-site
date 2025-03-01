@@ -25,16 +25,9 @@ else
   exit 1
 fi
 
-if lsof -ti:3001 >/dev/null 2>&1; then
-  cecho --mode=query "Port 3001 already in use. Okay to close it? (y/N)"
-  read -r ANSWER
-  if [[ $ANSWER != "y" ]]; then
-    cecho --mode=error "exiting"
-    exit 1
-  fi
-
-  cecho --mode=info "killing port 3001"
-  kill -9 "$(lsof -ti:3001)"
+if nc -z localhost 3001 >/dev/null 2>&1; then
+  cecho --mode=error "Port 3001 already in use"
+  exit 1
 fi
 
 PM2_NAME="playwright-test-suite"
@@ -48,13 +41,13 @@ else
   exit
 fi
 
-# if npm run unit src/tests/unit; then
-#   cecho --mode=success "playwright unit tests passed"
-# else
-#   cecho --mode=error "playwright unit tests failed, aborting"
-#   pm2 delete "$PM2_NAME"
-#   exit
-# fi
+if npm run unit src/tests/unit; then
+  cecho --mode=success "playwright unit tests passed"
+else
+  cecho --mode=error "playwright unit tests failed, aborting"
+  pm2 delete "$PM2_NAME"
+  exit
+fi
 
 if npm run validate-links; then
   cecho --mode=success "playwright link validation tests passed"
