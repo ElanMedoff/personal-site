@@ -11,7 +11,7 @@
     "dev:visual-regression": "NEXT_PUBLIC_PLAYWRIGHT=true next dev -p 3001",
     "vr": "NEXT_PUBLIC_PLAYWRIGHT=true playwright test",
     "vr:update-snapshots": "NEXT_PUBLIC_PLAYWRIGHT=true playwright test --update-snapshots",
-    "unit": "playwright test",
+    "unit": "NEXT_PUBLIC_PLAYWRIGHT=true playwright test",
     "prod": "next start -p 3000",
     "push": "git push origin master",
     "deploy": "git push server",

@@ -9,5 +9,6 @@ export default defineConfig({
       width: 1400,
     },
     browserName: "chromium",
+    permissions: ["clipboard-read", "clipboard-write"],
   },
 });
