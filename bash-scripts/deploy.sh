@@ -39,15 +39,31 @@ fi
 
 PM2_NAME="playwright-test-suite"
 pm2 start "npm run dev:visual-regression" --name "$PM2_NAME"
-cecho --mode=info "running playwright tests locally..."
 
 if npm run vr src/tests/visual-regression; then
-  cecho --mode=success "playwright tests passed"
+  cecho --mode=success "visual regression tests passed"
 else
-  cecho --mode=error "playwright tests failed, aborting"
+  cecho --mode=error "visual regression tests failed, aborting"
   pm2 delete "$PM2_NAME"
   exit
 fi
+
+# if npm run unit src/tests/unit; then
+#   cecho --mode=success "playwright unit tests passed"
+# else
+#   cecho --mode=error "playwright unit tests failed, aborting"
+#   pm2 delete "$PM2_NAME"
+#   exit
+# fi
+
+if npm run validate-links; then
+  cecho --mode=success "playwright link validation tests passed"
+else
+  cecho --mode=error "playwright link validation tests failed, aborting"
+  pm2 delete "$PM2_NAME"
+  exit
+fi
+
 pm2 delete "$PM2_NAME"
 
 cecho --mode=info "generating sitemap ..."
