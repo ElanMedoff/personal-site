@@ -100,7 +100,7 @@ export function fetchAllMetadata(): Metadata[] {
       const parsedPost = matter(rawPost);
       return metadataSchema.parse(parsedPost.data);
     })
-    .filter((post) => (isProd() ? post.isPublished : true));
+    .filter((post) => (isProd() || isVisualRegressionTest() ? post.isPublished : true));
 }
 
 export function fetchSlugs() {
