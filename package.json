@@ -17,7 +17,7 @@
     "deploy": "git push server",
     "generate-sitemap": "node build-scripts/generate-sitemap.mjs",
     "validate-slugs": "node build-scripts/validate-slugs.mjs",
-    "validate-links": "playwright test build-scripts/validate-links.tsx",
+    "validate-links": "NEXT_PUBLIC_PLAYWRIGHT=true playwright test build-scripts/validate-links.test.ts",
     "prepare": "husky"
   },
   "dependencies": {
