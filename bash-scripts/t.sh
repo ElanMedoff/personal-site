@@ -73,7 +73,7 @@ if [[ $TYPE == "vr" ]]; then
   PM2_NAME="visual-regression-test-suite"
   pm2 start "npm run dev:visual-regression" --name "$PM2_NAME"
 
-  if [[ $ACTION == "" ]]; then
+  if [[ $ACTION == "update" ]]; then
     CMD="npm run vr:update-snapshots $1 $1"
   else
     CMD="npm run vr $1"
