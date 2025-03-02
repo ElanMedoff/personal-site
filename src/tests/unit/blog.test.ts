@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("blog", async () => {
+test.describe("blog", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/blog");
   });
@@ -17,7 +17,7 @@ test.describe("blog", async () => {
     await expect(page).toHaveURL("blog/barebones-approach-to-continuous-integration");
   });
 
-  test.describe("tags", async () => {
+  test.describe("tags", () => {
     test("has tags", async ({ page }) => {
       await expect(page.getByText("tags")).toBeVisible();
       await expect(page.getByText("filter method")).toBeVisible();
@@ -29,8 +29,7 @@ test.describe("blog", async () => {
     test("clicking a tag should filter the posts", async ({ page }) => {
       async function isHighlighted(text: string) {
         const sideBarText = await page.getByTestId("sidebar").getByText(text).getAttribute("class");
-        if (!sideBarText) return false;
-        return sideBarText.includes("bg-secondary");
+        return (sideBarText ?? "").includes("bg-secondary");
       }
 
       expect(await isHighlighted("union")).toBeTruthy();
@@ -73,7 +72,7 @@ test.describe("blog", async () => {
     await expect(page.getByText("React Suspense in three different architectures")).toBeVisible();
     await expect(page.getByText("A Barebones Approach to Continuous Integration")).toBeVisible();
 
-    await page.getByPlaceholder("fuzzy search").type("asdf");
+    await page.getByPlaceholder("fuzzy search").fill("asdf");
     await expect(page.getByText("React Suspense in three different architectures")).toBeVisible();
     await expect(page.getByText("A Barebones Approach to Continuous Integration")).toBeHidden();
   });

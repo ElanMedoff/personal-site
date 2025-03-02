@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("slug", async () => {
+test.describe("slug", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/blog/barebones-approach-to-continuous-integration");
   });
