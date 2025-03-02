@@ -3,6 +3,7 @@
 /.next
 .env.local
 /prisma/data.db
+/prisma/data.db-journal
 /cache/*
 !cache/.gitkeep
 /test-results
