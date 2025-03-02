@@ -13,9 +13,11 @@ _Mostly a blog, partly a personal website._
 ### 🚀 Engineering features
 
 - Visual regression tests for every page
-- Playwright tests for critical interactions
-- Quality-of-life bash scripts to simplify test running, deployment
-- Pre-commit hooks that run linting, formatting
+- Playwright tests for authentication flows, misc critical actions
+- Quality-of-life bash scripts to:
+  - spin-up and tear-down dev environments for testing
+  - run test the suites, build-time scripts during deploys
+- Pre-commit hooks that run linting, type checks, formatting
 - Build-time scripts to detect broken links on every page, validate blog post metadata
 
 ### 🥞 Engineering stack

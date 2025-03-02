@@ -77,6 +77,7 @@ export function Upvote() {
           upvote
         </Copy>
         <ArrowIcon
+          data-testid="upvote-icon"
           size={70}
           className={cn(
             disabled ? "text-base-content" : "hover:scale-95 active:scale-[85%]",
@@ -93,8 +94,9 @@ export function Upvote() {
               currUpvoteCount: upvoteCount,
             });
           }}
+          aria-disabled={disabled}
         />
-        <Copy base className="select-none">
+        <Copy base className="select-none" data-testid="upvote-count">
           {upvoteCount}
         </Copy>
       </Spacing>

@@ -15,12 +15,6 @@ export function LoginLogout() {
   const { isPending } = useOAuthExchange();
   const router = useRouter();
   const slug = router.query.slug as string;
-  // const isLoading = useMemo(() => {
-  //   const url = new URL(`${generateUrlPrefix()}${router.asPath}`);
-  //   const params = new URLSearchParams(url.search);
-
-  //   return (params.has("code") && params.has("state")) || isFetching;
-  // }, [router.asPath, isFetching]);
 
   const queryClient = useQueryClient();
   const { data: user } = usePrefetchedQuery({
