@@ -2,7 +2,7 @@ import "src/styles/globals.css";
 import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";
-import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 import {
   DehydratedState,
   HydrationBoundary,

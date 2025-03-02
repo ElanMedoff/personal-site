@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getClientId, getClientSecret, isProd } from "src/utils/env";
 import { Octokit } from "@octokit/core";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import { getClientId, getClientSecret, isProd } from "src/utils/env";
 import { ApiResponse } from "src/utils/api/types";
 import { deleteExpiredSessions } from "src/middleware/deleteExpiredSessions";
 import { allowMethods } from "src/middleware/allowMethods";
 import { withMiddlware } from "src/utils/middleware";
 import { onlyLoggedOutUsers } from "src/middleware/onlyLoggedOutUsers";
-import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import createSession from "src/utils/api/createSession";
 import deleteSessionsByUsername from "src/utils/api/deleteSessionsByUsername";
 

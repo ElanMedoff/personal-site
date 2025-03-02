@@ -1,5 +1,5 @@
 import React from "react";
-import { BsSun as SunIcon, BsMoon as MoonIcon } from "react-icons/bs";
+import { BsMoon as MoonIcon, BsSun as SunIcon } from "react-icons/bs";
 import { cn } from "src/utils/style";
 
 export function Switch({

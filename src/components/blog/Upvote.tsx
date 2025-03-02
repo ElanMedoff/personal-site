@@ -1,10 +1,10 @@
+import { useRouter } from "next/router";
+import { BsArrowUpCircleFill as ArrowIcon } from "react-icons/bs";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { hasUpvotedLoader } from "src/loaders/hasUpvoted";
 import { upvoteCountLoader } from "src/loaders/upvoteCount";
 import { upvoteLoader } from "src/loaders/upvote";
 import { userLoader } from "src/loaders/user";
-import { useRouter } from "next/router";
-import { BsArrowUpCircleFill as ArrowIcon } from "react-icons/bs";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { cn, transitionProperties } from "src/utils/style";
 import { generateQueryKey } from "src/loaders/helpers";
 import { Copy } from "src/components/design-system/Copy";

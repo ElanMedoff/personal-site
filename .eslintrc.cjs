@@ -14,4 +14,7 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   root: true,
+  rules: {
+    "import/order": "error",
+  },
 };

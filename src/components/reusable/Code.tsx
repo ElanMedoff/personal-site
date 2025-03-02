@@ -1,5 +1,5 @@
 import React from "react";
-import Highlight, { defaultProps, Language, Prism } from "prism-react-renderer";
+import Highlight, { Language, Prism, defaultProps } from "prism-react-renderer";
 import { useContext } from "react";
 import github from "prism-react-renderer/themes/github";
 import { ThemeContext } from "src/pages/_app";

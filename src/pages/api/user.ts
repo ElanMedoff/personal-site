@@ -1,6 +1,6 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { allowMethods } from "src/middleware/allowMethods";
 import { deleteExpiredSessions } from "src/middleware/deleteExpiredSessions";
-import { NextApiRequest, NextApiResponse } from "next";
 import { maybeGetSession } from "src/utils/api/maybeGetSession";
 import { ApiResponse } from "src/utils/api/types";
 import { withMiddlware } from "src/utils/middleware";

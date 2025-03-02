@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
+import { NextApiRequest, NextApiResponse } from "next";
+import { setCookie } from "cookies-next";
 import { getClientId, isProd } from "src/utils/env";
 import { ApiResponse } from "src/utils/api/types";
 import { withMiddlware } from "src/utils/middleware";
 import { allowMethods } from "src/middleware/allowMethods";
 import { deleteExpiredSessions } from "src/middleware/deleteExpiredSessions";
 import { onlyLoggedOutUsers } from "src/middleware/onlyLoggedOutUsers";
-import { setCookie } from "cookies-next";
 
 export interface LoginPayload {
   authorizeUrl: string;

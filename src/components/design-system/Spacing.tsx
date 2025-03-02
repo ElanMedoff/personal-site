@@ -1,4 +1,4 @@
-import { cn, Expand, isSize, OneOfUnion, Size, WrapperProps } from "src/utils/style";
+import { Expand, OneOfUnion, Size, WrapperProps, cn, isSize } from "src/utils/style";
 
 type OneOfSize = OneOfUnion<Size>;
 type Direction = "horizontal" | "vertical";

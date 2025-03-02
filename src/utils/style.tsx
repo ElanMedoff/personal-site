@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
-import { clsx, type ClassValue } from "clsx";
+import { type ClassValue, clsx } from "clsx";
 
 export type Expand<T> = T extends T ? { [K in keyof T]: T[K] } : never;
 export type OneOfUnion<Union extends string> = {

@@ -1,4 +1,4 @@
-import { cn, Size, WrapperProps } from "src/utils/style";
+import { Size, WrapperProps, cn } from "src/utils/style";
 
 interface Props extends WrapperProps {
   horizontal?: Size;

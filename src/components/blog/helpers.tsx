@@ -1,10 +1,10 @@
+import { HTMLAttributes, isValidElement } from "react";
 import { Metadata } from "src/utils/post";
 import { Code } from "src/components/reusable/Code";
 import { Info } from "src/components/reusable/Info";
 import { MyLink, MyLinkProps } from "src/components/reusable/MyLink";
 import { Image } from "src/components/reusable/Image";
 import { HeaderLink } from "src/components/reusable/HeaderLink";
-import { HTMLAttributes, isValidElement } from "react";
 
 export const orderPosts = (posts: Metadata[], method: "date" | "collection") => {
   return posts.sort((a, b) => {

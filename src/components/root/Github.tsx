@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import Image from "next/legacy/image";
-import { Repo } from "src/utils/github";
-import AtroposBorder from "src/components/reusable/atropos/AtroposBorder";
 import Atropos from "atropos/react";
 import { motion, useAnimationControls, useInView } from "framer-motion";
+import { Repo } from "src/utils/github";
+import AtroposBorder from "src/components/reusable/atropos/AtroposBorder";
 import { useIsMobile } from "src/hooks/useIsMobile";
 import { onScrollChildProps, onScrollContainerProps } from "src/utils/framer";
 import { collectionContainerClassNames } from "src/pages";
@@ -12,7 +12,7 @@ import { Copy } from "src/components/design-system/Copy";
 import { Heading } from "src/components/design-system/Heading";
 import Spacing from "src/components/design-system/Spacing";
 import { Inset } from "src/components/design-system/Inset";
-import { cn, WrapperProps } from "src/utils/style";
+import { WrapperProps, cn } from "src/utils/style";
 import { isVisualRegressionTest } from "src/utils/env";
 
 function CardWrapper({ children, isMobile }: { children: ReactNode; isMobile: boolean }) {

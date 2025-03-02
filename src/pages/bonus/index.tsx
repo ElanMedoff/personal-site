@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { Header } from "src/components/root/Header";
 import { GetServerSideProps } from "next";
+import { Header } from "src/components/root/Header";
 import { fetchPublicImages } from "src/utils/public";
 import { Favorites } from "src/components/bonus/Favorites";
 import { Footer } from "src/components/reusable/Footer";
@@ -8,7 +8,7 @@ import { WideContent } from "src/components/reusable/WideContent";
 import { Heading } from "src/components/design-system/Heading";
 import Spacing from "src/components/design-system/Spacing";
 import { Inset } from "src/components/design-system/Inset";
-import { BannerText, BannerBorder } from "src/components/reusable/Banner";
+import { BannerBorder, BannerText } from "src/components/reusable/Banner";
 
 export default function Bonus({ paths }: Props) {
   const title = "elanmed.dev | Bonus";

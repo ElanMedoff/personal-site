@@ -1,9 +1,9 @@
-import styles from "src/styles/icons.module.scss";
 import Atropos from "atropos/react";
-import AtroposBorder from "src/components/reusable/atropos/AtroposBorder";
-import { AtroposImage } from "src/components/reusable/atropos/AtroposImage";
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimationControls, useInView } from "framer-motion";
+import styles from "src/styles/icons.module.scss";
+import AtroposBorder from "src/components/reusable/atropos/AtroposBorder";
+import { AtroposImage } from "src/components/reusable/atropos/AtroposImage";
 import { Skeleton } from "src/components/root/Skeleton";
 import { Anchor } from "src/components/reusable/Anchor";
 import { useIsMobile } from "src/hooks/useIsMobile";

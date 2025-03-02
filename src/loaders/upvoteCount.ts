@@ -1,6 +1,6 @@
+import { generateUrlPrefix } from "./helpers";
 import { UpvoteCountPayload } from "src/pages/api/upvoteCount";
 import { ApiResponse } from "src/utils/api/types";
-import { generateUrlPrefix } from "./helpers";
 
 export async function upvoteCountLoader(slug: string, getServerSidePropsCookie?: string) {
   const headers = new Headers();

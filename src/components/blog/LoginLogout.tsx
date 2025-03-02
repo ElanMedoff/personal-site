@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "src/styles/icons.module.scss";
 import Spinner from "react-spinners/ClipLoader";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import styles from "src/styles/icons.module.scss";
 import { cn, transitionProperties } from "src/utils/style";
 import { userLoader } from "src/loaders/user";
 import { logoutLoader } from "src/loaders/logout";

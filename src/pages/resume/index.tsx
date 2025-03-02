@@ -1,13 +1,13 @@
 import Head from "next/head";
+import { Fragment, ReactNode } from "react";
+import { BsFillCheckCircleFill as CheckIcon, BsPrinter as PrinterIcon } from "react-icons/bs";
+import { BsLink45Deg as LinkIcon } from "react-icons/bs";
+import Image from "next/legacy/image";
 import styles from "src/styles/icons.module.scss";
 import { Content } from "src/components/blog/Content";
-import { Fragment, ReactNode } from "react";
-import { BsPrinter as PrinterIcon, BsFillCheckCircleFill as CheckIcon } from "react-icons/bs";
 import { generateUrlPrefix } from "src/loaders/helpers";
 import { cn, createClassNameWrapper, transitionProperties } from "src/utils/style";
 import { Header } from "src/components/root/Header";
-import { BsLink45Deg as LinkIcon } from "react-icons/bs";
-import Image from "next/legacy/image";
 import Spacing from "src/components/design-system/Spacing";
 import { Copy } from "src/components/design-system/Copy";
 import { Heading } from "src/components/design-system/Heading";

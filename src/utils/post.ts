@@ -1,9 +1,9 @@
-import { readdirSync, readFileSync } from "fs";
+import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
-import { isProd, isVisualRegressionTest } from "./env";
 import { z } from "zod";
+import { isProd, isVisualRegressionTest } from "./env";
 
 export const collectionSchema = z.object({
   name: z.string(),

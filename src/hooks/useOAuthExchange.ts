@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { exchangeLoader } from "src/loaders/exchange";
 import { generateQueryKey } from "src/loaders/helpers";
-import { useEffect } from "react";
 
 export function useOAuthExchange() {
   const router = useRouter();

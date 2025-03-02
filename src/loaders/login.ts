@@ -1,6 +1,6 @@
+import { generateUrlPrefix } from "./helpers";
 import { LoginPayload } from "src/pages/api/login";
 import { ApiResponse } from "src/utils/api/types";
-import { generateUrlPrefix } from "./helpers";
 
 export async function loginLoader() {
   const response = await fetch(`${generateUrlPrefix()}/api/login`);

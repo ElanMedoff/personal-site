@@ -1,4 +1,4 @@
-import { cn, WrapperProps } from "src/utils/style";
+import { WrapperProps, cn } from "src/utils/style";
 import { Inset } from "src/components/design-system/Inset";
 import { Copy } from "src/components/design-system/Copy";
 

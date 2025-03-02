@@ -1,7 +1,7 @@
-import { SwiperCards } from "src/components/reusable/SwiperCards";
-import { onScrollChildProps, onScrollContainerProps } from "src/utils/framer";
 import { motion } from "framer-motion";
 import Image from "next/legacy/image";
+import { SwiperCards } from "src/components/reusable/SwiperCards";
+import { onScrollChildProps, onScrollContainerProps } from "src/utils/framer";
 import { cn } from "src/utils/style";
 
 function SwiperWrapper({

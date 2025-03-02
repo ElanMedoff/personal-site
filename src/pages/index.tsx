@@ -1,12 +1,12 @@
 import Head from "next/head";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Profile } from "src/components/root/Profile";
 import { Github } from "src/components/root/Github";
-import { fetchGithubRepos, Repo } from "src/utils/github";
+import { Repo, fetchGithubRepos } from "src/utils/github";
 import { RecentPosts } from "src/components/root/RecentPosts";
-import { fetchAllMetadata, Metadata } from "src/utils/post";
+import { Metadata, fetchAllMetadata } from "src/utils/post";
 import { BannerBorder, BannerText } from "src/components/reusable/Banner";
 import { Footer } from "src/components/reusable/Footer";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Header } from "src/components/root/Header";
 import { createClassNameWrapper } from "src/utils/style";
 import { WideContent } from "src/components/reusable/WideContent";

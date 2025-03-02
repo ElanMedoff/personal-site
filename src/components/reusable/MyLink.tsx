@@ -1,6 +1,6 @@
 import Link, { LinkProps } from "next/link";
-import { anchorStyles } from "src/components/reusable/Anchor";
 import { ReactNode } from "react";
+import { anchorStyles } from "src/components/reusable/Anchor";
 import { cn } from "src/utils/style";
 
 export type MyLinkProps = LinkProps & {

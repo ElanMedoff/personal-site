@@ -1,5 +1,5 @@
-import { isProd } from "src/utils/env";
 import { ApiEndpoint, ApiParams } from "./api";
+import { isProd } from "src/utils/env";
 
 export const generateUrlPrefix = () => {
   // necessary to fetch on the server

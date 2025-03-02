@@ -1,6 +1,6 @@
+import { generateUrlPrefix } from "./helpers";
 import { UserPayload } from "src/pages/api/user";
 import { ApiResponse } from "src/utils/api/types";
-import { generateUrlPrefix } from "./helpers";
 
 export async function userLoader(getServerSidePropsCookie?: string) {
   const headers = new Headers();

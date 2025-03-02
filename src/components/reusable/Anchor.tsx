@@ -1,4 +1,4 @@
-import { cn, transitionProperties, WrapperProps } from "src/utils/style";
+import { WrapperProps, cn, transitionProperties } from "src/utils/style";
 
 const anchorStyles = "underline underline-offset-2 hover:underline-offset-4";
 

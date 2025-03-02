@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { exchangeLoader } from "./exchange";
 import { hasUpvotedLoader } from "./hasUpvoted";
 import { loginLoader } from "./login";

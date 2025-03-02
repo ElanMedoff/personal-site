@@ -1,4 +1,4 @@
-import { cn, Expand, OneOfUnion, WrapperProps } from "src/utils/style";
+import { Expand, OneOfUnion, WrapperProps, cn } from "src/utils/style";
 
 type Props = Expand<WrapperProps & OneOfVariant & BaseProps>;
 interface BaseProps {
