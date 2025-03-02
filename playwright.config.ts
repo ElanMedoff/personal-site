@@ -6,9 +6,10 @@ export default defineConfig({
     baseURL: `http://localhost:${process.env.NODE_ENV === "production" ? 3000 : 3001}`,
     viewport: {
       height: 1000,
-      width: 1400,
+      width: 1600,
     },
     browserName: "chromium",
     permissions: ["clipboard-read", "clipboard-write"],
   },
+  workers: 3,
 });

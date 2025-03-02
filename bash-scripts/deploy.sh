@@ -30,14 +30,19 @@ if nc -z localhost 3001 >/dev/null 2>&1; then
   exit 1
 fi
 
-PM2_NAME="playwright-test-suite"
-pm2 start "npm run dev:visual-regression" --name "$PM2_NAME"
+npx prisma migrate reset --force
+PM2_PRISMA_NAME="prisma-studio"
+pm2 start "npx prisma studio --browser none" --name "$PM2_PRISMA_NAME"
+
+PM2_NEXT_NAME="playwright-test-suite"
+pm2 start "npm run dev:visual-regression" --name "$PM2_NEXT_NAME"
 
 if npm run vr src/tests/visual-regression; then
   cecho --mode=success "visual regression tests passed"
 else
   cecho --mode=error "visual regression tests failed, aborting"
-  pm2 delete "$PM2_NAME"
+  pm2 delete "$PM2_NEXT_NAME"
+  pm2 delete "$PM2_PRISMA_NAME"
   exit
 fi
 
@@ -45,7 +50,8 @@ if npm run unit src/tests/unit; then
   cecho --mode=success "playwright unit tests passed"
 else
   cecho --mode=error "playwright unit tests failed, aborting"
-  pm2 delete "$PM2_NAME"
+  pm2 delete "$PM2_NEXT_NAME"
+  pm2 delete "$PM2_PRISMA_NAME"
   exit
 fi
 
@@ -53,11 +59,13 @@ if npm run validate-links; then
   cecho --mode=success "playwright link validation tests passed"
 else
   cecho --mode=error "playwright link validation tests failed, aborting"
-  pm2 delete "$PM2_NAME"
+  pm2 delete "$PM2_NEXT_NAME"
+  pm2 delete "$PM2_PRISMA_NAME"
   exit
 fi
 
-pm2 delete "$PM2_NAME"
+pm2 delete "$PM2_NEXT_NAME"
+pm2 delete "$PM2_PRISMA_NAME"
 
 cecho --mode=info "generating sitemap ..."
 npm run generate-sitemap

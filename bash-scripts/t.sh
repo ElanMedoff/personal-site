@@ -60,18 +60,22 @@ if nc -z localhost 3001 >/dev/null 2>&1; then
   exit 1
 fi
 
-PM2_NAME=""
+npx prisma migrate reset --force
+PM2_PRISMA_NAME="prisma-studio"
+pm2 start "npx prisma studio --browser none" --name "$PM2_PRISMA_NAME"
+
+PM2_NEXT_NAME=""
 CMD=""
 
 if [[ $TYPE == "unit" ]]; then
-  PM2_NAME="unit-test-suite"
+  PM2_NEXT_NAME="unit-test-suite"
   CMD="npm run unit $1"
-  pm2 start "npm run dev" --name "$PM2_NAME"
+  pm2 start "npm run dev" --name "$PM2_NEXT_NAME"
 fi
 
 if [[ $TYPE == "vr" ]]; then
-  PM2_NAME="visual-regression-test-suite"
-  pm2 start "npm run dev:visual-regression" --name "$PM2_NAME"
+  PM2_NEXT_NAME="visual-regression-test-suite"
+  pm2 start "npm run dev:visual-regression" --name "$PM2_NEXT_NAME"
 
   if [[ $ACTION == "update" ]]; then
     CMD="npm run vr:update-snapshots $1 $1"
@@ -81,4 +85,5 @@ if [[ $TYPE == "vr" ]]; then
 fi
 
 eval "$CMD"
-pm2 delete "$PM2_NAME"
+pm2 delete "$PM2_NEXT_NAME"
+pm2 delete "$PM2_PRISMA_NAME"
