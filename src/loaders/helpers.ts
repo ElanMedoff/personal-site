@@ -1,19 +1,14 @@
 import { isProd } from "src/utils/env";
+import { ApiEndpoint, ApiParams } from "./api";
 
 export const generateUrlPrefix = () => {
   // necessary to fetch on the server
   return isProd() ? "https://elanmed.dev" : "http://localhost:3001";
 };
 
-export type Endpoint =
-  | "exchange"
-  | "hasUpvoted"
-  | "login"
-  | "logout"
-  | "upvote"
-  | "upvoteCount"
-  | "user";
-
-export const generateQueryKey = (endpoint: Endpoint, params: unknown[]) => {
-  return [endpoint, ...params];
+export const generateQueryKey = <Endpoint extends ApiEndpoint>(
+  endpoint: Endpoint,
+  params: ApiParams<Endpoint>,
+) => {
+  return [endpoint, ...params] as const;
 };

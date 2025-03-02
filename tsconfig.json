@@ -19,6 +19,7 @@
     "jsx": "preserve",
     "incremental": true,
     "noImplicitAny": true,
+    "strictBindCallApply": false,
     "baseUrl": "."
   },
   "include": [

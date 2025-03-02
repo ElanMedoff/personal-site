@@ -3,7 +3,12 @@ import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
-import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  DehydratedState,
+  HydrationBoundary,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import * as cookie from "cookie";
 import { useRouter } from "next/router";
@@ -90,7 +95,7 @@ export default function MyApp({
         }}
       >
         <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
+          <HydrationBoundary state={pageProps.dehydratedState}>
             <ThemeContext.Provider
               value={{
                 isDarkMode: isDarkMode ?? false,
@@ -101,7 +106,7 @@ export default function MyApp({
                 <Component {...pageProps} />
               </div>
             </ThemeContext.Provider>
-          </Hydrate>
+          </HydrationBoundary>
           {isProd() || isVisualRegressionTest() ? null : <ReactQueryDevtools />}
         </QueryClientProvider>
       </SearchParamStateProvider>

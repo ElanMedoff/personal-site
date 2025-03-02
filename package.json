@@ -23,7 +23,8 @@
   "dependencies": {
     "@octokit/core": "^4.1.0",
     "@prisma/client": "^4.10.1",
-    "@tanstack/react-query": "^4.24.6",
+    "@tanstack/react-query": "^5.66.11",
+    "@tanstack/react-query-devtools": "^5.66.11",
     "@types/prismjs": "^1.26.0",
     "@wordpress/wordcount": "^3.20.0",
     "atropos": "^1.0.2",
@@ -55,7 +56,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.50.1",
-    "@tanstack/react-query-devtools": "^4.24.6",
     "@types/eslint": "^9.6.1",
     "@types/html-to-text": "^8.1.1",
     "@types/node": "18.0.6",

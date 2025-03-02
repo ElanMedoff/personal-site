@@ -4,11 +4,13 @@ import { upvoteLoader } from "src/loaders/upvote";
 import { userLoader } from "src/loaders/user";
 import { useRouter } from "next/router";
 import { BsArrowUpCircleFill as ArrowIcon } from "react-icons/bs";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { cn, transitionProperties } from "src/utils/style";
 import { generateQueryKey } from "src/loaders/helpers";
 import { Copy } from "src/components/design-system/Copy";
 import Spacing from "src/components/design-system/Spacing";
+import { UpvotePayload } from "src/pages/api/upvote";
+import { usePrefetchedQuery } from "src/loaders/api";
 
 export function Upvote() {
   const router = useRouter();
@@ -16,31 +18,49 @@ export function Upvote() {
 
   const queryClient = useQueryClient();
 
-  // TODO: re-examine this now that I know more about react query
-  const { data: hasUpvoted } = useQuery(
-    generateQueryKey("hasUpvoted", [slug]),
-    () => hasUpvotedLoader(slug),
-    {
-      staleTime: 5_000,
-    },
-  );
-  const { data: user } = useQuery(generateQueryKey("user", []), () => userLoader(), {
-    staleTime: 5_000,
+  const { data: hasUpvoted } = usePrefetchedQuery({
+    queryKey: generateQueryKey("hasUpvoted", [slug]),
+    queryFn: () => hasUpvotedLoader(slug),
   });
-  const { data: upvoteCount } = useQuery(
-    generateQueryKey("upvoteCount", [slug]),
-    () => upvoteCountLoader(slug),
-    {
-      staleTime: 5_000,
+  const { data: user } = usePrefetchedQuery({
+    queryKey: generateQueryKey("user", []),
+    queryFn: () => userLoader(),
+  });
+  const { data: upvoteCount } = usePrefetchedQuery({
+    queryKey: generateQueryKey("upvoteCount", [slug]),
+    queryFn: () => upvoteCountLoader(slug),
+  });
+
+  interface TVariables {
+    currHasUpvoted: boolean;
+    currUpvoteCount: number;
+  }
+  interface TContext {
+    prevHasUpvoted: unknown;
+    prevUpvoteCount: unknown;
+  }
+  const { mutate: upvote } = useMutation<UpvotePayload, unknown, TVariables, TContext>({
+    mutationFn: () => upvoteLoader(slug),
+    onMutate: async ({ currHasUpvoted, currUpvoteCount }) => {
+      await queryClient.cancelQueries({ queryKey: generateQueryKey("upvoteCount", [slug]) });
+      await queryClient.cancelQueries({ queryKey: generateQueryKey("hasUpvoted", [slug]) });
+
+      const prevUpvoteCount = queryClient.getQueryData(generateQueryKey("upvoteCount", [slug]));
+      const prevHasUpvoted = queryClient.getQueryData(generateQueryKey("hasUpvoted", [slug]));
+
+      const newUpvoteCount = currUpvoteCount + (currHasUpvoted ? -1 : 1);
+      queryClient.setQueryData(["upvoteCount", slug], newUpvoteCount);
+      queryClient.setQueryData(["hasUpvoted", slug], !currHasUpvoted);
+
+      return { prevUpvoteCount, prevHasUpvoted };
     },
-  );
-  const { refetch: upvote } = useQuery(["upvote", slug], () => upvoteLoader(slug), {
-    enabled: false,
-    onSuccess: ({ hasUpvoted: newHasUpvoted, upvoteCount }) => {
-      queryClient.setQueryData(["upvoteCount", slug], upvoteCount);
-      queryClient.setQueryData(["hasUpvoted", slug], newHasUpvoted);
+    onError: (_error, _variables, context) => {
+      if (!context) return;
+      queryClient.setQueryData(generateQueryKey("upvoteCount", [slug]), context.prevHasUpvoted);
+      queryClient.setQueryData(generateQueryKey("hasUpvoted", [slug]), context.prevHasUpvoted);
     },
   });
+
   const disabled = !user;
 
   return (
@@ -53,7 +73,9 @@ export function Upvote() {
       data-tip="log in to upvote!"
     >
       <Spacing vertical sm items="center">
-        <Copy base>upvote</Copy>
+        <Copy base className="select-none">
+          upvote
+        </Copy>
         <ArrowIcon
           size={70}
           className={cn(
@@ -66,10 +88,15 @@ export function Upvote() {
           }}
           onClick={() => {
             if (disabled) return;
-            upvote();
+            upvote({
+              currHasUpvoted: hasUpvoted,
+              currUpvoteCount: upvoteCount,
+            });
           }}
         />
-        <Copy base>{upvoteCount}</Copy>
+        <Copy base className="select-none">
+          {upvoteCount}
+        </Copy>
       </Spacing>
     </div>
   );

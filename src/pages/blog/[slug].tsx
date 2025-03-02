@@ -130,18 +130,25 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async (cont
   const queryClient = new QueryClient();
 
   const getServerSidePropsCookie = context.req.cookies.sessionId;
+  const prefetchPromises = [
+    queryClient.prefetchQuery({
+      queryKey: generateQueryKey("user", []),
+      queryFn: () => userLoader(getServerSidePropsCookie),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: generateQueryKey("hasUpvoted", [slug]),
+      queryFn: () => hasUpvotedLoader(slug, getServerSidePropsCookie),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: generateQueryKey("upvoteCount", [slug]),
+      queryFn: () => upvoteCountLoader(slug, getServerSidePropsCookie),
+    }),
+  ];
+  const [{ post, relatedPostMetadata }] = await Promise.all([
+    fetchPostBySlug(slug),
+    ...prefetchPromises,
+  ]);
 
-  await queryClient.prefetchQuery(generateQueryKey("user", []), () =>
-    userLoader(getServerSidePropsCookie),
-  );
-  await queryClient.prefetchQuery(generateQueryKey("hasUpvoted", [slug]), () =>
-    hasUpvotedLoader(slug, getServerSidePropsCookie),
-  );
-  await queryClient.prefetchQuery(generateQueryKey("upvoteCount", [slug]), () =>
-    upvoteCountLoader(slug, getServerSidePropsCookie),
-  );
-
-  const { post, relatedPostMetadata } = await fetchPostBySlug(slug);
   return {
     props: {
       post,

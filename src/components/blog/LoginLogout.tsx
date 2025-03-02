@@ -1,37 +1,43 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styles from "src/styles/icons.module.scss";
 import Spinner from "react-spinners/ClipLoader";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { cn, transitionProperties } from "src/utils/style";
 import { userLoader } from "src/loaders/user";
 import { logoutLoader } from "src/loaders/logout";
 import { loginLoader } from "src/loaders/login";
 import { useOAuthExchange } from "src/hooks/useOAuthExchange";
-import { generateQueryKey, generateUrlPrefix } from "src/loaders/helpers";
+import { generateQueryKey } from "src/loaders/helpers";
+import { usePrefetchedQuery } from "src/loaders/api";
 
 export function LoginLogout() {
-  const { isFetching } = useOAuthExchange();
+  const { isPending } = useOAuthExchange();
   const router = useRouter();
   const slug = router.query.slug as string;
+  // const isLoading = useMemo(() => {
+  //   const url = new URL(`${generateUrlPrefix()}${router.asPath}`);
+  //   const params = new URLSearchParams(url.search);
 
-  const isLoading = useMemo(() => {
-    const url = new URL(`${generateUrlPrefix()}${router.asPath}`);
-    const params = new URLSearchParams(url.search);
-    return (params.has("code") && params.has("state")) || isFetching;
-  }, [router.asPath, isFetching]);
+  //   return (params.has("code") && params.has("state")) || isFetching;
+  // }, [router.asPath, isFetching]);
 
   const queryClient = useQueryClient();
-  const { data: user } = useQuery(generateQueryKey("user", []), () => userLoader());
-  const { mutate: login } = useMutation(generateQueryKey("login", []), loginLoader, {
+  const { data: user } = usePrefetchedQuery({
+    queryKey: generateQueryKey("user", []),
+    queryFn: () => userLoader(),
+  });
+  const { mutate: login } = useMutation({
+    mutationFn: loginLoader,
     onSuccess: (authorizeUrl) => {
       router.push(authorizeUrl);
     },
   });
-  const { mutate: logout } = useMutation(logoutLoader, {
+  const { mutate: logout } = useMutation({
+    mutationFn: logoutLoader,
     onSuccess: () => {
-      queryClient.invalidateQueries(generateQueryKey("user", []));
-      queryClient.invalidateQueries(generateQueryKey("hasUpvoted", [slug]));
+      queryClient.invalidateQueries({ queryKey: generateQueryKey("user", []) });
+      queryClient.invalidateQueries({ queryKey: generateQueryKey("hasUpvoted", [slug]) });
     },
   });
 
@@ -64,7 +70,7 @@ export function LoginLogout() {
           </span>
         </button>
       </div>
-      {isLoading ? (
+      {isPending ? (
         <div
           className={cn(
             "absolute top-0 right-0",
@@ -72,7 +78,7 @@ export function LoginLogout() {
             "bg-warning bg-opacity-70",
           )}
         >
-          <Spinner color="hsl(var(--wac))" loading={isLoading} cssOverride={{ borderWidth: 3 }} />
+          <Spinner color="hsl(var(--wac))" loading={isPending} cssOverride={{ borderWidth: 3 }} />
         </div>
       ) : null}
     </div>
