@@ -6,7 +6,7 @@ import AtroposBorder from "src/components/reusable/atropos/AtroposBorder";
 import { AtroposImage } from "src/components/reusable/atropos/AtroposImage";
 import { Skeleton } from "src/components/root/Skeleton";
 import { Anchor } from "src/components/reusable/Anchor";
-import { useIsMobile } from "src/hooks/useIsMobile";
+import { isMobileUser } from "src/utils/device";
 import { generateOnScrollProps } from "src/utils/framer";
 
 import "atropos/css";
@@ -26,7 +26,7 @@ const fetchSrc = async (url: "sky" | "horizon" | "leaves" | "profile") => {
 const Title = createClassNameWrapper("Title", "h1", "text-6xl font-bold sm:text-8xl uppercase");
 
 export function Profile() {
-  const isMobile = useIsMobile();
+  const isMobile = isMobileUser();
   const [loading, setLoading] = useState(true);
   const [srcs, setSrcs] = useState({
     sky: "",

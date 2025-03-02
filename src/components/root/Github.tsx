@@ -4,7 +4,7 @@ import Atropos from "atropos/react";
 import { motion, useAnimationControls, useInView } from "framer-motion";
 import { Repo } from "src/utils/github";
 import AtroposBorder from "src/components/reusable/atropos/AtroposBorder";
-import { useIsMobile } from "src/hooks/useIsMobile";
+import { isMobileUser } from "src/utils/device";
 import { onScrollChildProps, onScrollContainerProps } from "src/utils/framer";
 import { collectionContainerClassNames } from "src/pages";
 import { PillContainer } from "src/components/reusable/PillContainer";
@@ -42,7 +42,7 @@ function CardWrapper({ children, isMobile }: { children: ReactNode; isMobile: bo
 
 function RepoCard({ repo, index }: { repo: Repo; index: number }) {
   const [hasHovered, setHasHovered] = useState(false);
-  const isMobile = useIsMobile();
+  const isMobile = isMobileUser();
   const controls = useAnimationControls();
   const refContainer = useRef(null);
   const isInView = useInView(refContainer);

@@ -19,7 +19,7 @@ import {
 import { CollectionsForSearch } from "src/components/blog/CollectionsForSearch";
 import { CollectionsForTags } from "src/components/blog/CollectionsForTags";
 import { FilterTagPill } from "src/components/blog/FilterTagPill";
-import { useIsMobile } from "src/hooks/useIsMobile";
+import { isMobileUser } from "src/utils/device";
 import { Header } from "src/components/root/Header";
 import { WrapperProps, cn } from "src/utils/style";
 import { Copy } from "src/components/design-system/Copy";
@@ -64,7 +64,7 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
   });
 
   const refInput = useRef<HTMLInputElement>(null);
-  const isMobile = useIsMobile();
+  const isMobile = isMobileUser();
   const controls = useAnimationControls();
 
   useEffect(() => {

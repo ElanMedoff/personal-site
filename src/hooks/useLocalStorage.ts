@@ -4,6 +4,7 @@ export function useLocalStorage<T>(key: string, defaultValue: T) {
   const [value, setValue] = useState<T>(defaultValue);
   const isFirstRender = useRef(true);
 
+  // https://elanmed.dev/blog/dark-mode-client-side-approach#nuances-of-the-approach-above
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
