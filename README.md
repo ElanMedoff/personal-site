@@ -6,11 +6,11 @@ _Mostly a blog, partly a personal website._
 
 - Visual regression tests for every page
 - Playwright tests for authentication flows, misc. critical actions
+- Build-time scripts to detect broken links on every page, validate blog post metadata
 - Quality-of-life bash scripts to:
   - Spin-up and tear-down dev environments for testing
   - Run the test suites, build-time scripts during deploys
 - Pre-commit hooks that run linting, type checks, formatting
-- Build-time scripts to detect broken links on every page, validate blog post metadata
 
 ### 🥞 Engineering stack
 
