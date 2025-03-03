@@ -54,7 +54,7 @@ export function CollectionsForSearch({
         });
 
         return (
-          <li key={index} className="mb-4">
+          <li key={index} className="mb-4 -ml-12">
             <Collection
               posts={posts}
               selectedTags={selectedTags}
