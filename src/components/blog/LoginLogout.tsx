@@ -58,7 +58,7 @@ export function LoginLogout() {
             transitionProperty: "transform",
           }}
         >
-          <span className={cn(styles.github, "mr-8")} />
+          <span className={cn(styles.github, "pr-8")} />
           <span className={user ? "text-warning-content" : ""}>
             {user ? <p>logout</p> : <p>login with github</p>}
           </span>
