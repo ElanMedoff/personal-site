@@ -1,6 +1,54 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "light";
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(96.12% 0 0);
+  --color-base-300: oklch(92.42% 0.0011 197.14);
+  --color-base-content: oklch(27.81% 0.0296 256.85);
+  --color-primary: oklch(69.83% 0.1005 203.5);
+  --color-primary-content: oklch(43% 0.078 188.216);
+  --color-secondary: oklch(89% 0.061 343.231);
+  --color-secondary-content: oklch(45% 0.187 3.815);
+  --color-accent: oklch(90% 0.076 70.697);
+  --color-accent-content: oklch(47% 0.157 37.304);
+  --color-neutral: oklch(32.18% 0.0248 255.7);
+  --color-neutral-content: oklch(89.5% 0.0116 252.1);
+  --color-info: oklch(68% 0.169 237.323);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(69% 0.17 162.48);
+  --color-success-content: oklch(26% 0.051 172.552);
+  --color-warning: oklch(79% 0.184 86.047);
+  --color-warning-content: oklch(28% 0.066 53.813);
+  --color-error: oklch(64% 0.246 16.439);
+  --color-error-content: oklch(27% 0.105 12.094);
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  color-scheme: "dark";
+  --color-base-100: oklch(25.33% 0.016 252.42);
+  --color-base-200: oklch(23.26% 0.014 253.1);
+  --color-base-300: oklch(21.15% 0.012 254.09);
+  --color-base-content: oklch(81.03% 0.0164 266.26);
+  --color-primary: oklch(69.83% 0.1005 203.5);
+  --color-primary-content: oklch(96% 0.018 272.314);
+  --color-secondary: oklch(74.42% 0.1259 357.13);
+  --color-secondary-content: oklch(94% 0.028 342.258);
+  --color-accent: oklch(73.73% 0.1526 74.09);
+  --color-accent-content: oklch(38% 0.063 188.416);
+  --color-neutral: oklch(14% 0.005 285.823);
+  --color-neutral-content: oklch(81.03% 0.0164 266.26);
+  --color-info: oklch(62.49% 0.1352 236.66);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(27% 0.105 12.094);
+}
 
 html,
 body {

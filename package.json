@@ -23,6 +23,7 @@
   "dependencies": {
     "@octokit/core": "^4.1.0",
     "@prisma/client": "^4.10.1",
+    "@tailwindcss/postcss": "^4.0.9",
     "@tanstack/react-query": "^5.66.11",
     "@tanstack/react-query-devtools": "^5.66.11",
     "@types/prismjs": "^1.26.0",
@@ -31,7 +32,6 @@
     "clsx": "^2.1.1",
     "cookie": "^0.6.0",
     "cookies-next": "^2.1.1",
-    "daisyui": "^4.7.3",
     "framer-motion": "^7.5.1",
     "fuzzysort": "^2.0.1",
     "gray-matter": "^4.0.3",
@@ -50,6 +50,7 @@
     "slugify": "^1.6.5",
     "swiper": "^8.3.2",
     "tailwind-merge": "^1.6.0",
+    "tailwindcss": "^4.0.9",
     "use-search-param-state": "^2.0.12",
     "uuid": "^9.0.0",
     "zod": "^3.24.2"
@@ -66,14 +67,14 @@
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
     "autoprefixer": "^10.4.7",
+    "daisyui": "^5.0.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.24",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-playwright": "^2.2.0",
     "husky": "^9.1.7",
-    "postcss": "^8.4.14",
+    "postcss": "^8.5.3",
     "prisma": "^4.10.1",
-    "tailwindcss": "^3.2.6",
     "typescript": "4.7.4"
   }
 }
