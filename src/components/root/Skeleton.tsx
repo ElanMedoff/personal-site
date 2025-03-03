@@ -1,5 +1,3 @@
-import styles from "src/components/root/Skeleton.module.css";
-
 interface SharedProps {
   width: number;
 }
@@ -17,7 +15,7 @@ interface HeightProps extends SharedProps {
 export function Skeleton({ width, height, square }: SquareProps | HeightProps) {
   return (
     <div
-      className={styles.container}
+      className="animate-pulse bg-base-300"
       style={{
         maxWidth: width,
         ...(square ? { aspectRatio: "1/1" } : { height }),
