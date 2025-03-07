@@ -17,6 +17,15 @@ module.exports = {
   root: true,
   rules: {
     "import/order": "error",
+    "import/no-default-export": "error",
     "playwright/no-conditional-in-test": "off",
   },
+  overrides: [
+    {
+      files: ["src/pages/**/*", "src/pages/api/**/*"],
+      rules: {
+        "import/no-default-export": "off",
+      },
+    },
+  ],
 };

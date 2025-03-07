@@ -2,7 +2,7 @@ import { setCookie } from "cookies-next";
 import { NextApiRequest, NextApiResponse } from "next";
 import { allowMethods } from "src/middleware/allowMethods";
 import { deleteExpiredSessions } from "src/middleware/deleteExpiredSessions";
-import deleteSessionById from "src/utils/api/deleteSessionById";
+import { deleteSessionById } from "src/utils/api/deleteSessionById";
 import { maybeGetSession } from "src/utils/api/maybeGetSession";
 import { ApiResponse } from "src/utils/api/types";
 import { isProd } from "src/utils/env";

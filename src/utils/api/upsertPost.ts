@@ -1,7 +1,7 @@
 import { prisma } from "src/utils/prisma";
 import { ApiHelperResponse } from "src/utils/api/types";
 
-export default async function upsertPost({
+export async function upsertPost({
   slug,
   userId,
 }: {

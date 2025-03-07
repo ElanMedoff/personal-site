@@ -1,5 +1,5 @@
 import { WrapperProps, cn } from "src/utils/style";
-import Spacing from "src/components/design-system/Spacing";
+import { Spacing } from "src/components/design-system/Spacing";
 
 export function PillContainer({ children, className, ...props }: WrapperProps) {
   return (

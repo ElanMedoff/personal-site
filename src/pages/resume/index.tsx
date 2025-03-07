@@ -8,7 +8,7 @@ import { Content } from "src/components/blog/Content";
 import { generateUrlPrefix } from "src/loaders/helpers";
 import { cn, createClassNameWrapper, transitionProperties } from "src/utils/style";
 import { Header } from "src/components/root/Header";
-import Spacing from "src/components/design-system/Spacing";
+import { Spacing } from "src/components/design-system/Spacing";
 import { Copy } from "src/components/design-system/Copy";
 import { Heading } from "src/components/design-system/Heading";
 

@@ -8,7 +8,7 @@ import { userLoader } from "src/loaders/user";
 import { cn, transitionProperties } from "src/utils/style";
 import { generateQueryKey } from "src/loaders/helpers";
 import { Copy } from "src/components/design-system/Copy";
-import Spacing from "src/components/design-system/Spacing";
+import { Spacing } from "src/components/design-system/Spacing";
 import { UpvotePayload } from "src/pages/api/upvote";
 import { usePrefetchedQuery } from "src/loaders/api";
 

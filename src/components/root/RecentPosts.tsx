@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Heading } from "src/components/design-system/Heading";
 import { Pill } from "src/components/reusable/Pill";
 import { PillContainer } from "src/components/reusable/PillContainer";
-import Spacing from "src/components/design-system/Spacing";
+import { Spacing } from "src/components/design-system/Spacing";
 import { Copy } from "src/components/design-system/Copy";
 import { collectionContainerClassNames } from "src/pages";
 import { onScrollChildProps, onScrollContainerProps } from "src/utils/framer";

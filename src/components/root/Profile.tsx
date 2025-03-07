@@ -2,7 +2,7 @@ import Atropos from "atropos/react";
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimationControls, useInView } from "framer-motion";
 import styles from "src/styles/icons.module.scss";
-import AtroposBorder from "src/components/reusable/atropos/AtroposBorder";
+import { AtroposBorder } from "src/components/reusable/atropos/AtroposBorder";
 import { AtroposImage } from "src/components/reusable/atropos/AtroposImage";
 import { Skeleton } from "src/components/root/Skeleton";
 import { Anchor } from "src/components/reusable/Anchor";
@@ -12,7 +12,7 @@ import { generateOnScrollProps } from "src/utils/framer";
 import "atropos/css";
 import { cn, createClassNameWrapper } from "src/utils/style";
 import { Copy } from "src/components/design-system/Copy";
-import Spacing from "src/components/design-system/Spacing";
+import { Spacing } from "src/components/design-system/Spacing";
 import { Inset } from "src/components/design-system/Inset";
 import { isVisualRegressionTest } from "src/utils/env";
 

@@ -49,7 +49,7 @@ const sizeToSpacing: Record<Size, string> = {
   xl: "gap-12",
 };
 
-export default function Spacing({
+export function Spacing({
   children,
   className,
   justify,

@@ -73,10 +73,9 @@ function Bottom({ base, color }: { base: number; color: string }) {
   );
 }
 
-const variants = {
+export const AtroposBorder = {
   Left,
   Right,
   Top,
   Bottom,
 };
-export default variants;

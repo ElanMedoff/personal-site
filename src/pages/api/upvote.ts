@@ -7,8 +7,8 @@ import { onlyLoggedInUsers } from "src/middleware/onlyLoggedInUsers";
 import { isSlugValid } from "src/utils/post";
 import { maybeGetSession } from "src/utils/api/maybeGetSession";
 import { getUpvotes } from "src/utils/api/getUpvotes";
-import deleteUpvote from "src/utils/api/deleteUpvote";
-import upsertPost from "src/utils/api/upsertPost";
+import { deleteUpvote } from "src/utils/api/deleteUpvote";
+import { upsertPost } from "src/utils/api/upsertPost";
 import { maybeGetFirstUpvote } from "src/utils/api/maybeGetFirstUpvote";
 import { generateUrlPrefix } from "src/loaders/helpers";
 

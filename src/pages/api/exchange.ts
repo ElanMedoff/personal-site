@@ -7,8 +7,8 @@ import { deleteExpiredSessions } from "src/middleware/deleteExpiredSessions";
 import { allowMethods } from "src/middleware/allowMethods";
 import { withMiddlware } from "src/utils/middleware";
 import { onlyLoggedOutUsers } from "src/middleware/onlyLoggedOutUsers";
-import createSession from "src/utils/api/createSession";
-import deleteSessionsByUsername from "src/utils/api/deleteSessionsByUsername";
+import { createSession } from "src/utils/api/createSession";
+import { deleteSessionsByUsername } from "src/utils/api/deleteSessionsByUsername";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse<null>>) {
   const cookieState = getCookie("state", { req, res, secure: isProd() }) as string | undefined;

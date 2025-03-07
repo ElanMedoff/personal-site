@@ -2,7 +2,7 @@ import { Session } from "@prisma/client";
 import { prisma } from "src/utils/prisma";
 import { ApiHelperResponse } from "src/utils/api/types";
 
-export default async function createSession({
+export async function createSession({
   accessToken,
   expiresAt,
   username,

@@ -25,7 +25,7 @@ import { WrapperProps, cn } from "src/utils/style";
 import { Copy } from "src/components/design-system/Copy";
 import { Inset } from "src/components/design-system/Inset";
 import { Heading } from "src/components/design-system/Heading";
-import Spacing from "src/components/design-system/Spacing";
+import { Spacing } from "src/components/design-system/Spacing";
 
 export default function Blog({ allMetadata, serverSideURL }: Props) {
   const allCollections = Array.from(
