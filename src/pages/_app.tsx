@@ -102,7 +102,7 @@ export default function MyApp({
                 setIsDarkMode,
               }}
             >
-              <div data-theme={isDarkMode ? "dark" : "light"}>
+              <div data-theme={isDarkMode ? "dark" : "corporate"}>
                 <Component {...pageProps} />
               </div>
             </ThemeContext.Provider>
