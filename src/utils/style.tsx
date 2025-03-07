@@ -13,8 +13,8 @@ export const sizes = ["none", "xs", "sm", "md", "lg", "xl"] as const;
 export type Size = (typeof sizes)[number];
 
 export const transitionProperties: CSSProperties = {
-  transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-  transitionDuration: "150ms",
+  transitionTimingFunction: "var(--tw-ease, var(--default-transition-timing-function))",
+  transitionDuration: "var(--tw-duration, var(--default-transition-duration))",
 };
 
 type HTMLTagName = "div" | "p" | "span" | "article" | "section" | "ul" | "h1" | "h2" | "h3";

@@ -30,7 +30,7 @@ export default function Resume() {
         onClick={handleClick}
         style={{
           ...transitionProperties,
-          transitionProperty: "transform, background",
+          transitionProperty: "background-color",
         }}
       />
     );
@@ -371,7 +371,7 @@ function SectionSubtitle({ iconStyles, headers }: { iconStyles?: string; headers
                       )}
                       style={{
                         ...transitionProperties,
-                        transitionProperty: "transform",
+                        transitionProperty: "scale, border-color",
                       }}
                     >
                       <LinkIcon size={20} />

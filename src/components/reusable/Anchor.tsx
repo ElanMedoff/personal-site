@@ -12,8 +12,8 @@ export function Anchor({ href, children, className }: Props) {
       href={href}
       className={cn(anchorStyles, className)}
       style={{
-        transitionProperty: "text-underline-offset",
         ...transitionProperties,
+        transitionProperty: "text-underline-offset",
       }}
     >
       {children}

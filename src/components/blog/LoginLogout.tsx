@@ -55,7 +55,7 @@ export function LoginLogout() {
           onClick={user ? handleLogoutClick : handleLoginClick}
           style={{
             ...transitionProperties,
-            transitionProperty: "transform",
+            transitionProperty: "scale",
           }}
         >
           <span className={cn(styles.github, "pr-8")} />

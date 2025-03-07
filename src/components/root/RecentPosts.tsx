@@ -30,8 +30,7 @@ function RecentPostCard({ post }: { post: Metadata }) {
         )}
         style={{
           ...transitionProperties,
-          transitionProperty: "transform, border-color, box-shadow",
-          transitionDuration: "200ms",
+          transitionProperty: "scale, border-color, box-shadow",
         }}
       >
         <Spacing vertical sm>

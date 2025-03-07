@@ -23,7 +23,7 @@ export function FilterTagPill({
       onClick={onClick}
       style={{
         ...transitionProperties,
-        transitionProperty: "transform",
+        transitionProperty: "scale",
       }}
     >
       {children}

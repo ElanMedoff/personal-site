@@ -85,7 +85,7 @@ export function Upvote() {
           )}
           style={{
             ...transitionProperties,
-            transitionProperty: "transform",
+            transitionProperty: "scale",
           }}
           onClick={() => {
             if (disabled) return;

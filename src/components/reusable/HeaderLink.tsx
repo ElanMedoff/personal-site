@@ -48,7 +48,7 @@ export function HeaderLink(props: HTMLProps<HTMLHeadingElement>) {
           )}
           style={{
             ...transitionProperties,
-            transitionProperty: "transform, border",
+            transitionProperty: "scale, border-color",
           }}
         >
           <LinkIcon size={20} className="inline-block" />
