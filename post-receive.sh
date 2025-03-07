@@ -1,10 +1,12 @@
 #!/bin/bash
-LOG=/home/elan/elanmed.dev.log
-ECO=/home/elan/ecosystem.config.js
-NPM=/home/elan/.nvm/versions/node/v16.16.0/bin/npm
-NPX=/home/elan/.nvm/versions/node/v16.16.0/bin/npx
-PM2=/home/elan/.nvm/versions/node/v16.16.0/bin/pm2
-DIR=/var/www/elanmed.dev
+# shellcheck source=/dev/null
+
+LOG=/home/elan/elanmed.log
+PM2=/home/elan/.nvm/versions/node/v22.14.0/bin/pm2
+DIR=/home/elan/elanmed
+PM2_NAME="elanmed"
+
+source "$HOME/.nvm/nvm.sh"
 
 # overwrite
 echo "" >"$LOG"
@@ -24,6 +26,10 @@ cd "$DIR" || exit
   echo "migrated prisma"
 
   echo "restarting pm2 daemon..."
-  $PM2 reload "$ECO" --only elanmed 2>&1
+  if pm2 list | grep "$PM2_NAME" >/dev/null 2>&1; then
+    "$PM2" reload "$PM2_NAME"
+  else
+    "$PM2" start "npm run prod" --name "$PM2_NAME" 2>&1
+  fi
   echo "restarted pm2 daemon"
 } >>"$LOG"
