@@ -1,4 +1,4 @@
-import { generateUrlPrefix } from "./helpers";
+import { generateUrlPrefix } from "src/loaders/helpers";
 import { ApiResponse } from "src/utils/api/types";
 
 export async function exchangeLoader() {

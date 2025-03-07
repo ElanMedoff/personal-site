@@ -3,7 +3,7 @@ import { join } from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import { z } from "zod";
-import { isProd, isVisualRegressionTest } from "./env";
+import { isProd, isVisualRegressionTest } from "src/utils/env";
 
 export const collectionSchema = z.object({
   name: z.string(),

@@ -1,11 +1,11 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { exchangeLoader } from "./exchange";
-import { hasUpvotedLoader } from "./hasUpvoted";
-import { loginLoader } from "./login";
-import { logoutLoader } from "./logout";
-import { upvoteLoader } from "./upvote";
-import { upvoteCountLoader } from "./upvoteCount";
-import { userLoader } from "./user";
+import { exchangeLoader } from "src/loaders/exchange";
+import { hasUpvotedLoader } from "src/loaders/hasUpvoted";
+import { loginLoader } from "src/loaders/login";
+import { logoutLoader } from "src/loaders/logout";
+import { upvoteLoader } from "src/loaders/upvote";
+import { upvoteCountLoader } from "src/loaders/upvoteCount";
+import { userLoader } from "src/loaders/user";
 
 const api = {
   upvote: upvoteLoader,

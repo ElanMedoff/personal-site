@@ -1,4 +1,4 @@
-import { ApiEndpoint, ApiParams } from "./api";
+import { ApiEndpoint, ApiParams } from "src/loaders/api";
 import { isProd } from "src/utils/env";
 
 export const generateUrlPrefix = () => {

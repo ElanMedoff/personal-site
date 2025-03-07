@@ -1,4 +1,4 @@
-import { generateUrlPrefix } from "./helpers";
+import { generateUrlPrefix } from "src/loaders/helpers";
 import { HasUpvotedPayload } from "src/pages/api/hasUpvoted";
 import { ApiResponse } from "src/utils/api/types";
 

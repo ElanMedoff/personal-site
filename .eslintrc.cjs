@@ -13,11 +13,12 @@ module.exports = {
   parserOptions: {
     project: true,
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "no-relative-import-paths"],
   root: true,
   rules: {
     "import/order": "error",
     "import/no-default-export": "error",
+    "no-relative-import-paths/no-relative-import-paths": "error",
     "playwright/no-conditional-in-test": "off",
   },
   overrides: [

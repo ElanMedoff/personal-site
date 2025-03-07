@@ -3,7 +3,7 @@ import "swiper/css/effect-cards";
 import React, { ReactNode } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper";
-import { VisuallyHidden } from "./VisuallyHidden";
+import { VisuallyHidden } from "src/components/reusable/VisuallyHidden";
 import { useHasRendered } from "src/hooks/useHasRendered";
 import { cn } from "src/utils/style";
 
