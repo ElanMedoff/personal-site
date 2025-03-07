@@ -14,15 +14,15 @@ echo "" >"$LOG"
 cd "$DIR" || exit
 {
   echo "running npm install..."
-  $NPM install 2>&1
+  npm install 2>&1
   echo "ran npm install"
 
   echo "rebuilding..."
-  $NPM run build 2>&1
+  npm run build 2>&1
   echo "rebuilt"
 
   echo "migrating prisma..."
-  $NPX prisma migrate deploy 2>&1
+  npx prisma migrate deploy 2>&1
   echo "migrated prisma"
 
   echo "restarting pm2 daemon..."
