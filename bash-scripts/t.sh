@@ -9,12 +9,13 @@ while getopts "t:a:" opt; do
   case $opt in
     t)
       case $OPTARG in
-        unit) ;&
+        u) ;&
+        vl) ;&
         vr)
           TYPE=$OPTARG
           ;;
         *)
-          cecho --mode=error "-t {unit,vr}"
+          cecho --mode=error "-t {unit,vr,vl}"
           exit 1
           ;;
       esac
@@ -45,7 +46,7 @@ if [[ $TYPE == "" ]]; then
   exit 1
 fi
 
-if [[ $TYPE == "unit" ]] && [[ $ACTION != "" ]]; then
+if [[ $TYPE == "u" ]] && [[ $ACTION != "" ]]; then
   cecho --mode=error "unit cannot be combined with any other flags"
   exit 1
 fi
@@ -67,9 +68,15 @@ pm2 start "npx prisma studio --browser none" --name "$PM2_PRISMA_NAME"
 PM2_NEXT_NAME=""
 CMD=""
 
-if [[ $TYPE == "unit" ]]; then
+if [[ $TYPE == "u" ]]; then
   PM2_NEXT_NAME="unit-test-suite"
   CMD="npm run unit $1"
+  pm2 start "npm run dev" --name "$PM2_NEXT_NAME"
+fi
+
+if [[ $TYPE == "vl" ]]; then
+  PM2_NEXT_NAME="validate-links-test-suite"
+  CMD="npm run validate-links"
   pm2 start "npm run dev" --name "$PM2_NEXT_NAME"
 fi
 
