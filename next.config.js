@@ -11,7 +11,7 @@ const nextConfig = {
   },
   // handle myself
   typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true },
 };
 
 module.exports = nextConfig;
