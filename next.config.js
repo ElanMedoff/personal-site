@@ -5,11 +5,13 @@ const nextConfig = {
     domains: ["localhost", "elanmed.dev"],
   },
   productionBrowserSourceMaps: true,
-  swcMinify: false,
   webpack: (config) => {
     config.resolve.fallback = { fs: false, path: false };
     return config;
   },
+  // handle myself
+  typescript: { ignoreBuildErrors: true },
+  eslint: { ignoreBuildErrors: true },
 };
 
 module.exports = nextConfig;
