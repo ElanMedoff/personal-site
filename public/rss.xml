@@ -5,8 +5,8 @@
     <description>An rss feed for Elan Medoff's blog</description>
     <atom:link href="https://elanmed.dev/rss.xml" rel="self" type="application/rss+xml" />
     <language>en-us</language>
-    <pubDate>Sat, 15 Mar 2025 19:51:02 GMT</pubDate>
-    <lastBuildDate>Sat, 15 Mar 2025 19:51:02 GMT</lastBuildDate>
+    <pubDate>Sat, 15 Mar 2025 20:00:01 GMT</pubDate>
+    <lastBuildDate>Mon, 11 Nov 2024 05:00:00 GMT</lastBuildDate>
     <docs>https://www.rssboard.org/rss-specification</docs>
     <managingEditor>info@elanmed.dev (Elan Medoff)</managingEditor>
     

@@ -7,7 +7,16 @@ const file = join(process.cwd(), "public/rss.xml");
 
 function generateRssFeed() {
   const paths = readdirSync(postsDirectory);
+
   const today = new Date().toUTCString();
+  const mostRecentUpdate = paths
+    .map((path) => {
+      const rawPost = readFileSync(join(postsDirectory, path));
+      const { data: metadata } = matter(rawPost);
+      return new Date(metadata.lastUpdated);
+    })
+    .sort((a, b) => b.getTime() - a.getTime())[0]
+    .toUTCString();
 
   const rssFeed = `
     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -18,7 +27,7 @@ function generateRssFeed() {
     <atom:link href="https://elanmed.dev/rss.xml" rel="self" type="application/rss+xml" />
     <language>en-us</language>
     <pubDate>${today}</pubDate>
-    <lastBuildDate>${today}</lastBuildDate>
+    <lastBuildDate>${mostRecentUpdate}</lastBuildDate>
     <docs>https://www.rssboard.org/rss-specification</docs>
     <managingEditor>info@elanmed.dev (Elan Medoff)</managingEditor>
     ${paths
