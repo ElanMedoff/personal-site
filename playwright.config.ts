@@ -11,5 +11,5 @@ export default defineConfig({
     browserName: "chromium",
     permissions: ["clipboard-read", "clipboard-write"],
   },
-  workers: 3,
+  workers: 1,
 });
