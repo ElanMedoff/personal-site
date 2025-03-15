@@ -47,7 +47,12 @@ if [[ $TYPE == "" ]]; then
 fi
 
 if [[ $TYPE == "u" ]] && [[ $ACTION != "" ]]; then
-  cecho --mode=error "unit cannot be combined with any other flags"
+  cecho --mode=error '`u` cannot be combined with any other flags'
+  exit 1
+fi
+
+if [[ $TYPE == "vl" ]] && [[ $ACTION != "" ]]; then
+  cecho --mode=error '`vl` cannot be combined with any other flags'
   exit 1
 fi
 
