@@ -16,6 +16,7 @@
     "push": "git push origin master",
     "deploy": "git push server",
     "generate-sitemap": "node build-scripts/generate-sitemap.mjs",
+    "generate-rss": "node build-scripts/generate-rss.mjs",
     "validate-slugs": "node build-scripts/validate-slugs.mjs",
     "validate-links": "NEXT_PUBLIC_PLAYWRIGHT=true playwright test build-scripts/validate-links.test.ts",
     "prepare": "husky"

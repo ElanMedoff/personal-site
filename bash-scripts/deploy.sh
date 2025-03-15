@@ -71,6 +71,10 @@ cecho --mode=info "generating sitemap ..."
 npm run generate-sitemap
 cecho --mode=success "generated sitemap"
 
+cecho --mode=info "generating rss feed ..."
+npm run generate-rss
+cecho --mode=success "generated rss feed"
+
 cecho --mode=info "validating slugs ..."
 npm run validate-slugs
 cecho --mode=success "validated slugs"
