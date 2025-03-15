@@ -5,7 +5,7 @@
     <description>An rss feed for Elan Medoff's blog</description>
     <atom:link href="http://159.203.77.112/rss.xml" rel="self" type="application/rss+xml" />
     <language>en-us</language>
-    <pubDate>Sat, 15 Mar 2025 20:15:32 GMT</pubDate>
+    <pubDate>Sat, 15 Mar 2025 22:07:24 GMT</pubDate>
     <lastBuildDate>Mon, 11 Nov 2024 05:00:00 GMT</lastBuildDate>
     <docs>https://www.rssboard.org/rss-specification</docs>
     <managingEditor>info@elanmed.dev (Elan Medoff)</managingEditor>
@@ -13,7 +13,7 @@
     <item>
     <title>Lesson Two: Address Contemporary Issues</title>
     <link>http://159.203.77.112/blog/address-contemporary-issues-with-intention</link>
-    <description>Shouldn't comics talk about what's going on in the world?</description>
+    <description>Comics are more interesting when they relate to real-world events</description>
     <pubDate>Wed, 14 Sep 2022 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/address-contemporary-issues-with-intention</guid>
     </item>
@@ -55,14 +55,14 @@
     <item>
     <title>Global Find and Replace in Neovim</title>
     <link>http://159.203.77.112/blog/global-find-and-replace-in-neovim</link>
-    <description>Stitching together the fzf, the quickfix list, cdo, and a custom lua function for an awesome find and replace in Neovim</description>
+    <description>Stitching together fzf, the quickfix list, and a custom lua function for a decent find and replace in Neovim</description>
     <pubDate>Tue, 08 Nov 2022 05:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/global-find-and-replace-in-neovim</guid>
     </item>
     <item>
     <title>How I Built My Blog</title>
     <link>http://159.203.77.112/blog/how-i-built-my-blog</link>
-    <description>The stack I chose, or how I learned to stop worrying and love Next.js, mdx, prisma, and tailwind</description>
+    <description>The stack I chose, or how I learned to stop worrying and love Next.js</description>
     <pubDate>Fri, 05 May 2023 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/how-i-built-my-blog</guid>
     </item>
@@ -76,7 +76,7 @@
     <item>
     <title>Data Fetching in React: Parent-Agnostic vs Parent-Dependent Children</title>
     <link>http://159.203.77.112/blog/parent-dependent-and-parent-agnostic-children</link>
-    <description>Null checking: who should have to do it? The child, or the parent?</description>
+    <description>Null checking: the responsibility of the parent or the child?</description>
     <pubDate>Wed, 27 Jul 2022 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/parent-dependent-and-parent-agnostic-children</guid>
     </item>
@@ -111,7 +111,7 @@
     <item>
     <title>Test-Driven Refactoring</title>
     <link>http://159.203.77.112/blog/test-driven-refactoring</link>
-    <description>Why we should approach tests from the angle of refactoring rather than development</description>
+    <description>We should think of tests from the angle of easing refactoring rather than development</description>
     <pubDate>Tue, 09 Aug 2022 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/test-driven-refactoring</guid>
     </item>
@@ -125,7 +125,7 @@
     <item>
     <title>Lesson Three: Tie Together Smaller Arcs with an Overarching Story</title>
     <link>http://159.203.77.112/blog/tie-together-smaller-arcs</link>
-    <description>Jonathan Hickman, Zeb Wells, and the mythical 40-issue arc.</description>
+    <description>Jonathan Hickman, Zeb Wells, and the mythical 40-issue arc</description>
     <pubDate>Tue, 27 Dec 2022 05:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/tie-together-smaller-arcs</guid>
     </item>
@@ -135,13 +135,6 @@
     <description>A short guide to convincing typescript you know better than it does</description>
     <pubDate>Mon, 23 Oct 2023 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/typescript-type-assertions-cheat-sheet</guid>
-    </item>
-    <item>
-    <title>VSCode-Style Git Diffs the Vim Way</title>
-    <link>http://159.203.77.112/blog/vscode-style-git-diffs-the-vim-way</link>
-    <description>Check your git diffs with Vim faster than you ever have with VSCode</description>
-    <pubDate>Thu, 11 Aug 2022 04:00:00 GMT</pubDate>
-    <guid>http://159.203.77.112/vscode-style-git-diffs-the-vim-way</guid>
     </item>
     </channel>
     </rss>
