@@ -1,9 +1,7 @@
 ---
 title: "Sensible Vim Defaults"
-abstract:
-  "A minimal config for basic editing on a new machine - when you don't want to run post-plugin
-  installations on linux"
-lastUpdated: "September 21, 2022"
+abstract: "A minimal lua config for basic editing on a new machine"
+lastUpdated: "March 15, 2025"
 slug: sensible-vim-defaults
 tags:
   - software eng
@@ -21,140 +19,162 @@ sensible defaults and zero external packages. It's quick to setup, and has all t
 I use on a daily basis. ~75% of the value with nothing new to learn.
 
 Instead of a traditional article, I've decided to post the config itself with extra comments I added
-for clarity. Use it as a starting place for your own main config, or a minimal setup for a remote
-server.
+for clarity. Use it as a minimal setup for a remote server, or a starting place for your own main
+config.
 
-```vim
-"~/.config/nvim/init.vim
+```lua
+-- ~/.config/nvim/init.lua
+local set = vim.opt
+local let = vim.g
 
-noremap <space> <nop>
-let mapleader = " "
+--- @param mode string|string[]
+--- @param shortcut string
+--- @param command string|function
+--- @param opts? vim.keymap.set.Opts
+local function remap(mode, shortcut, command, opts)
+  vim.keymap.set(
+    mode,
+    shortcut,
+    command,
+    vim.tbl_extend("force", { noremap = true, silent = true, nowait = true, }, opts)
+  )
+end
 
-"""""""""""""""""""""
-"""""" OPTIONS """"""
-"""""""""""""""""""""
-colorscheme slate "builtin theme that doesn't look too bad
-set termguicolors "makes builtin themes look better
+--- returns a function that calls vim.cmd(user_cmd)
+--- @param user_cmd string
+--- @return function
+local function user_cmd_cb(user_cmd)
+  return function() vim.cmd(user_cmd) end
+end
 
-set clipboard=unnamedplus "use os clipboard
-set number "line numbers
-set relativenumber "useful for relative j, k
-set noerrorbells "disable error beep
-set mouse=a "allow mouse to click, scroll
-set confirm "prompt to save before quitting
-set linebreak "won't break on word when wrapping
-set splitright "when splitting vertically, open new split to the right
-set ignorecase| "case ignored when searching
-set fileencoding=utf-8
+set.clipboard      = "unnamedplus" -- os clipboard
+set.number         = true          -- set visible line numbers
+set.relativenumber = true          -- show the line numbers relative from the current line, useful for multiline j, k
+set.errorbells     = false         -- disable error beep
+set.confirm        = true          -- prompt to save before quitting
+set.linebreak      = true          -- won't break on word when wrapping
+set.splitright     = true          -- when splitting vertically, open new split to the right
+set.splitbelow     = true          -- when splitting horizontally, open new split below
+set.termguicolors  = true          -- needed for modern themes
+set.scrolloff      = 8             -- scroll when the cursor is 8 lines from the top, bottom
+set.conceallevel   = 0             -- show quotes keys in normal mode when viewing JSON, etc
+set.undofile       = true          -- persist undo tree across sessions
 
-"disable Vim backups
-set noswapfile
-set nobackup
-set nowritebackup
+-- disable vim backups
+set.swapfile       = false
+set.backup         = false
+set.writebackup    = false
 
-"tabs
-set expandtab "use spaces in tabs
-set tabstop=2 "number of columns in a tab
-set softtabstop=2 "number of spaces to delete when deleting a tab
-set shiftwidth=2 "number of spaces to insert/delete when in insert mode
+-- tabs
+set.expandtab      = true -- use spaces in tabs
+set.tabstop        = 2    -- number of columns in a tab
+set.softtabstop    = 2    -- number of spaces to delete when deleting a tab
+set.shiftwidth     = 2    -- number of spaces to insert/delete when in insert mode
 
-"folding
-set foldmethod=indent "not very intelligent, but most reliable
-set foldcolumn=0 "disable fold symbols in left column
-set foldlevelstart=99 "open folds by default
+-- search
+set.ignorecase     = true
+remap({ "n", }, "<leader>/t", user_cmd_cb "noh", { desc = "Turn off highlighting", })
 
-""""""""""""""""""""""
-""""""" REMAPS """""""
-""""""""""""""""""""""
+remap({ "n", }, "<leader>u", "za", { desc = "Toggle fold", })
+remap({ "n", }, "<leader>af", "<C-6>", { desc = "Alternate file", })
+remap({ "n", }, "<leader>va", "ggVG", { desc = "Select all", })
+remap({ "n", }, "*", "*N", { desc = "When selecting all matches, stay at the current match", })
+remap({ "n", }, "<leader>f", "<C-w>w", { desc = "Toggle focus between windows", })
+remap({ "n", }, "<leader>e", user_cmd_cb "e", { desc = "Reload the current buffer", })
+remap({ "n", }, "<leader>vs", user_cmd_cb "vsplit", { desc = "Create a vertical split", })
 
-nnoremap <leader>u za| "toggle fold
-nnoremap <leader>o o<esc>| "create newline below
-nnoremap <leader>O O<esc>| "create newline above
-nnoremap <leader>vs :vsplit<cr>| "split vertically
-nnoremap <leader>sv :source $MYVIMRC<cr>| "source vim config
-nnoremap <leader>af <C-6>| "easier keymap for alternate file
-nnoremap <leader>r; @:| "repeat last command
-nnoremap <leader>p :pu<cr>| "paste on line below
-nnoremap <leader>P :pu!<cr>| "paste on line above
-"https://youtu.be/qZO9A5F6BZs?t=373
-nnoremap <leader>rr viwp"_dP
-"for setting register
-nnoremap <leader>' "
+remap({ "i", }, "<C-e>", "<C-o>$", { desc = "Go to the end of the current line", })
+remap({ "n", "v", }, "<C-e>", "$", { desc = "Go to the end of the current line", })
+remap({ "i", }, "<C-a>", "<C-o>0", { desc = "Go to the beginning of the current line", })
+remap({ "n", "v", }, "<C-a>", "0", { desc = "Go to the beginning of the current line", })
 
-"search
-nnoremap <leader>/t :noh<cr>| "turn off highlighting
-nnoremap <leader>/c /\C<left><left>| "search case sensitive
-nnoremap <leader>/w /\<\><left><left>| "search by whole word
-nnoremap <leader>cw /\<\>\C<left><left><left><left>| "search by both
+remap({ "n", }, "<leader>o", "o<esc>", { desc = "`o` but stay in normal mode", })
+remap({ "n", }, "<leader>O", "O<esc>", { desc = "`O` but stay in normal mode", })
 
-"duplicate lines
-nnoremap <leader>dl yyp
-vnoremap <leader>dl y\`>p| "move to end of selection, then yank
+remap({ "n", }, "E", [[viw"_dP]], { desc = "Paste without overwriting the default register", })
+remap({ "n", }, "<leader>p", user_cmd_cb "pu", { desc = "Paste on the line below", })
+remap({ "n", }, "<leader>P", user_cmd_cb "pu!", { desc = "Paste on the line above", })
 
-"copy path of file
-nnoremap <leader>yy :let @+ = expand("%")<cr>
-vnoremap <leader>yy :let @+ = expand("%")<cr>
+remap({ "n", }, "<leader>dl", [["zyy"zp]], { desc = "Duplicate the current line", })
+remap({ "v", }, "<leader>dl", [["zy`>"zp]], { desc = "Duplicate the current line", })
 
-"keep lines highlighted while indenting
-vnoremap < <gv
-vnoremap > >gv
+remap({ "n", }, "<leader>w", user_cmd_cb "w", { desc = "Save", })
+remap({ "n", }, "<leader>q", user_cmd_cb "q", { desc = "Quit", })
 
-"focusing
-nnoremap <leader>f <C-w>w| "toggle
-nnoremap <leader>h <C-w>h| "left
-nnoremap <leader>l <C-w>l| "right
-nnoremap <leader>j <C-w>j| "down
-nnoremap <leader>k <C-w>k| "up
+remap({ "n", }, "<leader>ka", function() vim.fn.setreg("+", vim.fn.expand "%:p") end,
+  { desc = "Copy the absolute path of a file", })
+remap({ "n", }, "<leader>kr", function() vim.fn.setreg("+", vim.fn.expand "%:~:.") end,
+  { desc = "Copy the relative path of a file", })
 
-"https://vi.stackexchange.com/a/8535
-command! Cnext try | cnext | catch | cfirst | catch | endtry
-command! Cprev try | cprev | catch | clast | catch | endtry
+remap({ "v", }, "<", "<gv", { desc = "Outdent, while keeping selection", })
+remap({ "v", }, ">", ">gv", { desc = "Indent, while keeping selection", })
 
-"quickfix list
-nnoremap gn :Cnext<cr>zz
-nnoremap gp :Cprevious<cr>zz
-nnoremap ge :copen<cr>
-nnoremap gq :cclose<cr>
+remap({ "n", }, "J", user_cmd_cb "cnext", { desc = "Move to the next item in the quickfix list", })
+remap({ "n", }, "K", user_cmd_cb "cprev", { desc = "Move to the prev item in the quickfix list", })
+remap({ "n", }, "Z", "gJ", { desc = "J without whitespace", })
 
-"move lines up and down with alt-j, alt-k
-"on mac and linux, use ∆ and ˚, for windows use <A-j> and <A-k>
-nnoremap ∆ :m .+1<cr>==
-nnoremap ˚ :m .-2<cr>==
-inoremap ∆ <esc>:m .+1<cr>==gi"
-inoremap ˚ <esc>:m .-2<cr>==gi"
-vnoremap ∆ :m '>+1<cr>gv=gv"
-vnoremap ˚ :m '<-2<cr>gv=gv"
+remap({ "n", }, "ge", user_cmd_cb "copen", { desc = "Open the quickfix list", })
+remap({ "n", }, "gq", user_cmd_cb "cclose", { desc = "Close the quickfix list", })
 
-"search results are always in the middle of the screen
-nnoremap n nzz
-nnoremap N Nzz
+remap({ "n", }, "gn", "gt", { desc = "Go to the next tab", })
+remap({ "n", }, "gp", "gT", { desc = "Go to the prev tab", })
 
-"prevent x from overwriting the clipboard
-nnoremap x "_x
-nnoremap X "_X
+remap({ "n", }, "<A-j>", ":m .+1<cr>==", { desc = "Move line down", })
+remap({ "n", }, "<A-k>", ":m .-2<cr>==", { desc = "Move line up", })
+remap({ "i", }, "<A-j>", "<esc>:m .+1<cr>==gi", { desc = "Move line down", })
+remap({ "i", }, "<A-k>", "<esc>:m .-2<cr>==gi", { desc = "Move line up", })
+remap({ "v", }, "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move line down", })
+remap({ "v", }, "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move line up", })
 
-"https://www.reddit.com/r/vim/comments/82sqoc/comment/dvcm3j9
-nnoremap <expr> j v:count ? 'j' : 'gj'
-nnoremap <expr> k v:count ? 'k' : 'gk'
+-- search case sensitive, whole word, and both
+vim.cmd [[
+  nnoremap <leader>/c /\C<left><left>
+  nnoremap <leader>/w /\<\><left><left>
+  nnoremap <leader>cw /\<\>\C<left><left><left><left>
+]]
+vim.cmd [[nnoremap / /\V]] -- search without regex
 
-"netrw
-nnoremap <leader>b :Lexplore<cr>| "open netrw
-let g:netrw_winsize = 30| "set size
-let g:netrw_banner = 0| "remove default banner at the top
+remap({ "n", "v", }, "n", "nzz", { desc = "`n` but stay in the middle of the screen", })
+remap({ "n", "v", }, "N", "Nzz", { desc = "`N` but stay in the middle of the screen", })
 
-"https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
-"remap keys while netrw is open
-function! NetrwMapping()
-  nmap <buffer> h -^| "go up a directory
-  nmap <buffer> l <cr>| "open a file/directory
-  nmap <buffer> P <C-w>z| "close preview, p to open
-  nmap <buffer> <leader>b :Lexplore<cr>| "close netrw
-endfunction
+-- prevent x, c from overwriting the clipboard
+remap({ "", }, "x", [["_x]])
+remap({ "", }, "X", [["_X]])
+remap({ "", }, "c", [["_c]])
+remap({ "", }, "C", [["_C]])
 
-augroup netrw_mapping
-  autocmd!
-  autocmd filetype netrw call NetrwMapping()
-augroup END
+local function count_based_keymap(movement)
+  local count = vim.v.count
+  if count > 0 then
+    return movement
+  else
+    return "g" .. movement
+  end
+end
+
+remap({ "n", }, "j", function() return count_based_keymap "j" end,
+  { expr = true, desc = "`j` but respect lines that wrap", })
+remap({ "n", }, "k", function() return count_based_keymap "k" end,
+  { expr = true, desc = "`k` but respect lines that wrap", })
+
+remap({ "n", "v", "i", }, "<C-y>", user_cmd_cb "tabclose", { desc = "Close the current tab", })
+remap({ "n", }, "Y", user_cmd_cb "silent! bdelete!", { desc = "Close the current buffer", })
+remap({ "n", }, "<leader>ta", user_cmd_cb "silent! bufdo bdelete", { desc = "Close all buffers", })
+remap({ "n", }, "<leader>to", function()
+  local cur_buf = vim.api.nvim_get_current_buf()
+
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if buf == cur_buf then
+      goto continue
+    elseif vim.api.nvim_get_option_value("modified", { buf = buf, }) then
+      goto continue
+    else
+      vim.api.nvim_buf_delete(buf, { force = true, })
+    end
+
+    ::continue::
+  end
+end, { descs = "Close all buffers but the current", })
 ```
 
 ## Bonus: Bootstrap Script
