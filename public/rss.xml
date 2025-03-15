@@ -5,8 +5,8 @@
     <description>An rss feed for Elan Medoff's blog</description>
     <atom:link href="http://159.203.77.112/rss.xml" rel="self" type="application/rss+xml" />
     <language>en-us</language>
-    <pubDate>Sat, 15 Mar 2025 22:07:24 GMT</pubDate>
-    <lastBuildDate>Mon, 11 Nov 2024 05:00:00 GMT</lastBuildDate>
+    <pubDate>Sat, 15 Mar 2025 22:44:08 GMT</pubDate>
+    <lastBuildDate>Sat, 15 Mar 2025 04:00:00 GMT</lastBuildDate>
     <docs>https://www.rssboard.org/rss-specification</docs>
     <managingEditor>info@elanmed.dev (Elan Medoff)</managingEditor>
     
@@ -86,13 +86,6 @@
     <description>Using React Query to find a hybrid between global and local data fetching</description>
     <pubDate>Mon, 05 Aug 2024 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/revamping-data-fetching-patterns-at-wealthfront</guid>
-    </item>
-    <item>
-    <title>Sensible Vim Defaults</title>
-    <link>http://159.203.77.112/blog/sensible-vim-defaults</link>
-    <description>A minimal config for basic editing on a new machine - when you don't want to run post-plugin installations on linux</description>
-    <pubDate>Wed, 21 Sep 2022 04:00:00 GMT</pubDate>
-    <guid>http://159.203.77.112/sensible-vim-defaults</guid>
     </item>
     <item>
     <title>Server Side Rendering vs React Server Components</title>
