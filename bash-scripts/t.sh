@@ -15,7 +15,7 @@ while getopts "t:a:" opt; do
           TYPE=$OPTARG
           ;;
         *)
-          cecho --mode=error "-t {unit,vr,vl}"
+          cecho --mode=error "-t {u,vr,vl}"
           exit 1
           ;;
       esac
@@ -33,7 +33,7 @@ while getopts "t:a:" opt; do
       esac
       ;;
     ?)
-      cecho --mode=error "-t {unit,vr} -a {update,compare}"
+      cecho --mode=error "-t {u,vr} -a {update,compare}"
       exit 1
       ;;
   esac
