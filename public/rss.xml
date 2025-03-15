@@ -5,140 +5,140 @@
     <description>An rss feed for Elan Medoff's blog</description>
     <atom:link href="http://159.203.77.112/rss.xml" rel="self" type="application/rss+xml" />
     <language>en-us</language>
-    <pubDate>Sat, 15 Mar 2025 20:07:05 GMT</pubDate>
+    <pubDate>Sat, 15 Mar 2025 20:15:32 GMT</pubDate>
     <lastBuildDate>Mon, 11 Nov 2024 05:00:00 GMT</lastBuildDate>
     <docs>https://www.rssboard.org/rss-specification</docs>
     <managingEditor>info@elanmed.dev (Elan Medoff)</managingEditor>
     
     <item>
     <title>Lesson Two: Address Contemporary Issues</title>
-    <link>http://159.203.77.112/address-contemporary-issues-with-intention</link>
+    <link>http://159.203.77.112/blog/address-contemporary-issues-with-intention</link>
     <description>Shouldn't comics talk about what's going on in the world?</description>
     <pubDate>Wed, 14 Sep 2022 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/address-contemporary-issues-with-intention</guid>
     </item>
     <item>
     <title>A Barebones Approach to Continuous Integration</title>
-    <link>http://159.203.77.112/barebones-approach-to-continuous-integration</link>
+    <link>http://159.203.77.112/blog/barebones-approach-to-continuous-integration</link>
     <description>A handful of bash scripts and an unexpected git hook</description>
     <pubDate>Fri, 05 May 2023 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/barebones-approach-to-continuous-integration</guid>
     </item>
     <item>
     <title>Conditional Props in React Using Type Discrimination</title>
-    <link>http://159.203.77.112/conditional-props-using-type-discrimination</link>
+    <link>http://159.203.77.112/blog/conditional-props-using-type-discrimination</link>
     <description>Type your component to expect different props based on a key discriminator</description>
     <pubDate>Mon, 11 Nov 2024 05:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/conditional-props-using-type-discrimination</guid>
     </item>
     <item>
     <title>Implementing Dark Mode: A Client-Side Approach with LocalStorage</title>
-    <link>http://159.203.77.112/dark-mode-client-side-approach</link>
+    <link>http://159.203.77.112/blog/dark-mode-client-side-approach</link>
     <description>A client-only approach using os-level theme preferences and local storage</description>
     <pubDate>Sun, 17 Mar 2024 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/dark-mode-client-side-approach</guid>
     </item>
     <item>
     <title>Implementing Dark Mode: A Server-Side Approach with Cookies</title>
-    <link>http://159.203.77.112/dark-mode-server-side-approach</link>
+    <link>http://159.203.77.112/blog/dark-mode-server-side-approach</link>
     <description>A server-and-client approach using cookies</description>
     <pubDate>Sun, 17 Mar 2024 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/dark-mode-server-side-approach</guid>
     </item>
     <item>
     <title>Five Interesting Things From my Neovim Config</title>
-    <link>http://159.203.77.112/five-interesting-things-from-my-neovim-config</link>
+    <link>http://159.203.77.112/blog/five-interesting-things-from-my-neovim-config</link>
     <description>A few interesting tidbits I've picked up from tinkering with my config</description>
     <pubDate>Sun, 16 Oct 2022 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/five-interesting-things-from-my-neovim-config</guid>
     </item>
     <item>
     <title>Global Find and Replace in Neovim</title>
-    <link>http://159.203.77.112/global-find-and-replace-in-neovim</link>
+    <link>http://159.203.77.112/blog/global-find-and-replace-in-neovim</link>
     <description>Stitching together the fzf, the quickfix list, cdo, and a custom lua function for an awesome find and replace in Neovim</description>
     <pubDate>Tue, 08 Nov 2022 05:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/global-find-and-replace-in-neovim</guid>
     </item>
     <item>
     <title>How I Built My Blog</title>
-    <link>http://159.203.77.112/how-i-built-my-blog</link>
+    <link>http://159.203.77.112/blog/how-i-built-my-blog</link>
     <description>The stack I chose, or how I learned to stop worrying and love Next.js, mdx, prisma, and tailwind</description>
     <pubDate>Fri, 05 May 2023 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/how-i-built-my-blog</guid>
     </item>
     <item>
     <title>Lessons From Reading a Thousand Comics: An Intro</title>
-    <link>http://159.203.77.112/lessons-from-reading-a-thousand-comics</link>
+    <link>http://159.203.77.112/blog/lessons-from-reading-a-thousand-comics</link>
     <description>An introduction to a new series on the lessons learned from 1,000+ comics</description>
     <pubDate>Sun, 28 Aug 2022 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/lessons-from-reading-a-thousand-comics</guid>
     </item>
     <item>
     <title>Data Fetching in React: Parent-Agnostic vs Parent-Dependent Children</title>
-    <link>http://159.203.77.112/parent-dependent-and-parent-agnostic-children</link>
+    <link>http://159.203.77.112/blog/parent-dependent-and-parent-agnostic-children</link>
     <description>Null checking: who should have to do it? The child, or the parent?</description>
     <pubDate>Wed, 27 Jul 2022 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/parent-dependent-and-parent-agnostic-children</guid>
     </item>
     <item>
     <title>Revamping Data Fetching Patterns on the Web Platform at Wealthfront</title>
-    <link>http://159.203.77.112/revamping-data-fetching-patterns-at-wealthfront</link>
+    <link>http://159.203.77.112/blog/revamping-data-fetching-patterns-at-wealthfront</link>
     <description>Using React Query to find a hybrid between global and local data fetching</description>
     <pubDate>Mon, 05 Aug 2024 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/revamping-data-fetching-patterns-at-wealthfront</guid>
     </item>
     <item>
     <title>Sensible Vim Defaults</title>
-    <link>http://159.203.77.112/sensible-vim-defaults</link>
+    <link>http://159.203.77.112/blog/sensible-vim-defaults</link>
     <description>A minimal config for basic editing on a new machine - when you don't want to run post-plugin installations on linux</description>
     <pubDate>Wed, 21 Sep 2022 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/sensible-vim-defaults</guid>
     </item>
     <item>
     <title>Server Side Rendering vs React Server Components</title>
-    <link>http://159.203.77.112/ssr-vs-react-server-components</link>
+    <link>http://159.203.77.112/blog/ssr-vs-react-server-components</link>
     <description>Comparing, contrasting, and exploring how the two can be used to compliment one another</description>
     <pubDate>Tue, 08 Nov 2022 05:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/ssr-vs-react-server-components</guid>
     </item>
     <item>
     <title>React Suspense in three different architectures</title>
-    <link>http://159.203.77.112/suspense-in-different-architectures</link>
+    <link>http://159.203.77.112/blog/suspense-in-different-architectures</link>
     <description>Unpacking React's most versatile API</description>
     <pubDate>Thu, 17 Aug 2023 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/suspense-in-different-architectures</guid>
     </item>
     <item>
     <title>Test-Driven Refactoring</title>
-    <link>http://159.203.77.112/test-driven-refactoring</link>
+    <link>http://159.203.77.112/blog/test-driven-refactoring</link>
     <description>Why we should approach tests from the angle of refactoring rather than development</description>
     <pubDate>Tue, 09 Aug 2022 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/test-driven-refactoring</guid>
     </item>
     <item>
     <title>Lesson One: Third-Party Narration Rarely Works</title>
-    <link>http://159.203.77.112/third-party-narration-rarely-works</link>
+    <link>http://159.203.77.112/blog/third-party-narration-rarely-works</link>
     <description>There's nothing worse than pseudo-philosophical narration</description>
     <pubDate>Tue, 17 Jan 2023 05:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/third-party-narration-rarely-works</guid>
     </item>
     <item>
     <title>Lesson Three: Tie Together Smaller Arcs with an Overarching Story</title>
-    <link>http://159.203.77.112/tie-together-smaller-arcs</link>
+    <link>http://159.203.77.112/blog/tie-together-smaller-arcs</link>
     <description>Jonathan Hickman, Zeb Wells, and the mythical 40-issue arc.</description>
     <pubDate>Tue, 27 Dec 2022 05:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/tie-together-smaller-arcs</guid>
     </item>
     <item>
     <title>A Cheat Sheet For Using Type Assertions in Typescript</title>
-    <link>http://159.203.77.112/typescript-type-assertions-cheat-sheet</link>
+    <link>http://159.203.77.112/blog/typescript-type-assertions-cheat-sheet</link>
     <description>A short guide to convincing typescript you know better than it does</description>
     <pubDate>Mon, 23 Oct 2023 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/typescript-type-assertions-cheat-sheet</guid>
     </item>
     <item>
     <title>VSCode-Style Git Diffs the Vim Way</title>
-    <link>http://159.203.77.112/vscode-style-git-diffs-the-vim-way</link>
+    <link>http://159.203.77.112/blog/vscode-style-git-diffs-the-vim-way</link>
     <description>Check your git diffs with Vim faster than you ever have with VSCode</description>
     <pubDate>Thu, 11 Aug 2022 04:00:00 GMT</pubDate>
     <guid>http://159.203.77.112/vscode-style-git-diffs-the-vim-way</guid>
