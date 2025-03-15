@@ -78,9 +78,10 @@ left. For the `action`, select _Send Text with "vim" Special Chars_, and you sho
 
 ## 3. Shared Settings For a Barebones Config
 
-I've highlighted my motivations for periodically using a barebones config in
-[this](/blog/sensible-vim-defaults) blog post, but I left out some implementation details on how
-this fits into my overall Neovim config. Since nearly all of my options and a good chunk of my
+When setting up a remote server, it can be a pain to get your Vim config up and running – especially
+if you use packages with their own installation processes (i.e. treesitter, coc, etc.). For remote
+systems where I mostly edit server config files, I've come to use a barebones Vim config with
+sensible defaults and zero external packages. Since nearly all of my options and a good chunk of my
 remaps can be shared between a barebones and full-blown config, I decided to take advantage of the
 overlap by sharing files between the two. Take a look at the following file structure:
 
