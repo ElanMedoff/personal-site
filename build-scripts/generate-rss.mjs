@@ -40,7 +40,7 @@ function generateRssFeed() {
         return `
     <item>
     <title>${title}</title>
-    <link>${urlBase}${slug}</link>
+    <link>${urlBase}blog/${slug}</link>
     <description>${abstract}</description>
     <pubDate>${new Date(lastUpdated).toUTCString()}</pubDate>
     <guid>${urlBase}${slug}</guid>
