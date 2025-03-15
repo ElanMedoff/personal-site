@@ -6,7 +6,11 @@ _Mostly a blog, partly a personal website._
 
 - Visual regression tests for every page
 - Playwright tests for authentication flows, misc. critical actions
-- Build-time scripts to detect broken links on every page, validate blog post metadata
+- Build-time scripts to:
+  - detect broken links on every page
+  - validate blog post metadata
+  - generate an rss feed
+  - generate a sitemap
 - Quality-of-life bash scripts to:
   - Spin-up and tear-down dev environments for testing
   - Run the test suites, build-time scripts during deploys
