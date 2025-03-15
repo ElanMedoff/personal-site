@@ -28,7 +28,7 @@ In the [next article](/blog/dark-mode-server-side-approach), we'll take a server
 using cookies to store a client's chosen theme while ignoring any os-level preferences. Finally, in
 the second article's
 [Bonus section](/blog/dark-mode-server-side-approach#bonus-accounting-for-an-oslevel-theme-preference),
-we'll discuss a hybrid approach to account for os-level preferences using both cookies _and_ media
+we'll discuss a hybrid approach to account for os-level preferences using both cookies and media
 queries.
 
 With that introduction out of the way, let's get started!
@@ -174,7 +174,7 @@ export default function useDarkMode() {
 <Info>
   Note that when wrapping your app with `<StrictMode />` in React 18, a `useEffect` will run twice
   on-mount in development, effectively negating our `isFirstRender` ref. Effects still only run once
-  on-mount in production, though!
+  on-mount in production, though.
 </Info>
 
 I'll leave it up to the reader to decide if the simplicity of the original hook is worth the trade
@@ -226,5 +226,5 @@ Later, on the client, if the `setIsDarkMode` is called in the `useEffect` with `
 flash between the light theme of the initial content and the dark theme of the app after the page is
 re-rendered with the new theme. Tricky!
 
-So how can we prevent the dreaded flash? Keep reading in
-[Implementing Dark Mode: A Server-Side Approach](/blog/dark-mode-server-side-approach).
+So how can we prevent the dreaded flash? Find out in
+[Implementing Dark Mode: A Server-Side Approach](/blog/dark-mode-server-side-approach)!

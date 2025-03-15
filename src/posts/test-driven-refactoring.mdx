@@ -1,6 +1,6 @@
 ---
 title: Test-Driven Refactoring
-abstract: "Why we should approach tests from the angle of refactoring rather than development"
+abstract: "We should think of tests from the angle of easing refactoring rather than development"
 lastUpdated: "August 9, 2022"
 slug: test-driven-refactoring
 tags:
@@ -12,8 +12,7 @@ isPublished: true
 
 # Test-Driven Refactoring
 
-Test-driven development holds a strange place in software engineering culture: everyone seems to
-agree we should do it, but nobody actually wants to.
+In my mind, test-driven development has given tests a bad reputation.
 
 For reference, Wikipedia defines test-driven development as:
 
@@ -30,22 +29,21 @@ you can avoid testing implementation details. In fact, test-driven development r
 pattern – you can't test implementation details you haven't written yet!
 
 In principle, I would agree with this. If you _truly_ only test software requirements, you could
-refactor the implementation behind your code without rewriting a single test. What a dream.
+refactor the implementation behind your code without rewriting a single test - what a dream.
 
-Unfortunately, this is rarely possible. When testing frontend code, you sometimes need to hook into
-DOM elements directly in your tests. Other times, you may even _want_ to test implementation details
-– was this api call made in the correct circumstances? That's an important detail that's difficult
-to test before you've written your code.
+Unfortunately, this is rarely possible. When testing frontend code, for example, you sometimes need
+to hook into DOM elements directly in your tests. Other times, you may even _want_ to test
+implementation details – was an api call made in the correct circumstances? That's an important
+detail that's difficult to test before you've written your code.
 
 <div className="divider" />
 
 That being said, I still very much value the utility of tests – but for refactoring, not
-development. Here me out:
+development.
 
-I'm a big believer in being unafraid of my code. If I want to update a feature, refactor my types
-into some fancy conditional generics, I don't want to be afraid of silently breaking my app. I need
-the freedom to update my code when I think best, and tests give me the confidence necessary to make
-these changes.
+I'm a big believer in being unafraid of my code. If I want to update a feature, refactor a shared
+utility, I don't want to be afraid of silently breaking my app. I need the freedom to update my code
+when I think best, and tests give me the confidence necessary to make these changes.
 
 To hammer in the point, I'm not afraid of breaking my app; I'm afraid of _silently_ breaking my app.
 If I have good test coverage, that'll never happen.

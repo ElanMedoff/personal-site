@@ -1,8 +1,8 @@
 ---
 title: "Global Find and Replace in Neovim"
 abstract:
-  "Stitching together the fzf, the quickfix list, cdo, and a custom lua function for an awesome find
-  and replace in Neovim"
+  "Stitching together fzf, the quickfix list, and a custom lua function for a decent find and
+  replace in Neovim"
 lastUpdated: "November 08, 2022"
 slug: global-find-and-replace-in-neovim
 tags:
@@ -31,9 +31,8 @@ populate them into the quickfix list, narrow it down with
 
 ## Search with fzf
 
-fzf is an awesome command line utility for fuzzy finding just about anything (seriously, anything).
-In our case, we'll be using the `fzf-lua` package for Neovim, and focusing on just one specific
-command: `grep`
+fzf is an awesome command line utility for fuzzy finding just about anything. In our case, we'll be
+using the `fzf-lua` package for Neovim, and focusing on just one specific command: `grep`
 
 `grep` allows you to input a search term and narrow down the results "fuzzily" by filename. I use
 the following key remaps, but feel free to use your own:
@@ -71,7 +70,7 @@ files to the quickfix list by marking a result with tab ...
 
 ... and pressing enter.
 
-For `telescope`, you need to do tweak the settings a bit:
+For `telescope`, you need to tweak the settings a bit:
 
 ```lua
 local telescope = require("telescope")
@@ -173,7 +172,7 @@ flags.
 Technically, you could stop here and you'd be good to go – just use the `:cdo s/foo/bar/` command as
 above. If you're like me, however, this can feel a bit unweildy. What about creating a key remap to
 interpolate the `foo` and `bar`? While it's not possible for a Neovim remap to accept arguments, a
-user command can!
+user command can.
 
 Our custom user command will accept two arguments, a `foo` and a `bar`, and execute a Neovim command
 that interpolates the values into a string of the form `:cdo s/foo/bar/` and saves each file. Let's

@@ -13,14 +13,14 @@ isPublished: true
 
 # A Barebones Approach to Continuous Integration
 
-Of the many domains of software engineering, devops is one area I'm less familiar with. I don't have
-a particular interest in tinkering with linux or bash scripts, but since shipping my blog and a few
-hobby sites to the world, I've needed to pick up the basics in managing a deploy process. In fact,
-I'd say my general lack of expertise makes me a great person to write on the topic of minimalist CI
-setups - I know just enough to do what I need with nothing too fancy to hold me back. I've done a
-good deal of trial and error, and I think this is a great approach for small/medium sized projects.
+Of the many domains of software engineering, devops is one area I'm less familiar with. Since
+shipping my blog and a few hobby sites, however, I've needed to pick up the basics in managing a
+deploy process. In fact, I'd say my general lack of expertise makes me a great person to write on
+the topic of minimalist CI setups - I know just enough to do what I need with nothing too fancy to
+hold me back. I've done a good deal of trial and error, and I think this is a great approach for
+small/medium sized projects.
 
-Just a final note: this setup is based on the deploy process for my blog, a Next.js app, but the
+This setup is a simplified version of the deploy process for my blog - a Next.js app - but the
 fundamentals should apply to most projects.
 
 ## What is CI?
@@ -46,13 +46,9 @@ web.
 
 ## Pushing Changes to the Server with Git
 
-Let's start at the second half of our continuous integration: pushing any updates to the server.
-
-I won't write too much on this topic since I really just use the approach written in this
-[article](https://toroid.org/git-website-howto), but I will add that for whatever directory you
-create to check out the latest tree into (i.e `/var/www/www.example.org`) _make sure you set the
-correct permissions_! Git needs to be able to write to that directory, so you may need to use
-`chmod`.
+Let's start at the second half of our continuous integration: pushing any updates to the server. For
+this section, I'll defer to the following [article](https://toroid.org/git-website-howto). It's
+great - I follow it step-by-step for every new project.
 
 After reading through the article, you should be able to push new code to your server with something
 like `git push server`, which will in turn trigger a `post-receive` hook - more on that below.
@@ -60,8 +56,8 @@ like `git push server`, which will in turn trigger a `post-receive` hook - more 
 ## Post-receive.sh
 
 Like the article suggests, in my `post-receive` hook I check out the latest tree into my project
-folder, but I also added a line to execute a separate `post-receive.sh` script checked into the
-repo. See below:
+folder, but I also have a line to execute a separate `post-receive.sh` script checked into the repo.
+See below:
 
 ```bash
 #!/bin/bash
@@ -77,15 +73,15 @@ In the `post-receive.sh` itself, I have:
 
 ```bash
 #!/bin/bash
-LOG=/home/[username]/log.log
-NPM=/home/[username]/.nvm/versions/node/v16.16.0/bin/npm
-PM2=/home/[username]/.nvm/versions/node/v16.16.0/bin/pm2
+LOG=/home/[username]/[your project].log
 DIR=/var/www/[your project]
+NPM=/path/to/npm
+PM2=/path/to/pm2
 
 # overwrite file
 echo "" > $LOG
 
-cd $DIR
+cd $DIR || exit
 echo "running npm install..." >> $LOG # append to file
 $NPM install >> $LOG 2>&1 # redirect stderr to stdout
 echo "ran npm install" >> $LOG
@@ -95,11 +91,11 @@ $NPM run build >> $LOG 2>&1
 echo "rebuilt" >> $LOG
 
 echo "restarting pm2 daemon..." >> $LOG
-$PM2 --name blog reload npm -- start >> $LOG 2>&1
+$PM2 reload "npm run prod" --name blog >> $LOG 2>&1
 echo "restarted pm2 daemon" >> $LOG
 ```
 
-First, I define a whole bunch of variables because, as explained in this
+First, I define a few variables because, as explained in this
 [stackoverflow post](https://stackoverflow.com/a/35420236), the `PATH` when a git hook runs isn't
 necessarily the same as when you ssh into a machine. I run `npm install`, since I don't check
 `node_modules` into the repo (and you shouldn't either!), and run `npm run build` to build Next.js
@@ -107,11 +103,11 @@ for production. Finally, I reload the process running the Next.js server to use 
 manage my processes, I use [pm2](https://pm2.keymetrics.io/). As a tl;dr, with the command:
 
 ```bash
-$PM2 --name blog reload npm -- start
+$PM2 reload "npm run prod" --name blog 2>&1
 ```
 
-I'm telling pm2 to reload a process called `blog` by running the command `npm run start` - and if
-`blog` doesn't exist yet, `pm2` will create it for us.
+I'm telling pm2 to reload the process named `blog` by running the command `npm run prod` - and if
+the process doesn't exist yet, `pm2` will create it for us.
 
 I write to a log file before and after every step, and redirect any errors from each step itself to
 `stdout` so they'll be recorded as well. To read from your log in real time, use `tail -f log.log`.
@@ -136,7 +132,7 @@ fi
 # kill anything running on port 3000 so we can use it for e2es
 kill -9 $(lsof -ti:3000)
 # start up a local pm2 daemon to run our e2es against
-pm2 --name e2e start npm -- start
+pm2 start "npm run start" --name e2e
 echo "running e2es locally..."
 if npm run test:e2e; then
   echo "ran e2es locally"
@@ -168,18 +164,6 @@ git push server
 ```
 
 or move to a separate script entirely.
-
-This setup works great for small projects with just a single branch (master), but for more complex
-apps, consider adding a step where you do something like:
-
-```bash
-git checkout master
-git pull origin master
-git merge [branch name]
-```
-
-The key is to merge into master _before_ running your build and tests, so you can have confidence in
-the code you'd like to push to the server.
 
 That's about it! A few daemons, a handful of bash scripts, and you have a simple yet effective CI
 for your next side project.

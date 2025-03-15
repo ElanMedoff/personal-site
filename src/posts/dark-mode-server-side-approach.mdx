@@ -259,10 +259,10 @@ Let's walk through the code.
   the _client_ during client-side navigations! Thankfully, though, since client-side state is
   preserved during client-side transitions, `isDarkModeCookie` is effectively ignored when
   `getInitialProps` runs on the client since the `isDarkMode` state is already initialized with the
-  instance of `isDarkModeCookie` returned from the first call on the server. Strange, right?
+  instance of `isDarkModeCookie` returned from the first call on the server. Funky!
 - To set the cookie, we set the `Set-Cookie` header using the
   [cookie](https://www.npmjs.com/package/cookie) npm package. Although it's a little barebones, I
-  decided to go with it since it has ~48 million (!) weekly downloads, and it gets the job done
+  decided to go with it since it has ~50 million weekly downloads, and it gets the job done
 - `getInitialProps` returns the current page's props, along with `isDarkModeCookie`. In `MyApp`, we
   use `isDarkModeCookie` to initialize the `isDarkMode` state, and pass `isDarkMode` and
   `setIsDarkMode` down through context. In our app, we presumably use `useDarkMode` to access
