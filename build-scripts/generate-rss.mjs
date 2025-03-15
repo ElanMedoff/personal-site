@@ -7,6 +7,7 @@ const file = join(process.cwd(), "public/rss.xml");
 
 function generateRssFeed() {
   const paths = readdirSync(postsDirectory);
+  const urlBase = "http://159.203.77.112/";
 
   const today = new Date().toUTCString();
   const mostRecentUpdate = paths
@@ -22,9 +23,9 @@ function generateRssFeed() {
     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
     <title>elanmed.dev</title>
-    <link>https://elanmed.dev/</link>
+    <link>${urlBase}</link>
     <description>An rss feed for Elan Medoff's blog</description>
-    <atom:link href="https://elanmed.dev/rss.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="${urlBase}rss.xml" rel="self" type="application/rss+xml" />
     <language>en-us</language>
     <pubDate>${today}</pubDate>
     <lastBuildDate>${mostRecentUpdate}</lastBuildDate>
@@ -39,10 +40,10 @@ function generateRssFeed() {
         return `
     <item>
     <title>${title}</title>
-    <link>https://elanmed.dev/${slug}</link>
+    <link>${urlBase}${slug}</link>
     <description>${abstract}</description>
     <pubDate>${new Date(lastUpdated).toUTCString()}</pubDate>
-    <guid>https://elanmed.dev/${slug}</guid>
+    <guid>${urlBase}${slug}</guid>
     </item>`;
       })
       .join("")}
