@@ -7,7 +7,7 @@ const file = join(process.cwd(), "public/rss.xml");
 
 function generateRssFeed() {
   const paths = readdirSync(postsDirectory);
-  const urlBase = "http://159.203.77.112/";
+  const urlBase = "https:elanmed.dev/";
 
   const today = new Date().toUTCString();
   const mostRecentUpdate = paths
