@@ -11,8 +11,6 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import * as cookie from "cookie";
-import { useRouter } from "next/router";
-import { SearchParamStateProvider } from "use-search-param-state";
 import { isProd, isVisualRegressionTest } from "src/utils/env";
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
@@ -62,7 +60,6 @@ export default function MyApp({
   }, [isDarkMode, isDarkModeCookie]);
 
   const [queryClient] = useState(() => new QueryClient());
-  const router = useRouter();
 
   return (
     <>
@@ -86,30 +83,21 @@ export default function MyApp({
           gtag('config', 'G-9Y9725W18J');
         `}
       </Script>
-      <SearchParamStateProvider
-        options={{
-          deleteEmptySearchParam: true,
-          pushState: (href) => {
-            router.push(href, undefined, { shallow: true });
-          },
-        }}
-      >
-        <QueryClientProvider client={queryClient}>
-          <HydrationBoundary state={pageProps.dehydratedState}>
-            <ThemeContext.Provider
-              value={{
-                isDarkMode: isDarkMode ?? false,
-                setIsDarkMode,
-              }}
-            >
-              <div data-theme={isDarkMode ? "dark" : "corporate"}>
-                <Component {...pageProps} />
-              </div>
-            </ThemeContext.Provider>
-          </HydrationBoundary>
-          {isProd() || isVisualRegressionTest() ? null : <ReactQueryDevtools />}
-        </QueryClientProvider>
-      </SearchParamStateProvider>
+      <QueryClientProvider client={queryClient}>
+        <HydrationBoundary state={pageProps.dehydratedState}>
+          <ThemeContext.Provider
+            value={{
+              isDarkMode: isDarkMode ?? false,
+              setIsDarkMode,
+            }}
+          >
+            <div data-theme={isDarkMode ? "dark" : "corporate"}>
+              <Component {...pageProps} />
+            </div>
+          </ThemeContext.Provider>
+        </HydrationBoundary>
+        {isProd() || isVisualRegressionTest() ? null : <ReactQueryDevtools />}
+      </QueryClientProvider>
     </>
   );
 }

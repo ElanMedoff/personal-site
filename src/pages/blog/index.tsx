@@ -5,7 +5,12 @@ import { NextPageContext } from "next";
 import fuzzysort from "fuzzysort";
 import { BsSearch as SearchIcon } from "react-icons/bs";
 import { z } from "zod";
-import { useSearchParamState } from "use-search-param-state";
+import {
+  useSearchParamState as _useSearchParamState,
+  UseSearchParamStateOptions,
+} from "use-search-param-state";
+import { useRouter } from "next/router";
+import { stringify } from "query-string";
 import { Metadata, fetchAllMetadata } from "src/utils/post";
 import { Content } from "src/components/blog/Content";
 import { Footer } from "src/components/reusable/Footer";
@@ -26,8 +31,41 @@ import { Copy } from "src/components/design-system/Copy";
 import { Inset } from "src/components/design-system/Inset";
 import { Heading } from "src/components/design-system/Heading";
 import { Spacing } from "src/components/design-system/Spacing";
+import { isVisualRegressionTest } from "src/utils/env";
 
-export default function Blog({ allMetadata, serverSideURL }: Props) {
+function useURLSearchParams() {
+  const router = useRouter();
+  return new URLSearchParams(stringify(router.query));
+}
+
+function useSearchParamState<TVal>(
+  searchParam: string,
+  initialState: TVal,
+  options: UseSearchParamStateOptions<TVal> = {},
+) {
+  const router = useRouter();
+  console.log("render");
+
+  function pushURLSearchParams(urlSearchParams: URLSearchParams) {
+    const maybeQuestionmark = urlSearchParams.toString().length ? "?" : "";
+    router.push(`${router.pathname}${maybeQuestionmark}${urlSearchParams.toString()}`);
+  }
+
+  function replaceURLSearchParams(urlSearchParams: URLSearchParams) {
+    const maybeQuestionmark = urlSearchParams.toString().length ? "?" : "";
+    router.replace(`${router.pathname}${maybeQuestionmark}${urlSearchParams.toString()}`);
+  }
+
+  return _useSearchParamState(searchParam, initialState, {
+    deleteEmptySearchParam: true,
+    useURLSearchParams,
+    pushURLSearchParams,
+    replaceURLSearchParams,
+    ...options,
+  });
+}
+
+export default function Blog({ allMetadata, serverSideSearchString }: Props) {
   const allCollections = Array.from(
     new Set(
       allMetadata
@@ -38,11 +76,8 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
   const allTags = Array.from(new Set(allMetadata.map(({ tags }) => tags).flat()));
 
   const [selectedTags, setSelectedTags] = useSearchParamState<string[]>("tags", [], {
-    serverSideURL,
-    parse: (unparsed) => {
-      if (unparsed === "") return [];
-      return unparsed.split("_");
-    },
+    serverSideURLSearchParams: new URLSearchParams(serverSideSearchString),
+    parse: (unparsed) => unparsed.split("_"),
     validate: (unvalidatedTags) => {
       if (!Array.isArray(unvalidatedTags)) throw new Error();
       if (unvalidatedTags.length === 0) return unvalidatedTags;
@@ -55,12 +90,12 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
     isEmptySearchParam: (searchParamVal) => searchParamVal.length === 0,
   });
   const [filterMethod, setFilterMethod] = useSearchParamState("method", "union", {
-    serverSideURL,
+    serverSideURLSearchParams: new URLSearchParams(serverSideSearchString),
     validate: z.union([z.literal("union"), z.literal("intersection")]).parse,
   });
   const [inputValue, setInputValue] = useSearchParamState("search", "", {
-    serverSideURL,
-    validate: z.coerce.string().parse,
+    serverSideURLSearchParams: new URLSearchParams(serverSideSearchString),
+    validate: z.string().parse,
   });
 
   const refInput = useRef<HTMLInputElement>(null);
@@ -80,17 +115,19 @@ export default function Blog({ allMetadata, serverSideURL }: Props) {
   }, [isMobile]);
 
   useEffect(() => {
+    if (isMobile || isVisualRegressionTest()) return;
+
     controls.start({
       x: [null, 5, -5, 5, 0],
       transition: {
         type: "spring",
         duration: 0.4,
-        repeat: Infinity,
+        repeat: 1,
         repeatDelay: 10,
         delay: 3,
       },
     });
-  }, [controls]);
+  }, [controls, isMobile]);
 
   const filteredPostsByTags =
     selectedTags.length > 0
@@ -304,17 +341,18 @@ function Subtitle(props: WrapperProps) {
 
 interface Props {
   allMetadata: Metadata[];
-  serverSideURL: string;
+  serverSideSearchString: string;
 }
 
 export function getServerSideProps(ctx: NextPageContext) {
   const protocol = ctx.req?.headers["x-forwarded-proto"] ?? "http";
-  const serverSideURL = `${protocol}://${ctx.req?.headers.host}${ctx.req?.url}`;
+  const serverSideURL = new URL(`${protocol}://${ctx.req?.headers.host}${ctx.req?.url}`);
+  const serverSideSearchString = serverSideURL.search;
 
   return {
     props: {
       allMetadata: fetchAllMetadata(),
-      serverSideURL,
+      serverSideSearchString,
     },
   };
 }

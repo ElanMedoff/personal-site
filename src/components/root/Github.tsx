@@ -1,7 +1,7 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, { ReactNode, useRef } from "react";
 import Image from "next/legacy/image";
 import Atropos from "atropos/react";
-import { motion, useAnimationControls, useInView } from "framer-motion";
+import { motion, useAnimationControls } from "framer-motion";
 import { Repo } from "src/utils/github";
 import { AtroposBorder } from "src/components/reusable/atropos/AtroposBorder";
 import { isMobileUser } from "src/utils/device";
@@ -13,7 +13,6 @@ import { Heading } from "src/components/design-system/Heading";
 import { Spacing } from "src/components/design-system/Spacing";
 import { Inset } from "src/components/design-system/Inset";
 import { WrapperProps, cn } from "src/utils/style";
-import { isVisualRegressionTest } from "src/utils/env";
 
 function CardWrapper({ children, isMobile }: { children: ReactNode; isMobile: boolean }) {
   if (isMobile) {
@@ -41,26 +40,9 @@ function CardWrapper({ children, isMobile }: { children: ReactNode; isMobile: bo
 }
 
 function RepoCard({ repo, index }: { repo: Repo; index: number }) {
-  const [hasHovered, setHasHovered] = useState(false);
   const isMobile = isMobileUser();
   const controls = useAnimationControls();
   const refContainer = useRef(null);
-  const isInView = useInView(refContainer);
-
-  useEffect(() => {
-    if (isMobile || hasHovered || !isInView || isVisualRegressionTest()) return;
-
-    controls.start({
-      x: [null, 5, -5, 5, 0],
-      transition: {
-        type: "spring",
-        duration: 0.4,
-        repeat: Infinity,
-        repeatDelay: 4,
-        delay: 2,
-      },
-    });
-  }, [controls, hasHovered, isInView, isMobile]);
 
   const { description, name, pushed_at, html_url, language_info } = repo;
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -79,7 +61,6 @@ function RepoCard({ repo, index }: { repo: Repo; index: number }) {
       animate={index === 0 ? controls : undefined}
       onMouseMove={() => {
         controls.stop();
-        setHasHovered(true);
       }}
       ref={refContainer}
     >

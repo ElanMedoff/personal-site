@@ -73,7 +73,7 @@ export function Profile() {
       transition: {
         type: "spring",
         duration: 0.4,
-        repeat: Infinity,
+        repeat: 1,
         repeatDelay: 4,
         delay: 1.5,
       },
