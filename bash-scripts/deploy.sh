@@ -86,7 +86,13 @@ cecho --mode=success "validated slugs"
 # fi
 
 if [[ -n "$(git status --porcelain)" ]]; then
-  cecho --mode=info "changes to the sitemap or rss feed detected, pushing the changes to git"
+  cecho --mode=query "changes to the sitemap or rss feed detected, pushing the changes to git? (y/N)"
+  read -r ANSWER
+  if [[ $ANSWER != "y" ]]; then
+    cecho --mode=error "exiting"
+    exit 1
+  fi
+
   git add public/sitemap.xml
   git add public/rss.xml
   git commit --no-verify -m "commit triggered from the deploy script. adding changes to the sitemap or rss feed"
@@ -94,6 +100,12 @@ if [[ -n "$(git status --porcelain)" ]]; then
   cecho --mode=success "changes pushed"
 fi
 
+cecho --mode=query "deploy? (y/N)"
+read -r ANSWER
+if [[ $ANSWER != "y" ]]; then
+  cecho --mode=error "exiting"
+  exit 1
+fi
 cecho --mode=info "deploying..."
 npm run deploy
 cecho --mode=success "deployed"
