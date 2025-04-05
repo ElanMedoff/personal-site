@@ -5,12 +5,11 @@ import { NextPageContext } from "next";
 import fuzzysort from "fuzzysort";
 import { BsSearch as SearchIcon } from "react-icons/bs";
 import { z } from "zod";
+import { useRouter } from "next/router";
 import {
   useSearchParamState as _useSearchParamState,
   UseSearchParamStateOptions,
 } from "use-search-param-state";
-import { useRouter } from "next/router";
-import { stringify } from "query-string";
 import { Metadata, fetchAllMetadata } from "src/utils/post";
 import { Content } from "src/components/blog/Content";
 import { Footer } from "src/components/reusable/Footer";
@@ -33,32 +32,31 @@ import { Heading } from "src/components/design-system/Heading";
 import { Spacing } from "src/components/design-system/Spacing";
 import { isVisualRegressionTest } from "src/utils/env";
 
-function useURLSearchParams() {
-  const router = useRouter();
-  return new URLSearchParams(stringify(router.query));
-}
-
 function useSearchParamState<TVal>(
   searchParam: string,
   initialState: TVal,
   options: UseSearchParamStateOptions<TVal> = {},
 ) {
   const router = useRouter();
-  console.log("render");
 
   function pushURLSearchParams(urlSearchParams: URLSearchParams) {
     const maybeQuestionmark = urlSearchParams.toString().length ? "?" : "";
-    router.push(`${router.pathname}${maybeQuestionmark}${urlSearchParams.toString()}`);
+    router.push(`${router.pathname}${maybeQuestionmark}${urlSearchParams.toString()}`, undefined, {
+      shallow: true,
+    });
   }
 
   function replaceURLSearchParams(urlSearchParams: URLSearchParams) {
     const maybeQuestionmark = urlSearchParams.toString().length ? "?" : "";
-    router.replace(`${router.pathname}${maybeQuestionmark}${urlSearchParams.toString()}`);
+    router.replace(
+      `${router.pathname}${maybeQuestionmark}${urlSearchParams.toString()}`,
+      undefined,
+      { shallow: true },
+    );
   }
 
   return _useSearchParamState(searchParam, initialState, {
     deleteEmptySearchParam: true,
-    useURLSearchParams,
     pushURLSearchParams,
     replaceURLSearchParams,
     ...options,

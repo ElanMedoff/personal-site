@@ -5,7 +5,7 @@ test.describe("blog", () => {
     await page.goto("/blog");
   });
 
-  test("has collections", async ({ page }) => {
+  test("has collections, blog posts", async ({ page }) => {
     await expect(page.getByText("collections")).toBeVisible();
     await page.getByText("Lessons From Reading a Thousand Comics: An Intro").click();
     await expect(page).toHaveURL("blog/lessons-from-reading-a-thousand-comics");
@@ -28,14 +28,26 @@ test.describe("blog", () => {
 
     test("clicking a tag should filter the posts", async ({ page }) => {
       async function isHighlighted(text: string) {
-        const sideBarText = await page.getByTestId("sidebar").getByText(text).getAttribute("class");
-        return (sideBarText ?? "").includes("bg-secondary");
+        await expect(page.getByTestId("sidebar").getByText(text)).toHaveClass(
+          /(^|\s)bg-secondary(\s|$)/,
+          {
+            timeout: 30_000,
+          },
+        );
+      }
+      async function isNotHighlighted(text: string) {
+        await expect(page.getByTestId("sidebar").getByText(text)).not.toHaveClass(
+          /(^|\s)bg-secondary(\s|$)/,
+          {
+            timeout: 30_000,
+          },
+        );
       }
 
-      expect(await isHighlighted("union")).toBeTruthy();
+      await isHighlighted("union");
 
       await page.getByTestId("sidebar").getByText("comics").click();
-      expect(await isHighlighted("comics")).toBeTruthy();
+      await isHighlighted("comics");
 
       await expect(page.getByText("A Barebones Approach to Continuous Integration")).toBeHidden();
       await expect(
@@ -43,23 +55,23 @@ test.describe("blog", () => {
       ).toBeVisible();
 
       await page.getByTestId("sidebar").getByText("devops").click();
-      expect(await isHighlighted("devops")).toBeTruthy();
+      await isHighlighted("devops");
       await expect(page.getByText("A Barebones Approach to Continuous Integration")).toBeVisible();
       await expect(
         page.getByText("Lessons From Reading a Thousand Comics: An Intro"),
       ).toBeVisible();
 
       await page.getByTestId("sidebar").getByText("intersection").click();
-      expect(await isHighlighted("intersection")).toBeTruthy();
+      await isHighlighted("intersection");
 
       await expect(page.getByText("A Barebones Approach to Continuous Integration")).toBeHidden();
       await expect(page.getByText("Lessons From Reading a Thousand Comics: An Intro")).toBeHidden();
 
       await page.getByText("reset all").click();
-      expect(await isHighlighted("union")).toBeFalsy();
-      expect(await isHighlighted("comics")).toBeFalsy();
-      expect(await isHighlighted("devops")).toBeFalsy();
-      expect(await isHighlighted("intersection")).toBeTruthy();
+      await isNotHighlighted("union");
+      await isNotHighlighted("comics");
+      await isNotHighlighted("devops");
+      await isHighlighted("intersection");
 
       await expect(page.getByText("A Barebones Approach to Continuous Integration")).toBeVisible();
       await expect(
