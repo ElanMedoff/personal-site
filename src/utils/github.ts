@@ -3,7 +3,7 @@ import { readCache, updateCache } from "src/utils/cache";
 
 const unpatchedRepoSchema = z.object({
   name: z.string(),
-  description: z.string(),
+  description: z.string().default(""),
   pushed_at: z.coerce.date(),
   languages_url: z.string(),
   html_url: z.string(),
