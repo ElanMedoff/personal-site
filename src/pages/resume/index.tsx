@@ -134,26 +134,15 @@ export default function Resume() {
                 ]}
               />
               <div className="divider mb-2 mt-1" />
-              <p>Oversaw quarterly web infrastructure initiatives</p>
+              <p>Orchestrated quarterly web infrastructure projects</p>
               <Ul>
-                <li>Identified legacy patterns and oversaw projects for improvement</li>
+                <li>
+                  Oversaw projects to address gaps in testing coverage, toilsome routing
+                  infrastructure, missing design system components, and necessary version upgrades
+                </li>
                 <li>
                   Emphasized improvements that were feasible, impactful, and had a clear migration
                   path
-                </li>
-              </Ul>
-              <p>
-                Collaborated with a team of engineers, designers, and project managers to develop
-                investment products
-              </p>
-              <Ul>
-                <li>
-                  Led engineering work for investment initiatives, including stock movement, and
-                  redesigned marketing pages
-                </li>
-                <li>
-                  Developed other products including bond ETF portfolios, bond ladder strategies,
-                  and individual stock trading
                 </li>
               </Ul>
               <p>
@@ -182,6 +171,16 @@ export default function Resume() {
                   conceptual skills
                 </li>
               </Ul>
+              <p>
+                Collaborated with a team of engineers, designers, and project managers to develop
+                investment products
+              </p>
+              <Ul>
+                <li>
+                  Led engineering work for investment initiatives, including stock movement, and
+                  redesigned marketing pages
+                </li>
+              </Ul>
             </article>
           </Section>
           <Section>
@@ -199,39 +198,11 @@ export default function Resume() {
               <div className="divider mb-2 -mt-2" />
               <Ul>
                 <li>
-                  An open-source NPM library to seamlessly read and write URL search params as React
-                  state
+                  An NPM library to seamlessly read and write URL search params as React state
                 </li>
                 <li>
                   Includes options to sanitize, parse, and validate the search param. Also supports
                   server-side rendering
-                </li>
-              </Ul>
-            </article>
-            <article>
-              <SectionSubtitle
-                iconStyles={styles.star}
-                headers={[
-                  {
-                    title: "use-search-param",
-                    href: "https://www.npmjs.com/package/use-search-param",
-                  },
-                ]}
-              />
-              <div className="divider mb-2 -mt-2" />
-              <Ul>
-                <li>
-                  An open-source NPM library to safely read initial state from URL search params
-                </li>
-                <li>
-                  Similar configuration to{" "}
-                  <a
-                    href="https://www.npmjs.com/package/use-search-param-state"
-                    className="cursor-pointer underline"
-                  >
-                    use-search-param-state
-                  </a>
-                  , but with a simpler API and lighter footprint
                 </li>
               </Ul>
             </article>
@@ -248,9 +219,52 @@ export default function Resume() {
               <div className="divider mb-2 -mt-2" />
               <Ul>
                 <li>
-                  An open-source NPM library to access referentially stable, up-to-date versions of
+                  An NPM library to access referentially stable, up-to-date versions of
                   non-primitives in React
                 </li>
+              </Ul>
+            </article>
+            <article>
+              <SectionSubtitle
+                iconStyles={styles.star}
+                headers={[
+                  {
+                    title: "ft-highlight.nvim",
+                    href: "https://github.com/ElanMedoff/ft-highlight.nvim",
+                  },
+                ]}
+              />
+              <div className="divider mb-2 -mt-2" />
+              <Ul>
+                <li>
+                  A Neovim plugin to visualize the number of jumps to a character with the f/F and
+                  t/T movements
+                </li>
+                <li>
+                  Includes configuration options to specify the string patterns to visualize and to
+                  override the default highlight colors
+                </li>
+              </Ul>
+            </article>
+            <article>
+              <SectionSubtitle
+                iconStyles={styles.star}
+                headers={[
+                  {
+                    title: "schema-validator.nvim",
+                    href: "https://github.com/ElanMedoff/schema-validator.nvim",
+                  },
+                ]}
+              />
+              <div className="divider mb-2 -mt-2" />
+              <Ul>
+                <li>A Neovim schema validation plugin written in lua</li>
+                <li>
+                  Validates lua primitives, literal values, tables with a fixed number of items
+                  (tuples), and tables with an arbitrary number of items of a given type. Any type
+                  can be marked as optional
+                </li>
+                <li>Supports custom functions to validate unique types defined by the user</li>
               </Ul>
             </article>
             <article>
@@ -261,17 +275,17 @@ export default function Resume() {
               <div className="divider mb-2 -mt-2" />
               <Ul>
                 <li>
-                  A tech blog with 15+ articles. Includes topics such as: programming with React,
-                  Next.js, and Typescript, customizing NeoVim into a fully-fledged IDE, and setting
-                  up continuous integration
+                  A tech blog with 15+ articles. Includes topics such as: React in different app
+                  architectures, advanced Typescript types for React, customizing Neovim, and
+                  setting up continuous integration
                 </li>
                 <li>
                   Featured by several javascript newsletters, including Bytes, React Newsletter, and
                   React Digest
                 </li>
                 <li>
-                  Built with Next.js, Typescript, Tailwind, Prisma, React Query, Framer Motion, and
-                  Playwright
+                  Supported by visual regression tests, end-to-end tests for critical flows, and
+                  dead-link detection scripts
                 </li>
               </Ul>
             </article>
