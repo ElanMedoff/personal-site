@@ -23,9 +23,15 @@ export default function About({
     "I'm Elan Medoff, a software engineer specializing in web and fullstack development. Welcome to my blog!";
   const title = "elanmed.dev";
 
-  const npmRepoNames = ["use-search-param-state", "use-stable-reference"];
-  const npmRepos = repos.filter(({ name }) => npmRepoNames.includes(name));
-  const restRepose = repos.filter(({ name }) => !npmRepoNames.includes(name));
+  const libraryRepoNames = [
+    "use-search-param-state",
+    "use-stable-reference",
+    "quickfix-preview.nvim",
+    "schema-validator.nvim",
+    "ft-highlight.nvim",
+  ];
+  const libraryRepos = repos.filter(({ name }) => libraryRepoNames.includes(name));
+  const restRepos = repos.filter(({ name }) => !libraryRepoNames.includes(name));
 
   return (
     <>
@@ -40,9 +46,9 @@ export default function About({
       <WideContent>
         <Profile />
         <Section>
-          <BannerText>npm packages</BannerText>
+          <BannerText>open-source libraries</BannerText>
           <BannerBorder />
-          <Github repos={npmRepos} />
+          <Github repos={libraryRepos} />
         </Section>
         <Section>
           <BannerText>recent blog posts</BannerText>
@@ -52,7 +58,7 @@ export default function About({
         <Section>
           <BannerText reverse>github projects</BannerText>
           <BannerBorder />
-          <Github repos={restRepose} />
+          <Github repos={restRepos} />
         </Section>
         <div />
       </WideContent>
