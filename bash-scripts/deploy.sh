@@ -39,7 +39,7 @@ pm2 start "npx prisma studio --browser none" --name "$PM2_PRISMA_NAME"
 PM2_NEXT_NAME="playwright-test-suite"
 pm2 start "npm run dev:visual-regression" --name "$PM2_NEXT_NAME"
 
-if npm run vr src/tests/visual-regression; then
+if npm run visual-regression src/tests/visual-regression; then
   cecho --mode=success "visual regression tests passed"
 else
   cecho --mode=error "visual regression tests failed, aborting"

@@ -90,9 +90,9 @@ if [[ $TYPE == "visual-regression" ]]; then
   pm2 start "npm run dev:visual-regression" --name "$PM2_NEXT_NAME"
 
   if [[ $ACTION == "update" ]]; then
-    CMD="npm run vr:update-snapshots $1 $1"
+    CMD="npm run visual-regression:update-snapshots $1 $1"
   else
-    CMD="npm run vr $1"
+    CMD="npm run visual-regression $1"
   fi
 fi
 
