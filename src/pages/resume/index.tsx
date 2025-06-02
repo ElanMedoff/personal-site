@@ -62,7 +62,7 @@ export default function Resume() {
                 </div>
                 <Heading xl>Elan Medoff</Heading>
                 <Spacing horizontal sm items="center">
-                  <a className={styles.github} href="https://github.com/ElanMedoff" />
+                  <a className={styles.github} href="https://github.com/elanmed" />
                   <a className={styles.linkedin} href="https://www.linkedin.com/in/elan-medoff/" />
                   <a className={styles.gmail} href="mailto:info@elanmed.dev" />
                   <Spacing horizontal xs items="end">
@@ -230,7 +230,7 @@ export default function Resume() {
                 headers={[
                   {
                     title: "ft-highlight.nvim",
-                    href: "https://github.com/ElanMedoff/ft-highlight.nvim",
+                    href: "https://github.com/elanmed/ft-highlight.nvim",
                   },
                 ]}
               />
@@ -252,7 +252,7 @@ export default function Resume() {
                 headers={[
                   {
                     title: "schema-validator.nvim",
-                    href: "https://github.com/ElanMedoff/schema-validator.nvim",
+                    href: "https://github.com/elanmed/schema-validator.nvim",
                   },
                 ]}
               />

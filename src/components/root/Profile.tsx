@@ -175,7 +175,7 @@ export function Profile() {
             a web engineer!
           </p>
           <Spacing horizontal sm>
-            <a className={styles.github} href="https://github.com/ElanMedoff" />
+            <a className={styles.github} href="https://github.com/elanmed" />
             <a className={styles.linkedin} href="https://www.linkedin.com/in/elan-medoff/" />
             <a className={styles.gmail} href="mailto:info@elanmed.dev" />
             <Spacing horizontal xs items="end">

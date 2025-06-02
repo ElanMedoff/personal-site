@@ -32,7 +32,7 @@ export async function fetchGithubRepos() {
     return cachedRepos.repos;
   }
 
-  const response = await fetch("https://api.github.com/users/ElanMedoff/repos");
+  const response = await fetch("https://api.github.com/users/elanmed/repos");
   const reposData = await response.json();
   const repos = unpatchedReposSchema.parse(reposData);
 
